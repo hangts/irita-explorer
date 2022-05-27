@@ -12,12 +12,15 @@ export default [
         label: i18n.t('ExplorerLang.table.denom'),
         displayValue: 'denomName',
         nativeValue: 'denomName',
-
+        isNeedFormat: true,
+        isFormatAddress: true
     },
     {
         label: i18n.t('ExplorerLang.table.denomId'),
         displayValue: 'denomId',
         nativeValue: 'denomId',
+        isNeedFormat:true,
+        isFormatAddress: true
     },
 
 

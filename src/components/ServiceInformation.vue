@@ -153,7 +153,8 @@
                         </div>
                     </div>
                 </div>-->
-
+                    	<!-- :is-show-token-type="true"
+				 -->
                 <div class="service_information_transaction_table_content">
 					<list-component
 						:token-symbol="mainTokenSymbol"
@@ -162,6 +163,7 @@
 						:column-list="iServiceTxColumn"
 						:pagination=" {pageSize:Number(txPageSize),dataCount:txCount,pageNum:Number(txPageNum)}"
 						@pageChange="pageChange"
+                        :empty-text="$t('ExplorerLang.table.emptyDescription')"
 					>
 						<template v-slot:msgType>
 							<tabs-component :tab-list="txTypeOption"
@@ -281,7 +283,7 @@
 <script>
     import Tools from "../util/Tools"
     import MPagination from "./common/MPagination";
-    import { TX_STATUS,ColumnMinWidth,decimals } from '../constant';
+    import { TX_STATUS,ColumnMinWidth,decimals, TX_TYPE } from '../constant';
     import {
         getAllServiceTxTypes,
         getServiceDetail,
@@ -294,10 +296,14 @@
     import { converCoin, getMainToken, getTxType } from '@/helper/IritaHelper';
     import productionConfig from '@/productionConfig.js'
 	import ListComponent from "./common/ListComponent";
-    import iserviceTxColumn from "./tableListColumnConfig/iserviceTxColumn";
+    // import iserviceTxColumn from "./tableListColumnConfig/iserviceTxColumn";
 	import TabsComponent from "./common/TabsComponent";
 	import TxStatusTabsComponents from "./common/TxStatusTabsComponents";
 	import TxCountComponent from "./TxCountComponent";
+    import txCommonTable from "./tableListColumnConfig/txCommonTable";
+    import {needAddColumn} from "./tableListColumnConfig/allTxTableColumnConfig";
+    import txCommonLatestTable from "./tableListColumnConfig/txCommonLatestTable";
+    import SignerColunmn from "./tableListColumnConfig/SignerColunmn";
     export default {
         name : "ServiceInformation",
         components : {TxCountComponent, TxStatusTabsComponents, TabsComponent, ListComponent, MPagination,LargeString},
@@ -364,7 +370,8 @@
             }
         },
         async mounted(){
-        	this.iServiceTxColumn = iserviceTxColumn
+        	// this.iServiceTxColumn = iserviceTxColumn
+        	this.iServiceTxColumn = txCommonTable.concat(SignerColunmn,txCommonLatestTable)
             await this.getTxTypeData();
 			this.setMainToken();
 			this.getServiceInformation();
@@ -504,24 +511,155 @@
                           fee = await Promise.all(fees);
                       }
                       this.transactionArray = res.data.map((item,index) =>{
-                        let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
-                        let requestContextId = TxHelper.getContextId(item.msgs[0], item.events) || '--';
-                        let from = (addrObj && addrObj.from) ? addrObj.from : '--',
-                            to = (addrObj && addrObj.to) ? addrObj.to : '--',
-                            msgs = item.msgs || [{}];
+                        // let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
+                        // let requestContextId = TxHelper.getContextId(item.msgs[0], item.events) || '--';
+                        // let from = (addrObj && addrObj.from) ? addrObj.from : '--',
+                        //     to = (addrObj && addrObj.to) ? addrObj.to : '--',
+                        let sameMsg = [],
+                            msg = null,
+                            sameMsgFromAddrArr = [],
+                            sameMsgToAddrArr = [],
+                            requestIdArr = [],
+                            consumerArr = [],
+                            requestContextIdArr = [],
+                            serviceNameArr = [],
+                            authorArr = [],
+                            ownerArr = [],
+                            providerArr = [],
+                            consumer = '--',
+                            requestContextId = '--',
+                            serviceName = '--',
+                            author='--',
+                            owner='--',
+                            provider='--';
+                            
+                        if (item.msgs.length > 0) {
+                            item.msgs.forEach(item => {
+                                if(item.type === this.txType){
+                                    sameMsg.push(item)
+                                    msg = item
+                                }
+                            })
+                        }
+
+                        if(sameMsg?.length > 1){
+                            sameMsg.forEach( item => {
+                                const addrObj = TxHelper.getFromAndToAddressFromMsg(item)
+								if(addrObj?.from){
+									sameMsgFromAddrArr.push(addrObj.from)
+								}
+								if(addrObj?.to){
+									sameMsgToAddrArr.push(addrObj.to)
+								}
+                                if(item?.type === TX_TYPE.respond_service && item?.msg?.request_id){
+									requestIdArr.push(item.msg.request_id)
+								}
+								if(item?.type=== TX_TYPE.call_service
+									|| item?.type=== TX_TYPE.respond_service
+									|| item?.msg?.consumer && item?.msg?.request_context_id && item?.msg?.service_name){
+									consumerArr.push(item.msg.consumer)
+									requestContextIdArr.push(item.msg.request_context_id)
+									serviceNameArr.push( item.msg.service_name)
+								}
+								if(item?.type === TX_TYPE.pause_request_context
+									|| item?.type === TX_TYPE.start_request_context
+									|| item?.type === TX_TYPE.update_request_context
+									|| item?.type === TX_TYPE.kill_request_context
+									&& item?.msg?.consumer && item?.msg?.request_context_id){
+									consumerArr.push(item.msg.consumer)
+									requestContextIdArr.push(item.msg.request_context_id)
+								}
+                                if(item?.type === TX_TYPE.define_service && item?.msg?.author && item?.msg?.name){
+									authorArr.push(item.msg.author)
+									serviceNameArr.push( item.msg.service_name)
+								} 
+                                if(item?.type === TX_TYPE.bind_service
+									|| item?.type === TX_TYPE.refund_service_deposit
+									|| item?.type === TX_TYPE.disable_service_binding
+									|| item?.type === TX_TYPE.enable_service_binding
+									|| item?.type === TX_TYPE.update_service_binding
+									
+									&& item?.msg?.owner && item?.msg?.provider && item?.msg?.service_name){
+									ownerArr.push(item.msg.owner)
+									providerArr.push( item.msg.provider)
+									serviceNameArr.push( item.msg.service_name)
+								}
+                                if(item?.type=== TX_TYPE.update_request_context && item?.msg?.ex && item?.msg?.ex?.service_name){
+									serviceNameArr.push( item.msg.service_name)
+								}
+                            })
+                            /*
+							* 同一类型多msg 去重
+							* */
+							sameMsgFromAddrArr = Array.from(new Set(sameMsgFromAddrArr))
+							sameMsgToAddrArr = Array.from(new Set(sameMsgToAddrArr))
+							requestIdArr = Array.from(new Set(requestIdArr))
+							consumerArr = Array.from(new Set(consumerArr))
+							ownerArr = Array.from(new Set(ownerArr))
+							authorArr = Array.from(new Set(authorArr))
+							providerArr = Array.from(new Set(providerArr))
+							requestContextIdArr = Array.from(new Set(requestContextIdArr))
+							serviceNameArr = Array.from(new Set(serviceNameArr))
+                        }else{
+							if(msg?.type=== TX_TYPE.call_service
+								|| msg?.type=== TX_TYPE.respond_service
+								|| msg?.msg?.consumer && msg?.msg?.request_context_id && msg?.msg?.service_name){
+								consumer = msg.msg.consumer
+								requestContextId = msg.msg.request_context_id
+								serviceName = msg.msg.service_name
+							}
+							if(msg?.type === TX_TYPE.pause_request_context
+								|| msg?.type === TX_TYPE.start_request_context
+								|| msg?.type === TX_TYPE.update_request_context
+								|| msg?.type === TX_TYPE.kill_request_context
+								&& msg?.msg?.consumer && msg?.msg?.request_context_id){
+								consumer = msg.msg.consumer
+								requestContextId = msg.msg.request_context_id
+							}
+							if(msg?.type === TX_TYPE.define_service && msg?.msg?.author && msg?.msg?.name){
+								author = msg.msg.author
+								serviceName = msg.msg.name
+							}
+							if(msg?.type === TX_TYPE.bind_service
+								|| msg?.type === TX_TYPE.refund_service_deposit
+								|| msg?.type === TX_TYPE.disable_service_binding
+								|| msg?.type === TX_TYPE.enable_service_binding
+								|| msg?.type === TX_TYPE.update_service_binding
+								
+								&& msg?.msg?.owner && msg?.msg?.provider && msg?.msg?.service_name){
+								owner = msg.msg.owner
+								provider = msg.msg.provider
+								serviceName = msg.msg.service_name
+							}
+							if(msg?.type=== TX_TYPE.update_request_context && msg?.msg?.ex && msg?.msg?.ex?.service_name){
+								serviceName = msg.msg.ex.service_name
+							}
+
+                          
+                        }
+                        const addrObj = TxHelper.getFromAndToAddressFromMsg(msg);
+                        let from = sameMsg?.length > 1 ? sameMsgFromAddrArr?.length > 1 ? ' ' : sameMsgFromAddrArr?.length === 1 ? sameMsgFromAddrArr[0] : '--' : addrObj.from || '--',
+                            to = sameMsg?.length > 1 ? sameMsgToAddrArr?.length > 1 ? ' ' : sameMsgToAddrArr?.length === 1 ? sameMsgToAddrArr[0] : '--' : addrObj.to || '--';
                         return {
                             // type : item.msgs.length > 1 ? '--' : item.msgs[0].type,
-                            type : (item.msgs || []).map(item=>item.type),
+                            txType : item.msgs.length > 1 ? '--' : item.msgs[0].type,
                             msgCount: item.msgs.length,
+                            signer: item.signers?.length > 1 ? ' ' : item.signers?.length === 1 ? item.signers[0] : '--',
                             from,
                             status : item.status,
                             txHash : item.hash,
-                            id : requestContextId,
+                            // id : requestContextId,
                             to,
                             // fee: fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--',
-                            fee: fee[index] && fee[index].amount ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--',
-                            height : item.height,
-                            timestamp : Tools.formatLocalTime(item.time)
+                            Tx_Fee: fee[index] && fee[index].amount ? this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--',
+                            blockHeight : item.height,
+                            Time : Tools.formatLocalTime(item.time),
+                            consumer: consumerArr?.length > 1 ? ' ' : consumerArr?.length === 1 ? consumerArr[0] : consumer,
+							serviceName: serviceNameArr?.length > 1 ? ' ' : serviceNameArr?.length === 1 ? serviceNameArr[0] : serviceName,
+                            author : authorArr?.length > 1 ?  ' ' : authorArr?.length === 1 ? authorArr[0] : author,
+							provider: providerArr?.length > 1 ? ' ' : providerArr?.length === 1 ? providerArr[0] : provider,
+							requestContextId: requestContextIdArr?.length > 1 ? ' ' : requestContextIdArr?.length === 1 ? requestContextIdArr[0] : requestContextId,
+                            owner: ownerArr?.length > 1 ? ' ' : ownerArr?.length === 1 ? ownerArr[0] : owner,
                         };
 
                     });
@@ -575,6 +713,11 @@
 				}
                 // this.txStatus = this.status;
                 // this.txType = this.type;
+                if(this.txType && needAddColumn[this.txType]){
+                    this.iServiceTxColumn = txCommonTable.concat(needAddColumn[this.txType],txCommonLatestTable)
+                }else{
+                    this.iServiceTxColumn = txCommonTable.concat(SignerColunmn,txCommonLatestTable)
+                }
                 this.txPageNum = 1;
                 this.getServiceTransactionCount();
                 this.getServiceTransaction();

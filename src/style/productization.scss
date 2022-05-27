@@ -13,6 +13,7 @@ $tag_c:${tag_color_common};                                    //交易列表标
 // background-color
 $bg_button_c: #3264FD;
 $table_tr_c: ${table_tr_color};
+$table_tr_hover_c: ${table_tr_color_hover};
 :root {
     --bgColor:  #{$theme_c};
 }

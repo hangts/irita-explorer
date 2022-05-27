@@ -705,13 +705,26 @@
 					</template>
 				</list-component>
 			</div>
+      <!-- bsn ddc -->
+			<div class="address_transaction_content" v-if="moduleSupport('117', prodConfig.navFuncList)" v-show="isDDC">
+				<div class="content_title">
+					{{ $t("ExplorerLang.ddc.mainTitle") }}
+				</div>
+				 <list-component
+          :empty-text="$t('ExplorerLang.table.emptyDescription')"
+          :list-data="ddcList"
+          :column-list="ddcListColumn"
+          :pagination="{pageSize:Number(ddcPageSize),dataCount:ddcCount,pageNum:Number(ddcPageNum)}"
+          @pageChange="ddcPageChange"
+        />
+		  </div>
 			<!-- energy asset -->
 			<div v-if="moduleSupport('116', prodConfig.navFuncList)" v-show="isEnergyAsset">
 					<list-component
 					:is-loading="isLoading"
 					:list-data="energyAssetData"
 					:column-list="energyAssetColumn"
-				  :pagination="{pageSize:5,dataCount:0,pageNum:1}"
+					:pagination="{pageSize:5,dataCount:0,pageNum:1}"
 					>
 				</list-component>
 			</div>
@@ -754,7 +767,8 @@ import {
 	getRewardsItemsApi,
 	getValidatorRewardsApi,
 	getIbcTransferByHash,
-	getEnergyAssetApi,
+	getDdcList,
+	getEnergyAssetApi
 } from '@/service/api'
 import BigNumber from 'bignumber.js'
 import moveDecimal from 'move-decimal-point'
@@ -770,6 +784,7 @@ import TxCountComponent from "./TxCountComponent";
 import MClip from "./common/MClip";
 import SignerColunmn from "./tableListColumnConfig/SignerColunmn";
 import TxResetButtonComponent from "./common/TxResetButtonComponent";
+import ddcListColumnConfig from "./tableListColumnConfig/ddcListColumnConfig";
 import energyAssetColumn from './tableListColumnConfig/energyAssetColumn';
 export default {
 	name: 'OwnerDetail',
@@ -900,6 +915,7 @@ export default {
 			isIdentity: false,
 			isIservice: false,
 			isTx: false,
+			isDDC: false,
 			assetInfo: {
 				label: this.$t('ExplorerLang.addressInformation.tab.assetInfo'),
 				isActive: false,
@@ -920,6 +936,11 @@ export default {
 				isActive: false,
 				moduleNumber: '105',
 			},
+			ddc:{
+				label: this.$t('ExplorerLang.addressInformation.tab.ddc'),
+				isActive: false,
+				moduleNumber: '117'
+			},
 			tx: {
 				label: this.$t('ExplorerLang.addressInformation.tab.tx'),
 				isActive: false,
@@ -929,6 +950,14 @@ export default {
 				isActive: false,
 				moduleNumber: '116'
 			},
+			LargeStringMinHeight: 69,
+			LargeStringLineHeight: 23,
+			mainTokenSymbol: '',
+			ddcList: [],
+			ddcListColumn: [],
+			ddcPageSize: 5,
+			ddcCount: 0,
+			ddcPageNum: 1,
 			LargeStringMinHeight: 69,
 			LargeStringLineHeight: 23,
 			mainTokenSymbol: '',
@@ -968,6 +997,7 @@ export default {
 	},
 	async mounted() {
 		this.txColumnList = txCommonTable.concat(SignerColunmn,txCommonLatestTable)
+		this.ddcListColumn = ddcListColumnConfig
 		await this.getTxTypeData()
 		document.documentElement.scrollTop = 0
 		this.address = this.$route.params.param
@@ -1046,6 +1076,11 @@ export default {
 				this.getNftListCount()
 				this.getNftList()
 			}
+			if(moduleSupport('117',prodConfig.navFuncList)){
+				this.tabList.push(this.ddc)
+				this.getDdcListCount()
+				this.getDdcList()
+			}
 			if (moduleSupport('106', prodConfig.navFuncList)) {
 				this.tabList.push(this.identity)
 				this.getIdentityListCount()
@@ -1070,6 +1105,7 @@ export default {
 			this.isIdentity = false
 			this.isAsset = false
 			this.isTx = false
+			this.isDDC = false
 			this.isEnergyAsset = false
 			this.tabList.forEach((item) => {
 				if (item.isActive) {
@@ -1089,6 +1125,9 @@ export default {
 							break
 						case '116':
 							this.isEnergyAsset = true
+							break
+						case '117':
+							this.isDDC = true
 							break
 						default:
 							this.isTx = true
@@ -1276,7 +1315,7 @@ export default {
 							initialDeposit = '--';
 							// farm => destory pool/ adjust pool : poolId poolCreator
 						;
-						if (tx.msgs.length > 0) {
+						if (tx?.msgs?.length > 0) {
 							tx.msgs.forEach(item => {
 								if(item.type === msgType){
 									sameMsg.push(item)
@@ -1688,10 +1727,11 @@ export default {
 								isShowMore = true
 							}
 						}
+						const _contractMethod =  this?.$i18n?.messages[prodConfig.lang]?.ExplorerLang?.smartContract[tx?.msgs[0]?.msg?.ex?.ddc_method] || tx?.msgs[0]?.msg?.ex?.ddc_method
 						this.transactionArray.push({
 							txHash: tx.tx_hash,
 							blockHeight: tx.height,
-							txType: (tx.msgs || []).map(item => item.type ),
+							txType: tx.msgs ? (tx.msgs || []).map(item => item.type ) : tx.type,
 							from,
 							author : authorArr?.length > 1 ?  ' ' : authorArr?.length === 1 ? authorArr[0] : author ,
 							provider: providerArr?.length > 1 ? ' ' : providerArr?.length === 1 ? providerArr[0] : provider,
@@ -1730,7 +1770,7 @@ export default {
 							title,
 							signer: tx.signers?.length > 1 ? ' ' : tx.signers?.length === 1 ? tx.signers[0] : '--',
 							status: tx.status,
-							msgCount: tx.msgs.length,
+							msgCount: tx?.msgs?.length,
 							// time :Tools.getDisplayDate(tx.time),
 							Tx_Fee: '',
 							Time: Tools.formatLocalTime(tx.time),
@@ -1761,6 +1801,9 @@ export default {
 							// farm create_pool_with_community_pool
 							proposer,
 							initialDeposit,
+							// EVM智能合约
+							contractAddr: tx?.contract_addrs && tx?.contract_addrs.length > 0 ? tx?.contract_addrs[0] : '--',
+							contractMethod: _contractMethod || '--'
 						})
 						/**
 						 * @description: from parseTimeMixin
@@ -2670,6 +2713,55 @@ export default {
 		 const res = await getConfig();
 		 this.tokenData = res.tokenData;
 		},
+		ddcPageChange(pageNum){
+			this.ddcPageNum = pageNum
+			this.getDdcList()
+		},
+		async getDdcList(){
+			try {
+				const ddcData = await getDdcList({
+          owner:this.$route.params.param,
+          ddc_id: '',
+          contract_address: '',
+          useCount: false,
+          pageNum: this.ddcPageNum,
+          pageSize: this.ddcPageSize
+        });
+				if (ddcData && ddcData.data) {
+					this.ddcList = ddcData.data.map(item => {
+						return {
+							ddcId: item.ddc_id,
+              ddcName: item.ddc_name,
+              contractAddr: item.contract_address,
+              owner: item.owner,
+							creator: item.creator,
+              ddcUri: item.ddc_uri || '--',
+              Time: Tools.formatLocalTime(item.lastest_tx_time),
+						}
+					})
+				}
+			} catch (e) {
+				console.error(e)
+			}
+
+		},
+		async getDdcListCount(){
+			try {
+				const res = await getDdcList({
+          owner:this.$route.params.param,
+          ddc_id: '',
+          contract_address: '',
+          useCount: true,
+        });
+				if (res?.count) {
+					this.ddcCount = res.count
+				} else {
+					this.ddcCount = 0
+				}
+			} catch (e) {
+				console.error(e)
+			}
+		},
 		async getEnergyAssetList(){
 			this.isLoading = true
 			const res = await getEnergyAssetApi(this.address)
@@ -2763,7 +2855,7 @@ a {
 			}
 			
 			.active_content {
-				background: $bg_button_c !important;
+				background: $theme_c !important;
 				color: $t_white_c;
 				border: 0.01rem solid transparent !important;
 			}
@@ -2888,7 +2980,21 @@ a {
 			//padding: 0.25rem;
 			border-radius: 0.05rem;
 			// border: 0.01rem solid $bd_first_c;
-			
+			.content_title{
+				padding-top: 0.25rem;
+				padding-left: 0.25rem;
+				color: #171D44;
+				margin-bottom: 0.4rem;
+				text-align: left;
+				font-size: 0.16rem;
+				font-family: PublicSans;
+				font-weight: 600;
+				line-height: 22px;
+			}
+			.list_table_content_container .box-card{
+				padding-left: 0.25rem;
+				padding-top: 0;
+			}
 			.address_transaction_content_hash {
 				display: flex;
 				align-items: center;

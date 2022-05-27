@@ -163,7 +163,12 @@ export const ExplorerLang = {
         sequence:'序列号',
         destinationChain:'目标链',
         //能量值
-        energy:'能量值'
+        energy:'能量值',
+        // ddc 相关
+        ddcId: 'DDC ID',
+        ddcName: 'DDC 名称',
+        contractMethod:'合约方法',
+        contractAddress:'合约地址',
     },
     unit:{
         ellipsis:' ,...',
@@ -255,6 +260,13 @@ export const ExplorerLang = {
         search: '搜索',
         placeHolder: '搜索数据类别或数据类别标识',
     },
+    ddc:{
+        mainTitle: 'BSN-DDC',
+        subTitle:'BSN-DDC',
+        subTitles:'BSN-DDC',
+        search: '搜索',
+        placeHolder: '搜索 DDC ID 或 DDC 名称',
+    },
     energyAsset: {
         name: '名称',
         amount: '数量'
@@ -335,14 +347,14 @@ export const ExplorerLang = {
             chainName:'链名称:',
         },
         nft:{
-            denomId:'标识:',//nft新增
-            sender:'发送者:',
-            receiver:'接收者:',
-            denomName:'数据类别:',
-            symbol:'数据类别名称:',
-            schema:'概要:',
-            mintRestricted:'发行限制:',
-            updateRestricted:'更新限制:',
+            denomId:'标识',//nft新增
+            sender:'发送者',
+            receiver:'接收者',
+            denomName:'数据类别',
+            symbol:'数据类别名称',
+            schema:'概要',
+            mintRestricted:'发行限制',
+            updateRestricted:'更新限制',
             signer:'签名者',
         },
         issueDenom:{
@@ -417,21 +429,21 @@ export const ExplorerLang = {
             securityContact:'安全联络人 :'
         },
         coinswap: {
-            isBuyOrder: '买入订单 :',
-            inputAddress: '输入地址 :',
-            Input: '输入地址 :',
-            outputAddress: '输出地址 :',
-            output: '输出数量 :',
-            deadline: '截止日期 :',
-            sender: '发送者 :',
-            exactIrisAmt: '增加的iris数量 :', //需修改
-            minIrisAmt: '最少iris数量 :', //需修改
-            maxToken: '最大可兑换数量 :',
-            minToken: '最少可兑换数量 :',
-            minLiquidity: '流动性凭证 :',
-            withdrawLiquidity: '提出流动性凭证 :',
-            amount: '数量 :', // 新增
-            tokenPair: 'Token Pair :', // 新增
+            isBuyOrder: '买入订单',
+            inputAddress: '输入地址',
+            Input: '输入地址',
+            outputAddress: '输出地址',
+            output: '输出数量',
+            deadline: '截止日期',
+            sender: '发送者',
+            exactIrisAmt: '增加的iris数量', //需修改
+            minIrisAmt: '最少iris数量', //需修改
+            maxToken: '最大可兑换数量',
+            minToken: '最少可兑换数量',
+            minLiquidity: '流动性凭证',
+            withdrawLiquidity: '提出流动性凭证 ',
+            amount: '数量', // 新增
+            tokenPair: 'Token Pair', // 新增
         },
         oracle: {
             feedName: '任务名称',
@@ -549,6 +561,12 @@ export const ExplorerLang = {
             id: 'Id',
             secret: 'Secret',
             recipient: 'Recipient'
+        },
+        bsnddc: {
+            contractType:'合约模块',
+            contractMethod:'合约方法',
+            ddcId: 'DDC ID',
+            ddcName: 'DDC 名称',
         }
     },
     addressDetail: {
@@ -599,6 +617,13 @@ export const ExplorerLang = {
         respondRecord:'服务响应记录',
         provider:'提供者',
         txRecord:'响应记录',
+    },
+    ddcDetail: {
+        ddcInformation: 'BSN-DDC 详情',
+        owner: '拥有者',
+        type:'DDC 类型',
+        amount:'DDC 的发行数量',
+        schema: '上链结构',
     },
     searchResult:{
         title: '搜索结果',
@@ -677,6 +702,7 @@ export const ExplorerLang = {
           identity:'身份',
           iService:'服务',
           tx:'交易记录',
+          ddc:'BSN-DDC',
           energyAsset:'资产'
         },
         content: {
@@ -778,5 +804,17 @@ export const ExplorerLang = {
             minDeposit: 'MinDeposit',
             upgradedClientState: 'Upgraded Client State',
         }
+    },
+    smartContract:{
+        mint:'发行',
+        safeMint:'安全发行',
+        transferFrom:'转让',
+        safeTransferFrom:'安全转让',
+        burn:'销毁',
+        safeMintBatch:'批量安全发行',
+        safeBatchTransferFrom:'批量安全转让',
+        burnBatch:'批量销毁',
+        setURI:'编辑',
+        setNameAndSymbol:'编辑',
     }
 }

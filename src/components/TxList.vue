@@ -1118,6 +1118,7 @@ export default {
 								isShowMore = true
 							}
 						}
+						const _contractMethod =  this?.$i18n?.messages[prodConfig.lang]?.ExplorerLang?.smartContract[tx?.msgs[0]?.msg?.ex?.ddc_method] || tx?.msgs[0]?.msg?.ex?.ddc_method
 						this.transactionArray.push({
 							txHash: tx.tx_hash,
 							blockHeight: tx.height,
@@ -1195,6 +1196,9 @@ export default {
 							// farm create_pool_with_community_pool
 							proposer,
 							initialDeposit,
+							// EVM智能合约
+							contractAddr: tx?.contract_addrs && tx?.contract_addrs.length > 0 ? tx?.contract_addrs[0] : '--',
+							contractMethod: _contractMethod || '--'
 						})
 						/**
 						 * @description: from parseTimeMixin

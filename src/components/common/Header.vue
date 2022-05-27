@@ -314,6 +314,10 @@ export default {
               item.icon = 'iconfont iconStargate'
           } else if (item.network_id === constant.CHAINID.COSMOSHUB) {
               item.icon = 'iconfont iconCosmosHub'
+          } else if(item.network_id === constant.CHAINID.WENCHANG){
+            item.icon ='iconfont iconBianjie_wenchanglian_Logo-02'
+          }else if(item.network_id === constant.CHAINID.IRITA){
+            item.icon = 'iconfont iconxingzhuangjiehe1'
           }
           if (item.is_main) {
               this.mainnet = {...item};
@@ -583,7 +587,10 @@ export default {
     }
   }
 }
-
+.el-menu--horizontal .el-menu .el-menu-item a{
+  display: inline-block;
+  width: 100%;
+}
 @media screen and (max-width: 1000px) {
   .header_container {
     position: absolute;

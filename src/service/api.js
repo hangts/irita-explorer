@@ -1,7 +1,9 @@
 import { HttpHelper } from '../helper/httpHelper';
 import { requestThrottler } from '../helper/throttleHttpHelper';
 import { TX_STATUS } from '../constant'
+import Tools from '@/util/Tools'
 import moment from 'moment';
+import axios from 'axios';
 
 function get(url){
 	return new Promise(async (res,rej)=>{
@@ -627,6 +629,48 @@ export function fetchTokenRichList () {
 export function fetchAllTokens() {
     const url=`/cosmos/bank/v1beta1/supply`
     return getFromLcd(url);
+}
+
+/**
+ * 获取ddc列表
+ * @param {object} params
+ * @param {string} params.owner DDC拥有者
+ * @param {string} params.ddc_id	ddcId或ddcName
+ * @param {string} params.contract_address	智能合约地址	
+ * @param {boolean} params.useCount 
+ * @param {number} params.pageNum
+ * @param {number} params.pageSize
+ *
+ */
+export function getDdcList(params){
+  const url ='/ddcs' + Tools.formatParams(params)  
+  return get(url)
+}
+
+/**
+ * 获取ddc详情
+ * @param {*} params 
+ * @param {*} params 
+ * @returns 
+ */
+export function getDdcDetail(params){
+  const url = '/ddcs/details'+ Tools.formatParams(params) 
+  return get(url)
+}
+
+
+/**
+ * ddc详情页/地址详情页bsn-ddc交易记录列表
+ * @param {*} params	 
+ * @param {*} params.pageNum	 
+ * @param {*} params.pageSize	 
+ * @param {*} params.type	 
+ * @param {boolean} params.useCount	   是否查总数
+ * @returns 
+ */
+export function getDdcTxList(params){
+  const url = '/txs/ddcs' + Tools.formatParams(params)
+  return get(url)
 }
 
 

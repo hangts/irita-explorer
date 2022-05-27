@@ -113,6 +113,14 @@ const router = new Router({
 		{
 			path: '/stats/stats',
 			component: () => import('@/components/stats/Stats.vue')
+		},
+		{
+			path: '/ddc',
+			component: () => import('@/components/ddc/index.vue')
+		},
+		{
+			path: '/ddc/detail',
+			component: () => import('@/components/ddc/detail.vue')
 		}
 
 	]

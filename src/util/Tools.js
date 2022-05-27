@@ -537,5 +537,22 @@ export default class Tools {
         map.set(obj.key, obj.value);
       })  
       return map;
-  }
+    }
+    static formatParams(params){
+      if(!params || JSON.stringify(params) === '{}'){
+        return ''
+      }
+      let str = ''
+      for(let key in params){
+        var item = params[key]
+        if (item !== null && item !== undefined) {
+            str += `${key}=${item}&`
+        }
+      }
+      if (str.length !== 0) {
+          str = '?' + str.substring(0, str.length - 1)
+      }
+      return str
+    }
+    
 }

@@ -179,7 +179,7 @@ export default {
 }
 .statistics-white-row{
 	&:hover{
-		background-color: $table_tr_c !important;
+		background-color: $table_tr_hover_c !important;
 	}
 }
 .el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell{
@@ -224,5 +224,8 @@ export default {
 .el-table th.el-table__cell{
 	overflow: visible !important;
 	background-color: transparent!important;
+}
+.custom_tooltip{
+	max-width: 800px;
 }
 </style>

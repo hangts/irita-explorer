@@ -45,16 +45,17 @@
 										 :src="require(`../../assets/${scope.row.status==TX_STATUS.success?'success.png':'failed.png'}`)"/>
 								</div>
 								
-								<el-tooltip :manual="setManual(!item.isNeedFormat,scope.row[item.displayValue])"
+								<el-tooltip popper-class="custom_tooltip" :manual="setManual(item.isNeedFormat,scope.row[item.displayValue],item)"
 											:content="formatStr(scope.row[item.nativeValue],item.isNft ? scope.row[item.displayValue] : null)">
 <!--									-->
+                  <div>
 									<router-link class="link_style"
 												 :class="item.isAdjustStyle ? 'index_style' : ''"
 												 :style="{color:isOwnerAddress(scope.row[item.nativeValue]) ? '#606266 !important' : '', cursor:isOwnerAddress(scope.row[item.nativeValue]) ? 'default !important' : ''}"
 												 v-if="item.isLink && 
 												  scope.row[item.displayValue] && 
 													scope.row[item.displayValue] !== '--' && 
-													!(/^cosmos/.test(scope.row[item.nativeValue]))"
+													!(judgeCosmos(scope.row[item.nativeValue]))"
 												 :to="!item.isNft ? `${item.linkRoute}${scope.row[item.nativeValue]}` : `${item.linkRoute}${scope.row[item.nftRouterParamsValue]}${item.denomRouter}${scope.row[item.nativeValue]}`">
 										
 										<span v-if="item.isNeedFormatHash">{{formatTxHash(scope.row[item.displayValue]) }} </span>
@@ -80,24 +81,24 @@
 									<span v-else-if="item.isFormatAddress && !item.isHref">{{formatAddress(scope.row[item.displayValue]) }}</span>
 <!--									-->
 									<span v-else-if="item.isHref">
-										
-										<a v-if="isShowHref(scope.row[item.displayValue])"
+										<span v-if="judgeCosmos(scope.row[item.nativeValue])">
+											{{ formatAddress(scope.row[item.displayValue]) }}
+										</span>
+										<a v-else-if="isShowHref(scope.row[item.displayValue])"
 										   class="route_link_style"
 										   :style="{color:isOwnerAddress(scope.row[item.nativeValue]) ? '#606266 !important' : ''}"
 										   :href="`${item.href}/#/address/${scope.row[item.nativeValue]}`"
 										   target="_blank"
 										   rel="noreferrer noopener">{{ formatAddress(scope.row[item.displayValue]) }}</a>
-										
-										<span v-if="!isShowHref(scope.row[item.displayValue])">{{ formatAddress(scope.row[item.displayValue]) }}</span>
+										<span v-else>{{ formatAddress(scope.row[item.displayValue]) }}</span>
 										
 									</span>
 <!--									-->
-									<span v-else-if="item.isNftHref" :class="item.isWrap ? 'wrap_style' : ''">
-										
+									<span v-else-if="item.isNftHref" class="custom_uri">
 										<a v-if="testUrl(scope.row[item.displayValue])" :href="scope.row[item.displayValue]"
-										   target="_blank" rel="noreferrer noopener" class="href_route_link_style">{{ scope.row[item.displayValue] }}</a>
+										   target="_blank" rel="noreferrer noopener">{{ scope.row[item.displayValue] }}</a>
 										
-										<a class="href_route_link_style" v-else-if="startStr(scope.row[item.displayValue])"
+										<a v-else-if="startStr(scope.row[item.displayValue])"
 										   :href="'http://' + scope.row[item.displayValue]"
 										   target="_blank">{{ scope.row[item.displayValue] }}</a>
 										
@@ -202,8 +203,10 @@
 										{{ formatPoolId(scope.row[item.displayValue])}}
 									</span>
 									<span v-else :class="item.isWrap ? 'wrap_style' : item.isRight ? 'right_style' : '' " >
-										{{ scope.row[item.displayValue] === 0 || scope.row[item.displayValue] === '0' ? 0 : scope.row[item.displayValue] || '--' }}</span>
-										
+										{{ scope.row[item.displayValue] === 0 || scope.row[item.displayValue] === '0' ? 0 : scope.row[item.displayValue] || '--' }}
+									</span>
+
+									</div>	
 								</el-tooltip>
 							</template>
 						</el-table-column>
@@ -247,7 +250,7 @@ import {
 	decimals,
 	IRIS_ADDRESS_PREFIX,
 	COSMOS_ADDRESS_PREFIX,
-	nftAndDenomSplitNum,
+	NFT_AND_DENOM_SPLIT_NUM,
 	PRODUCT_WENCHANG,
 } from '../../constant';
 import {fetchAllTokens} from "../../service/api";
@@ -444,8 +447,16 @@ export default {
 				return 'statistics-white-row';
 			}
 		},
-		setManual(value, data) {
-			if (!value || Array.isArray(data)) {
+		setManual(isNeed, data, item) {
+			if (isNeed || Array.isArray(data)) {
+				// 如果不满足超长省略 ...，则不需要鼠标划上再完整显示
+				if(typeof data  === 'string' && data?.length <= NFT_AND_DENOM_SPLIT_NUM.num){
+					return true
+				}
+				// 目的同上，针对处理uri
+				if(item.isNftHref){
+					return data.length <= NFT_AND_DENOM_SPLIT_NUM.uriNum
+				}
 				if (data?.length <= 1) {
 					return true
 				}
@@ -546,7 +557,7 @@ export default {
 		formatNftIdAndDenomId(NftIdOrDenomId){
 
 			if(NftIdOrDenomId){
-				return Tools.formatString(NftIdOrDenomId,nftAndDenomSplitNum.num,'...')
+				return Tools.formatString(NftIdOrDenomId,NFT_AND_DENOM_SPLIT_NUM.num,'...')
 			}
 			return '--'
 		},
@@ -557,9 +568,9 @@ export default {
 				return '--'
 			}
 		},
-		formatStr(str,displayStr) {
+		formatStr(str, displayStr) {
 			if(displayStr){
-				return  displayStr
+				return  displayStr+''
 			}
 			if (str && Array.isArray(str)) {
 				let {txType} = Tools.urlParser();
@@ -658,7 +669,7 @@ export default {
 			})
 		},
 		async getAllTokens() {
-			let allTokens = await fetchAllTokens()
+			let allTokens = sessionStorage.getItem('allToken') ? JSON.parse(sessionStorage.getItem('allToken')) : await fetchAllTokens()
 			if (allTokens?.supply?.length) {
 				let ibcTokens = [], htltTokens = []
 				ibcTokens = allTokens.supply.filter(item => {
@@ -737,6 +748,12 @@ export default {
 					}
 				},50);
 			});
+		},
+		judgeCosmos(address){
+			if(!address){
+				return address
+			}
+			return (address + '').startsWith(COSMOS_ADDRESS_PREFIX)
 		}
 	},
 	mounted() {
@@ -918,6 +935,13 @@ export default {
 		.href_route_link_style{
 			color: $theme_c !important;
 			white-space: normal !important;
+			
+		}
+		.custom_uri{
+			width: 1.45rem;
+			display: inline-block;
+			text-overflow:ellipsis;
+			overflow: hidden;
 		}
 		.tag_num {
 			color: $theme_c !important;

@@ -176,7 +176,12 @@ export const ExplorerLang = {
         proposer:'Proposer',
         
         //能量值
-        energy:'Energy'
+        energy:'Energy',
+        // ddc
+        ddcId: 'DDC ID',
+        ddcName: 'DDC Name',
+        contractMethod:'ContractMethod',
+        contractAddress:'ContractAddress',
     },
     unit:{
         ellipsis:' ,...',
@@ -268,6 +273,13 @@ export const ExplorerLang = {
         search: 'Search',
         placeHolder: 'Search by Denom Name or Denom ID',
     },
+    ddc:{
+        mainTitle: 'BSN-DDC List',
+        subTitle:'BSN-DDC',
+        subTitles:'BSN-DDC',
+        search: 'Search',
+        placeHolder: 'Search by DDC ID or DDC Name',
+    },
     energyAsset: {
         name: 'Name',
         amount: 'Amount'
@@ -348,15 +360,15 @@ export const ExplorerLang = {
             chainName:'Chain Name:',
         },
         nft:{
-            denomId:'Denom ID:',//nft新增
-            sender:'Sender:',
-            receiver:'Receiver:',
-            denomName:'Denom Name:',
-            symbol:'Symbol:',
-            schema:'Schema:',
-            mintRestricted:'Mint Restricted:',
-            updateRestricted:'Update Restricted:',
-            signer:'Signer:',
+            denomId:'Denom ID',//nft新增
+            sender:'Sender',
+            receiver:'Receiver',
+            denomName:'Denom Name',
+            symbol:'Symbol',
+            schema:'Schema',
+            mintRestricted:'Mint Restricted',
+            updateRestricted:'Update Restricted',
+            signer:'Signer',
         },
         issueDenom:{
             schema: 'Schema',
@@ -433,20 +445,20 @@ export const ExplorerLang = {
         },
         coinswap: {
             isBuyOrder: 'isBuyOrder :',
-            inputAddress: 'Input Address :',
-            Input: 'Input :',
-            outputAddress: 'Output Address :',
-            output: 'Output :',
-            deadline: 'Deadline :',
+            inputAddress: 'Input Address',
+            Input: 'Input',
+            outputAddress: 'Output Address',
+            output: 'Output',
+            deadline: 'Deadline',
             sender: 'Sender :',
-            exactIrisAmt: 'Exact Standard Amt :',
-            minIrisAmt: 'Min Standard Amt :',
-            maxToken: 'Max Token :',
-            minToken: 'Min Token :',
-            minLiquidity: 'Min Liquidity :',
-            withdrawLiquidity: 'Withdraw Liquidity :',
-            amount: 'Amount :', // 新增
-            tokenPair: 'Token Pair :', // 新增
+            exactIrisAmt: 'Exact Standard Amt',
+            minIrisAmt: 'Min Standard Amt',
+            maxToken: 'Max Token',
+            minToken: 'Min Token',
+            minLiquidity: 'Min Liquidity',
+            withdrawLiquidity: 'Withdraw Liquidity',
+            amount: 'Amount', // 新增
+            tokenPair: 'Token Pair', // 新增
         },
         oracle: {
             feedName: 'Feed Name',
@@ -591,7 +603,12 @@ export const ExplorerLang = {
             totalReward2: 'Total Reward ',
             creator: 'Creator',
             title: 'Title',
-            
+        },
+        bsnddc: {
+            contractType:'Contract Type',
+            contractMethod:'Contract Method',
+            ddcId: 'DDC ID',
+            ddcName: 'DDC Name',
         }
     },
     addressDetail: {
@@ -642,6 +659,13 @@ export const ExplorerLang = {
         respondRecord:'iService Respond Record',
         provider:'Provider',
         txRecord:'Respond Record',
+    },
+    ddcDetail: {
+        ddcInformation: 'BSN-DDC 详情',
+        owner: '拥有者',
+        type:'DDC Type',
+        amount:'DDC Amount',
+        schema: 'Schema',
     },
     searchResult:{
         title: 'Search Results',
@@ -720,6 +744,7 @@ export const ExplorerLang = {
             identity:'Identity',
             iService:'iService',
             tx:'Txs',
+            ddc:'BSN-DDC',
             energyAsset:'Assets'
         },
         content: {
@@ -823,5 +848,17 @@ export const ExplorerLang = {
             minDeposit: 'MinDeposit',
             upgradedClientState: 'Upgraded Client State',
         }
+    },
+    smartContract:{
+        mint:'mint',
+        safeMint:'safeMint',
+        transferFrom:'transferFrom',
+        safeTransferFrom:'safeTransferFrom',
+        burn:'burn',
+        safeMintBatch:'safeMintBatch',
+        safeBatchTransferFrom:'safeBatchTransferFrom',
+        burnBatch:'burnBatch',
+        setURI:'setURI',
+        setNameAndSymbol:'setNameAndSymbol',
     }
 }

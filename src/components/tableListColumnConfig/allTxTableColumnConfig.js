@@ -1126,9 +1126,8 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.receiver'),
             displayValue: 'to',
             nativeValue: 'to',
-            // isHref: true,
-            // href: cfg.cosmosXpAddress,
-            isLink:true,
+            isHref: true,
+            href: cfg.cosmosXpAddress,
             isNeedFormat: true,
             isFormatAddress: true,
         }
@@ -1148,9 +1147,8 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.sender'),
             displayValue: 'from',
             nativeValue: 'from',
-            // isHref: true,
-            // href: cfg.cosmosXpAddress,
-            isLink:true,
+            isHref: true,
+            href: cfg.cosmosXpAddress,
             isNeedFormat: true,
             isFormatAddress: true,
         },
@@ -1187,9 +1185,8 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.receiver'),
             displayValue: 'from',
             nativeValue: 'from',
-            isLink:true,
-            // isHref: true,
-            // href: cfg.cosmosXpAddress,
+            isHref: true,
+            href: cfg.cosmosXpAddress,
             isNeedFormat: true,
             isFormatAddress: true,
         }
@@ -1732,9 +1729,8 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.receiver'),
             displayValue: 'receiver',
             nativeValue: 'receiver',
-            isLink:true,
-            // isHref: true,
-            // href: cfg.cosmosXpAddress,
+            isHref: true,
+            href: cfg.cosmosXpAddress,
             isNeedFormat: true,
             isFormatAddress: true,
         },
@@ -1860,6 +1856,56 @@ export const needAddColumn = {
             linkRoute:'/address/',
         },
     ],
-
+    //EVM 智能合约 二级标签
+    ethereum_tx:[
+        {
+            label:i18n.t('ExplorerLang.table.contractMethod'),
+            displayValue:'contractMethod',
+            nativeValue:'contractMethod',
+        },
+        {
+            label: i18n.t('ExplorerLang.table.signer'),
+            displayValue: 'signer',
+            nativeValue: 'signer',
+            isLink: true,
+            isNeedFormat: true,
+            isFormatAddress: true,
+            linkRoute: '/address/',
+        },
+    ],
+    ddc_721:[
+        {
+            label:i18n.t('ExplorerLang.table.contractMethod'),
+            displayValue:'contractMethod',
+            nativeValue:'contractMethod',
+            isShowTag:true,
+        },
+        {
+            label: i18n.t('ExplorerLang.table.signer'),
+            displayValue: 'signer',
+            nativeValue: 'signer',
+            isLink: true,
+            isNeedFormat: true,
+            isFormatAddress: true,
+            linkRoute: '/address/',
+        },
+    ],
+    ddc_1155:[
+        {
+            label:i18n.t('ExplorerLang.table.contractMethod'),
+            displayValue:'contractMethod',
+            nativeValue:'contractMethod',
+            isShowTag:true,
+        },
+        {
+            label: i18n.t('ExplorerLang.table.signer'),
+            displayValue: 'signer',
+            nativeValue: 'signer',
+            isLink: true,
+            isNeedFormat: true,
+            isFormatAddress: true,
+            linkRoute: '/address/',
+        },
+    ]
 
 }

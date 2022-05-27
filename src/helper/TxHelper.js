@@ -434,12 +434,29 @@ export class TxHelper {
 				value: LEVEL_TX_TYPE.Other,
 				label: LEVEL_TX_TYPE.Other,
 				children:[]
-			};
+			},
+            smartContractObj={
+                value: LEVEL_TX_TYPE.SmartContract,
+                label: LEVEL_TX_TYPE.SmartContract,
+                children:[]
+            };
 		txTypeArray.forEach( item => {
             switch (item.typeName) {
-
-              // farm
-              //#region 
+                // smartContractObj
+                case TX_TYPE.ddc_1155:
+                    smartContractObj.children.push({
+                        value:TX_TYPE.ddc_1155,
+                        label:TX_TYPE_DISPLAY[TX_TYPE.ddc_1155]
+                    })
+                    break;
+                case TX_TYPE.ddc_721:
+                    smartContractObj.children.push({
+                        value:TX_TYPE.ddc_721,
+                        label:TX_TYPE_DISPLAY[TX_TYPE.ddc_721]
+                    })
+                    break;
+                // farm
+                //#region 
 
               case TX_TYPE.stake:
                     farmObj.children.push({
@@ -1079,14 +1096,19 @@ export class TxHelper {
 
         // 添加Farm
         
-		allTxType.push(tansferObj, nftObj,tibcObj, identityObj, ibcObj, stakingObj, coinswapObj, farmObj, htlcObj, assetObj, govObj, oracleObj, randomObj, recordObj, iServiceObj,crossChainObj,othersObj);
+		allTxType.push(tansferObj, nftObj,tibcObj, identityObj, ibcObj, stakingObj, coinswapObj, farmObj, htlcObj, assetObj, govObj, oracleObj, randomObj, recordObj, iServiceObj,crossChainObj,othersObj, smartContractObj);
         allTxType = allTxType.filter(item => item.children.length)
         allTxType.forEach(item=>{
             if(item?.children?.length && item.children.length > 1){
-                item.children.unshift({
+                if(item.children.some((item) => {
+                    return item.value !== TX_TYPE.ddc_721 && item.value !== TX_TYPE.ddc_1155
+                })){
+                    item.children.unshift({
                         label:'secondaryAll',
                         value:i18n.t('ExplorerLang.common.all'),
-                })
+                    })
+                }
+
 
             }
         })

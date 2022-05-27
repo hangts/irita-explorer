@@ -54,7 +54,7 @@ export default [
         displayValue: 'tokenUri',
         nativeValue: 'tokenUri',
         isNftHref: true,
-        isWrap: true
+        isNeedFormat: true
     },
     {
         label: i18n.t('ExplorerLang.table.time'),

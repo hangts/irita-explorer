@@ -31,12 +31,12 @@
 					<LargeString :isShowPre="Tools.isJSON(tokenData)" v-if="tokenData" :text="tokenData"
 								 :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 				</div>
-				<div class="nft_token_information_item">
+				<!-- <div class="nft_token_information_item">
 					<span>{{ $t('ExplorerLang.nftDetail.creator') }}：</span>
 					<span>
             <router-link :to="`/address/${creator}`">{{ creator }}</router-link>
           </span>
-				</div>
+				</div> -->
 				<div class="nft_token_information_item">
 					<span>{{ $t('ExplorerLang.nftDetail.uri') }}：</span>
 					<!-- <span v-if="tokenUri && tokenUri !== '--'">

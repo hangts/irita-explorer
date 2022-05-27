@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "29810640",
+      "name": "IRITA",
+      "font_class": "xingzhuangjiehe1",
+      "unicode": "e6fd",
+      "unicode_decimal": 59133
+    },
+    {
+      "icon_id": "29685095",
+      "name": "文昌链_Logo",
+      "font_class": "Bianjie_wenchanglian_Logo-02",
+      "unicode": "e6fa",
+      "unicode_decimal": 59130
+    },
+    {
+      "icon_id": "29504075",
+      "name": "大唐链",
+      "font_class": "huaban",
+      "unicode": "e6f9",
+      "unicode_decimal": 59129
+    },
+    {
+      "icon_id": "29376344",
+      "name": "BSN-DDC",
+      "font_class": "xingzhuangjiehe",
+      "unicode": "e6f7",
+      "unicode_decimal": 59127
+    },
+    {
       "icon_id": "27673634",
       "name": "Community Pool",
       "font_class": "a-bianzu24",

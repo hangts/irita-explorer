@@ -541,8 +541,8 @@
 						let amount = '--'
 						if (item.msgs && item.msgs.length === 1) {
 							formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
-							// amount = item.msgs[0].msg && item.msgs[0].msg.amount ? await converCoin(item.msgs[0].msg.amount) :'--'
-							amount = item.msgs[0] ? await getAmountByTx(item.msgs[0],item.events) : '--'
+							amount = item.msgs[0].msg && item.msgs[0].msg.amount ? await converCoin(item.msgs[0].msg.amount) : '--'
+							// amount = item.msgs[0] ? await getAmountByTx(item.msgs[0],item.events) : '--'
 						} else {
 							formTO = '--'
 						}
@@ -563,13 +563,13 @@
 							blockHeight: item.height,
 							From: formTO.from || "--",
 							fromMonikers,
-							amount: amount,
+							amount: amount?.amount && amount?.denom ? `${amount?.amount} ${amount?.denom.toUpperCase()}` : '--',
 							To: formTO.to || '--',
 							toMonikers,
-							txType: (item.msgs || []).map(item=> item.type),
+							txType: (item.msgs || []).map(item => item.type),
 							MsgsNum: msgsNumber,
 							// Tx_Fee: fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
-							Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+							Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount, this.feeDecimals)}` : '--',
 							signer: item.signers[0] ? item.signers[0] : '--',
 							status: item.status,
 							Timestamp: time,

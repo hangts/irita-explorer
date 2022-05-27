@@ -142,12 +142,19 @@ export const TX_TYPE = {
   create_pool_with_community_pool:'create_pool_with_community_pool',
   destroy_pool:'destroy_pool',
   adjust_pool:'adjust_pool',
-
-
+  
+  //EVM只能合约
+  bsn_ddc:'ethereum_tx',
+  ddc_721:'ddc_721',
+  ddc_1155:'ddc_1155'
 }
 
 // 展示 abandon
 export const TX_TYPE_DISPLAY = {
+  // Smart contract
+  bsn_ddc:'BSN-DDC 合约',
+  ddc_721:'BSN-DDC721',
+  ddc_1155:'BSN-DDC1155',
   //farm
   stake:'Stake',
   unstake:'Unstake',
@@ -272,10 +279,11 @@ export const TX_TYPE_DISPLAY = {
   recv_clean_packet:'TIBC Clean Packet In',
   tibc_update_client:'TIBC Update Client',
 
-  
+
 }
 
 export const LEVEL_TX_TYPE = {
+  SmartContract:'Smart Contract',
   Farm: 'Farm',
   Transfer: 'Transfer',
   Staking: 'Staking',
@@ -365,6 +373,7 @@ export const ColumnMinWidth = {
   delegationTxsFrom: '146',
   shares: '251',
   fee: '160',
+  // fee: '100',
   // feeAndDenom: "110",
   consensus: '340',
   proposerPriority: '200',
@@ -461,6 +470,10 @@ export const ModuleMap = {
     title: '${mainToken} Stats',
     link: '/stats/stats',
   },
+  '117': {
+    title:'BSN-DDC',
+    link:'/ddc'
+  }
 
 }
 
@@ -472,6 +485,8 @@ CHAINID.GOZTESTNET = 'Testnet GOZ'
 CHAINID.BIFROST = 'Testnet BIFROST'
 CHAINID.STARGATE = 'Testnet STARGATE'
 CHAINID.COSMOSHUB = 'Mainnet CosmosHub'
+CHAINID.WENCHANG = 'Mainnet WenChang'
+CHAINID.IRITA = 'Testnet IRITA'
 
 export const pageTitleConfig = {
   BlockchainBlocks: 'Block List',
@@ -534,8 +549,9 @@ export const monikerNum = {
   otherTable: 11,
 }
 
-export  const nftAndDenomSplitNum = {
-  num:8
+export  const NFT_AND_DENOM_SPLIT_NUM = {
+  num: 8,
+  uriNum: 20
 }
 
 export const proposalStatus = {
@@ -607,4 +623,9 @@ export const COSMOS_ADDRESS_PREFIX = 'cosmos';
 export const IRIS_ADDRESS_PREFIX = 'iaa';
 
 export const PRODUCT_WENCHANG = 'bsn opb'; // 可用于判断是文昌链项目
+export const DTC_ADDRESS_PREFIX = 'dtc';
+export const DDC_TYPE_LIST = {
+  1:'DDC721',
+  2:'DDC1155'
+}
 export const UGAS = 'ugas'; // 用于比对ugas

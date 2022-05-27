@@ -123,6 +123,7 @@ import {
     Message,
     Notification
 } from 'element-ui';
+import {fetchAllTokens} from "@/service/api";
 
 Vue.use(Pagination);
 Vue.use(Dialog);
@@ -245,13 +246,18 @@ Vue.config.productionTip = false;
 
 
 Vue.directive('debounce', {
-  inserted: function (el, binding) {
-    let [fn, event = "click", time = 300] = binding.value
-    let timer
-    el.addEventListener(event, () => {
-      timer && clearTimeout(timer)
-      timer = setTimeout(() => fn(), time)
-    })
-  }
+    inserted: function (el, binding) {
+        let [fn, event = "click", time = 300] = binding.value
+        let timer
+        el.addEventListener(event, () => {
+            timer && clearTimeout(timer)
+            timer = setTimeout(() => fn(), time)
+        })
+    }
 })
 
+const getAllToken = async () => {
+    const allToken = await fetchAllTokens()
+    sessionStorage.setItem('allToken', JSON.stringify(allToken))
+}
+getAllToken()

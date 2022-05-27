@@ -20,6 +20,7 @@ let title = prodConfig.title || '',
     background_color_common = prodConfig.background || '#F8F8F8',
     tag_color_common = prodConfig.tagBackground ||'rgba(239, 243, 255, 1)',
     table_tr_color_common = prodConfig.tableTrColor ||'rgba(50, 100, 253, 0.3)',
+    table_tr_color_common_hover = prodConfig.tableTrHoverColor ||'rgba(50, 100, 253, 0.3)',
     umengId = umeng.umengId || 'umengId',
     umengWebId = umeng.umengWebId || 'umengWebId';
 
@@ -40,6 +41,7 @@ replaceEnv([
         background_color_common : background_color_common,
         tag_color_common : tag_color_common,
         table_tr_color : table_tr_color_common,
+        table_tr_color_hover :table_tr_color_common_hover,
         ogImageUrl : og_image_url,
         ogTitle : og_title,
         ogDescription : og_description,
