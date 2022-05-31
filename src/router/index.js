@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import prodConfig from '../productionConfig';
+import {product} from '../constant';
 Vue.use(Router);
 
 const originalPush = Router.prototype.push
@@ -34,6 +36,10 @@ const router = new Router({
 		},
 		{
 			path:'/nftAsset',
+			component: () => import('@/components/NftList.vue')
+		},
+		{
+			path:'/daw',
 			component: () => import('@/components/NftList.vue')
 		},
         {
@@ -140,6 +146,10 @@ router.beforeEach((to,from,next) => {
 	if(to.path !== '/txs/delegations'){
 		sessionStorage.removeItem('selectMsgTypeIndex')
 	}
+    if(prodConfig.product === product.datangchain && to.path.includes('/nftAsset')) {
+        let fullPath = to.fullPath.replace(/nftAsset/g, 'daw');
+        next(fullPath)
+    }
 	next()
 })
 export default router
