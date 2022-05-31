@@ -154,10 +154,9 @@ export default {
 					pageSize: this.pageSize,
 					useCount:false
 				})
-				console.log(res)	
 				if (res?.data.length > 0) {
 					this.txListByDdc = res.data.map((item) => {
-						const _contractMethod =  this?.$i18n?.messages[prodConfig.lang]?.ExplorerLang?.smartContract[item?.msgs[0]?.msg?.ex?.ddc_method] || item?.msgs[0]?.msg?.ex?.ddc_method
+						const _contractMethod =  (this?.$i18n?.messages && this?.$i18n?.messages[prodConfig.lang]?.ExplorerLang?.smartContract) && this?.$i18n?.messages && this?.$i18n?.messages[prodConfig.lang]?.ExplorerLang?.smartContract[tx?.msgs[0]?.msg?.ex?.ddc_method] || tx?.msgs[0]?.msg?.ex?.ddc_method
 						return {
 							status: item.status,
 							txHash: item.tx_hash,

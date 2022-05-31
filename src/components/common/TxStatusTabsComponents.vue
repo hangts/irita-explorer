@@ -66,7 +66,6 @@ export default {
 				disabledDate(time){
 					let _now = Date.now(),
 						startTime = Number(config.firstBlockTimestamp) - 24 * 60 * 60 * 1000;
-					console.log(startTime)
 					return time.getTime() > _now || time.getTime() < startTime.toString();
 					//大于当前的禁止，小于7天前的禁止
 				}

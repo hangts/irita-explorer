@@ -496,9 +496,9 @@ export default {
 			try {
 				//这里处理方式需要优化
 				if (this.txData && this.txData.length) {
-					let fees = [],amounts = [];
+                    let fees = [],amounts = [];
 					for (const tx of this.txData) {
-						let numberOfTo = '--',
+                        let numberOfTo = '--',
 							numberOfToArr = [],
 							requestId= '--',
 							requestIdArr= [],
@@ -1118,7 +1118,7 @@ export default {
 								isShowMore = true
 							}
 						}
-						const _contractMethod =  this?.$i18n?.messages[prodConfig.lang]?.ExplorerLang?.smartContract[tx?.msgs[0]?.msg?.ex?.ddc_method] || tx?.msgs[0]?.msg?.ex?.ddc_method
+						const _contractMethod =  (this?.$i18n?.messages && this?.$i18n?.messages[prodConfig.lang]?.ExplorerLang?.smartContract) && this?.$i18n?.messages && this?.$i18n?.messages[prodConfig.lang]?.ExplorerLang?.smartContract[tx?.msgs[0]?.msg?.ex?.ddc_method] || tx?.msgs[0]?.msg?.ex?.ddc_method
 						this.transactionArray.push({
 							txHash: tx.tx_hash,
 							blockHeight: tx.height,

@@ -60,7 +60,11 @@
                   :class="item.network_id == constant.CHAINID.STARGATE ? 'stargate_icon' : ''"
                   v-for="item in netWorkArray"
                   :key="item.network_id"
-                  @click="windowOpenUrl(item.uri)"><i :class="item.icon"></i>{{item.network_name}}</li>
+                  @click="windowOpenUrl(item.uri)">
+                  <i v-if="item.network_id !== constant.CHAINID.DATANGCHAINMAIN" :class="item.icon"></i>
+                  <img v-if="item.network_id == constant.CHAINID.DATANGCHAINMAIN" class="datang_svg" src="../../assets/datangchain_main.svg" alt="">
+                  {{item.network_name}}
+              </li>
           </ul>
       </div>
 
@@ -318,6 +322,8 @@ export default {
             item.icon ='iconfont iconBianjie_wenchanglian_Logo-02'
           }else if(item.network_id === constant.CHAINID.IRITA){
             item.icon = 'iconfont iconxingzhuangjiehe1'
+          } else if(item.network_id === constant.CHAINID.DATANGCHAINMAIN || item.network_id === constant.CHAINID.DATANGCHAINTESTNET) {
+              item.icon = 'iconfont iconhuaban'
           }
           if (item.is_main) {
               this.mainnet = {...item};
@@ -528,6 +534,10 @@ export default {
                   font-size: $s18;
                   color: var(--titleColor);
                   padding-right: 0.2rem;
+              }
+              .datang_svg {
+                  padding-right: 0.2rem;
+                  width: 0.18rem;
               }
           }
           .stargate_icon {
