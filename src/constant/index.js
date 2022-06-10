@@ -126,43 +126,45 @@ export const TX_TYPE = {
   request_rand: 'request_rand',
 
   //TiBC
-  tibc_nft_transfer:'tibc_nft_transfer',
-  tibc_recv_packet:'tibc_recv_packet',
-  tibc_acknowledge_packet:'tibc_acknowledge_packet',
-  clean_packet:'clean_packet',
-  recv_clean_packet:'recv_clean_packet',
-  tibc_update_client:'tibc_update_client',
+  tibc_nft_transfer: 'tibc_nft_transfer',
+  tibc_recv_packet: 'tibc_recv_packet',
+  tibc_acknowledge_packet: 'tibc_acknowledge_packet',
+  clean_packet: 'clean_packet',
+  recv_clean_packet: 'recv_clean_packet',
+  tibc_update_client: 'tibc_update_client',
 
 
   //Farm 
-  stake:'stake',
-  unstake:'unstake',
-  harvest:'harvest',
-  create_pool:'create_pool',
-  create_pool_with_community_pool:'create_pool_with_community_pool',
-  destroy_pool:'destroy_pool',
-  adjust_pool:'adjust_pool',
-  
-  //EVM只能合约
-  bsn_ddc:'ethereum_tx',
-  ddc_721:'ddc_721',
-  ddc_1155:'ddc_1155'
+  stake: 'stake',
+  unstake: 'unstake',
+  harvest: 'harvest',
+  create_pool: 'create_pool',
+  create_pool_with_community_pool: 'create_pool_with_community_pool',
+  destroy_pool: 'destroy_pool',
+  adjust_pool: 'adjust_pool',
+
+  //EVM智能合约
+  bsn_ddc: 'ethereum_tx',
+  ddc_721: 'ddc_721',
+  ddc_1155: 'ddc_1155',
+  ddc_other: 'ddc_other'
 }
 
 // 展示 abandon
 export const TX_TYPE_DISPLAY = {
   // Smart contract
-  bsn_ddc:'BSN-DDC 合约',
-  ddc_721:'BSN-DDC721',
-  ddc_1155:'BSN-DDC1155',
+  bsn_ddc: 'BSN-DDC 合约',
+  ddc_721: 'BSN-DDC 721 Official contract',
+  ddc_1155: 'BSN-DDC 1155 Official contract',
+  ddc_other: 'BSN-Other',
   //farm
-  stake:'Stake',
-  unstake:'Unstake',
-  harvest:'Harvest',
-  create_pool:'Create Pool',
-  create_pool_with_community_pool:'Create Pool With Community Pool',
-  destroy_pool:'Destroy Pool',
-  adjust_pool:'Adjust Pool',
+  stake: 'Stake',
+  unstake: 'Unstake',
+  harvest: 'Harvest',
+  create_pool: 'Create Pool',
+  create_pool_with_community_pool: 'Create Pool With Community Pool',
+  destroy_pool: 'Destroy Pool',
+  adjust_pool: 'Adjust Pool',
 
   // service
   define_service: 'Define Service',

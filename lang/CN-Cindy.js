@@ -192,7 +192,7 @@ export const ExplorerLang = {
         denoms: '数据类别',
         service: '服务浏览',
         searchPlaceHolder: '请输入地址/交易哈希/区块高度进行搜索',
-        network:'Network'
+        network:'浏览器网络'
     },
     home:{
         blockHeight: '最新区块',
@@ -567,6 +567,9 @@ export const ExplorerLang = {
             contractMethod:'合约方法',
             ddcId: 'DDC ID',
             ddcName: 'DDC 名称',
+            contractExecutionResult: '合约执行结果',
+            signer: '调用者',
+            tradingData: '交易数据'
         }
     },
     addressDetail: {

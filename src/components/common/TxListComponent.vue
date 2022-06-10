@@ -279,7 +279,7 @@
                                 }
                             }
                             let addrObj = TxHelper.getFromAndToAddressFromMsg(msg);
-                            amounts.push(tx.msgs[0] ? getAmountByTx(tx.msgs[0],tx.events,true) : '--');
+                            amounts.push(tx.msgs[0] ? getAmountByTx(tx.msgs[0], true) : '--');
                             let from = addrObj.from || '--',
                                 to =  addrObj.to || '--';
                             let fromMonikers,toMonikers

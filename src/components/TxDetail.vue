@@ -67,7 +67,7 @@
 							{{ $t('ExplorerLang.transactionInformation.transactionMessageTitle') }}
 						</div>
 						<div v-for="(item, index) in messages" :key="index">
-							<TxMessage :msg="item" :msgIndex="index" :eventsNew="eventsNew" :events="events" :monikers="monikers"/>
+							<TxMessage :msg="item" :msgIndex="index" :eventsNew="eventsNew" :monikers="monikers" :ddcSigner="signer" />
 							<div class="tx_information_tx_message_line" v-if="messages.length > 1 && index != messages.length - 1"></div>
 						</div>
 					</div>
@@ -107,7 +107,7 @@ export default {
 			blockHeight: '',
 			status: '',
 			timestamp: '',
-			signer: '',
+			signer: [],
 			memo: '',
 			txType: '',
 			requestContextId: '',
@@ -116,7 +116,6 @@ export default {
 			pageNum: 1,
 			pageSize: 10,
 			messages: [],
-			events: [],
 			eventsNew: [],
 			txHashValue: '',
 			blockValue: '',
@@ -186,7 +185,6 @@ export default {
 				if (res) {
 					this.monikers = res.monikers
 					this.messages = res.msgs || []
-					this.events = res.events || []
 					this.eventsNew = res.events_new
 					this.txHash = res.tx_hash || '--'
 					this.blockHeight = res.height || '--'

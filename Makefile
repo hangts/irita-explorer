@@ -1,5 +1,5 @@
 setup:production
-	cnpm install
+	yarn install
 run:
 	npm run serve
 

@@ -511,21 +511,18 @@
                           fee = await Promise.all(fees);
                       }
                       this.transactionArray = res.data.map((item,index) =>{
-                        // let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
-                        // let requestContextId = TxHelper.getContextId(item.msgs[0], item.events) || '--';
-                        // let from = (addrObj && addrObj.from) ? addrObj.from : '--',
-                        //     to = (addrObj && addrObj.to) ? addrObj.to : '--',
-                        let sameMsg = [],
-                            msg = null,
-                            sameMsgFromAddrArr = [],
-                            sameMsgToAddrArr = [],
-                            requestIdArr = [],
-                            consumerArr = [],
-                            requestContextIdArr = [],
-                            serviceNameArr = [],
-                            authorArr = [],
-                            ownerArr = [],
-                            providerArr = [],
+
+	                      let sameMsg = [],
+		                      msg = null,
+		                      sameMsgFromAddrArr = [],
+		                      sameMsgToAddrArr = [],
+		                      requestIdArr = [],
+		                      consumerArr = [],
+		                      requestContextIdArr = [],
+		                      serviceNameArr = [],
+		                      authorArr = [],
+		                      ownerArr = [],
+		                      providerArr = [],
                             consumer = '--',
                             requestContextId = '--',
                             serviceName = '--',

@@ -2,9 +2,9 @@ import {TX_TYPE,decimals} from "../constant";
 import { converCoin, getConfig } from "../helper/IritaHelper";
 import { TxHelper } from '../helper/TxHelper';
 import Tools from '@/util/Tools';
-export async function getAmountByTx (message, events, isShowDenom) {
+export async function getAmountByTx(message, isShowDenom) {
 	let amountDecimals = decimals.amount
-	if (message ) {
+	if (message) {
 		let msg = message.msg;
 		// let amount = {
 		// 	amount:'',
@@ -200,18 +200,6 @@ export async function getAmountByTx (message, events, isShowDenom) {
 						amount = amountArray
 					}
 				}
-				// events display eg: 18dog,1000000ubif
-				// (events || []).forEach(event => {
-				// 	if(event.type === 'transfer') {
-				// 		(event.attributes || []).forEach(attribute => {
-				// 			if(attribute.key === 'amount') {
-				// 				if(attribute.value && attribute.value.includes(",")) {
-				// 					amount = attribute.value
-				// 				}
-				// 			}
-				// 		})
-				// 	}
-				// })
 				break;
 			case TX_TYPE.remove_liquidity:
 				let removeAmountArray = []
@@ -240,31 +228,6 @@ export async function getAmountByTx (message, events, isShowDenom) {
 						amount = removeAmountArray
 					}
 				}
-				/*let amountArray = []
-				if(msg?.swap_amount?.length === 2){
-					const addliquidityAmount = msg.swap_amount[0]
-					if(addliquidityAmount.includes(',')){
-						const tokenAmount1 =  await converCoin(formatAccountCoinsAmount(addliquidityAmount.split(',')[0]))
-						const tokenAmount2 =  await converCoin(formatAccountCoinsAmount(addliquidityAmount.split(',')[1]))
-						const addLiquidityAmount1 = `${Tools.toDecimal(tokenAmount1.amount,amountDecimals)} ${tokenAmount1.denom.toUpperCase()}`
-						const addLiquidityAmount2 = `${Tools.toDecimal(tokenAmount2.amount,amountDecimals)} ${tokenAmount2.denom.toUpperCase()}`
-						amountArray.push(addLiquidityAmount1, addLiquidityAmount2)
-						amount = amountArray
-					}
-				}
-*/
-				// events display eg: 4dog,252824ubif
-				// (events || []).forEach(event => {
-				// 	if(event.type === 'transfer') {
-				// 		(event.attributes || []).forEach(attribute => {
-				// 			if(attribute.key === 'amount') {
-				// 				if(attribute.value && attribute.value.includes(",")) {
-				// 					amount = attribute.value
-				// 				}
-				// 			}
-				// 		})
-				// 	}
-				// })
 				break;
 			case TX_TYPE.swap_order:
 				let swapOrderAmount = []

@@ -44,169 +44,199 @@
 									<img class="status_icon"
 										 :src="require(`../../assets/${scope.row.status==TX_STATUS.success?'success.png':'failed.png'}`)"/>
 								</div>
-								
-								<el-tooltip popper-class="custom_tooltip" :manual="setManual(item.isNeedFormat,scope.row[item.displayValue],item)"
-											:content="formatStr(scope.row[item.nativeValue],item.isNft ? scope.row[item.displayValue] : null)">
-<!--									-->
-                  <div>
+								<el-tooltip popper-class="custom_tooltip"
+								            :manual="setManual(item.isNeedFormat,scope.row[item.displayValue],item)"
+								            :content="formatStr(scope.row[item.nativeValue],item.isNft ? scope.row[item.displayValue] : null)">
+									<!--									-->
 									<router-link class="link_style"
-												 :class="item.isAdjustStyle ? 'index_style' : ''"
-												 :style="{color:isOwnerAddress(scope.row[item.nativeValue]) ? '#606266 !important' : '', cursor:isOwnerAddress(scope.row[item.nativeValue]) ? 'default !important' : ''}"
-												 v-if="item.isLink && 
-												  scope.row[item.displayValue] && 
-													scope.row[item.displayValue] !== '--' && 
-													!(judgeCosmos(scope.row[item.nativeValue]))"
-												 :to="!item.isNft ? `${item.linkRoute}${scope.row[item.nativeValue]}` : `${item.linkRoute}${scope.row[item.nftRouterParamsValue]}${item.denomRouter}${scope.row[item.nativeValue]}`">
-										
-										<span v-if="item.isNeedFormatHash">{{formatTxHash(scope.row[item.displayValue]) }} </span>
-										
-										<span v-else-if="item.isFormatAddress">{{formatAddress(scope.row[item.displayValue]) }}</span>
-										
-										<span v-else-if="item.isFormatMoniker">{{formatTableMoniker(scope.row[item.displayValue]) }}</span>
-										<span v-else-if="item.isFormatNftIdAndDenomId">{{formatNftIdAndDenomId(scope.row[item.displayValue]) }}</span>
-										
-										<span v-else>{{ scope.row[item.displayValue] }}</span>
-										
-									</router-link>
-<!--									-->
-									<span v-else-if="item.isShowTag">
-										
-										<el-tag class="tag_style">{{ formatTypeNotString(scope.row[item.displayValue]) }}</el-tag>
-										
-										<span class="tag_num">{{ setTagNum(scope.row[item.displayValue]) }}</span>
-										
-									</span>
-									
-<!--									-->
-									<span v-else-if="item.isFormatAddress && !item.isHref">{{formatAddress(scope.row[item.displayValue]) }}</span>
-<!--									-->
-									<span v-else-if="item.isHref">
-										<span v-if="judgeCosmos(scope.row[item.nativeValue])">
-											{{ formatAddress(scope.row[item.displayValue]) }}
-										</span>
-										<a v-else-if="isShowHref(scope.row[item.displayValue])"
-										   class="route_link_style"
-										   :style="{color:isOwnerAddress(scope.row[item.nativeValue]) ? '#606266 !important' : ''}"
-										   :href="`${item.href}/#/address/${scope.row[item.nativeValue]}`"
-										   target="_blank"
-										   rel="noreferrer noopener">{{ formatAddress(scope.row[item.displayValue]) }}</a>
-										<span v-else>{{ formatAddress(scope.row[item.displayValue]) }}</span>
-										
-									</span>
-<!--									-->
-									<span v-else-if="item.isNftHref" class="custom_uri">
-										<a v-if="testUrl(scope.row[item.displayValue])" :href="scope.row[item.displayValue]"
-										   target="_blank" rel="noreferrer noopener">{{ scope.row[item.displayValue] }}</a>
-										
-										<a v-else-if="startStr(scope.row[item.displayValue])"
-										   :href="'http://' + scope.row[item.displayValue]"
-										   target="_blank">{{ scope.row[item.displayValue] }}</a>
-										
-										<span v-else>{{ scope.row[item.displayValue] }}</span>
-										
-									</span>
-<!--									-->
-									<span v-else-if="item.isShowDenomTip" :class="item.isRight ? 'right_style' : ''">
-<!--										<span>{{ getAmount(scope.row[item.displayValue]) }}</span>-->
-										<template v-if="item.isDoubleAsset">
-											<template v-if="item.isLeftAsset">
-												<el-tooltip 
-													:manual="isShowDenomTip( scope.row && scope.row.swapDenomTheme1 && scope.row.swapDenomTheme1.tooltipContent ? scope.row.swapDenomTheme1.tooltipContent  :'')"
-													:content="scope.row && scope.row.swapDenomTheme1 && scope.row.swapDenomTheme1.tooltipContent ? scope.row.swapDenomTheme1.tooltipContent  :''" 
-													placement="top">
-													<span class="denom_style" :style="{ color: scope.row && scope.row.swapDenomTheme1 && scope.row.swapDenomTheme1.denomColor ? scope.row.swapDenomTheme1.denomColor : '' }">
-														{{getAmountUnit(scope.row[item.displayValue]) }}
-													</span>
-												</el-tooltip>
-											</template>
-								      <template v-else>
-												<el-tooltip 
-													:manual="isShowDenomTip( scope.row && scope.row.swapDenomTheme2 && scope.row.swapDenomTheme2.tooltipContent ? scope.row.swapDenomTheme2.tooltipContent  :'')"
-													:content="scope.row && scope.row.swapDenomTheme2 && scope.row.swapDenomTheme2.tooltipContent ? scope.row.swapDenomTheme2.tooltipContent  :''" 
-													placement="top">
-													<span class="denom_style" :style="{ color: scope.row && scope.row.swapDenomTheme2 && scope.row.swapDenomTheme2.denomColor ? scope.row.swapDenomTheme2.denomColor : '' }">
-														{{getAmountUnit(scope.row[item.displayValue]) }}
-													</span>
-												</el-tooltip>
-											</template>
-											
-										</template>
-										<template v-else>
-											<el-tooltip 
-												:manual="isShowDenomTip( scope.row && scope.row.denomTheme && scope.row.denomTheme.tooltipContent ? scope.row.denomTheme.tooltipContent  :'')"
-												:content="scope.row && scope.row.denomTheme && scope.row.denomTheme.tooltipContent ? scope.row.denomTheme.tooltipContent  :''" 
-												placement="top">
-												<span class="denom_style" :style="{ color: scope.row && scope.row.denomTheme && scope.row.denomTheme.denomColor ? scope.row.denomTheme.denomColor : '' }">
-													{{getAmountUnit(scope.row[item.displayValue]) }}
-												</span>
-											</el-tooltip>
-										</template>
-										
-										<el-tooltip>
+									             :class="item.isAdjustStyle ? 'index_style' : ''"
+									             :style="{color:isOwnerAddress(scope.row[item.nativeValue]) ? '#606266 !important' : '', cursor:isOwnerAddress(scope.row[item.nativeValue]) ? 'default !important' : ''}"
+									             v-if="item.isLink &&
+													  scope.row[item.displayValue] &&
+														scope.row[item.displayValue] !== '--' &&
+														!(judgeCosmos(scope.row[item.nativeValue]))"
+									             :to="!item.isNft ? `${item.linkRoute}${scope.row[item.nativeValue]}` : `${item.linkRoute}${scope.row[item.nftRouterParamsValue]}${item.denomRouter}${scope.row[item.nativeValue]}`">
 
-										</el-tooltip>
-										
-									</span>
-<!--									-->
-									<span :class="item.isAdjustStyle ? 'index_style' : ''" v-else-if="item.isShowIndex">{{scope.$index+1}}</span>
-<!--									-->
+										<span v-if="item.isNeedFormatHash">{{
+												formatTxHash(scope.row[item.displayValue])
+											}} </span>
+
+										<span v-else-if="item.isFormatAddress">{{
+												formatAddress(scope.row[item.displayValue])
+											}}</span>
+
+										<span v-else-if="item.isFormatMoniker">{{
+												formatTableMoniker(scope.row[item.displayValue])
+											}}</span>
+										<span v-else-if="item.isFormatNftIdAndDenomId">{{
+												formatNftIdAndDenomId(scope.row[item.displayValue])
+											}}</span>
+
+										<span v-else>{{ scope.row[item.displayValue] }}</span>
+
+									</router-link>
+									<!--									-->
+									<span v-else-if="item.isShowTag">
+
+											<el-tag class="tag_style">{{
+													formatTypeNotString(scope.row[item.displayValue])
+												}}</el-tag>
+
+											<span class="tag_num">{{ setTagNum(scope.row[item.displayValue]) }}</span>
+
+										</span>
+
+									<!--									-->
+									<span v-else-if="item.isFormatAddress && !item.isHref">{{
+											formatAddress(scope.row[item.displayValue])
+										}}</span>
+									<!--									-->
+									<span v-else-if="item.isHref">
+											<span v-if="judgeCosmos(scope.row[item.nativeValue])">
+												{{ formatAddress(scope.row[item.displayValue]) }}
+											</span>
+											<a v-else-if="isShowHref(scope.row[item.displayValue])"
+											   class="route_link_style"
+											   :style="{color:isOwnerAddress(scope.row[item.nativeValue]) ? '#606266 !important' : ''}"
+											   :href="`${item.href}/#/address/${scope.row[item.nativeValue]}`"
+											   target="_blank"
+											   rel="noreferrer noopener">{{
+													formatAddress(scope.row[item.displayValue])
+												}}</a>
+											<span v-else>{{ formatAddress(scope.row[item.displayValue]) }}</span>
+
+										</span>
+									<!--									-->
+									<span v-else-if="item.isNftHref" class="custom_uri">
+											<a v-if="testUrl(scope.row[item.displayValue])"
+											   :href="scope.row[item.displayValue]"
+											   target="_blank" rel="noreferrer noopener">{{
+													scope.row[item.displayValue]
+												}}</a>
+
+											<a v-else-if="startStr(scope.row[item.displayValue])"
+											   :href="'http://' + scope.row[item.displayValue]"
+											   target="_blank">{{ scope.row[item.displayValue] }}</a>
+
+											<span v-else>{{ scope.row[item.displayValue] }}</span>
+
+										</span>
+									<!--									-->
+									<span v-else-if="item.isShowDenomTip" :class="item.isRight ? 'right_style' : ''">
+	<!--										<span>{{ getAmount(scope.row[item.displayValue]) }}</span>-->
+											<template v-if="item.isDoubleAsset">
+												<template v-if="item.isLeftAsset">
+													<el-tooltip
+														:manual="isShowDenomTip( scope.row && scope.row.swapDenomTheme1 && scope.row.swapDenomTheme1.tooltipContent ? scope.row.swapDenomTheme1.tooltipContent  :'')"
+														:content="scope.row && scope.row.swapDenomTheme1 && scope.row.swapDenomTheme1.tooltipContent ? scope.row.swapDenomTheme1.tooltipContent  :''"
+														placement="top">
+														<span class="denom_style"
+														      :style="{ color: scope.row && scope.row.swapDenomTheme1 && scope.row.swapDenomTheme1.denomColor ? scope.row.swapDenomTheme1.denomColor : '' }">
+															{{ getAmountUnit(scope.row[item.displayValue]) }}
+														</span>
+													</el-tooltip>
+												</template>
+									      <template v-else>
+													<el-tooltip
+														:manual="isShowDenomTip( scope.row && scope.row.swapDenomTheme2 && scope.row.swapDenomTheme2.tooltipContent ? scope.row.swapDenomTheme2.tooltipContent  :'')"
+														:content="scope.row && scope.row.swapDenomTheme2 && scope.row.swapDenomTheme2.tooltipContent ? scope.row.swapDenomTheme2.tooltipContent  :''"
+														placement="top">
+														<span class="denom_style"
+														      :style="{ color: scope.row && scope.row.swapDenomTheme2 && scope.row.swapDenomTheme2.denomColor ? scope.row.swapDenomTheme2.denomColor : '' }">
+															{{ getAmountUnit(scope.row[item.displayValue]) }}
+														</span>
+													</el-tooltip>
+												</template>
+
+											</template>
+											<template v-else>
+												<el-tooltip
+													:manual="isShowDenomTip( scope.row && scope.row.denomTheme && scope.row.denomTheme.tooltipContent ? scope.row.denomTheme.tooltipContent  :'')"
+													:content="scope.row && scope.row.denomTheme && scope.row.denomTheme.tooltipContent ? scope.row.denomTheme.tooltipContent  :''"
+													placement="top">
+													<span class="denom_style"
+													      :style="{ color: scope.row && scope.row.denomTheme && scope.row.denomTheme.denomColor ? scope.row.denomTheme.denomColor : '' }">
+														{{ getAmountUnit(scope.row[item.displayValue]) }}
+													</span>
+												</el-tooltip>
+											</template>
+
+											<el-tooltip>
+
+											</el-tooltip>
+
+										</span>
+									<!--									-->
+									<span :class="item.isAdjustStyle ? 'index_style' : ''" v-else-if="item.isShowIndex">{{ scope.$index + 1 }}</span>
+									<!--									-->
 									<div v-else-if="item.isShowMonikerImg" style="display: flex;
-										align-items: center;
-										position: relative">
-										<span v-if="scope.row[item.isDisplayIconValue]" class="avatar"
-											  style="width: 0.3rem;
-											  height: 0.3rem;
-											  border-radius: 0.3rem;
-											  overflow: hidden;
-											  display: flex;
-											  align-items: center;
-											  justify-content: center"
-										>{{scope.row[item.isDisplayIconValue] || '--'}}</span>
+											align-items: center;
+											position: relative">
+											<span v-if="scope.row[item.isDisplayIconValue]" class="avatar"
+											      style="width: 0.3rem;
+												  height: 0.3rem;
+												  border-radius: 0.3rem;
+												  overflow: hidden;
+												  display: flex;
+												  align-items: center;
+												  justify-content: center"
+											>{{ scope.row[item.isDisplayIconValue] || '--' }}</span>
 										<img v-if="scope.row[item.imgUrlValue]"
-											 style="width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;position: absolute"
-											 :src="scope.row[item.imgUrlValue] ? scope.row[item.imgUrlValue] : ''"/>
+										     style="width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;position: absolute"
+										     :src="scope.row[item.imgUrlValue] ? scope.row[item.imgUrlValue] : ''"/>
 										<el-tooltip popper-class="tooltip" :disabled="!scope.row.isTooltip"
-													:content="scope.row.monikerValue" placement="top">
-											<router-link style="margin-left: 0.2rem;" :to="'staking/' + scope.row.operatorAddress"
-														 class="link_style">{{ scope.row.moniker }}
+										            :content="scope.row.monikerValue" placement="top">
+											<router-link style="margin-left: 0.2rem;"
+											             :to="'staking/' + scope.row.operatorAddress"
+											             class="link_style">{{ scope.row.moniker }}
 											</router-link>
 										</el-tooltip>
 									</div>
-<!--									-->
+									<!--									-->
 									<div v-else-if="item.isProposalStatus">
 										<proposal-status-component
 											:status="scope.row[item.proposalStatus]"
 											:final-votes="scope.row[item.finalVotes]"></proposal-status-component>
 									</div>
-<!--									-->
+									<!--									-->
 									<div v-else-if="item.flMoniker">
 										<el-tooltip v-show="scope.row.isValidator"
-													:content="scope.row.address"
-													placement="top">
-											<router-link :to="`/staking/${scope.row.address}`">{{ formatMoniker(scope.row.moniker, monikerNum.otherTable) || formatAddress(scope.row.address) }}</router-link>
+										            :content="scope.row.address"
+										            placement="top">
+											<router-link :to="`/staking/${scope.row.address}`">{{
+													formatMoniker(scope.row.moniker, monikerNum.otherTable) || formatAddress(scope.row.address)
+												}}
+											</router-link>
 										</el-tooltip>
 										<el-tooltip v-show="!scope.row.isValidator"
-													:content="scope.row.voter"
-													placement="top">
-											<router-link :to="`/address/${scope.row.voter}`">{{ formatAddress(scope.row.voter) }}</router-link>
+										            :content="scope.row.voter"
+										            placement="top">
+											<router-link :to="`/address/${scope.row.voter}`">
+												{{ formatAddress(scope.row.voter) }}
+											</router-link>
 										</el-tooltip>
 									</div>
 									<div v-else-if="item.flDepositor">
-										<el-tooltip :content="scope.row.depositor" placement="top" :disabled="isValid(scope.row.moniker)">
-											<router-link :to="`/address/${scope.row.depositor}`">{{ formatMoniker(scope.row.moniker, monikerNum.otherTable) || formatAddress(scope.row.depositor) }}</router-link>
+										<el-tooltip :content="scope.row.depositor" placement="top"
+										            :disabled="isValid(scope.row.moniker)">
+											<router-link :to="`/address/${scope.row.depositor}`">{{
+													formatMoniker(scope.row.moniker, monikerNum.otherTable) || formatAddress(scope.row.depositor)
+												}}
+											</router-link>
 										</el-tooltip>
 									</div>
-<!--									-->
-									<span v-else-if="item.isFormatNftIdAndDenomId" >
-										{{ formatNftIdAndDenomId(scope.row[item.displayValue])}}</span>
+									<!--									-->
+									<span v-else-if="item.isFormatNftIdAndDenomId">
+											{{ formatNftIdAndDenomId(scope.row[item.displayValue]) }}</span>
 									<span v-else-if="item.isFormatPoolId">
-										{{ formatPoolId(scope.row[item.displayValue])}}
-									</span>
-									<span v-else :class="item.isWrap ? 'wrap_style' : item.isRight ? 'right_style' : '' " >
-										{{ scope.row[item.displayValue] === 0 || scope.row[item.displayValue] === '0' ? 0 : scope.row[item.displayValue] || '--' }}
-									</span>
-
-									</div>	
+											{{ formatPoolId(scope.row[item.displayValue]) }}
+										</span>
+									<span v-else
+									      :class="item.isWrap ? 'wrap_style' : item.isRight ? 'right_style' : '' ">
+											{{
+											scope.row[item.displayValue] === 0 || scope.row[item.displayValue] === '0' ? 0 : scope.row[item.displayValue] || '--'
+										}}
+										</span>
 								</el-tooltip>
 							</template>
 						</el-table-column>
@@ -705,7 +735,7 @@ export default {
 						this.tableListWidth = this.$adjustColumnWidth(this.$refs['listTable'].$el);
 						if(this.tableListWidth?.length){
 							//计算出实际内容占用的空间
-							let practicalWidth = this.tableListWidth.reduce((totalWidth,currentWidth) => {
+							let practicalWidth = this.tableListWidth.reduce((totalWidth, currentWidth) => {
 								return totalWidth + currentWidth
 							})
 							// 由于某些情况如验证人列表的索引，所在那一列不需要进行补偿（如果补偿会造成那一列宽度过宽），所以需要进行二次补偿
@@ -713,33 +743,34 @@ export default {
 								return item <= 40
 							})
 							// 为每一列设置补偿量
-							if(practicalWidth < tableWidth && this?.columns?.length){
-								let compensationWidth = (tableWidth - practicalWidth) / this.columns.length
-								if(compensationWidth < 20){
-									compensationWidth = 20
-								}
-								let secondPracticalWidth = 0
-								if(secondPracticalWidthCount?.length){
-									secondPracticalWidth = (compensationWidth * secondPracticalWidthCount.length) / (this.columns.length - secondPracticalWidthCount.length )
-								}
-								this.tableListWidth = this.tableListWidth.map( (item, index) => {
-									if(item <= 40){
-										item = 40
-										return item
-									}else {
-										const label = this.columns[index]['label']
-										if(label === this.$t('ExplorerLang.table.energy') || label === this.$t('ExplorerLang.table.fee')){
-											// 对fee/能量值 这一列要给足宽度160
-											return ColumnMinWidth.fee;
-										}else if(!label.trim()){
-											// 同时减少下 denom 列的宽度
-											return ColumnMinWidth.listDenom
-										}else{
-											return parseInt((item + compensationWidth + secondPracticalWidth))
-										}
+
+							// if(practicalWidth < tableWidth && this?.columns?.length){
+							let compensationWidth = (tableWidth - practicalWidth) / this.columns.length
+							if (compensationWidth < 20) {
+								compensationWidth = 30
+							}
+							let secondPracticalWidth = 0
+							if (secondPracticalWidthCount?.length) {
+								secondPracticalWidth = (compensationWidth * secondPracticalWidthCount.length) / (this.columns.length - secondPracticalWidthCount.length)
+							}
+							this.tableListWidth = this.tableListWidth.map((item, index) => {
+								if (item <= 40) {
+									item = 40
+									return item
+								} else {
+									const label = this.columns[index]['label']
+									if (label === this.$t('ExplorerLang.table.energy') || label === this.$t('ExplorerLang.table.fee')) {
+										// 对fee/能量值 这一列要给足宽度160
+										return ColumnMinWidth.fee;
+									} else if (!label.trim()) {
+										// 同时减少下 denom 列的宽度
+										return ColumnMinWidth.listDenom
+									} else {
+										return parseInt((item + compensationWidth + secondPracticalWidth))
+									}
 									}
 								})
-							}
+							// }
 						}
 						if(this.isSmallTable){
 							this.$refs['listTable'].$el.style.width = `550px`
@@ -938,10 +969,12 @@ export default {
 			
 		}
 		.custom_uri{
-			width: 1.45rem;
-			display: inline-block;
-			text-overflow:ellipsis;
-			overflow: hidden;
+			a {
+				width: 1.45rem;
+				display: inline-block;
+				text-overflow: ellipsis;
+				overflow: hidden;
+			}
 		}
 		.tag_num {
 			color: $theme_c !important;

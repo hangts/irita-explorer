@@ -1084,7 +1084,7 @@ export default {
 
 
 						let addrObj = TxHelper.getFromAndToAddressFromMsg(msg);
-						amounts.push(msg ? sameMsg?.length > 1 ? ' ' : await getAmountByTx(msg, tx.events, true) : '--');
+						amounts.push(msg ? sameMsg?.length > 1 ? ' ' : await getAmountByTx(msg, true) : '--');
 						let from = sameMsg?.length > 1 ? sameMsgFromAddrArr?.length > 1 ? ' ' : sameMsgFromAddrArr?.length === 1 ? sameMsgFromAddrArr[0] : '--' : addrObj.from || '--',
 							to = sameMsg?.length > 1 ? sameMsgToAddrArr?.length > 1 ? ' ' : sameMsgToAddrArr?.length === 1 ? sameMsgToAddrArr[0] : '--' : addrObj.to || '--';
 						let fromMonikers = ' ', toMonikers =  ' ' ,validatorMoniker,validatorAddress;

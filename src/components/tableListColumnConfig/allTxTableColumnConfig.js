@@ -238,6 +238,12 @@ export const needAddColumn = {
         {
             label: i18n.t('ExplorerLang.table.selfBonded'),
             displayValue: 'amount',
+            isRight: true
+        },
+        {
+            label: '',
+            displayValue: 'denom',
+            isShowDenomTip: true,
         },
         {
             label: i18n.t('ExplorerLang.table.operatorAddress'),
@@ -1896,6 +1902,23 @@ export const needAddColumn = {
             displayValue:'contractMethod',
             nativeValue:'contractMethod',
             isShowTag:true,
+        },
+        {
+            label: i18n.t('ExplorerLang.table.signer'),
+            displayValue: 'signer',
+            nativeValue: 'signer',
+            isLink: true,
+            isNeedFormat: true,
+            isFormatAddress: true,
+            linkRoute: '/address/',
+        },
+    ],
+    ddc_other: [
+        {
+            label: i18n.t('ExplorerLang.table.contractMethod'),
+            displayValue: 'contractMethod',
+            nativeValue: 'contractMethod',
+            isShowTag: true,
         },
         {
             label: i18n.t('ExplorerLang.table.signer'),

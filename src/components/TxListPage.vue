@@ -526,7 +526,7 @@
 												if(msgElement && JSON.stringify(msgElement) !== '{}'){
 													const fromToAddr = TxHelper.getFromAndToAddressFromMsg(msgElement)
 													if(msgElement.type === this.TxType){
-														amountArr.push(await getAmountByTx(msgElement,item.events,true))
+														amountArr.push(await getAmountByTx(msgElement, true))
 														if(fromToAddr?.from){
 															fromAddrArr.push(fromToAddr.from)
 														}
@@ -550,7 +550,7 @@
 												if(fromToAddr?.to){
 													toAddr =fromToAddr.to
 												}
-												amount = item.msgs[0] ? await getAmountByTx(item.msgs[0],item.events,true) : '--'
+												amount = item.msgs[0] ? await getAmountByTx(item.msgs[0], true) : '--'
 											}
 										}
                                         let fromMonikers = ' ',toMonikers = ' '
@@ -653,31 +653,33 @@
 												monikerMap.set(Object.keys(it)[0],Object.values(it)[0])
 											})
 										}
-										if(monikerMap.has(operatorAddr)){
-											operatorMonikers = monikerMap.get(operatorAddr)
-										}
-                                        // console.log(item.fee.amount[0],'item.fee.amount[0]');
-                                        const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--';
-                                        const selfBonded = item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.value ? await converCoin(item.msgs[0].msg.value) : '--' : '--';
-                                        // const time = Tools.getDisplayDate(item.time)
-                                        const time = Tools.formatAge(Tools.getTimestamp(),item.time*1000, this.$t('ExplorerLang.table.suffix'))
-									
-                                        let amount = msg ? await getAmountByTx(msg,item.events,true) : '--'
-                                        this.txList.push({
-												txHash: item.tx_hash,
-												blockHeight: item.height,
-												validatorAddress: operatorAddr,
-												validatorMoniker: operatorMonikers ,
-												amount: amount || '--',
-												txType: (item.msgs || []).map(item=>item.type),
-                                                MsgsNum: msgsNumber,
-                                                // 'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
-                                                'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
-												signer: item.signers[0] ? item.signers[0] : '--',
-												status: item.status,
-                                                Timestamp: Tools.formatAge(Tools.getTimestamp(),item.time*1000, this.$t('ExplorerLang.table.suffix')),
-                                                Time: Tools.formatLocalTime(item.time)
-                                        })
+	                                    if (monikerMap.has(operatorAddr)) {
+		                                    operatorMonikers = monikerMap.get(operatorAddr)
+	                                    }
+	                                    // console.log(item.fee.amount[0],'item.fee.amount[0]');
+	                                    const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) : '--';
+	                                    const selfBonded = item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.value ? await converCoin(item.msgs[0].msg.value) : '--' : '--';
+	                                    // const time = Tools.getDisplayDate(item.time)
+	                                    const time = Tools.formatAge(Tools.getTimestamp(), item.time * 1000, this.$t('ExplorerLang.table.suffix'))
+
+	                                    let amount = msg ? await getAmountByTx(msg, true) : '--'
+	                                    const result = amount.split('%');
+
+	                                    this.txList.push({
+		                                    txHash: item.tx_hash,
+		                                    blockHeight: item.height,
+		                                    validatorAddress: operatorAddr,
+		                                    validatorMoniker: operatorMonikers,
+		                                    amount: result?.length ? result[0] : '--',
+		                                    txType: (item.msgs || []).map(item => item.type),
+		                                    MsgsNum: msgsNumber,
+		                                    // 'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+		                                    'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount, this.feeDecimals)}` : `${Tools.toDecimal(fee.amount, this.feeDecimals)}` : '--',
+		                                    signer: item.signers[0] ? item.signers[0] : '--',
+		                                    status: item.status,
+		                                    Timestamp: Tools.formatAge(Tools.getTimestamp(), item.time * 1000, this.$t('ExplorerLang.table.suffix')),
+		                                    Time: Tools.formatLocalTime(item.time)
+	                                    })
                                     }
                                 }
                             }

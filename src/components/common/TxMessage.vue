@@ -2461,16 +2461,15 @@
 				type: Number,
 				required: true,
 			},
-			events: {
-				type: Array,
-				required: true,
-			},
 			eventsNew: {
 				type: Array,
 			},
 			monikers: {
 				type: Array,
 				required: true,
+			},
+			ddcSigner: {
+				type: Array
 			},
 		},
 		data () {
@@ -2753,23 +2752,9 @@
 						switch (this.txType) {
 							case TX_TYPE.mint_nft:
 								this.buildMintNft(msg)
-								// this.denom = msg.denom || '--';
-								// this.tokenId = msg.id || '--';
-								// this.denomName = msg.denom_name || '--';
-								// this.nftName = msg.name || '--';
-								// this.recipient = msg.recipient || '--';
-								// this.sender = msg.sender || '--';
-								// this.tokenData = msg.data || '--';
-								// this.tokenUri = msg.uri || '--';
 								break;
 							case TX_TYPE.burn_nft:
 								this.buildBurnNft(msg)
-
-								// this.sender = msg.sender || '--';
-								// this.denom = msg.denom || '--';
-								// this.tokenId = msg.id || '--';
-								// this.denomName = msg.denom_name || '--';
-								// this.nftName = msg.nft_name || '--';
 								break;
 							case TX_TYPE.create_record:
 								this.recordArray = msg.contents.map(item => {
@@ -2783,248 +2768,61 @@
 								break;
 							case TX_TYPE.define_service:
 								this.buildDefineService(msg)
-								// this.serviceName = msg.name || '--';
-								// this.description = msg.description || '--';
-								// this.author = msg.author || '--';
-								// this.authorDescription = msg.author_description || '--';
-								// this.tags = msg.tags.length && msg.tags || '--';
-								// this.schemas = msg.schemas || '--';
-								// console.log(this.tags, this.detailInfo[4]['value'])
 								break;
 							case TX_TYPE.bind_service:
 								this.buildBindService(msg)
-							
-								// this.defineName = msg.service_name || '--';
-								// this.provider = msg.provider || '--';
-								// if (msg.deposit && msg.deposit.length) {
-								// 	let amount = await converCoin(msg.deposit[0]);
-								// 	this.deposit = `${amount.amount} ${amount.denom.toUpperCase()}` || '--';
-								// }
-								// this.deposit = this.deposit || '--'
-								// this.owner = msg.owner || '--';
-								// this.pricing = msg.pricing || '--';
-								// this.qos = msg.qos || '--';
-								// this.options = msg.options || '--';
 								break;
 							case TX_TYPE.send:
 								this.buildSend(msg)
-								// // this.from = msg.fromaddress || '--';
-								// // this.to = msg.toaddress || '--';
-								// this.from = msg.from_address || '--';
-								// this.to = msg.to_address || '--';
-								// this.amountArray = [];
-								// if (msg.amount && msg.amount.length > 0) {
-								// 	for (const item of msg.amount) {
-								// 		const amount = await converCoin(item);
-								// 		this.amountArray.push(`${amount.amount} ${amount.denom.toUpperCase()}` || '--')
-								// 	}
-								// }
-								// this.amountArray && this.amountArray.length > 0 ? '' : this.amountArray = ['--']
 								break;
 							case TX_TYPE.call_service:
 								this.buildCallService(msg)
-								// this.consumer = msg.consumer || '--';
-								// this.input = msg.input || '--';
-								// this.provider = msg.providers || '--';
-								// this.repeated = msg.repeated || '--';
-								// this.repeatedFrequency = msg.repeated_frequency || '--';
-								// this.repeatedTotal = msg.repeated_total || '--';
-								// if (msg.service_fee_cap && msg.service_fee_cap.length) {
-								// 	let serviceFeeCap = await converCoin(msg.service_fee_cap[0]);
-								// 	this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toUpperCase()}`;
-								// }
-								// this.serviceFeeCap = this.serviceFeeCap || '--'
-								// this.serviceName = msg.service_name || '--';
-								// this.superMode = msg.super_mode || '--';
-								// this.timeout = msg.timeout || '--';
-								// if(this.eventsNew && this.eventsNew.length > 0) {
-								// 	(this.eventsNew || []).forEach((item) => {
-								// 		if(item.msg_index === this.msgIndex) {
-								// 			(item.events || []).forEach((events) => {
-								// 				(events.attributes || []).forEach((attr) => {
-								// 					if (attr.key == 'request_context_id') {
-								// 						this.requestContextId = attr.value || '--';
-								// 					}
-								// 				});
-								// 			})
-								// 		}
-								// 	});
-								// } else {
-								// 	(this.events || []).forEach((item) => {
-								// 		(item.attributes || []).forEach((attr) => {
-								// 			if (attr.key == 'request_context_id') {
-								// 				this.requestContextId = attr.value || '--';
-								// 			}
-								// 		});
-								// 	})
-								// }
 								break;
 							case TX_TYPE.transfer_nft:
 								this.buildTransferNft(msg)
-
-								// this.denom = msg.denom || '--';
-								// this.tokenId = msg.id || '--';
-								// this.denomName = msg.denom_name || '--';
-								// this.nftName = msg.name || '--';
-								// this.recipient = msg.recipient || '--';
-								// this.sender = msg.sender || '--';
-								// this.tokenData = msg.data || '--';
-								// this.tokenUri = msg.uri || '--';
 								break;
 							case TX_TYPE.edit_nft:
 								this.buildEditNft(msg)
-
-								// this.denom = msg.denom || '--';
-								// this.tokenId = msg.id || '--';
-								// this.denomName = msg.denom_name || '--';
-								// this.nftName = msg.name || '--';
-								// this.sender = msg.sender || '--';
-								// this.tokenData = msg.data || '--';
-								// this.tokenUri = msg.uri || '--';
 								break;
 							case TX_TYPE.issue_denom:
 								this.buildIssueDenom(msg)
-								// this.denomId=msg.id || '--';
-								// this.denomName=msg.name || '--';
-								// this.symbol=msg.symbol || '--';
-								// this.schema=msg.schema || '--';
-								// this.mintRestricted=msg.mint_restricted ;
-								// this.updateRestricted=msg.update_restricted ;
-								// this.sender= msg.sender;
 								break;
 							case TX_TYPE.respond_service:
 								this.buildRespondService(msg)
-								// this.output = msg.output || '--';
-								// this.provider = msg.provider || '--';
-								// this.requestId = msg.request_id || '--';
-								// this.requestContextId = (msg.ex || {}).request_context_id || '--';
-								// this.result = msg.result || '--';
-								// // this.serviceName = (msg.ex || {}).service_name || '--';
-								// this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								break;
 							case TX_TYPE.pause_request_context:
 								this.buildPauseRequestContext(msg)
-								// // this.serviceName = (msg.ex || {}).service_name || '--';
-								// this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
-								// this.requestContextId = msg.request_context_id || '--';
-								// this.consumer = msg.consumer || '--';
 								break;
 							case TX_TYPE.start_request_context:
 								this.buildPauseRequestContext(msg)
-								// // this.serviceName = (msg.ex || {}).service_name || '--';
-								// this.serviceName = msg.service_name || (msg.ex || {}).service_name  || '--';
-								// this.requestContextId = msg.request_context_id || '--';
-								// this.consumer = msg.consumer || '--';
 								break;
 							case TX_TYPE.kill_request_context:
 								this.buildPauseRequestContext(msg)
-								// // this.serviceName = (msg.ex || {}).service_name || '--';
-								// this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
-								// this.requestContextId = msg.request_context_id || '--';
-								// this.consumer = msg.consumer || '--';
 								break;
 							case TX_TYPE.update_request_context:
 								this.buildUpdateRequestContext(msg)
-								// // this.serviceName = (msg.ex || {}).service_name || '--';
-								// this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
-								// this.requestContextId = msg.request_context_id || '--';
-								// this.consumer = msg.consumer || '--';
-								// this.provider = msg.providers || '--';
-								// this.repeatedFrequency = msg.repeated_frequency || '--';
-								// this.repeatedTotal = msg.repeated_total || '--';
-								// if (msg.service_fee_cap && msg.service_fee_cap.length) {
-								// 	let serviceFeeCap = await converCoin(msg.service_fee_cap[0])
-								// 	this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toUpperCase()}`;
-								// } else {
-								// 	this.serviceFeeCap = '--';
-								// }
-								// this.timeout = (msg.timeout) ? msg.timeout : '--';
 								break;
 							case TX_TYPE.update_service_binding:
 								this.buildUpdateServiceBinding(msg)
-								// // this.serviceName = (msg.ex || {}).service_name || '--';
-								// this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
-								// this.provider = msg.provider || '--';
-								// if (msg.deposit && msg.deposit.length) {
-								// 	let amount = await converCoin(msg.deposit[0]);
-								// 	this.deposit = `${amount.amount} ${amount.denom.toUpperCase()}`;
-								// 	// this.deposit = `${msg.deposit[0].amount} ${msg.deposit[0].denom}` || '--';
-								// }
-								// this.deposit = this.deposit || '--'
-								// this.owner = msg.owner || '--';
-								// this.pricing = msg.pricing || '--';
-								// this.qos = msg.qos || '--';
 								break;
 							case TX_TYPE.disable_service_binding:
 								this.buildDisableServiceBinding(msg)
-								// // this.serviceName = (msg.ex || {}).service_name || '--';
-								// this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
-								// this.provider = msg.provider || '--';
-								// this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.enable_service_binding:
 								this.buildEnableServiceBinding(msg)
-								// // this.serviceName = (msg.ex || {}).service_name || '--';
-								// this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
-								// this.provider = msg.provider || '--';
-								// if (msg.deposit && msg.deposit.length) {
-								// 	let amount = await converCoin(msg.deposit[0]);
-								// 	this.deposit = `${amount.amount} ${amount.denom.toUpperCase()}`;
-								// 	// this.deposit = `${msg.deposit[0].amount} ${msg.deposit[0].denom}` || '--';
-								// }
-								// this.deposit = this.deposit || '--'
-								// this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.refund_service_deposit:
 								this.buildDisableServiceBinding(msg)
-								// // this.serviceName = (msg.ex || {}).service_name || '--';
-								// this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
-								// this.provider = msg.provider || '--';
-								// this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.recv_packet:
 								this.buildRecvPacket(msg, message.type)
-
-								// if(prodConfig.txDetail && prodConfig.txDetail.ibc) {
-								// 	this.packet = JSON.stringify(msg.packet || {}) || '--';
-								// 	this.proof = msg.proof || '--';
-								// 	this.proofHeight = msg.proof_height || '--';
-								// 	this.proofPath = JSON.stringify(msg.proof_path || []) || '--';
-								// 	this.proofData = msg.proof_data || '--';
-								// 	this.clientID = msg.client_id || '--';
-								// 	this.module = msg.module || '--';
-								// 	this.signer = msg.signer || '--';
-								// } else {
-								// 	this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
-								// 	this.proofCommitment = msg.proof_commitment || '--';
-								// 	this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
-								// 	this.signer = msg.signer || '--';
-								// 	let originalDenom = TxHelper.getOriginalDenomFromPacket(msg.packet,message.type);
-								// 	if(msg.packet && msg.packet.data){
-								// 		this.sender = msg.packet.data.sender;
-								// 		this.receiver = msg.packet.data.receiver;
-								// 		this.amount = await converCoin({
-								// 			denom:originalDenom || msg.packet.data.denom,
-								// 			amount:msg.packet.data.amount,
-								// 		});
-								// 	}
-								// }
 								break;
 							case TX_TYPE.create_identity:
 							case TX_TYPE.update_identity:
 								this.buildCreateIdentity(msg)
-								
-								// let pubkey = msg.pubkey || {};
-								// this.id = msg.id || '--';
-								// this.pubkey = pubkey.pubkey || '--';
-								// this.certificate = msg.certificate || '--';
-								// this.credentials = msg.credentials && msg.credentials !== '[do-not-modify]' ? msg.credentials : '--';
-								// this.pubKeyAlgo = TxHelper.getPubKeyAlgorithm(pubkey.algorithm) || '--';
-								// this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.create_client:
 								this.buildCreateClient(msg)
-
 								if(prodConfig.txDetail && prodConfig.txDetail.ibc) {
 									this.clientID = msg.client_id || '--';
 									this.header = JSON.stringify(msg.header || {}) || '--';
@@ -3037,7 +2835,6 @@
 								break;
 							case TX_TYPE.update_client:
 								this.buildUpdateClient(msg)
-
 								// this.clientID = msg.client_id || '--';
 								// this.header = msg.header || '--';
 								// this.signer = msg.signer || '--';
@@ -3158,538 +2955,112 @@
 								break;
 							case TX_TYPE.fund_community_pool:
 								this.buildFundCommunityPool(msg)
-
-								// this.depositor = msg.depositor;
-								// let poolAmount = await converCoin(msg.amount[0])
-								// this.amount =  `${poolAmount.amount} ${poolAmount.denom.toLocaleUpperCase()}`
 								break;
 							case TX_TYPE.swap_order:
 								this.buildSwapOrder(msg);
-
-							// 	(this.eventsNew || []).forEach((item) => {
-							// 		if(item.msg_index === this.msgIndex) {
-							// 			(item.events || []).forEach((events) => {
-							// 				if(events.type === 'swap') {
-							// 					(events.attributes || []).forEach(async attribute => {
-							// 						if(attribute.key === 'token_pair') {
-							// 							let list = attribute.value.split('-');
-							// 							if(list.length > 1){
-							// 								let token1 = await converCoin({
-							// 									denom:list[0],
-							// 									amount:0
-							// 								})
-							// 								let token2 = await converCoin({
-							// 									denom:list[1],
-							// 									amount:0
-							// 								})
-							// 								this.tokenPair = `${token1.denom.toUpperCase()} - ${token2.denom.toUpperCase()}`;
-							// 							}
-
-							// 						}
-							// 					})
-							// 				}
-							// 			})
-							// 		}
-							// 	});
-							// 	this.isBuyOrder = msg.is_buy_order;
-							// 	this.inputAddress = msg.input.address || '--';
-              //                   if(this.eventsNew && this.eventsNew.length > 0){
-              //                       let currentEvents = this.eventsNew.find((e)=>e.msg_index === this.msgIndex);
-              //                       if(currentEvents && currentEvents.events.length > 0){
-              //                           let transferItem = currentEvents.events.find(e=>e.type === TX_TYPE.transfer);
-              //                           if(transferItem && transferItem.attributes && transferItem.attributes.length > 0){
-              //                               let amountList = transferItem.attributes.filter((t)=>t.key === 'amount');
-              //                               if(amountList && amountList.length > 0){
-              //                                   let inputItem = amountList[0],
-              //                                       outputItem = amountList[amountList.length - 1]
-              //                                   let inputAmount = inputItem.value.match(/\d+/g), inputDenom = '',
-              //                                       outputAmount = outputItem.value.match(/\d+/g), outputDenom = '';
-              //                                   if(inputAmount && inputAmount.length > 0){
-              //                                       inputDenom = inputItem.value.substr(inputAmount[0].length);
-              //                                   }
-              //                                   if(outputAmount && outputAmount.length > 0){
-							// 						outputDenom = outputItem.value.substr(outputAmount[0].length);
-              //                                   }
-              //                                   let input = await converCoin({
-              //                                       denom:inputDenom,
-              //                                       amount:inputAmount[0]
-							// 					})
-
-              //                                   this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
-              //                                   let output = await converCoin({
-              //                                       denom:outputDenom,
-              //                                       amount:outputAmount[0]
-              //                                   })
-              //                                   this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
-              //                               }
-              //                           }
-              //                       }
-              //                   }else{
-              //                       let input = await converCoin({
-              //                           denom:msg.input.coin.denom,
-              //                           amount:msg.input.coin.amount
-              //                       })
-              //                       this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
-              //                       let output = await converCoin({
-              //                           denom:msg.output.coin.denom,
-              //                           amount:msg.output.coin.amount
-              //                       })
-              //                       this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
-              //                   }
-
-
-							// 	this.outputAddress = msg.output.address || '--';
-							// 	this.deadline = Tools.formatLocalTime(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.add_liquidity:
 								this.buildAddLiquidity(msg);
-								// (this.eventsNew || []).forEach((item) => {
-								// 	if(item.msg_index === this.msgIndex) {
-								// 		(item.events || []).forEach((events) => {
-								// 			if(events.type === 'transfer') {
-								// 				(events.attributes || []).forEach(async attribute => {
-								// 					if(attribute.key === 'amount') {
-								// 						if(attribute.value && attribute.value.includes(",")) {
-								// 							const amount1 = this.getAmountByAmountStr(attribute.value.split(',')[0]);
-								// 							const amount2 = this.getAmountByAmountStr(attribute.value.split(',')[1]);
-								// 							const amountItem1 = await converCoin(amount1);
-								// 							const amountItem2 = await converCoin(amount2);
-								// 							this.amount = `${amountItem1.amount} ${amountItem1.denom.toUpperCase()}, ${amountItem2.amount} ${amountItem2.denom.toUpperCase()}`
-
-								// 						}
-								// 					}
-								// 				})
-								// 			}
-								// 			if(events.type === 'add_liquidity') {
-								// 				(events.attributes || []).forEach(async attribute => {
-								// 					if(attribute.key === 'token_pair') {
-								// 						let list = attribute.value.split('-');
-								// 						if(list.length > 1){
-								// 							let token1 = await converCoin({
-								// 								denom:list[0],
-								// 								amount:0
-								// 							})
-								// 							let token2 = await converCoin({
-								// 								denom:list[1],
-								// 								amount:0
-								// 							})
-								// 							this.tokenPair = `${token1.denom.toUpperCase()} - ${token2.denom.toUpperCase()}`;
-								// 						}
-								// 					}
-								// 				})
-								// 			}
-								// 		})
-								// 	}
-								// });
-								// this.sender = msg.sender || '--';
-								// // let exactIrisAmt = await converCoin({
-								// // 	amount: msg.exact_iris_amt,
-								// // 	denom: mainToken.denom
-								// // })
-								// // this.exactIrisAmt = `${exactIrisAmt.amount} ${exactIrisAmt.denom.toLocaleUpperCase()}`;
-								// this.exactIrisAmt = msg.exact_iris_amt;
-								// let maxToken = await converCoin(msg.max_token);
-								// this.maxToken = `${maxToken.amount} ${maxToken.denom.toLocaleUpperCase()}`;
-								// this.minLiquidity = msg.min_liquidity || '--';
-								// this.deadline = Tools.formatLocalTime(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.remove_liquidity:
 								this.buildRemoveLiquidity(msg);
-								// (this.eventsNew || []).forEach((item) => {
-								// 	if(item.msg_index === this.msgIndex) {
-								// 		(item.events || []).forEach((events) => {
-								// 			if(events.type === 'transfer') {
-								// 				(events.attributes || []).forEach(async attribute => {
-								// 					if(attribute.key === 'amount') {
-								// 						if(attribute.value && attribute.value.includes(",")) {
-								// 							const amount1 = this.getAmountByAmountStr(attribute.value.split(',')[0]);
-								// 							const amount2 = this.getAmountByAmountStr(attribute.value.split(',')[1]);
-								// 							const amountItem1 = await converCoin(amount1);
-								// 							const amountItem2 = await converCoin(amount2);
-								// 							this.amount = `${amountItem1.amount} ${amountItem1.denom.toUpperCase()}, ${amountItem2.amount} ${amountItem2.denom.toUpperCase()}`
-								// 						}
-								// 					}
-								// 				})
-								// 			}
-								// 			if(events.type === 'remove_liquidity') {
-								// 				(events.attributes || []).forEach(async attribute => {
-								// 					if(attribute.key === 'token_pair') {
-								// 						let list = attribute.value.split('-');
-								// 						if(list.length > 1){
-								// 							let token1 = await converCoin({
-								// 								denom:list[0],
-								// 								amount:0
-								// 							})
-								// 							let token2 = await converCoin({
-								// 								denom:list[1],
-								// 								amount:0
-								// 							})
-								// 							this.tokenPair = `${token1.denom.toUpperCase()} - ${token2.denom.toUpperCase()}`;
-								// 						}
-								// 					}
-								// 				})
-								// 			}
-								// 		})
-								// 	}
-								// });
-								// this.sender = msg.sender || '--';
-								// let withdrawLiquidity = await converCoin(msg.withdraw_liquidity)
-								// this.withdrawLiquidity = `${withdrawLiquidity.amount} ${withdrawLiquidity.denom.toLocaleUpperCase()}` ;
-								// // let minIrisAmt = await converCoin({
-								// // 	amount: msg.min_iris_amt,
-								// // 	denom: mainToken.denom
-								// // })
-								// // this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
-								// this.minIrisAmt = msg.min_iris_amt;
-								// this.minToken = msg.min_token;
-								// this.deadline = Tools.formatLocalTime(msg.deadline)  || '--';
-							break;
+								break;
 							case TX_TYPE.unjail:
 								this.buildUnjail(msg);
-								// this.operatorAddress = msg.address || '--';
-							break;
+								break;
 							case TX_TYPE.create_feed:
 								this.buildCreateFeed(msg)
-								// this.serviceName = msg.serviceName || msg.service_name || '--';
-								// this.feedName = msg.feed_name || '--';
-								// this.description = msg.description || '--';
-								// this.latestHistory = msg.latest_history !== 0 ?  msg.latest_history || '--' : '--';
-								// this.creator = msg.creator || '--';
-								// this.providers = msg.providers || '--';
-								// this.input = msg.input || '--';
-								// if( msg && msg.service_fee_cap && msg.service_fee_cap[0]) {
-								// 	let serviceFeeCap = await converCoin(msg.service_fee_cap[0])
-								// 	this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toLocaleUpperCase()}`;
-								// } else {
-								// 	this.serviceFeeCap = '--'
-								// }
-								// this.aggregateFunc = msg.aggregate_func || '--';
-								// this.valueJsonPath = msg.value_json_path || '--';
-								// this.repeatedFrequency = msg.repeatedFrequency !== 0 ? msg.repeated_frequency || '--' : '--';
-								// this.responseThreshold = msg.responseThreshold !== 0 ? msg.response_threshold || '--' : '--';
-								// this.timeout = msg.timeout !== 0 ? msg.timeout || '--' : '--';
-							break;
+								break;
 							case TX_TYPE.start_feed:
 								this.buildStartFeed(msg)
-								// this.feedName = msg.feed_name || '--';
-								// this.creator = msg.creator || '--';
-							break;
+								break;
 							case TX_TYPE.pause_feed:
 								this.buildStartFeed(msg)
-								// this.feedName = msg.feed_name || '--';
-								// this.creator = msg.creator || '--';
-							break;
+								break;
 							case TX_TYPE.edit_feed:
 								this.buildEditFeed(msg)
-								// this.feedName = msg.feed_name || '--';
-								// this.description = msg.description || '--';
-								// this.latestHistory = msg.latest_history !== 0 ?  msg.latest_history || '--' : '--';
-								// this.creator = msg.creator || '--';
-								// this.providers = msg.providers || '--';
-								// if( msg && msg.service_fee_cap && msg.service_fee_cap[0]) {
-								// 	let serviceFeeCap = await converCoin(msg.service_fee_cap[0])
-								// 	this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toLocaleUpperCase()}`;
-								// } else {
-								// 	this.serviceFeeCap = '--'
-								// }
-								// this.repeatedFrequency = msg.repeatedFrequency !== 0 ? msg.repeated_frequency || '--' : '--';
-								// this.responseThreshold = msg.responseThreshold !== 0 ? msg.response_threshold || '--' : '--';
-								// this.timeout = msg.timeout !== 0 ? msg.timeout || '--' : '--';
-							break;
+								break;
 							case TX_TYPE.request_rand:
 								this.buildRequestRand(msg)
-								// this.blockInterval = msg.block_interval == 0 ? msg.block_interval : msg.block_interval || '--';
-								// this.consumer = msg.consumer || '--';
-								// this.oracle = msg.oracle;
-								// if (msg.service_fee_cap && msg.service_fee_cap.length) {
-								// 	let serviceFeeCap = await converCoin(msg.service_fee_cap[0]);
-								// 	this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toUpperCase()}`;
-								// } else {
-								// 	this.serviceFeeCap = '--';
-								// }
-							break;
+								break;
 							case TX_TYPE.service_set_withdraw_address:
 								this.buildServiceSetWithdrawAddress(msg)
-								// this.owner = msg.owner || '--';
-								// this.withdrawAddress = msg.withdraw_address || '--';
-							break;
+								break;
 							case TX_TYPE.withdraw_earned_fees:
 								this.buildWithdrawEarnedFees(msg)
-								// this.owner = msg.owner || '--';
-								// this.provider = msg.provider || '--';
-							break;
+								break;
 							case TX_TYPE.issue_token:
 								this.buildIssueToken(msg)
-								// this.symbol = msg.symbol || '--';
-								// this.name = msg.name || '--';
-								// this.decimal = msg.scale || '--';
-								// this.initialSupply = msg.initial_supply || '--';
-								// this.maxSupply = msg.max_supply || '--';
-								// this.mintable = msg.mintable;
-								// this.owner = msg.owner || '--';
-								// this.minUnit = msg.min_unit || '--';
-							break;
+								break;
 							case TX_TYPE.edit_token:
 								this.buildEditToken(msg)
-
-								// this.symbol = msg.symbol || '--';
-								// this.name = msg.name || '--';
-								// this.maxSupply = msg.max_supply !== 0 ? msg.max_supply || '--' : msg.max_supply;
-								// this.mintable = msg.mintable;
-								// this.owner = msg.owner || '--';
-							break;
+								break;
 							case TX_TYPE.mint_token:
 								this.buildMintToken(msg)
-
-								// this.symbol = msg.symbol || '--';
-								// this.owner = msg.owner || '--';
-								// this.amount = msg.amount || '--';
-								// this.to = msg.to || '--';
 							break;
 							case TX_TYPE.transfer_token_owner:
 								this.buildTransferTokenOwner(msg)
-
-								// this.symbol = msg.symbol || '--';
-								// this.originalOwner = msg.src_owner || '--';
-								// this.newOwner = msg.dst_owner || '--';
-							break;
+								break;
 							case TX_TYPE.burn_token:
 								this.buildBurnToken(msg)
-								// this.symbol = msg.symbol || '--';
-								// this.sender = msg.sender || '--';
-								// this.amount = msg.amount || '--';
-							break;
+								break;
 							case TX_TYPE.deposit:
 								this.buildDeposit(msg)
-
-								// if(msg.amount && msg.amount.length > 0) {
-								// 	let deposit = await converCoin(msg.amount[0]);
-								// 	this.deposit = `${deposit.amount} ${deposit.denom.toUpperCase()}`;
-								// } else {
-								// 	this.deposit = '--'
-								// }
-								// this.depositor = msg.depositor || '--';
-								// this.proposalID = msg.proposal_id || '--';
-							break;
+								break;
 							case TX_TYPE.vote:
 								this.buildVote(msg)
-								// this.voter = msg.voter || '--';
-								// this.proposalID = msg.proposal_id || '--';
-								// this.option = msg.option ? formatVoteOptions[voteOptions[msg.option]] : '--';
-							break;
+								break;
 							case TX_TYPE.submit_proposal:
 								this.buildSubmitProposal(msg)
-
-								// this.proposer = msg.proposer || '--';
-								// if(msg.initial_deposit && msg.initial_deposit.length > 0) {
-								// 	let initialDeposit = await converCoin(msg.initial_deposit[0]);
-								// 	this.initialDeposit = `${initialDeposit.amount} ${initialDeposit.denom.toUpperCase()}`;
-								// } else {
-								// 	this.initialDeposit = '--'
-								// }
-								// this.title = msg.content && msg.content.title || '--'
-								// this.description = msg.content && msg.content.description || '--'
-								// this.parameter = msg.content && msg.content.changes
-								// let plan = msg.content &&  msg.content.plan
-								// if(plan) {
-								// 	this.name = plan.name
-								// 	let timestamp = plan.time  && Math.floor(new Date(plan.time).getTime() / 1000)
-								// 	this.time = timestamp && Tools.formatLocalTime(timestamp)
-								// 	this.switchHeight = plan.height ? plan.height : '--'
-								// 	if(this.switchHeight && this.switchHeight !== '--') {
-								// 		this.time = '--'
-								// 	} else {
-								// 		this.time = timestamp && Tools.formatLocalTime(timestamp)
-								// 	}
-								// 	this.info = plan.info
-								// 	this.upgradedClientState = plan.upgradedclientstate || '--'
-								// }
-								// this.recipient = msg.content && msg.content.recipient
-								// let n = msg.content && msg.content.amount && msg.content.amount[0]
-								// if(n) {
-								// 	n = await converCoin(n)
-								// 	if(n.amount !== '0') {
-								// 		this.amount = `${n.amount} ${n.denom.toUpperCase()}`
-								// 	} else {
-								// 		this.amount = '--'
-								// 	}
-
-								// }
-							break;
+								break;
 							case TX_TYPE.upgrade_client:
 								this.buildUpgradeClient(msg)
-
-								// this.clientID = msg.client_id || '--';
-								// this.clientState = msg.client_state || '--';
-								// this.consensusState = msg.consensus_state || '--';
-								// this.proofUpgradeClient = msg.proof_upgrade_client || '--';
-								// this.proofUpgradeConsensusState = msg.proof_upgrade_consensus_state || '--';
-								// this.signer = msg.signer || '--';
 							break;
 							case TX_TYPE.submit_misbehaviour:
 								this.buildSubmitMisbehaviour(msg)
-
-								// this.clientID = msg.client_id || '--';
-								// this.misbehaviour = msg.misbehaviour || '--';
-								// this.signer = msg.signer || '--';
 							break;
 							case TX_TYPE.connection_open_init:
 								this.buildConnectionOpenInit(msg)
-
-								// this.clientID = msg.client_id || '--';
-								// this.counterparty = msg.counterparty ? JSON.stringify(msg.counterparty) : '--';
-								// this.version = msg.version ? JSON.stringify(msg.version) : '--';
-								// this.delayPeriod = msg.delay_period || '--';
-								// this.signer = msg.signer || '--';
 							break;
 							case TX_TYPE.connection_open_try:
 								this.buildConnectionOpenTry(msg)
-
-								// this.clientID = msg.client_id || '--';
-								// this.previousConnectionId  = msg.previous_connection_id  || '--';
-								// this.clientState = msg.client_state || '--';
-								// this.counterparty = msg.counterparty ? JSON.stringify(msg.counterparty) : '--';
-								// this.delayPeriod = msg.delay_period || '--';
-								// this.counterpartyVersions = msg.counterparty_versions ? JSON.stringify(msg.counterparty_versions) : '--';
-								// this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
-								// this.proofInit = msg.proof_init || '--';
-								// this.proofClient = msg.proof_client || '--';
-								// this.proofConsensus = msg.proof_consensus || '--';
-								// this.consensusHeight = msg.consensus_height ? JSON.stringify(msg.consensus_height) : '--';
-								// this.signer = msg.signer || '--';
 							break;
 							case TX_TYPE.connection_open_ack:
 								this.buildConnectionOpenAck(msg)
-
-								// this.connectionId = msg.connection_id || '--';
-								// this.counterpartyConnectionId = msg.counterparty_connection_id || '--';
-								// this.version = msg.version ? JSON.stringify(msg.version) : '--';
-								// this.clientState = msg.client_state  || '--';
-								// this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
-								// this.proofTry = msg.proof_try || '--';
-								// this.proofClient = msg.proof_client || '--';
-								// this.proofConsensus = msg.proof_consensus || '--';
-								// this.consensusHeight = msg.consensus_height ? JSON.stringify(msg.consensus_height) : '--';
-								// this.signer = msg.signer || '--';
 							break;
 							case TX_TYPE.connection_open_confirm:
 								this.buildConnectionOpenConfirm(msg)
-
-								// this.connectionId = msg.connection_id || '--';
-								// this.proofAck = msg.proof_ack || '--';
-								// this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
-								// this.signer = msg.signer || '--';
-							break;
+								break;
 							case TX_TYPE.channel_open_init:
 								this.buildChannelOpenInit(msg)
-								
-								// this.portId = msg.port_id || '--';
-								// this.channel = msg.channel ? JSON.stringify(msg.channel) : '--';
-								// this.signer = msg.signer || '--';
-							break;
+								break;
 							case TX_TYPE.channel_open_try:
 								this.buildChannelOpenTry(msg)
-
-								// this.portId = msg.port_id || '--';
-								// this.previousChannelId = msg.previous_channel_id || '--';
-								// this.channel = msg.channel ? JSON.stringify(msg.channel) : '--';
-								// this.counterpartyVersion = msg.counterparty_version || '--';
-								// this.proofInit  = msg.proof_init || '--';
-								// this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
-								// this.signer = msg.signer || '--';
-							break;
+								break;
 							case TX_TYPE.channel_open_ack:
 								this.buildChannelOpenAck(msg)
-
-								// this.portId = msg.port_id || '--';
-								// this.channelId = msg.channel_id || '--';
-								// this.counterpartyChannelId = msg.counterparty_channel_id || '--',
-								// this.counterpartyVersion = msg.counterparty_version || '--',
-								// this.proofTry = msg.proof_try || '--',
-								// this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
-								// this.signer = msg.signer || '--';
 							break;
 							case TX_TYPE.channel_open_confirm:
 								this.buildChannelOpenConfirm(msg)
-
-								// this.portId = msg.port_id || '--';
-								// this.channelId = msg.channel_id || '--';
-								// this.proofAck = msg.proof_ack || '--';
-								// this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
-								// this.signer = msg.signer || '--';
 							break;
 							case TX_TYPE.channel_close_init:
 								this.buildChannelCloseInit(msg)
-
-								// this.portId = msg.port_id || '--';
-								// this.channelId = msg.channel_id || '--';
-								// this.signer = msg.signer || '--';
 							break;
 							case TX_TYPE.channel_close_confirm:
 								this.buildChannelCloseConfirm(msg)
-
-								// this.portId = msg.port_id || '--';
-								// this.channelId = msg.channel_id || '--';
-								// this.proofInit = msg.proof_init || '--';
-								// this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
-								// this.signer = msg.signer || '--';
 							break;
 							case TX_TYPE.timeout_packet:
 								this.buildTimeoutPacket(msg, message.type)
-
-								// this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
-								// this.proofUnreceived = msg.proof_unreceived || '--';
-								// this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
-								// this.nextSequenceRecv = msg.next_sequence_recv || '--';
-								// this.signer = msg.signer || '--';
-								// let originalDenom = TxHelper.getOriginalDenomFromPacket(msg.packet,message.type);
-                //                 if(msg.packet && msg.packet.data && JSON.stringify(msg.packet.data) !== '{}'){
-                //                     this.sender = msg.packet.data.sender;
-                //                     this.receiver = msg.packet.data.receiver;
-                //                     this.amount = await converCoin({
-                //                         denom:originalDenom || msg.packet.data.denom,
-                //                         amount:msg.packet.data.amount,
-                //                     });
-                //                 }
 							break;
 							case TX_TYPE.timeout_on_close_packet:
 								this.buildTimeoutOnClosePacket(msg)
-
-								// this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
-								// this.proofUnreceived = msg.proof_unreceived || '--';
-								// this.proofClose = msg.proof_close || '--';
-								// this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
-								// this.nextSequenceRecv = msg.next_sequence_recv || '--';
-								// this.signer = msg.signer || '--';
-							break;
+								break;
 							case TX_TYPE.acknowledge_packet:
 								this.buildAcknowledgePacket(msg, message.type)
-								// let originalDenom = TxHelper.getOriginalDenomFromPacket(msg.packet,message.type);
-								// if(msg.packet && msg.packet.data && JSON.stringify(msg.packet.data) !== '{}' ){
-								// 	this.amount = await converCoin({
-								// 		denom:originalDenom || msg.packet.data.denom,
-								// 		amount:msg.packet.data.amount,
-								// 	});
-								// }
-								// this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
-								// this.acknowledgement = msg.acknowledgement || '--';
-								// this.proofAcked = msg.proof_acked || '--';
-								// this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
-								// this.signer = msg.signer || '--';
-								// this.amount = `${this.amount.amount} ${this.amount.denom.toUpperCase()}`
-							break;
+								break;
 							// MsgTypeIBCTransfer
 							case TX_TYPE.transfer:
 								this.buildTransfer(msg)
-
-								// this.sourcePort = msg.source_port || '--';
-								// this.sourceChannel = msg.source_channel || '--';
-								// this.token = msg.token ?  await converCoin(msg.token) : '--';
-								// this.sender = msg.sender || '--';
-								// this.receiver = msg.receiver || '--';
-								// this.timeoutHeight = msg.timeout_height ? JSON.stringify(msg.timeout_height) : '--';
-								// let timeoutTimestamp = msg.timeout_timestamp  && Math.floor(new Date(msg.timeout_timestamp).getTime() / 1000);
-								// timeoutTimestamp ? this.timeoutTimestamp = Tools.formatLocalTime(timeoutTimestamp) : this.timeoutTimestamp ='--';
 							break;
 							case TX_TYPE.multisend:
 								this.inputs = [];
@@ -3713,84 +3084,9 @@
 							break;
 							case TX_TYPE.create_htlc:
 								this.buildCreateHtlc(msg);
-
-								// (this.eventsNew || []).forEach((item) => {
-								// 	if(item.msg_index === this.msgIndex) {
-								// 		(item.events || []).forEach((events) => {
-								// 			if(events.type === 'create_htlc') {
-								// 				(events.attributes || []).forEach(attrs => {
-								// 					if(attrs.key === 'id') {
-								// 						this.id = attrs.value
-								// 					}
-								// 				})
-								// 			}
-								// 		})
-								// 	}
-								// });
-								// this.sender = msg.sender || '--';
-								// this.to = msg.to || '--';
-								// this.receiverOnOtherChain = msg.receiver_on_other_chain || '--';
-								// this.senderOnOtherChain = msg.sender_on_other_chain || '--';
-								// if(msg.amount && msg.amount[0]) {
-                //   let coin = await converCoin(msg.amount[0])
-								// 	this.amount = `${coin.amount} ${coin.denom.toUpperCase()}`;
-								// } else {
-								// 	this.amount = '--';
-								// }
-								// this.hashLock = msg.hash_lock || '--';
-								// // this.timestamp = msg.timestamp ? `${msg.timestamp} s` : '--';
-								// this.timestamp = Tools.formatLocalTime(msg.timestamp) || '--';
-								// this.timeLock = msg.time_lock ? `${msg.time_lock} block` : '--';
-								// this.transfer = msg.transfer === false ? 'HTLC' : 'HTLT';
-								// // let timeLock = msg.time_lock  && Math.floor(new Date(msg.time_lock).getTime() / 1000);
-								// // timeLock ? this.timeLock = Tools.getDisplayDate(timeLock) : this.timeLock ='--';
 							break;
 							case TX_TYPE.claim_htlc:
 								this.buildClaimHtlc(msg)
-
-								// let transfer;
-                // let attributeMap;
-								// (this.eventsNew || []).forEach((item) => {
-								// 	if(item.msg_index === this.msgIndex) {
-								// 		(item.events || []).forEach((events) => {
-								// 				if(events.type === 'claim_htlc') {
-								// 					(events.attributes || []).forEach(item => {
-								// 						if(item.key === 'transfer')  {
-								// 							transfer = item.value
-								// 						}
-								// 						if(item.key == 'hash_lock') {
-								// 							this.hashLock = item.value
-								// 						}
-								// 					})
-								// 				}
-								// 			  if(events.type === "transfer") {
-                //           attributeMap = Tools.MultKeyValueObjToOneMap(events.attributes)
-                //         //   (events.attributes || []).forEach(item => {
-								// 				// 		if(item.key === 'amount')  {
-                //         //       this.amount = item.value
-								// 				// 		}
-								// 				// 		if(item.key === 'recipient') {
-								// 				// 			this.recipient = item.value
-								// 				// 		}
-								// 				// })
-								// 			}
-								// 		})
-								// 	}
-								// });
-								// if(attributeMap && attributeMap.has('amount')){
-								//   let coin = await converCoin(attributeMap.get('amount'))
-								//   this.amount = `${coin.amount} ${coin.denom.toUpperCase()}`;
-								// }
-								// if(attributeMap && attributeMap.has('recipient')){
-								//   this.recipient = attributeMap.get('recipient')
-								// }
-								// if(!this.recipient) {
-								// 	this.recipient = '--'
-								// }
-								// this.transfer = transfer === 'false' ? 'HTLC' : 'HTLT';
-								// this.sender = msg.sender || '--';
-								// this.id = msg.id || '--';
-								// this.secret = msg.secret || '--';
 							break;
 							case TX_TYPE.refund_htlc:
 								this.sender = msg.sender || '--';
@@ -3799,164 +3095,49 @@
 							//新增TIBC NFT Transfer Out
 							case TX_TYPE.tibc_nft_transfer:
 								this.buildTibcNftTransfer(msg)
-
-								// this.classTibc = msg.class  || '--';
-								// this.idTibc = msg.id|| '--';
-								// this.destChain = msg. dest_chain || '--';
-								// this.realayChain = msg.realay_chain || '--';
-								// this.sender = msg.sender || '--';
-								// this.receiver = msg.receiver || '--';
 								break;
 							//新增TIBC NFT Transfer In
 							case TX_TYPE.tibc_recv_packet:
 								this.buildTibcRecvPacket(msg)
-								// /*let recvPacketAcknowledgementValue = ''
-								// if(this?.eventsNew?.length){
-								// 	this.eventsNew.forEach( item => {
-								// 		if(item?.msg_index === this.msgIndex && item?.events?.length){
-								// 			item.events.forEach( i => {
-								// 				if(i.type === EVENTS_TYPE.writeAcknowledgement && i?.attributes?.length){
-								// 					i.attributes.forEach( value => {
-								// 						if(value?.key === 'packet_ack'){
-								// 							recvPacketAcknowledgementValue = value.value
-								// 						}
-								// 					})
-								// 				}
-								// 			})
-								// 		}
-										
-								// 	})
-								// }*/
-
-								
-
-								// this.idTibc=msg.packet.data.id || '--';
-								// this.urlTibc = msg.packet.data.uri || '--';
-								// this.classTibc = msg.packet.data.class|| '--'
-								// this.sequence = msg.packet.sequence|| '--'
-								// this.port = msg.packet.port|| '--'
-								// this.sourceChain = msg.packet.source_chain|| '--'
-								// this.destChain = msg.packet.destination_chain|| '--'
-								// this.realayChain = msg.packet.relay_chain|| '--'
-								// this.sender = msg.packet.data.sender|| '--'
-								// this.signer = msg.signer|| '--'
-								// this.receiver = msg.packet.data.receiver || '--';
-								// // const recvPacketAcknowledgementResult = recvPacketAcknowledgementValue ? recvPacketAcknowledgementValue.splice(/[^0-9]/ig,"") : '';
-								// // this.nftStatus = recvPacketAcknowledgementResult && Number(acknowledgementResult) === 1  ? this.$t('ExplorerLang.common.success'):this.$t('ExplorerLang.common.failed')
-
 								break;
 							//新增TIBC Acknowledge Packet
 							case TX_TYPE.tibc_acknowledge_packet:
 								this.buildTibcAcknowledgePacket(msg)
-
-								// this.idTibc=msg.packet.data.id || '--';
-								// this.urlTibc = msg.packet.data.uri || '--';
-								// this.classTibc = msg.packet.data.class|| '--'
-								// this.sequence = msg.packet.sequence|| '--'
-								// this.port = msg.packet.port|| '--'
-								// this.sourceChain = msg.packet.source_chain|| '--'
-								// this.destChain = msg.packet.destination_chain|| '--'
-								// this.realayChain = msg.packet.relay_chain|| '--'
-								// this.sender = msg.packet.data.sender|| '--'
-								// this.signer = msg.signer|| '--'
-								// this.receiver = msg.packet.data.receiver || '--';
-								// let acknowledgementResult = ''
-								// if(msg?.acknowledgement){
-								// 	acknowledgementResult = msg.acknowledgement.replace(/[^0-9]/ig,"");
-								// }
-								// this.nftStatus = acknowledgementResult && Number(acknowledgementResult) === 1 ? this.$t('ExplorerLang.common.success'):this.$t('ExplorerLang.common.failed')
 								break;
               //新增 TIBC Clean Packet Out
 							case TX_TYPE.clean_packet:
 								this.buildCleanPacket(msg)
-
-								// this.sequence = msg.clean_packet.sequence|| '--'
-								// this.sourceChain = msg.clean_packet.source_chain|| '--'
-								// this.destChain = msg.clean_packet.destination_chain|| '--'
-								// this.realayChain = msg.clean_packet.relay_chain|| '--'
-								// this.signer = msg.signer|| '--'
 								break;
 							//新增 	TIBC Clean Packet In
 							case TX_TYPE.recv_clean_packet:
 								this.buildRecvCleanPacket(msg)
-								
-								// this.cleanPacket= msg.clean_packet|| '--'
-								// this.signer = msg.signer|| '--'
 								break;
-							//新增TIBC Update Client
 							case TX_TYPE.tibc_update_client:
 								this.buildTibcUpdateClient(msg)
-
-								// this.chainName=msg.chain_name|| '--'
-								// this.signer = msg.signer
 								break;
-              //新增Transfer Denom (Denom Transfer)
 							case TX_TYPE.transfer_denom:
 								this.buildTransferDenom(msg)
-
-								// this.denomId=msg.id || '--'
-								// this.sender= msg.sender|| '--'
-								// this.receiver= msg.recipient|| '--'
 								break;
-
 							case TX_TYPE.stake:		  
 							  this.buildStake(msg)  
-								// this.poolId = Tools.formatPoolId(msg.pool_id) || '--';
-								// this.amount = await this.handleAmount(msg.amount);
-								// this.reward = await this.handleReward(TX_TYPE.stake,'reward');
-								// this.sender = msg.sender || '--';
 								break;
 							case TX_TYPE.unstake:
 								this.buildStake(msg)
-								// this.poolId = Tools.formatPoolId(msg.pool_id) || '--';
-								// this.amount = await this.handleAmount(msg.amount);
-								// this.reward = await this.handleReward(TX_TYPE.unstake,'reward');
-								// this.sender = msg.sender || '--';
 								break;
 							case TX_TYPE.harvest:
 								this.buildHarvest(msg)
-								// this.poolId = Tools.formatPoolId(msg.pool_id) || '--';
-								// this.reward = await this.handleReward(TX_TYPE.harvest,'reward');
-								// this.sender = msg.sender || '--';
 								break;
 							case TX_TYPE.create_pool:
 								this.buildCreatePool(msg)
-								// const createPoolId =  await this.getValueFromEvents(TX_TYPE.create_pool,'pool_id');
-								// this.poolId = Tools.formatPoolId(createPoolId) || '--';
-								// this.lptDenom = msg.lpt_denom ? msg.lpt_denom.toLocaleUpperCase() : '--';
-								// this.totalReward = await this.handleTotalReward(msg.total_reward);
-								// this.rewardPerBlock = await this.handleTotalReward(msg.reward_per_block);
-							  // this.startHeight = msg.start_height || '--';
-								// this.editable = msg.editable;
-								// this.creator = msg.creator || '--';
-								// this.description = msg.description || '--';		
-								break;	
+								break;
 							case TX_TYPE.create_pool_with_community_pool:
 								this.buildCreatePoolWithCP(msg)
-
-								// this.proposalID = this.getValueFromEvents(TX_TYPE.create_pool_with_community_pool, 'proposal_id');
-								// this.proposer = msg.proposer || '--';
-								// this.initialDeposit = await this.handleTotalReward(msg?.initial_deposit);
-								// this.proposalTitle = msg?.content?.title || '--';
-								// this.proposalDescription = msg?.content?.description || '--';
-								// this.lptDenom = msg?.content?.lpt_denom ? msg?.content?.lpt_denom.toLocaleUpperCase() : '--';
-								// this.rewardPerBlock = await this.handleTotalReward(msg?.content?.reward_per_block);
-								// this.fundApplied = await this.handleTotalReward(msg?.content?.fund_applied);
-								// this.fundSelfBond = await this.handleTotalReward(msg?.content?.fund_self_bond);
-								// this.poolDescription = msg?.content?.pool_description || '--';
 								break;
 							case TX_TYPE.destroy_pool:
 								this.buildDestroyPool(msg)
-								// this.poolId = Tools.formatPoolId(msg.pool_id) || '--';
-								// this.refund = await this.handleReward(TX_TYPE.destroy_pool,'amount');
-								// this.creator = msg.creator || '--';
 								break;
 							case TX_TYPE.adjust_pool:
 								this.buildAdjustPool(msg)
-								// this.poolId = Tools.formatPoolId(msg.pool_id) || '--';
-								// this.additionalReward = await this.handleTotalReward(msg.additional_reward);
-								// this.rewardPerBlock = await this.handleTotalReward(msg.reward_per_block)
-								// this.creator = msg.creator || '--';
 								break;
 							case TX_TYPE.bsn_ddc:
 								this.buildBsnDdc(msg)
@@ -4020,13 +3201,13 @@
 			 * 从events下匹配数据出来
 			 */
 			getValueFromEvents(msgType,attrKey){
-				const eventItem = this.events ? this.events.find(item => item.type === msgType) : null;
+				const eventItem = this?.eventsNew && this?.eventsNew?.length && this.msgIndex >= 0 ? this?.eventsNew[this.msgIndex]?.events.find(item => item.type === msgType) : null;
 				const attrItem = eventItem && eventItem.attributes.find(item => item.key === attrKey);
 				const rewardValue = (attrItem && attrItem.value) ? attrItem.value : '--';
 				return rewardValue;
 			},
 			/**
-			 * 从events下匹配数据出来并处理
+			 * 从eventsNew下匹配数据出来并处理
 			 * 入参：msgType=stake attrKey=reward
 			 * 返回： 0.12 IRIS 或者 0.12 IRIS、0.33 BSN
 			 */
@@ -6638,7 +5819,7 @@
 			},
 			// BSN-DDC 合约
 			buildBsnDdc(msg){
-				let ddcId,ddcUri;
+				let ddcId,ddcUri,ddcStatus;
 				if(Array.isArray(msg?.ex?.ddc_id)){
 					ddcId = msg.ex.ddc_id.join('、')
 				}else{
@@ -6651,42 +5832,67 @@
 				}else{
 					ddcUri = (msg.ex.ddc_uri &&  [msg.ex.ddc_uri]) || ['--']
 				}
+                if(msg?.ex?.tx_receipt) {
+                    switch(msg.ex.tx_receipt?.status) {
+                        case 0:
+                            ddcStatus = this.$t('ExplorerLang.common.failed');
+                            break;
+                        case 1:
+                            ddcStatus = this.$t('ExplorerLang.common.success');
+                            break;
+                    }
+                }
 				this.detailInfo = [
+					{
+						label: this.$t('ExplorerLang.transactionInformation.txHash'),
+						value: msg.hash
+					},
+					{
+						label: this.$t('ExplorerLang.transactionInformation.bsnddc.contractExecutionResult'),
+						value: ddcStatus,
+                        log: !(msg?.ex?.tx_receipt?.status) && JSON.parse(JSON.stringify(msg?.ex?.tx_receipt?.log)),
+                        isTip: msg?.ex?.tx_receipt?.status ? false : true
+					},
+					{
+						label: this.$t('ExplorerLang.transactionInformation.bsnddc.signer'),
+						value: this.ddcSigner?.length && this.ddcSigner[0],
+                        isAddress: true
+					},
 					{
 						label: this.$t('ExplorerLang.table.contractAddress'),
 						value: msg.ex.contract_address
 					},
 					{
-						label: this.$t('ExplorerLang.transactionInformation.bsnddc.contractType'),
-						value: msg.ex.ddc_type,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.bsnddc.contractMethod'),
+						label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.bsnddc.contractMethod'),
 						value: this.setMethodLang(msg.ex.ddc_method),
 					},
 					{
-						label: this.$t('ExplorerLang.transactionInformation.bsnddc.ddcId'),
+						label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.bsnddc.ddcId'),
 						value: ddcId,
 						isSchema: true
 					},
 						{
-						label: this.$t('ExplorerLang.transactionInformation.bsnddc.ddcName'),
+						label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.bsnddc.ddcName'),
 						value: msg.ex.ddc_name,
 					},
 					{
-						label: this.$t('ExplorerLang.transactionInformation.from'),
+						label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.from'),
 						value: msg.ex.sender,
 						isAddress: true
 					},
 					{
-						label: this.$t('ExplorerLang.transactionInformation.to'),
+						label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.to'),
 						value: msg.ex.recipient,
 						isAddress: true
 					},
 					{
-						label: this.$t('ExplorerLang.transactionInformation.uri'),
+						label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.uri'),
 						value: ddcUri,
 						isMultiLink: true
+					},
+					{
+						label: !msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.bsnddc.tradingData'),
+						value: msg?.ex?.data,
 					}
 				]
 			}

@@ -226,23 +226,36 @@ export default {
       this.expandingList = []
     },
     getData() {
-      if (Tools.removeAllSpace(this.searchInputValue) === '') {
+
+      // 从if-else 改为if return，减少嵌套。if先后顺序不变，保持之前的判断先后。
+      if (!Tools.removeAllSpace(this.searchInputValue)) {
         this.clearSearchContent()
-        return
-      } else {
-        if(this.searchInputValue.startsWith(COSMOS_ADDRESS_PREFIX)){
-          // cosmos 不让跳转了
-          this.toSearchResultPage()
-        }else if (/^[A-F0-9]{64}$/.test(this.searchInputValue)) {
-          this.searchTx()
-        } else if (Tools.isBech32(this.searchInputValue)) {
-          this.searchDelegator()
-        } else if (/^\+?[1-9][0-9]*$/.test(this.searchInputValue)) {
-          this.searchBlock()
-        } else {
-          this.toSearchResultPage()
-        }
+        return;
       }
+
+      // cosmos 不让跳转了
+      if(this.searchInputValue.startsWith(COSMOS_ADDRESS_PREFIX)){
+        this.toSearchResultPage();
+        return;
+      }
+
+      // 如果是tx_hash (/^[A-F0-9]{64}$/) 或者是evm的hash（以0x开头）
+      if (/^[A-F0-9]{64}|^0x\w*$/.test(this.searchInputValue)) {
+        this.searchTx();
+        return;
+      }
+
+      if (Tools.isBech32(this.searchInputValue)) {
+        this.searchDelegator();
+        return;
+      }
+
+      if (/^\+?[1-9][0-9]*$/.test(this.searchInputValue)) {
+        this.searchBlock();
+        return;
+      }
+
+      this.toSearchResultPage();
     },
     async searchBlock() {
       try {

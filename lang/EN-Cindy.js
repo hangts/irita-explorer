@@ -609,6 +609,9 @@ export const ExplorerLang = {
             contractMethod:'Contract Method',
             ddcId: 'DDC ID',
             ddcName: 'DDC Name',
+            contractExecutionResult: 'Contract Execution Status',
+            signer: 'Caller',
+            tradingData: 'Raw Data'
         }
     },
     addressDetail: {

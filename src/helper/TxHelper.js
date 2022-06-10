@@ -214,62 +214,7 @@ export class TxHelper {
         return res;
     }
 
-    static getContextId(msgs, events){
-        if(!msgs) return;
-        let requestContextId = '';
-        const {type, msg} = msgs;
-        switch (type){
-            case TX_TYPE.define_service:
-                requestContextId = '--';
-                break;
-            case TX_TYPE.bind_service:
-                requestContextId = '--';
-                break;
-            case TX_TYPE.update_service_binding:
-                requestContextId = '--';
-                break;
-            case TX_TYPE.disable_service_binding:
-                requestContextId = '--';
-                break;
-            case TX_TYPE.enable_service_binding:
-                requestContextId = '--';
-                break;
-            case TX_TYPE.refund_service_deposit:
-                requestContextId = '--';
-                break;
-            case TX_TYPE.call_service:
-                if(events && Array.isArray(events)){
-                    for(let e of events){
-                        if(e && e.attributes && Array.isArray(e.attributes)){
-                            for(let a of e.attributes){
-                                if(a.key === 'request_context_id'){
-                                    requestContextId = a.value;
-                                    break;
-                                }
-                            }
-                        }
 
-                    }
-                }
-                break;
-            case TX_TYPE.respond_service:
-                requestContextId = msg.ex ? msg.ex.request_context_id : '';
-                break;
-            case TX_TYPE.pause_request_context:
-                requestContextId = msg.request_context_id;
-                break;
-            case TX_TYPE.start_request_context:
-                requestContextId = msg.request_context_id;
-                break;
-            case TX_TYPE.kill_request_context:
-                requestContextId = msg.request_context_id;
-                break;
-            case TX_TYPE.update_request_context:
-                requestContextId = msg.request_context_id;
-                break;
-        }
-        return requestContextId;
-    }
     static getPubKeyAlgorithm(algorithm){
         return PubKeyAlgorithm[String(algorithm)] ;
     }
@@ -445,20 +390,26 @@ export class TxHelper {
                 // smartContractObj
                 case TX_TYPE.ddc_1155:
                     smartContractObj.children.push({
-                        value:TX_TYPE.ddc_1155,
-                        label:TX_TYPE_DISPLAY[TX_TYPE.ddc_1155]
+                        value: TX_TYPE.ddc_1155,
+                        label: TX_TYPE_DISPLAY[TX_TYPE.ddc_1155]
                     })
                     break;
                 case TX_TYPE.ddc_721:
                     smartContractObj.children.push({
-                        value:TX_TYPE.ddc_721,
-                        label:TX_TYPE_DISPLAY[TX_TYPE.ddc_721]
+                        value: TX_TYPE.ddc_721,
+                        label: TX_TYPE_DISPLAY[TX_TYPE.ddc_721]
+                    })
+                    break;
+                case TX_TYPE.ddc_other:
+                    smartContractObj.children.push({
+                        value: TX_TYPE.ddc_other,
+                        label: TX_TYPE_DISPLAY[TX_TYPE.ddc_other]
                     })
                     break;
                 // farm
                 //#region 
 
-              case TX_TYPE.stake:
+                case TX_TYPE.stake:
                     farmObj.children.push({
                         value: TX_TYPE.stake,
                         label: TX_TYPE_DISPLAY[TX_TYPE.stake]
@@ -1101,7 +1052,7 @@ export class TxHelper {
         allTxType.forEach(item=>{
             if(item?.children?.length && item.children.length > 1){
                 if(item.children.some((item) => {
-                    return item.value !== TX_TYPE.ddc_721 && item.value !== TX_TYPE.ddc_1155
+                    return item.value !== TX_TYPE.ddc_721 && item.value !== TX_TYPE.ddc_1155 && item.value !== TX_TYPE.ddc_other
                 })){
                     item.children.unshift({
                         label:'secondaryAll',
