@@ -16,6 +16,7 @@
     "bignumber.js": "^9.0.0",
     "clipboard": "^2.0.4",
     "coa": "^2.0.2",
+    "compression-webpack-plugin": "6.1.1",
     "core-js": "^3.4.3",
     "echarts": "^4.1.0",
     "element-ui": "^2.13.0",
@@ -36,12 +37,19 @@
     "vuex": "^3.1.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
     "@vue/cli-plugin-babel": "^4.1.0",
     "@vue/cli-plugin-eslint": "^4.1.0",
     "@vue/cli-service": "^4.1.0",
+    "@vue/eslint-config-airbnb": "^6.0.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^7.7.0",
+    "eslint-plugin-vuejs-accessibility": "^1.2.0",
+    "prettier": "^2.6.2",
     "vue-happy-scroll": "^2.1.1",
     "vue-template-compiler": "^2.6.10"
   },

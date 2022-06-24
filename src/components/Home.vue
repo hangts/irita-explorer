@@ -15,7 +15,7 @@
 							<router-link :to="`/blocks`">{{$t('ExplorerLang.home.viewAll')}}</router-link>
 						</div>
 					</div>
-					<ul class="home_block_bottom_content">
+					<ul class="home_block_bottom_content" v-if="latestBlockArray && latestBlockArray.length">
 						<div v-for="(item,index) in latestBlockArray" :key="index" :class="item.flShowTranslationalAnimation ? 'animation ' : '' ">
 							<li class="home_block_list_item_content"
 							    :class="item.showAnimation === 'show' ? 'fadeIn_animation' : '' ">
@@ -30,6 +30,9 @@
 							</li>
 						</div>
 
+					</ul>
+					<ul class="home_block_bottom_content" v-else>
+						<li style="padding-top: 15px">{{$t('ExplorerLang.message.requestFailed')}}</li>
 					</ul>
 				</div>
 				<div class="home_transaction_content">
@@ -420,6 +423,12 @@
 						}
 						.animation{
 							animation:translational_animation 1.1s infinite;
+						}
+						.home_transaction_bottom_content{
+							margin-top: 0.24rem;
+							border-top: 0.01rem solid $bd_third_c;
+							font-size: $s14;
+							color: $t_second_c;
 						}
 					}
 

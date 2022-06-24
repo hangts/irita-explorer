@@ -1,12 +1,24 @@
 <template>
-  <div class="header_container" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`">
+  <div
+    class="header_container"
+    :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`"
+  >
     <div class="header_content">
       <div class="header_menu_content">
         <div class="header_logo_content" @click="logoClick">
-          <img class="header_logo_content_icon" v-if="logoImg.length" :src="logoImg" alt="" />
+          <img
+            class="header_logo_content_icon"
+            v-if="logoImg.length"
+            :src="logoImg"
+            alt=""
+          />
           <div :style="`color:${(prodConfig.nav || {}).color || ''}`">
-            <p class="header_logo_content_title">{{ (prodConfig.logo || {}).title || 'CSChain-Bond' }}</p>
-            <p class="header_logo_content_subTitle">{{ (prodConfig.logo || {}).subTitle }}</p>
+            <p class="header_logo_content_title">
+              {{ (prodConfig.logo || {}).title || "CSChain-Bond" }}
+            </p>
+            <p class="header_logo_content_subTitle">
+              {{ (prodConfig.logo || {}).subTitle }}
+            </p>
           </div>
         </div>
         <div class="header_menu">
@@ -18,106 +30,222 @@
             @select="handleSelect"
             :background-color="(prodConfig.nav || {}).bgColor || '#3264FD'"
             :text-color="(prodConfig.nav || {}).color || '#CBD8FE'"
-            :active-text-color="(prodConfig.nav || {}).activeTextColor || '#fff'"
+            :active-text-color="
+              (prodConfig.nav || {}).activeTextColor || '#fff'
+            "
           >
-            <component v-for="(item, index) in menuList" :is="item.children ? 'el-submenu' : 'el-menu-item'" :index="String(index + 1)" :key="index">
-              <router-link v-if="!item.children" :to="item.link || ''">{{ item.title }}</router-link>
-              <template v-else>
-                <template slot="title">
-                  {{ item.title }}
-                </template>
-                <el-menu-item :index="`${index + 1}-${subIndex + 1}`" :key="subIndex" v-for="(subItem, subIndex) in item.children">
-                  <router-link :to="subItem.link">
-                    {{ subItem.title }}
-                  </router-link>
-                </el-menu-item>
-              </template>
-            </component>
+            <MenuItem
+                :menu-item="item"
+                v-for="(item, index) in menuList"
+                :key="index"
+                :index="String(index + 1)"
+            />
           </el-menu>
         </div>
         <div class="header_mobile_menu" v-if="flShowNetwork">
-          <span v-if="netWorkArray.length !== 0" style="color:white;font-size: 0.12rem;font-family: Arial">{{mainnet.network_name}}</span>
+          <span
+            v-if="netWorkArray.length !== 0"
+            style="color: white; font-size: 0.12rem; font-family: Arial"
+          >
+            {{ mainnet.network_name }}
+          </span>
         </div>
       </div>
-      <div class="header_input_content" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`" v-if="searchShow">
-        <div class="search_input_container" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`">
+      <div
+        class="header_input_content"
+        :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`"
+        v-if="searchShow"
+      >
+        <div
+          class="search_input_container"
+          :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`"
+        >
           <div class="search_input_wrap">
-            <input type="text" class="search_input" :style="`color:${(prodConfig.nav || {}).color || ''}`" :placeholder="$t('ExplorerLang.Navigation.searchPlaceHolder')" v-model.trim="searchInputValue" @keyup.enter="onInputChange" />
-            <span @click="getData(searchInputValue)" class="iconfont iconsousuo" :style="`color:${(prodConfig.nav || {}).color || ''}`"></span>
+            <input
+              type="text"
+              class="search_input"
+              :style="`color:${(prodConfig.nav || {}).color || ''}`"
+              :placeholder="$t('ExplorerLang.Navigation.searchPlaceHolder')"
+              v-model.trim="searchInputValue"
+              @keyup.enter="onInputChange"
+            />
+            <span
+              @click="getData(searchInputValue)"
+              class="iconfont iconsousuo"
+              :style="`color:${(prodConfig.nav || {}).color || ''}`"
+            />
           </div>
           <div class="header_mobile_menu" @click="featureShow = !featureShow">
             <img class="menu_btn" src="../../assets/menu.png" />
           </div>
         </div>
       </div>
-      <div v-show="flShowNetwork" class="header_network_container" @mouseenter="showNetWorkLogo()" @mouseleave="hideNetWorkLogo()">
-          <span style="color: #fff">
-              <i style="font-size: 0.24rem;padding-right: 0.02rem;" :class="mainnet.icon"></i>
-              <i style="font-size: 0.08rem" class="iconfont iconwangluoqiehuanjiantou"></i>
-          </span>
-          <ul class="network_list_container" v-show="flShowNetworkLogo && netWorkArray.length !== 0" @mouseenter="showNetWorkLogo()" @mouseleave="hideNetWorkLogo()">
-              <li class="network_list_item"
-                  :class="item.network_id == constant.CHAINID.STARGATE ? 'stargate_icon' : ''"
-                  v-for="item in netWorkArray"
-                  :key="item.network_id"
-                  @click="windowOpenUrl(item.uri)">
-                  <i v-if="item.network_id !== constant.CHAINID.DATANGCHAINMAIN" :class="item.icon"></i>
-                  <img v-if="item.network_id == constant.CHAINID.DATANGCHAINMAIN" class="datang_svg" src="../../assets/datangchain_main.svg" alt="">
-                  {{item.network_name}}
-              </li>
-          </ul>
+      <div
+        v-show="flShowNetwork"
+        class="header_network_container"
+        @mouseenter="showNetWorkLogo()"
+        @mouseleave="hideNetWorkLogo()"
+      >
+        <span style="color: #fff">
+          <i
+            style="font-size: 0.24rem; padding-right: 0.02rem"
+            :class="mainnet.icon"
+          ></i>
+          <i
+            style="font-size: 0.08rem"
+            class="iconfont iconwangluoqiehuanjiantou"
+          ></i>
+        </span>
+        <ul
+          class="network_list_container"
+          v-show="flShowNetworkLogo && netWorkArray.length !== 0"
+          @mouseenter="showNetWorkLogo()"
+          @mouseleave="hideNetWorkLogo()"
+        >
+          <li
+            class="network_list_item"
+            :class="
+              item.network_id == constant.CHAINID.STARGATE
+                ? 'stargate_icon'
+                : ''
+            "
+            v-for="item in netWorkArray"
+            :key="item.network_id"
+            @click="windowOpenUrl(item.uri)"
+          >
+            <i
+              v-if="item.network_id !== constant.CHAINID.DATANGCHAINMAIN"
+              :class="item.icon"
+            />
+            <img
+              v-if="item.network_id == constant.CHAINID.DATANGCHAINMAIN"
+              class="datang_svg"
+              src="../../assets/datangchain_main.svg"
+              alt=""
+            />
+            {{ item.network_name }}
+          </li>
+        </ul>
       </div>
 
       <div class="use_feature_mobile" v-if="featureShow">
-        <div v-for="(item, index) in menuList" class="mobile_tab_item_wrap" :key="String(index)" :style="`color:${(prodConfig.nav || {}).color || ''}`">
-          <span class="mobile_tab_item" @click="mobileMenuDidClick(item, index, false)" v-if="!item.children">
+        <div
+          v-for="(item, index) in menuList"
+          class="mobile_tab_item_wrap"
+          :key="String(index)"
+          :style="`color:${(prodConfig.nav || {}).color || ''}`"
+        >
+          <span
+            class="mobile_tab_item"
+            @click="mobileMenuDidClick(item, index, false)"
+            v-if="!item.children"
+          >
             {{ item.title }}
           </span>
           <div class="mobile_tab_item_children_container" v-else>
-            <span class="mobile_tab_item mobile_tab_item_has_children" @click="handleParentTitleClick(index)">
+            <span
+              class="mobile_tab_item mobile_tab_item_has_children"
+              @click="handleParentTitleClick(index)"
+            >
               {{ item.title }}
-              <img src="../../assets/expanding.svg" v-show="!expandingList.includes(index)" class="mobile_tab_item_icon" />
-              <img src="../../assets/retract.svg" v-show="expandingList.includes(index)" class="mobile_tab_item_icon" />
+              <img
+                src="../../assets/expanding.svg"
+                v-show="!expandingList.includes(index)"
+                class="mobile_tab_item_icon"
+              />
+              <img
+                src="../../assets/retract.svg"
+                v-show="expandingList.includes(index)"
+                class="mobile_tab_item_icon"
+              />
             </span>
             <transition name="fade">
-              <div class="mobile_tab_item_sub_children_container" v-show="expandingList.includes(index)">
-                <span class="mobile_tab_item mobile_tab_item_child" :key="String(subIndex + 10)" @click="mobileMenuDidClick(child, subIndex, true)" v-for="(child, subIndex) in item.children">
+              <div
+                class="mobile_tab_item_sub_children_container"
+                v-show="expandingList.includes(index)"
+              >
+                <span
+                  class="mobile_tab_item mobile_tab_item_child"
+                  :key="String(subIndex + 10)"
+                  @click="mobileMenuDidClick(child, subIndex, true)"
+                  v-for="(child, subIndex) in item.children"
+                >
                   {{ child.title }}
                 </span>
               </div>
             </transition>
           </div>
         </div>
-        <div v-show="flShowNetwork" class="mobile_tab_item_wrap" :style="`color:${(prodConfig.nav || {}).color || ''}`">
-              <div class="mobile_tab_item_children_container" >
-                  <span class="mobile_tab_item mobile_tab_item_has_children" @click="flShowNetWork">
-                    {{$t('ExplorerLang.Navigation.network')}}
-                    <img src="../../assets/expanding.svg" v-show="!flShowNetWorkMenu" class="mobile_tab_item_icon" />
-                    <img src="../../assets/retract.svg" v-show="flShowNetWorkMenu" class="mobile_tab_item_icon" />
-                  </span>
-                  <transition name="fade">
-                    <ul class="mobile_tab_item_sub_children_container" v-show="flShowNetWorkMenu && netWorkArray.length !== 0">
-                        <li class="mobile_tab_item mobile_tab_item_child" v-for="item in netWorkArray" :key="item.network_id">
-                            <a style="color:white;" :href="item.uri" target='_blank'>{{item.network_name}}</a>
-                        </li>
-                    </ul>
-                  </transition>
-              </div>
+        <div
+          v-show="flShowNetwork"
+          class="mobile_tab_item_wrap"
+          :style="`color:${(prodConfig.nav || {}).color || ''}`"
+        >
+          <div class="mobile_tab_item_children_container">
+            <span
+              class="mobile_tab_item mobile_tab_item_has_children"
+              @click="flShowNetWork"
+            >
+              {{ $t("ExplorerLang.Navigation.network") }}
+              <img
+                src="../../assets/expanding.svg"
+                v-show="!flShowNetWorkMenu"
+                class="mobile_tab_item_icon"
+              />
+              <img
+                src="../../assets/retract.svg"
+                v-show="flShowNetWorkMenu"
+                class="mobile_tab_item_icon"
+              />
+            </span>
+            <transition name="fade">
+              <ul
+                class="mobile_tab_item_sub_children_container"
+                v-show="flShowNetWorkMenu && netWorkArray.length !== 0"
+              >
+                <li
+                  class="mobile_tab_item mobile_tab_item_child"
+                  v-for="item in netWorkArray"
+                  :key="item.network_id"
+                >
+                  <a style="color: white" :href="item.uri" target="_blank">{{
+                    item.network_name
+                  }}</a>
+                </li>
+              </ul>
+            </transition>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import Tools from '../../util/Tools'
-import constant,{ ModuleMap,product, COSMOS_ADDRESS_PREFIX} from '../../constant'
-import prodConfig from '../../productionConfig'
-import { getBlockWithHeight, getTxDetail, getAddressTxList } from '@/service/api'
-import { moduleSupport } from "@/helper/ModulesHelper"
-import { getConfig, addressRoute, getMainToken } from "@/helper/IritaHelper"
+import {
+  getBlockWithHeight,
+  getTxDetail,
+  getAddressTxList,
+} from '@/service/api';
+import MenuItem from '@/components/common/MenuItem';
+import { moduleSupport } from '@/helper/ModulesHelper';
+import { getConfig, addressRoute, getMainToken } from '@/helper/IritaHelper';
+import Tools from '../../util/Tools';
+import constant, {
+  ModuleMap,
+  product,
+  COSMOS_ADDRESS_PREFIX,
+	NETWORK_ICON,
+	CHAIN_ICON
+} from '../../constant';
+import prodConfig from '../../productionConfig';
+
 export default {
+  components: {
+    MenuItem,
+  },
   data() {
     return {
+      test: {},
       moduleSupport,
       prodConfig,
       activeIndex: '1',
@@ -127,56 +255,61 @@ export default {
       menuList: [],
       searchShow: false,
       expandingList: [],
-      flShowNetwork:false,
-      flShowNetworkLogo:false,
-      netWorkArray:[],
+      flShowNetwork: false,
+      flShowNetworkLogo: false,
+      netWorkArray: [],
       // currentNetworkClass:'',
-      flShowNetWorkMenu:false,
-      mainnet:{},
+      flShowNetWorkMenu: false,
+      mainnet: {},
       constant,
-        mainToken:'',
-    }
+      mainToken: '',
+    };
   },
   computed: {
     logoImg() {
-      let img = ''
+      let img = '';
       try {
-        img = require('../../assets/logo.png')
+        img = require('../../assets/logo.png');
       } catch (e) {}
-      return img
+      return img;
     },
   },
   created() {
-    this.getConfigApi()
+    this.getConfigApi();
   },
   mounted() {
     // this.$Crypto.getCrypto('iris', 'testnet');
     this.setActiveIndex();
-      this.menuList = this.loadModules(prodConfig.navFuncList)
+    this.menuList = this.loadModules(prodConfig.navFuncList);
   },
   watch: {
     $route: {
       handler(val) {
-        this.setActiveIndex(val.path)
+        this.setActiveIndex(val.path);
       },
       deep: true,
     },
   },
   methods: {
     loadModules(funcList) {
-      let menuList = []
+      const menuList = [];
       if (funcList && funcList.length) {
-        funcList.forEach(item => {
+        funcList.forEach((item) => {
           if (item.children && item.children.length) {
-            let submenu = { title: item.title }
-            submenu.children = this.loadModules(item.children)
-            menuList.push(submenu)
+            const submenu = {
+              ...item,
+              children: this.loadModules(item.children),
+            };
+            menuList.push(submenu);
           } else if (ModuleMap[item.id]) {
-            let menu = ModuleMap[item.id]
+            const menu = ModuleMap[item.id];
             if (item.title) {
-              menu.title = item.title.replace('\$\{mainToken\}', this.$store.state.mainToken)
+              menu.title = item.title.replace(
+                '\$\{mainToken\}',
+                this.$store.state.mainToken,
+              );
             }
-            menuList.push(menu)
+            menuList.push(menu);
           }
           if (item == '1000') {
             this.searchShow = true;
@@ -184,57 +317,56 @@ export default {
           if (item == '1001') {
             this.flShowNetwork = true;
           }
-        })
+        });
       }
-       return menuList;
+      return menuList;
     },
     handleSelect(key, keyPath) {},
     handleParentTitleClick(index) {
       if (this.expandingList.includes(index)) {
         this.expandingList.splice(
-          this.expandingList.findIndex(i => i === index),
-          1
-        )
+          this.expandingList.findIndex((i) => i === index),
+          1,
+        );
       } else {
-        this.expandingList.push(index)
+        this.expandingList.push(index);
       }
     },
     onInputChange() {
-      this.getData()
+      this.getData();
     },
     logoClick() {
-      this.$router.push(`/home`)
+      this.$router.push('/home');
     },
     setActiveIndex(hash = window.location.hash) {
-      if (this.menuList.every(m => !hash.includes(m.link))) {
-        this.activeIndex2 = ''
+      if (this.menuList.every((m) => !hash.includes(m.link))) {
+        this.activeIndex2 = '';
       } else {
         this.menuList.forEach((m, i) => {
           if (hash.includes(m.link)) {
-            this.activeIndex2 = String(i + 1)
+            this.activeIndex2 = String(i + 1);
           }
-        })
+        });
       }
     },
     clearSearchContent() {
-      this.searchInputValue = ''
+      this.searchInputValue = '';
     },
     mobileMenuDidClick(item, index) {
-      this.$router.push(item.link)
-      this.activeIndex2 = String(index + 1)
-      this.featureShow = false
-      this.expandingList = []
+      this.$router.push(item.link);
+      this.activeIndex2 = String(index + 1);
+      this.featureShow = false;
+      this.expandingList = [];
     },
     getData() {
-
       // 从if-else 改为if return，减少嵌套。if先后顺序不变，保持之前的判断先后。
       if (!Tools.removeAllSpace(this.searchInputValue)) {
-        this.clearSearchContent()
+        this.clearSearchContent();
         return;
       }
 
       // cosmos 不让跳转了
-      if(this.searchInputValue.startsWith(COSMOS_ADDRESS_PREFIX)){
+      if (this.searchInputValue.startsWith(COSMOS_ADDRESS_PREFIX)) {
         this.toSearchResultPage();
         return;
       }
@@ -259,20 +391,20 @@ export default {
     },
     async searchBlock() {
       try {
-        let blockData = await getBlockWithHeight(this.searchInputValue)
+        const blockData = await getBlockWithHeight(this.searchInputValue);
         if (blockData && blockData.height) {
-          this.$router.push(`/block/${this.searchInputValue}`)
-          this.clearSearchContent()
+          this.$router.push(`/block/${this.searchInputValue}`);
+          this.clearSearchContent();
         } else {
-          this.toSearchResultPage()
+          this.toSearchResultPage();
         }
       } catch (e) {
-        console.error(e)
-        this.toSearchResultPage()
+        console.error(e);
+        this.toSearchResultPage();
       }
     },
     async searchDelegator() {
-      addressRoute.call(this,this.searchInputValue);
+      addressRoute.call(this, this.searchInputValue);
       this.clearSearchContent();
       // try {
       //   const res = await getAddressTxList(this.searchInputValue, '', '', 1, 1)
@@ -289,88 +421,53 @@ export default {
     },
     async searchTx() {
       try {
-        const res = await getTxDetail(this.searchInputValue)
+        const res = await getTxDetail(this.searchInputValue);
         if (res) {
-          this.$router.push(`/tx?txHash=${this.searchInputValue}`)
-          this.clearSearchContent()
+          this.$router.push(`/tx?txHash=${this.searchInputValue}`);
+          this.clearSearchContent();
         } else {
-          this.toSearchResultPage()
+          this.toSearchResultPage();
         }
       } catch (e) {
-        console.error(e)
-        this.toSearchResultPage()
+        console.error(e);
+        this.toSearchResultPage();
       }
     },
     toSearchResultPage() {
-      this.$router.push(`/searchResult?${this.searchInputValue}`)
-      this.searchInputValue = ''
+      this.$router.push(`/searchResult?${this.searchInputValue}`);
+      this.searchInputValue = '';
     },
-    showNetWorkLogo(){
-		this.flShowNetworkLogo = true;
+    showNetWorkLogo() {
+      this.flShowNetworkLogo = true;
     },
-		hideNetWorkLogo(){
-		this.flShowNetworkLogo = false;
+    hideNetWorkLogo() {
+      this.flShowNetworkLogo = false;
     },
-    async getConfigApi () {
-        let config = await getConfig();
-        this.handleConfigs(config.networkData);
+    async getConfigApi() {
+      const config = await getConfig();
+      this.handleConfigs(config.networkData);
     },
-    handleConfigs (configs=[]) {
-      this.netWorkArray = configs.map(item => {
-          if(item.network_id === constant.CHAINID.IRISHUB){
-                item.icon = 'iconfont iconiris'
-          }else if(item.network_id === constant.CHAINID.FUXI){
-              item.icon = 'iconfont iconfuxi1'
-          }else if(item.network_id === constant.CHAINID.NYANCAT){
-              item.icon = 'iconfont iconcaihongmao'
-          }else if(item.network_id === constant.CHAINID.GOZTESTNET){
-              item.icon = 'iconfont iconGOZ'
-          } else if (item.network_id === constant.CHAINID.BIFROST) {
-              item.icon = 'iconfont iconBI-01'
-          } else if (item.network_id === constant.CHAINID.STARGATE) {
-              item.icon = 'iconfont iconStargate'
-          } else if (item.network_id === constant.CHAINID.COSMOSHUB) {
-              item.icon = 'iconfont iconCosmosHub'
-          } else if(item.network_id === constant.CHAINID.WENCHANG){
-            item.icon ='iconfont iconBianjie_wenchanglian_Logo-02'
-          }else if(item.network_id === constant.CHAINID.IRITA){
-            item.icon = 'iconfont iconxingzhuangjiehe1'
-          } else if(item.network_id === constant.CHAINID.DATANGCHAINMAIN || item.network_id === constant.CHAINID.DATANGCHAINTESTNET) {
-              item.icon = 'iconfont iconhuaban'
-          }
-          if (item.is_main) {
-              this.mainnet = {...item};
-          }
-          return item
-      })
-      switch (prodConfig.product) {
-        case product.bifrost:
-          this.mainnet = {icon:'iconfont iconBI-01'};
-          break;
-        case product.stargate:
-          this.mainnet = {icon:'iconfont iconStargate'};
-          break;
-        case product.cosmosHub:
-          this.mainnet = {icon:'iconfont iconCosmosHub'};
-          break;
-        case product.nyancat:
-          this.mainnet = {icon:'iconfont iconcaihongmao'};
-          break;
-        case product.irishub:
-          this.mainnet = {icon:'iconfont iconiris'};
-          break;
-        default:
-          break;
+    handleConfigs(configs = []) {
+      this.netWorkArray = configs.map((item) => {
+      // eslint-disable-next-line no-param-reassign
+        item.icon = item?.network_id ? NETWORK_ICON[item.network_id] : '';
+	      if (item.is_main) {
+	        this.mainnet = { ...item };
+	      }
+        return item;
+      });
+      if (prodConfig?.product) {
+        this.mainnet = CHAIN_ICON[prodConfig.product] || {};
       }
     },
-    windowOpenUrl (url) {
-		  window.open(url)
+    windowOpenUrl(url) {
+      window.open(url);
     },
     flShowNetWork() {
-      this.flShowNetWorkMenu = !this.flShowNetWorkMenu
+      this.flShowNetWorkMenu = !this.flShowNetWorkMenu;
     },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -410,12 +507,12 @@ export default {
           margin-right: 0.12rem;
         }
         .header_logo_content_title {
-            font-weight: bold;
-            letter-spacing: 0.011rem;
-            font-size: $s14;
+          font-weight: bold;
+          letter-spacing: 0.011rem;
+          font-size: $s14;
         }
         .header_logo_content_subTitle {
-          color:rgba(255,255,255,0.85);
+          color: rgba(255, 255, 255, 0.85);
           font-size: $s12;
         }
       }
@@ -440,9 +537,8 @@ export default {
               .el-submenu__icon-arrow {
                 color: inherit !important;
               }
-                padding:0 12px;
+              padding: 0 12px;
             }
-
           }
         }
         .el-menu.el-menu--horizontal {
@@ -508,60 +604,60 @@ export default {
     .header_mobile_menu {
       display: none;
       .menu_btn {
-          width: 0.2rem;
-          height: 0.2rem;
-          top: 0.26rem;
-          right: 0.1rem;
-          img {
-            width: 100%;
-          }
+        width: 0.2rem;
+        height: 0.2rem;
+        top: 0.26rem;
+        right: 0.1rem;
+        img {
+          width: 100%;
         }
+      }
     }
   }
-  .header_network_container{
-      position: relative;
-      height:0.6rem;
-      line-height: 0.6rem;
-      padding-left: 0.2rem;
-      .network_list_container{
-          background: #fff;
-          box-shadow: 0 0.02rem 0.1rem 0 rgba(3,16,114,0.15);
-          width: auto;
-          position: absolute;
-          right: 0;
-          top: 0.6rem;
-          z-index: 2;
-          text-align: right;
-          .network_list_item{
-              height: 0.4rem;
-              line-height: 0.4rem;
-              white-space: nowrap;
-              padding: 0 0.2rem;
-              cursor: pointer;
-              font-size: $s14;
-              display: flex;
-              &:hover{
-                  background: #F6F7FF;
-              }
-              i{
-                  font-size: $s18;
-                  color: var(--titleColor);
-                  padding-right: 0.2rem;
-              }
-              .datang_svg {
-                  padding-right: 0.2rem;
-                  width: 0.18rem;
-              }
-          }
-          .stargate_icon {
-            i {
-              font-size: $s14;
-            }
-          }
-          .network_list_item:last-child{
-              padding-bottom: 0.05rem;
-          }
+  .header_network_container {
+    position: relative;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    padding-left: 0.2rem;
+    .network_list_container {
+      background: #fff;
+      box-shadow: 0 0.02rem 0.1rem 0 rgba(3, 16, 114, 0.15);
+      width: auto;
+      position: absolute;
+      right: 0;
+      top: 0.6rem;
+      z-index: 2;
+      text-align: right;
+      .network_list_item {
+        height: 0.4rem;
+        line-height: 0.4rem;
+        white-space: nowrap;
+        padding: 0 0.2rem;
+        cursor: pointer;
+        font-size: $s14;
+        display: flex;
+        &:hover {
+          background: #f6f7ff;
+        }
+        i {
+          font-size: $s18;
+          color: var(--titleColor);
+          padding-right: 0.2rem;
+        }
+        .datang_svg {
+          padding-right: 0.2rem;
+          width: 0.18rem;
+        }
       }
+      .stargate_icon {
+        i {
+          font-size: $s14;
+        }
+      }
+      .network_list_item:last-child {
+        padding-bottom: 0.05rem;
+      }
+    }
   }
   .use_feature_mobile {
     display: none;
@@ -610,7 +706,7 @@ export default {
     }
   }
 }
-.el-menu--horizontal .el-menu .el-menu-item a{
+.el-menu--horizontal .el-menu .el-menu-item a {
   display: inline-block;
   width: 100%;
 }

@@ -1,4 +1,4 @@
-FROM node:14.4.0-alpine3.12 AS builder
+FROM node:16.15.1-alpine3.16 AS builder
 WORKDIR /app
 COPY . .
 RUN apk add make git && npm i cnpm -g  && make setup && make setup_and_build

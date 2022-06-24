@@ -120,7 +120,7 @@ let config = {
       '1001',
   ],
   //首页卡片配置
-  homeCard:[200,201,203,209,208,204,205,206],
+  homeCard:[200,201,203,209,208,204,205,206,211],
   text:{
       //预设字体颜色
       color:{
@@ -168,6 +168,10 @@ let config = {
   umeng: {
     umengId: 1279754478,
     umengWebId: 1279754478
-  }
+  },
+
+  isShowSendAndReceiveTxCount: true, // 控制地址详情页是否展示发送接收交易总数模块
+  isShowSendTxCount: true, // 控制发送接收交易总数模块中的发送交易总数展示
+  isShowReceiveTxCount: true, // 控制发送接收交易总数模块中的接受交易总数展示
 }
 module.exports = config;

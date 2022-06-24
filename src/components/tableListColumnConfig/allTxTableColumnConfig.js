@@ -3,17 +3,17 @@ import VueI18n from 'vue-i18n';
 import prodConfig from "../../productionConfig";
 
 const i18n = new VueI18n({
-    locale:prodConfig.lang == 'EN' ? 'EN' : 'CN',
+    locale: prodConfig.lang == 'EN' ? 'EN' : 'CN',
     messages: {
-        "CN" : require('../../../lang/CN-Cindy'),
-        "EN" : require('../../../lang/EN-Cindy')
+        "CN": require('../../../lang/CN-Cindy'),
+        "EN": require('../../../lang/EN-Cindy')
     }
 })
 export const needAddColumn = {
 
     send: [
         {
-            label:i18n.t('ExplorerLang.table.amount'),
+            label: i18n.t('ExplorerLang.table.amount'),
             displayValue: 'amount',
             isRight: true
         },
@@ -32,7 +32,7 @@ export const needAddColumn = {
             linkRoute: '/address/',
         },
         {
-            label:i18n.t('ExplorerLang.table.to'),
+            label: i18n.t('ExplorerLang.table.to'),
             displayValue: 'to',
             nativeValue: 'to',
             isNeedFormat: true,
@@ -53,7 +53,7 @@ export const needAddColumn = {
             isShowDenomTip: true,
         },
         {
-            label:i18n.t('ExplorerLang.table.from'),
+            label: i18n.t('ExplorerLang.table.from'),
             displayValue: 'from',
             nativeValue: 'from',
             isFormatAddress: true,
@@ -377,7 +377,7 @@ export const needAddColumn = {
         {
             label: i18n.t('ExplorerLang.table.author'),
             displayValue: 'author',
-            nativeValue:'author',
+            nativeValue: 'author',
             isNeedFormat: true,
             isFormatAddress: true,
             isLink: true,
@@ -539,7 +539,7 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.consumer'),
             displayValue: 'consumer',
             nativeValue: 'consumer',
-            isLink:true,
+            isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
@@ -565,7 +565,7 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.consumer'),
             displayValue: 'consumer',
             nativeValue: 'consumer',
-            isLink:true,
+            isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
@@ -591,7 +591,7 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.consumer'),
             displayValue: 'consumer',
             nativeValue: 'consumer',
-            isLink:true,
+            isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
@@ -617,7 +617,7 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.consumer'),
             displayValue: 'consumer',
             nativeValue: 'consumer',
-            isLink:true,
+            isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
@@ -643,7 +643,7 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.consumer'),
             displayValue: 'consumer',
             nativeValue: 'consumer',
-            isLink:true,
+            isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
@@ -658,7 +658,7 @@ export const needAddColumn = {
             isFormatNftIdAndDenomId: true,
         },
         {
-            label:i18n.t('ExplorerLang.table.denomId'),
+            label: i18n.t('ExplorerLang.table.denomId'),
             displayValue: 'denomId',
             nativeValue: 'denomId',
             isNeedFormat: true,
@@ -786,6 +786,8 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.denomName'),
             displayValue: 'denomName',
             nativeValue: 'denomName',
+            isNeedFormat:true,
+            isFormatAddress:true,
         },
         {
             label: i18n.t('ExplorerLang.table.sender'),
@@ -799,30 +801,30 @@ export const needAddColumn = {
     ],
     transfer_denom: [
         {
-            label:i18n.t('ExplorerLang.table.denomId'),
-            displayValue:'denomId',
-            nativeValue:'denomId',
+            label: i18n.t('ExplorerLang.table.denomId'),
+            displayValue: 'denomId',
+            nativeValue: 'denomId',
             isNeedFormat: true,
             isFormatNftIdAndDenomId: true,
 
         },
         {
-            label:i18n.t('ExplorerLang.table.sender'),
-            displayValue:'sender',
-            nativeValue:'sender',
+            label: i18n.t('ExplorerLang.table.sender'),
+            displayValue: 'sender',
+            nativeValue: 'sender',
             isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
         },
         {
-            label:i18n.t('ExplorerLang.table.receiver'),
-            displayValue:'receiver',
-            nativeValue:'receiver',
+            label: i18n.t('ExplorerLang.table.receiver'),
+            displayValue: 'receiver',
+            nativeValue: 'receiver',
             isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
-            linkRoute:'/address/',
+            linkRoute: '/address/',
         },
     ],
     swap_order: [
@@ -844,8 +846,8 @@ export const needAddColumn = {
             label: ' ',
             displayValue: 'swapAmount1Denom',
             isShowDenomTip: true,
-            isDoubleAsset:true, // 用于上色判断双资产
-            isLeftAsset:true // 判断第一个资产 两者配合使用
+            isDoubleAsset: true, // 用于上色判断双资产
+            isLeftAsset: true // 判断第一个资产 两者配合使用
         },
         {
             label: i18n.t('ExplorerLang.table.swapAmount2'),
@@ -856,8 +858,8 @@ export const needAddColumn = {
             label: '',
             displayValue: 'swapAmount2Denom',
             isShowDenomTip: true,
-            isDoubleAsset:true,
-            isLeftAsset:false
+            isDoubleAsset: true,
+            isLeftAsset: false
         },
     ],
     add_liquidity: [
@@ -879,8 +881,8 @@ export const needAddColumn = {
             label: '',
             displayValue: 'swapAmount1Denom',
             isShowDenomTip: true,
-            isDoubleAsset:true,
-            isLeftAsset:true
+            isDoubleAsset: true,
+            isLeftAsset: true
         },
         {
             label: i18n.t('ExplorerLang.table.swapAmount2'),
@@ -891,8 +893,8 @@ export const needAddColumn = {
             label: ' ',
             displayValue: 'swapAmount2Denom',
             isShowDenomTip: true,
-            isDoubleAsset:true,
-            isLeftAsset:false
+            isDoubleAsset: true,
+            isLeftAsset: false
         },
     ],
     remove_liquidity: [
@@ -915,8 +917,8 @@ export const needAddColumn = {
             label: '',
             displayValue: 'swapAmount1Denom',
             isShowDenomTip: true,
-            isDoubleAsset:true,
-            isLeftAsset:true,
+            isDoubleAsset: true,
+            isLeftAsset: true,
         },
         {
             label: i18n.t('ExplorerLang.table.swapAmount2'),
@@ -928,8 +930,8 @@ export const needAddColumn = {
             label: ' ',
             displayValue: 'swapAmount2Denom',
             isShowDenomTip: true,
-            isDoubleAsset:true,
-            isLeftAsset:false
+            isDoubleAsset: true,
+            isLeftAsset: false
         },
     ],
     // Farm 各二级标签列名
@@ -952,9 +954,9 @@ export const needAddColumn = {
             isShowDenomTip: true,
         },
         {
-            label:i18n.t('ExplorerLang.table.sender'),
-            displayValue:'sender',
-            nativeValue:'sender',
+            label: i18n.t('ExplorerLang.table.sender'),
+            displayValue: 'sender',
+            nativeValue: 'sender',
             isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
@@ -980,9 +982,9 @@ export const needAddColumn = {
             isShowDenomTip: true,
         },
         {
-            label:i18n.t('ExplorerLang.table.sender'),
-            displayValue:'sender',
-            nativeValue:'sender',
+            label: i18n.t('ExplorerLang.table.sender'),
+            displayValue: 'sender',
+            nativeValue: 'sender',
             isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
@@ -998,9 +1000,9 @@ export const needAddColumn = {
             isNeedFormat: true,
         },
         {
-            label:i18n.t('ExplorerLang.table.sender'),
-            displayValue:'sender',
-            nativeValue:'sender',
+            label: i18n.t('ExplorerLang.table.sender'),
+            displayValue: 'sender',
+            nativeValue: 'sender',
             isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
@@ -1017,8 +1019,8 @@ export const needAddColumn = {
             label: '',
             displayValue: 'totalReward1Denom',
             isShowDenomTip: true,
-            isDoubleAsset:true,
-            isLeftAsset:true
+            isDoubleAsset: true,
+            isLeftAsset: true
         },
         {
             label: i18n.t('ExplorerLang.table.totalReward2'),
@@ -1029,14 +1031,14 @@ export const needAddColumn = {
             label: ' ',
             displayValue: 'totalReward2Denom',
             isShowDenomTip: true,
-            isDoubleAsset:true,
-            isLeftAsset:false
+            isDoubleAsset: true,
+            isLeftAsset: false
         },
         {
             label: i18n.t('ExplorerLang.table.creator'),
             displayValue: 'poolCreator',
             nativeValue: 'poolCreator',
-            isLink:true,
+            isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
@@ -1061,7 +1063,7 @@ export const needAddColumn = {
             isFormatNftIdAndDenomId: true,
         },
         {
-            label:i18n.t('ExplorerLang.table.initialDeposit'),
+            label: i18n.t('ExplorerLang.table.initialDeposit'),
             displayValue: 'initialDeposit',
             isRight: true,
         },
@@ -1083,7 +1085,7 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.creator'),
             displayValue: 'poolCreator',
             nativeValue: 'poolCreator',
-            isLink:true,
+            isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
@@ -1101,7 +1103,7 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.creator'),
             displayValue: 'poolCreator',
             nativeValue: 'poolCreator',
-            isLink:true,
+            isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
@@ -1153,8 +1155,6 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.sender'),
             displayValue: 'from',
             nativeValue: 'from',
-            isHref: true,
-            href: cfg.cosmosXpAddress,
             isNeedFormat: true,
             isFormatAddress: true,
         },
@@ -1165,7 +1165,7 @@ export const needAddColumn = {
             isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
-            linkRoute:'/address/',
+            linkRoute: '/address/',
         }
     ],
     timeout_packet: [
@@ -1204,7 +1204,7 @@ export const needAddColumn = {
             isRight: true
         },
         {
-            label:'',
+            label: '',
             displayValue: 'denom',
             isShowDenomTip: true,
         },
@@ -1234,7 +1234,7 @@ export const needAddColumn = {
             isRight: true
         },
         {
-            label:'',
+            label: '',
             displayValue: 'denom',
             isShowDenomTip: true,
         },
@@ -1267,7 +1267,7 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.creator'),
             displayValue: 'oracleCreator',
             nativeValue: 'oracleCreator',
-            isLink:true,
+            isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
@@ -1283,7 +1283,7 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.creator'),
             displayValue: 'oracleCreator',
             nativeValue: 'oracleCreator',
-            isLink:true,
+            isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
@@ -1299,7 +1299,7 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.creator'),
             displayValue: 'oracleCreator',
             nativeValue: 'oracleCreator',
-            isLink:true,
+            isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
@@ -1315,7 +1315,7 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.creator'),
             displayValue: 'oracleCreator',
             nativeValue: 'oracleCreator',
-            isLink:true,
+            isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
@@ -1326,7 +1326,7 @@ export const needAddColumn = {
             label: i18n.t('ExplorerLang.table.consumer'),
             displayValue: 'consumer',
             nativeValue: 'consumer',
-            isLink:true,
+            isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
@@ -1340,8 +1340,8 @@ export const needAddColumn = {
     create_record: [
         {
             label: i18n.t('ExplorerLang.table.digest'),
-            displayValue:'digest',
-            nativeValue:'digest',
+            displayValue: 'digest',
+            nativeValue: 'digest',
             isNeedFormatHash: true,
             isHref: true,
             href: '',
@@ -1476,24 +1476,24 @@ export const needAddColumn = {
             isFormatNftIdAndDenomId: true,
         },
         {
-            label:i18n.t('ExplorerLang.table.initialDeposit'),
+            label: i18n.t('ExplorerLang.table.initialDeposit'),
             displayValue: 'amount',
             nativeValue: 'amount',
-            isShowTokenSymbol:true,
+            isShowTokenSymbol: true,
         },
     ],
     deposit: [
         {
             label: i18n.t('ExplorerLang.table.proposalID'),
-            displayValue:'proposalId',
-            nativeValue:'proposalId',
+            displayValue: 'proposalId',
+            nativeValue: 'proposalId',
             isLink: true,
             linkRoute: '/ProposalsDetail/'
         },
         {
             label: i18n.t('ExplorerLang.table.depositor'),
-            displayValue:'depositor',
-            nativeValue:'depositor',
+            displayValue: 'depositor',
+            nativeValue: 'depositor',
             isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
@@ -1501,22 +1501,22 @@ export const needAddColumn = {
         },
         {
             label: i18n.t('ExplorerLang.table.deposit'),
-            displayValue:'amount',
-            nativeValue:'amount',
+            displayValue: 'amount',
+            nativeValue: 'amount',
         },
     ],
     vote: [
         {
             label: i18n.t('ExplorerLang.table.proposalID'),
-            displayValue:'proposalId',
-            nativeValue:'proposalId',
+            displayValue: 'proposalId',
+            nativeValue: 'proposalId',
             isLink: true,
             linkRoute: '/ProposalsDetail/'
         },
         {
             label: i18n.t('ExplorerLang.table.voter'),
-            displayValue:'voter',
-            nativeValue:'voter',
+            displayValue: 'voter',
+            nativeValue: 'voter',
             isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
@@ -1524,8 +1524,8 @@ export const needAddColumn = {
         },
         {
             label: i18n.t('ExplorerLang.table.govOption'),
-            displayValue:'option',
-            nativeValue:'option'
+            displayValue: 'option',
+            nativeValue: 'option'
         },
     ],
     create_client: [
@@ -1742,18 +1742,18 @@ export const needAddColumn = {
         },
     ],
     //新增tibc展示配置字段
-    tibc_nft_transfer:[
+    tibc_nft_transfer: [
         {
-            label:i18n.t('ExplorerLang.table.nftId'),
-            displayValue:'nftId',
-            nativeValue:'nftId',
+            label: i18n.t('ExplorerLang.table.nftId'),
+            displayValue: 'nftId',
+            nativeValue: 'nftId',
             isNeedFormat: true,
             isFormatNftIdAndDenomId: true,
         },
         {
-            label:i18n.t('ExplorerLang.table.sender'),
-            displayValue:'sender',
-            nativeValue:'sender',
+            label: i18n.t('ExplorerLang.table.sender'),
+            displayValue: 'sender',
+            nativeValue: 'sender',
             isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
@@ -1761,46 +1761,46 @@ export const needAddColumn = {
 
         },
         {
-            label:i18n.t('ExplorerLang.table.destinationChain'),
-            displayValue:'dest_chain',
-            nativeValue:'dest_chain',
+            label: i18n.t('ExplorerLang.table.destinationChain'),
+            displayValue: 'dest_chain',
+            nativeValue: 'dest_chain',
         },
     ],
-    tibc_recv_packet:[
+    tibc_recv_packet: [
         {
-            label:i18n.t('ExplorerLang.table.nftId'),
-            displayValue:'nftId',
-            nativeValue:'nftId',
+            label: i18n.t('ExplorerLang.table.nftId'),
+            displayValue: 'nftId',
+            nativeValue: 'nftId',
             isNeedFormat: true,
             isFormatNftIdAndDenomId: true,
         },
         {
-            label:i18n.t('ExplorerLang.table.receiver'),
-            displayValue:'receiver',
-            nativeValue:'receiver',
+            label: i18n.t('ExplorerLang.table.receiver'),
+            displayValue: 'receiver',
+            nativeValue: 'receiver',
             isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
         },
         {
-            label:i18n.t('ExplorerLang.table.sourceChain'),
-            displayValue:'source_chain',
-            nativeValue:'source_chain',
+            label: i18n.t('ExplorerLang.table.sourceChain'),
+            displayValue: 'source_chain',
+            nativeValue: 'source_chain',
         },
     ],
-    tibc_acknowledge_packet:[
+    tibc_acknowledge_packet: [
         {
-            label:i18n.t('ExplorerLang.table.nftId'),
-            displayValue:'nftId',
-            nativeValue:'nftId',
+            label: i18n.t('ExplorerLang.table.nftId'),
+            displayValue: 'nftId',
+            nativeValue: 'nftId',
             isNeedFormat: true,
             isFormatNftIdAndDenomId: true,
         },
         {
-            label:i18n.t('ExplorerLang.table.sender'),
-            displayValue:'sender',
-            nativeValue:'sender',
+            label: i18n.t('ExplorerLang.table.sender'),
+            displayValue: 'sender',
+            nativeValue: 'sender',
             isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
@@ -1808,26 +1808,26 @@ export const needAddColumn = {
 
         },
         {
-            label:i18n.t('ExplorerLang.table.destinationChain'),
-            displayValue:'dest_chain',
-            nativeValue:'dest_chain',
+            label: i18n.t('ExplorerLang.table.destinationChain'),
+            displayValue: 'dest_chain',
+            nativeValue: 'dest_chain',
         },
     ],
-    clean_packet:[
+    clean_packet: [
 
         {
-            label:i18n.t('ExplorerLang.table.sequence'),
-            displayValue:'sequence',
+            label: i18n.t('ExplorerLang.table.sequence'),
+            displayValue: 'sequence',
         },
         {
-            label:i18n.t('ExplorerLang.table.sourceChain'),
-            displayValue:'source_chain',
-            nativeValue:'source_chain',
+            label: i18n.t('ExplorerLang.table.sourceChain'),
+            displayValue: 'source_chain',
+            nativeValue: 'source_chain',
         },
         {
-            label:i18n.t('ExplorerLang.table.signer'),
-            displayValue:'signer',
-            nativeValue:'signer',
+            label: i18n.t('ExplorerLang.table.signer'),
+            displayValue: 'signer',
+            nativeValue: 'signer',
             isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
@@ -1835,39 +1835,39 @@ export const needAddColumn = {
 
         },
     ],
-    recv_clean_packet:[
+    recv_clean_packet: [
         {
-            label:i18n.t('ExplorerLang.table.signer'),
-            displayValue:'signer',
-            nativeValue:'signer',
+            label: i18n.t('ExplorerLang.table.signer'),
+            displayValue: 'signer',
+            nativeValue: 'signer',
             isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
             linkRoute: '/address/',
         },
     ],
-    tibc_update_client:[
+    tibc_update_client: [
         {
-            label:i18n.t('ExplorerLang.table.chainName'),
-            displayValue:'chain_name',
-            nativeValue:'chain_name',
+            label: i18n.t('ExplorerLang.table.chainName'),
+            displayValue: 'chain_name',
+            nativeValue: 'chain_name',
         },
         {
-            label:i18n.t('ExplorerLang.table.signer'),
-            displayValue:'signer',
-            nativeValue:'signer',
-            isLink:true,
+            label: i18n.t('ExplorerLang.table.signer'),
+            displayValue: 'signer',
+            nativeValue: 'signer',
+            isLink: true,
             isNeedFormat: true,
             isFormatAddress: true,
-            linkRoute:'/address/',
+            linkRoute: '/address/',
         },
     ],
     //EVM 智能合约 二级标签
-    ethereum_tx:[
+    ethereum_tx: [
         {
-            label:i18n.t('ExplorerLang.table.contractMethod'),
-            displayValue:'contractMethod',
-            nativeValue:'contractMethod',
+            label: i18n.t('ExplorerLang.table.contractMethod'),
+            displayValue: 'contractMethod',
+            nativeValue: 'contractMethod',
         },
         {
             label: i18n.t('ExplorerLang.table.signer'),
@@ -1879,12 +1879,12 @@ export const needAddColumn = {
             linkRoute: '/address/',
         },
     ],
-    ddc_721:[
+    ddc_721: [
         {
-            label:i18n.t('ExplorerLang.table.contractMethod'),
-            displayValue:'contractMethod',
-            nativeValue:'contractMethod',
-            isShowTag:true,
+            label: i18n.t('ExplorerLang.table.contractMethod'),
+            displayValue: 'contractMethod',
+            nativeValue: 'contractMethod',
+            isShowTag: true,
         },
         {
             label: i18n.t('ExplorerLang.table.signer'),
@@ -1896,12 +1896,12 @@ export const needAddColumn = {
             linkRoute: '/address/',
         },
     ],
-    ddc_1155:[
+    ddc_1155: [
         {
-            label:i18n.t('ExplorerLang.table.contractMethod'),
-            displayValue:'contractMethod',
-            nativeValue:'contractMethod',
-            isShowTag:true,
+            label: i18n.t('ExplorerLang.table.contractMethod'),
+            displayValue: 'contractMethod',
+            nativeValue: 'contractMethod',
+            isShowTag: true,
         },
         {
             label: i18n.t('ExplorerLang.table.signer'),

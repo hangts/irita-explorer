@@ -1,129 +1,134 @@
 import Vue from 'vue';
+// eslint-disable-next-line import/extensions,import/order
 import App from './App.vue';
-import store from './vuex/index';
-import router from "./router/index";
 import './theme/index.css';
 import '../icon/iconfont.css';
-import ElementUI from "element-ui";
+import {
+  Pagination,
+  Dialog,
+  Autocomplete,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  Menu,
+  Submenu,
+  MenuItem,
+  MenuItemGroup,
+  Input,
+  InputNumber,
+  Radio,
+  RadioGroup,
+  RadioButton,
+  Checkbox,
+  CheckboxButton,
+  CheckboxGroup,
+  Switch,
+  Select,
+  Option,
+  OptionGroup,
+  Button,
+  ButtonGroup,
+  Table,
+  TableColumn,
+  DatePicker,
+  TimeSelect,
+  TimePicker,
+  Popover,
+  Tooltip,
+  Breadcrumb,
+  BreadcrumbItem,
+  Form,
+  FormItem,
+  Tabs,
+  TabPane,
+  Tag,
+  Tree,
+  Alert,
+  Slider,
+  Icon,
+  Row,
+  Col,
+  Upload,
+  Progress,
+  Spinner,
+  Badge,
+  Card,
+  Rate,
+  Steps,
+  Step,
+  Carousel,
+  CarouselItem,
+  Collapse,
+  CollapseItem,
+  Cascader,
+  ColorPicker,
+  Transfer,
+  Container,
+  Header,
+  Aside,
+  Main,
+  Footer,
+  Timeline,
+  TimelineItem,
+  Link,
+  Divider,
+  Image,
+  Calendar,
+  Backtop,
+  PageHeader,
+  CascaderPanel,
+  Loading,
+  MessageBox,
+  Message,
+  Notification,
+} from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import vuescroll from 'vuescroll';
 import Vuebar from 'vuebar';
-import 'vue-happy-scroll/docs/happy-scroll.css'
-Vue.use(Vuebar);
-//日期选择器
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'vue-happy-scroll/docs/happy-scroll.css';
+// 日期选择器
 import lang from 'element-ui/lib/locale/lang/en';
 import locale from 'element-ui/lib/locale';
-//日期中文
-import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
+// 日期中文
+import zhLocale from 'element-ui/lib/locale/lang/zh-CN';
 
 import VueI18n from 'vue-i18n';
-import prodConfig from "./productionConfig";
+// eslint-disable-next-line import/order
+import prodConfig from './productionConfig';
 import adjustColumnWidth from '@/helper/adjustColumnWidth';
-import {getMainToken} from "@/helper/IritaHelper";
-import 'spinkit/spinkit.css'
+import {getMainToken} from '@/helper/IritaHelper';
+import 'spinkit/spinkit.css';
+
+/* 引入自定义修饰器 */
+
+import {fetchAllTokens} from '@/service/api';
+import directives from './directives';
+import store from './vuex/index';
+import router from './router/index';
+
+Vue.use(Vuebar);
 
 Vue.prototype.$adjustColumnWidth = adjustColumnWidth;
 
-/*引入自定义修饰器*/
-import directives from './directives';
 Vue.use(directives);
 
-locale.use(prodConfig.lang === 'EN'? lang:zhLocale);
-Vue.use(ElementUI)
+locale.use(prodConfig.lang === 'EN' ? lang : zhLocale);
 Vue.use(vuescroll, {
-    ops: {}, // 在这里设置全局默认配置
-    name: 'vue-scroll' // 在这里自定义组件名字，默认是vueScroll
+  ops: {}, // 在这里设置全局默认配置
+  name: 'vue-scroll', // 在这里自定义组件名字，默认是vueScroll
 });
 
-Vue.use(VueI18n)
+Vue.use(VueI18n);
 const i18n = new VueI18n({
-  locale:prodConfig.lang == 'EN' ? 'EN' : 'CN',
+  locale: prodConfig.lang === 'EN' ? 'EN' : 'CN',
   messages: {
-    "CN" : require('../lang/CN-Cindy'),
-    "EN" : require('../lang/EN-Cindy')
-  }
-})
-
-import {
-    Pagination,
-    Dialog,
-    Autocomplete,
-    Dropdown,
-    DropdownMenu,
-    DropdownItem,
-    Menu,
-    Submenu,
-    MenuItem,
-    MenuItemGroup,
-    Input,
-    InputNumber,
-    Radio,
-    RadioGroup,
-    RadioButton,
-    Checkbox,
-    CheckboxButton,
-    CheckboxGroup,
-    Switch,
-    Select,
-    Option,
-    OptionGroup,
-    Button,
-    ButtonGroup,
-    Table,
-    TableColumn,
-    DatePicker,
-    TimeSelect,
-    TimePicker,
-    Popover,
-    Tooltip,
-    Breadcrumb,
-    BreadcrumbItem,
-    Form,
-    FormItem,
-    Tabs,
-    TabPane,
-    Tag,
-    Tree,
-    Alert,
-    Slider,
-    Icon,
-    Row,
-    Col,
-    Upload,
-    Progress,
-    Spinner,
-    Badge,
-    Card,
-    Rate,
-    Steps,
-    Step,
-    Carousel,
-    CarouselItem,
-    Collapse,
-    CollapseItem,
-    Cascader,
-    ColorPicker,
-    Transfer,
-    Container,
-    Header,
-    Aside,
-    Main,
-    Footer,
-    Timeline,
-    TimelineItem,
-    Link,
-    Divider,
-    Image,
-    Calendar,
-    Backtop,
-    PageHeader,
-    CascaderPanel,
-    Loading,
-    MessageBox,
-    Message,
-    Notification
-} from 'element-ui';
-import {fetchAllTokens} from "@/service/api";
+    // eslint-disable-next-line global-require
+    CN: require('../lang/CN-Cindy'),
+    // eslint-disable-next-line global-require
+    EN: require('../lang/EN-Cindy'),
+  },
+});
 
 Vue.use(Pagination);
 Vue.use(Dialog);
@@ -162,6 +167,7 @@ Vue.use(Form);
 Vue.use(FormItem);
 Vue.use(Tabs);
 Vue.use(TabPane);
+
 Vue.use(Tag);
 Vue.use(Tree);
 Vue.use(Alert);
@@ -209,55 +215,56 @@ Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message;
 
-window.addEventListener('beforeunload', ()=>{
-    sessionStorage.removeItem('config')
-}, false)
+window.addEventListener('beforeunload', () => {
+  sessionStorage.removeItem('config');
+}, false);
 
 Vue.config.productionTip = false;
-(async function(){
-    let failedIndex = 0;
-    async function queryMainToken(){
-        let mainToken = await getMainToken().catch(()=>{
-            if(failedIndex <= 4){
-                setTimeout(()=>{
-                    queryMainToken()
-                    failedIndex++;
-                }, 500)
-            }else{
-                render({symbol:''});
-            }
-        });
-        if(mainToken){
-            render(mainToken)
-        }
+(async function () {
+  let failedIndex = 0;
 
+  async function queryMainToken() {
+    const mainToken = await getMainToken().catch(() => {
+      if (failedIndex <= 4) {
+        setTimeout(() => {
+          queryMainToken();
+          // eslint-disable-next-line no-plusplus
+          failedIndex++;
+        }, 500);
+      } else {
+        // eslint-disable-next-line no-use-before-define
+        store.state.mainToken = '';
+      }
+    });
+    if (mainToken) {
+      const upperCaseMainToken = mainToken && mainToken.symbol.toUpperCase();
+      store.state.mainToken = upperCaseMainToken;
     }
-    function render(token){
-        store.state.mainToken = token && token.symbol.toUpperCase();
-        new Vue({
-            i18n,
-            router,
-            store,
-            render: h => h(App),
-        }).$mount('#app')
-    }
-    queryMainToken();
-}())
+  }
 
+  queryMainToken();
+}());
 
 Vue.directive('debounce', {
-    inserted: function (el, binding) {
-        let [fn, event = "click", time = 300] = binding.value
-        let timer
-        el.addEventListener(event, () => {
-            timer && clearTimeout(timer)
-            timer = setTimeout(() => fn(), time)
-        })
-    }
-})
+  inserted(el, binding) {
+    const [fn, event = 'click', time = 300] = binding.value;
+    let timer;
+    el.addEventListener(event, () => {
+      timer && clearTimeout(timer);
+      timer = setTimeout(() => fn(), time);
+    });
+  },
+});
 
 const getAllToken = async () => {
-    const allToken = await fetchAllTokens()
-    sessionStorage.setItem('allToken', JSON.stringify(allToken))
-}
-getAllToken()
+  const allToken = await fetchAllTokens();
+  sessionStorage.setItem('allToken', JSON.stringify(allToken));
+};
+getAllToken();
+
+new Vue({
+  i18n,
+  router,
+  store,
+  render: (h) => h(App),
+}).$mount('#app');

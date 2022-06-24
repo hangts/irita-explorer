@@ -1,31 +1,29 @@
 <template>
-	<div class="reset_button_content">
-		<button class="ref_content" @click="resetParams">
-			<i class="iconfont iconzhongzhi"></i>
-		</button>
-	</div>
+  <button class="ref_content" @click="resetParams">
+    <i class="iconfont iconzhongzhi"></i>
+  </button>
 </template>
 
 <script>
 export default {
-	name: "TxResetButtonComponent",
-	methods:{
-		resetParams(){
-			/*this.statusTypes.forEach(item => {
+  name: 'TxResetButtonComponent',
+  methods: {
+    resetParams() {
+      /* this.statusTypes.forEach(item => {
 				item.isActive = false
 			})
 			this.statusTypes[0].isActive = true
-			this.value = []*/
-			this.$emit('resetParams','')
-		}
-	}
-}
+			this.value = [] */
+      this.$emit('resetParams', '');
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
 .ref_content{
 	border: none;
-	background: $theme_c !important;
+	background: $theme_c;
 	color: #fff;
 	border-radius: 0.08rem;
 	width: 0.32rem;
