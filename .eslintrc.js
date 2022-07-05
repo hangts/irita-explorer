@@ -33,5 +33,7 @@ module.exports = {
     'no-nested-ternary': 'off',
     'no-unused-expressions': 'off',
     'no-underscore-dangle': 'off',
+    'class-methods-use-this': 'off',
+    'no-shadow': 'off',
   },
 };

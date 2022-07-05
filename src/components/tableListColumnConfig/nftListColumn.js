@@ -38,7 +38,9 @@ export default [
     {
         label: i18n.t('ExplorerLang.table.denom'),
         displayValue: 'denom_id',
-        isWrap: true
+        nativeValue: 'denom_id',
+        isNeedFormat: true,
+        isFormatAddress: true
     },
     {
         label: i18n.t('ExplorerLang.table.owner'),

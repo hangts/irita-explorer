@@ -1,13 +1,12 @@
 <template>
-	<div class="tx_message_content" v-if="hide">
-		<p>
-			<span>{{$t('ExplorerLang.transactionInformation.txType')}}：</span>
-			<span>{{TX_TYPE_DISPLAY[txType] || txType}}</span>
-		</p>
+  <div class="tx_message_content" v-if="hide">
+    <p>
+      <span>{{ $t('ExplorerLang.transactionInformation.txType') }}：</span>
+      <span>{{ TX_TYPE_DISPLAY[txType] || txType }}</span>
+    </p>
 
-
-		<TxDetailComponent :detailInfo="detailInfo" />
-		<!-- <div v-if="txType === TX_TYPE.define_service">
+    <TxDetailComponent :detailInfo="detailInfo" />
+    <!-- <div v-if="txType === TX_TYPE.define_service">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
 				<router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -35,8 +34,8 @@
 				<span>{{tags}}</span>
 			</p>
 		</div> -->
-	
-		<!-- <div v-if="txType === TX_TYPE.bind_service">
+
+    <!-- <div v-if="txType === TX_TYPE.bind_service">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
 				<router-link v-if="defineName != '--'" :to="`/service?serviceName=${defineName}`">
@@ -74,28 +73,37 @@
 				</template>
 			</p>
 		</div> -->
-		<div v-if="txType === TX_TYPE.create_record" class="record_container">
-			<div class="record_content">
-				<p class="record_name">{{$t('ExplorerLang.transactionInformation.createRecord.contents')}}：</p>
-				<div class="record_list_content">
-					<el-table class="table" :data="recordArray"
-					          :empty-text="$t('ExplorerLang.table.emptyDescription')">
-						<el-table-column width="300px" label="digest" prop="digest"></el-table-column>
-						<el-table-column width="150px" label="digest algo"
-						                 prop="digest_algo"></el-table-column>
-						<el-table-column label="uri" prop="uri">
-							<template slot-scope="scope">
-								<a v-if="scope.row.uri && scope.row.uri !== '--'"
-								   :download="scope.row.uri" :href="scope.row.uri" target="_blank">{{scope.row.uri}}</a>
-								<span v-else>--</span>
-							</template>
-						</el-table-column>
-						<el-table-column width="200px" label="meta" prop="meta"></el-table-column>
-					</el-table>
-				</div>
-			</div>
-		</div>
-		<!-- <div v-if="txType === TX_TYPE.burn_nft">
+    <div v-if="txType === TX_TYPE.create_record" class="record_container">
+      <div class="record_content">
+        <p class="record_name">
+          {{ $t('ExplorerLang.transactionInformation.createRecord.contents') }}：
+        </p>
+        <div class="record_list_content">
+          <el-table
+            class="table"
+            :data="recordArray"
+            :empty-text="$t('ExplorerLang.table.emptyDescription')"
+          >
+            <el-table-column width="300px" label="digest" prop="digest"></el-table-column>
+            <el-table-column width="150px" label="digest algo" prop="digest_algo"></el-table-column>
+            <el-table-column label="uri" prop="uri">
+              <template slot-scope="scope">
+                <a
+                  v-if="scope.row.uri && scope.row.uri !== '--'"
+                  :download="scope.row.uri"
+                  :href="scope.row.uri"
+                  target="_blank"
+                  >{{ scope.row.uri }}</a
+                >
+                <span v-else>--</span>
+              </template>
+            </el-table-column>
+            <el-table-column width="200px" label="meta" prop="meta"></el-table-column>
+          </el-table>
+        </div>
+      </div>
+    </div>
+    <!-- <div v-if="txType === TX_TYPE.burn_nft">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
 				<template>
@@ -120,7 +128,7 @@
 				<span>{{nftName}}</span>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.mint_nft">
+    <!-- <div v-if="txType === TX_TYPE.mint_nft">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.denomId')}}：</span>
 				<span>{{denom}}</span>
@@ -165,7 +173,7 @@
 			</p>
 
 		</div>  -->
-		<!-- <div v-if="txType === TX_TYPE.transfer_nft">
+    <!-- <div v-if="txType === TX_TYPE.transfer_nft">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.denomId')}}：</span>
 				<span>{{denom}}</span>
@@ -213,7 +221,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.edit_nft">
+    <!-- <div v-if="txType === TX_TYPE.edit_nft">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.denomId')}}：</span>
 				<span>{{denom}}</span>
@@ -244,7 +252,7 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
 				<template>
-					
+
 					<div class="wrap" v-if="tokenUri && tokenUri !== '[do-not-modify]'">
 								<a class="text" v-if="Tools.testUrl(tokenUri)" :href="tokenUri" target="_blank">{{tokenUri}}</a>
 								<a class="text" v-else-if="startStr(tokenUri)" :href="'http://' + tokenUri" target="_blank">{{tokenUri}}</a>
@@ -255,7 +263,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.issue_denom">
+    <!-- <div v-if="txType === TX_TYPE.issue_denom">
 		<p>
 			<span>{{$t('ExplorerLang.transactionInformation.nft.denomId')}}</span>
 			<span>{{denomId}}</span>
@@ -288,7 +296,7 @@
 			</template>
 		</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.send">
+    <!-- <div v-if="txType === TX_TYPE.send">
 			<p>
 					<span>{{$t('ExplorerLang.transactionInformation.send.amount')}}：</span>
 					<span>
@@ -310,7 +318,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.respond_service">
+    <!-- <div v-if="txType === TX_TYPE.respond_service">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
 				<router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -338,7 +346,7 @@
 				<LargeString :isShowPre="Tools.isJSON(output)" v-if="output" :text="output"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.call_service">
+    <!-- <div v-if="txType === TX_TYPE.call_service">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
 				<router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -368,7 +376,7 @@
 							 :key="index"
 							 class="address_link" :to="`/address/${item}`">{{item}}</router-link>
 				</span>
-				
+
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.callService.repeated')}}：</span>
@@ -395,7 +403,7 @@
 				<span>{{timeout}}</span>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.pause_request_context ||
+    <!-- <div v-if="txType === TX_TYPE.pause_request_context ||
                    txType === TX_TYPE.start_request_context ||
                    txType === TX_TYPE.kill_request_context">
 			<p>
@@ -417,7 +425,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.update_request_context">
+    <!-- <div v-if="txType === TX_TYPE.update_request_context">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
 				<router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -462,7 +470,7 @@
 				<span>{{timeout}}</span>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.update_service_binding">
+    <!-- <div v-if="txType === TX_TYPE.update_service_binding">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
 				<router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -497,7 +505,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.disable_service_binding || txType === TX_TYPE.refund_service_deposit">
+    <!-- <div v-if="txType === TX_TYPE.disable_service_binding || txType === TX_TYPE.refund_service_deposit">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
 				<router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -520,7 +528,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.enable_service_binding">
+    <!-- <div v-if="txType === TX_TYPE.enable_service_binding">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
 				<router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -547,7 +555,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.recv_packet && prodConfig.txDetail && prodConfig.txDetail.ibc">
+    <!-- <div v-if="txType === TX_TYPE.recv_packet && prodConfig.txDetail && prodConfig.txDetail.ibc">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.proof')}}：</span>
 				<span>{{proof}}</span>
@@ -611,8 +619,8 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- MsgTypeIBCTransfer -->
-		<!-- <div v-if="txType === TX_TYPE.transfer">
+    <!-- MsgTypeIBCTransfer -->
+    <!-- <div v-if="txType === TX_TYPE.transfer">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.sourcePort')}}：</span>
 				<span>{{sourcePort}}</span>
@@ -652,7 +660,7 @@
 				<span>{{timeoutTimestamp}}</span>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.create_identity || txType === TX_TYPE.update_identity">
+    <!-- <div v-if="txType === TX_TYPE.create_identity || txType === TX_TYPE.update_identity">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.id')}}：</span>
 				<template>
@@ -685,7 +693,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.create_client && prodConfig.txDetail && prodConfig.txDetail.ibc">
+    <!-- <div v-if="txType === TX_TYPE.create_client && prodConfig.txDetail && prodConfig.txDetail.ibc">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.client.clientID')}}：</span>
 				<span>{{clientID}}</span>
@@ -702,7 +710,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.create_client && !(prodConfig.txDetail && prodConfig.txDetail.ibc)">
+    <!-- <div v-if="txType === TX_TYPE.create_client && !(prodConfig.txDetail && prodConfig.txDetail.ibc)">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
 				<template>
@@ -711,7 +719,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.update_client">
+    <!-- <div v-if="txType === TX_TYPE.update_client">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.client.clientID')}}：</span>
 				<span>{{clientID}}</span>
@@ -724,7 +732,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.upgrade_client">
+    <!-- <div v-if="txType === TX_TYPE.upgrade_client">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientID')}}：</span>
 				<span>{{clientID}}</span>
@@ -753,7 +761,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.submit_misbehaviour">
+    <!-- <div v-if="txType === TX_TYPE.submit_misbehaviour">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientID')}}：</span>
 				<span>{{clientID}}</span>
@@ -770,7 +778,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.connection_open_init">
+    <!-- <div v-if="txType === TX_TYPE.connection_open_init">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientID')}}：</span>
 				<span>{{clientID}}</span>
@@ -795,7 +803,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.connection_open_try">
+    <!-- <div v-if="txType === TX_TYPE.connection_open_try">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientID')}}：</span>
 				<span>{{clientID}}</span>
@@ -848,7 +856,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.connection_open_ack">
+    <!-- <div v-if="txType === TX_TYPE.connection_open_ack">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.connectionId')}}：</span>
 				<span>{{connectionId}}</span>
@@ -878,7 +886,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.connection_open_confirm">
+    <!-- <div v-if="txType === TX_TYPE.connection_open_confirm">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.connectionId')}}：</span>
 				<span>{{connectionId}}</span>
@@ -899,7 +907,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.channel_open_init">
+    <!-- <div v-if="txType === TX_TYPE.channel_open_init">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
 				<span>{{portId}}</span>
@@ -912,7 +920,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.channel_open_try">
+    <!-- <div v-if="txType === TX_TYPE.channel_open_try">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
 				<span>{{portId}}</span>
@@ -945,7 +953,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.channel_open_ack">
+    <!-- <div v-if="txType === TX_TYPE.channel_open_ack">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
 				<span>{{portId}}</span>
@@ -974,7 +982,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.channel_open_confirm">
+    <!-- <div v-if="txType === TX_TYPE.channel_open_confirm">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
 				<span>{{portId}}</span>
@@ -999,7 +1007,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.channel_close_init">
+    <!-- <div v-if="txType === TX_TYPE.channel_close_init">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
 				<span>{{portId}}</span>
@@ -1016,7 +1024,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.channel_close_confirm">
+    <!-- <div v-if="txType === TX_TYPE.channel_close_confirm">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
 				<span>{{portId}}</span>
@@ -1041,7 +1049,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.timeout_packet">
+    <!-- <div v-if="txType === TX_TYPE.timeout_packet">
 			<p>
 					<span>{{$t('ExplorerLang.transactionInformation.ibc.amount')}}</span>
 					<span>{{amount.amount}} {{ (amount.denom || '').toUpperCase()}}</span>
@@ -1054,7 +1062,7 @@
 							<span>{{$t('ExplorerLang.transactionInformation.ibc.to')}}：</span>
 			<router-link  :to="`/address/${receiver}`" class="address_link">{{receiver}}</router-link>
 			</p>
-	
+
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
 				<LargeString :isShowPre="Tools.isJSON(proofHeight)" v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
@@ -1071,7 +1079,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.timeout_on_close_packet">
+    <!-- <div v-if="txType === TX_TYPE.timeout_on_close_packet">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
 				<LargeString :isShowPre="Tools.isJSON(packet)" v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
@@ -1100,7 +1108,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.acknowledge_packet">
+    <!-- <div v-if="txType === TX_TYPE.acknowledge_packet">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.acknowledgement')}}：</span>
 				<span>{{acknowledgement}}</span>
@@ -1122,140 +1130,168 @@
 			</p>
 		</div> -->
 
-		<div v-if="txType === TX_TYPE.begin_redelegate">
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
-				<span>{{amount}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
-				<template>
-					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
-					<span v-else @click="addressRoute(from)" class="address_link">{{ fromMoniker || from}}</span>
-				</template>
-			</p>
-			<!-- <p>
+    <div v-if="txType === TX_TYPE.begin_redelegate">
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.amount') }}</span>
+        <span>{{ amount }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.from') }}</span>
+        <template>
+          <span v-if="fromMoniker === '--' && from === '--'">{{ fromMoniker || from }}</span>
+          <span v-else @click="addressRoute(from)" class="address_link">{{
+            fromMoniker || from
+          }}</span>
+        </template>
+      </p>
+      <!-- <p>
 				 <span>Shares </span>
 				 <span>{{from}}</span>
 			 </p>-->
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.to')}}</span>
-				<template>
-					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
-					<span v-else @click="addressRoute(to)" class="address_link">{{ toMoniker || to}}</span>
-				</template>
-			</p>
-			<!--<p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.to') }}</span>
+        <template>
+          <span v-if="toMoniker === '--' && to === '--'">{{ toMoniker || to }}</span>
+          <span v-else @click="addressRoute(to)" class="address_link">{{ toMoniker || to }}</span>
+        </template>
+      </p>
+      <!--<p>
 				<span>Shares </span>
 				<span>{{from}}</span>
 			</p>-->
-			<!--<p>
+      <!--<p>
 				<span>End Time </span>
 				<span>{{from}}</span>
 			</p>-->
-		</div>
-		<div v-if="txType === TX_TYPE.create_validator">
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.operatorAddress')}}</span>
-				<template>
-					<span v-if="operatorAddress === '--'  || this.judgeCosmos(operatorAddress)">{{operatorAddress}}</span>
-<!--					<span v-else @click="addressRoute(operatorAddress)" class="address_link">{{operatorAddress}}</span>-->
-					<router-link v-else  :to="`/address/${operatorAddress}`" class="address_link">{{operatorAddress}}</router-link>
-				</template>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.moniker')}}</span>
-				<span>{{moniker}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.identity')}}</span>
-				<a class="validation_information_link" v-if="keyBaseName" :href="keyBaseName" target="_blank">{{identity}}</a>
-				<span v-else>{{identity}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.selfBonded')}}</span>
-				<span>{{selfBond}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.minSelfDelegation')}}</span>
-				<span>{{minSelfDelegation}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.ownerAddress')}}</span>
-				<template>
-					<span v-if="ownerAddress === '--' || this.judgeCosmos(ownerAddress)">{{ownerAddress}}</span>
-<!--					<span v-else @click="addressRoute(ownerAddress)" class="address_link">{{ownerAddress}}</span>-->
-					<router-link v-else  :to="`/address/${ownerAddress}`" class="address_link">{{ownerAddress}}</router-link>
-				</template>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.consensusPubkey')}}</span>
-				<span>{{consensusPubkey}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.commissionRate')}}</span>
-				<span>{{commissionRate}}
-					<el-tooltip placement="top" v-if="commissionRate">
-  						<div slot="content" >
-							<p>Max Rate : {{commissionMaxRate || '--'}}</p>
-                            <p>Max Change Rate : {{commissionMaxChangeRate || '--'}}</p>
-						</div>
-						<i class="iconfont icontishi"></i>
-					</el-tooltip>
-				</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.website')}}</span>
-				<template>
-					<span v-if="website !== '--' && website !== '[do-not-modify]' " class="website_link" @click="openUrl(website)">{{website}}</span>
-					<span v-else>{{website}}</span>
-				</template>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.details')}}</span>
-				<span>{{details}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.securityContact')}}</span>
-				<span>{{securityContact}}</span>
-			</p>
-		</div>
-		<div v-if="txType === TX_TYPE.withdraw_delegator_reward">
+    </div>
+    <div v-if="txType === TX_TYPE.create_validator">
       <p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
-				<span>{{amount}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
-				<template>
-					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
-					<span v-else @click="addressRoute(from)" class="address_link">{{ fromMoniker || from}}</span>
-				</template>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.to')}}</span>
-				<template>
-					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
-					<span v-else @click="addressRoute(to)" class="address_link">{{ toMoniker || to}}</span>
-				</template>
-			</p>
-		</div>
-		<div v-if="txType === TX_TYPE.withdraw_validator_commission">
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.validator')}}</span>
-				<template>
-					<span v-if="moniker === '--' && validatorAddress === '--' ">{{ moniker || validatorAddress }}</span>
-					<span v-else @click="addressRoute(validatorAddress)" class="address_link">{{ moniker || validatorAddress}}</span>
-				</template>
-			</p>
-		</div>
-		<!-- <div v-if="txType === TX_TYPE.set_withdraw_address">
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.operatorAddress') }}</span>
+        <template>
+          <span v-if="operatorAddress === '--' || this.judgeCosmos(operatorAddress)">{{
+            operatorAddress
+          }}</span>
+          <!--					<span v-else @click="addressRoute(operatorAddress)" class="address_link">{{operatorAddress}}</span>-->
+          <router-link v-else :to="`/address/${operatorAddress}`" class="address_link">{{
+            operatorAddress
+          }}</router-link>
+        </template>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.moniker') }}</span>
+        <span>{{ moniker }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.identity') }}</span>
+        <a
+          class="validation_information_link"
+          v-if="keyBaseName"
+          :href="keyBaseName"
+          target="_blank"
+          >{{ identity }}</a
+        >
+        <span v-else>{{ identity }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.selfBonded') }}</span>
+        <span>{{ selfBond }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.minSelfDelegation') }}</span>
+        <span>{{ minSelfDelegation }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.ownerAddress') }}</span>
+        <template>
+          <span v-if="ownerAddress === '--' || this.judgeCosmos(ownerAddress)">{{
+            ownerAddress
+          }}</span>
+          <!--					<span v-else @click="addressRoute(ownerAddress)" class="address_link">{{ownerAddress}}</span>-->
+          <router-link v-else :to="`/address/${ownerAddress}`" class="address_link">{{
+            ownerAddress
+          }}</router-link>
+        </template>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.consensusPubkey') }}</span>
+        <span>{{ consensusPubkey }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.commissionRate') }}</span>
+        <span
+          >{{ commissionRate }}
+          <el-tooltip placement="top" v-if="commissionRate">
+            <div slot="content">
+              <p>Max Rate : {{ commissionMaxRate || '--' }}</p>
+              <p>Max Change Rate : {{ commissionMaxChangeRate || '--' }}</p>
+            </div>
+            <i class="iconfont icontishi"></i>
+          </el-tooltip>
+        </span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.website') }}</span>
+        <template>
+          <span
+            v-if="website !== '--' && website !== '[do-not-modify]'"
+            class="website_link"
+            @click="openUrl(website)"
+            >{{ website }}</span
+          >
+          <span v-else>{{ website }}</span>
+        </template>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.details') }}</span>
+        <span>{{ details }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.securityContact') }}</span>
+        <span>{{ securityContact }}</span>
+      </p>
+    </div>
+    <div v-if="txType === TX_TYPE.withdraw_delegator_reward">
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.amount') }}</span>
+        <span>{{ amount }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.from') }}</span>
+        <template>
+          <span v-if="fromMoniker === '--' && from === '--'">{{ fromMoniker || from }}</span>
+          <span v-else @click="addressRoute(from)" class="address_link">{{
+            fromMoniker || from
+          }}</span>
+        </template>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.to') }}</span>
+        <template>
+          <span v-if="toMoniker === '--' && to === '--'">{{ toMoniker || to }}</span>
+          <span v-else @click="addressRoute(to)" class="address_link">{{ toMoniker || to }}</span>
+        </template>
+      </p>
+    </div>
+    <div v-if="txType === TX_TYPE.withdraw_validator_commission">
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.validator') }}</span>
+        <template>
+          <span v-if="moniker === '--' && validatorAddress === '--'">{{
+            moniker || validatorAddress
+          }}</span>
+          <span v-else @click="addressRoute(validatorAddress)" class="address_link">{{
+            moniker || validatorAddress
+          }}</span>
+        </template>
+      </p>
+    </div>
+    <!-- <div v-if="txType === TX_TYPE.set_withdraw_address">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.delegatorAddress')}}</span>
 				<template>
 					<span v-if="delegatorAddress === '--' || this.judgeCosmos(delegatorAddress)">{{delegatorAddress}}</span>
 					<router-link v-else  :to="`/address/${delegatorAddress}`" class="address_link">{{delegatorAddress}}</router-link>
-					
+
 				</template>
 			</p>
 			<p>
@@ -1266,94 +1302,112 @@
 				</template>
 			</p>
 		</div> -->
-		<div v-if="txType === TX_TYPE.begin_unbonding">
+    <div v-if="txType === TX_TYPE.begin_unbonding">
       <p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
-				<span>{{amount}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
-				<template>
-					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
-					<span v-else @click="addressRoute(from)" class="address_link">{{ fromMoniker || from}}</span>
-				</template>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.to')}}</span>
-				<template>
-					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
-					<span v-else @click="addressRoute(to)" class="address_link">{{ toMoniker || to}}</span>
-				</template>
-			</p>
-		</div>
-		<div v-if="txType === TX_TYPE.edit_validator">
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.operatorAddress')}}</span>
-				<template>
-					<span v-if="operatorAddress === '--' || this.judgeCosmos(operatorAddress)">{{operatorAddress}}</span>
-<!--					<span v-else @click="addressRoute(operatorAddress)" class="address_link">{{operatorAddress}}</span>-->
-					<router-link v-else  :to="`/address/${operatorAddress}`" class="address_link">{{operatorAddress}}</router-link>
-				</template>
-				<!-- <template>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.amount') }}</span>
+        <span>{{ amount }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.from') }}</span>
+        <template>
+          <span v-if="fromMoniker === '--' && from === '--'">{{ fromMoniker || from }}</span>
+          <span v-else @click="addressRoute(from)" class="address_link">{{
+            fromMoniker || from
+          }}</span>
+        </template>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.to') }}</span>
+        <template>
+          <span v-if="toMoniker === '--' && to === '--'">{{ toMoniker || to }}</span>
+          <span v-else @click="addressRoute(to)" class="address_link">{{ toMoniker || to }}</span>
+        </template>
+      </p>
+    </div>
+    <div v-if="txType === TX_TYPE.edit_validator">
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.operatorAddress') }}</span>
+        <template>
+          <span v-if="operatorAddress === '--' || this.judgeCosmos(operatorAddress)">{{
+            operatorAddress
+          }}</span>
+          <!--					<span v-else @click="addressRoute(operatorAddress)" class="address_link">{{operatorAddress}}</span>-->
+          <router-link v-else :to="`/address/${operatorAddress}`" class="address_link">{{
+            operatorAddress
+          }}</router-link>
+        </template>
+        <!-- <template>
 					<span v-if="operMoniker === '--' && operatorAddress === '--' ">{{ operMoniker || operatorAddress }}</span>
 					<span v-else @click="addressRoute(operatorAddress)" class="address_link">{{ operMoniker || operatorAddress}}</span>
 				</template> -->
-
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.moniker')}}</span>
-				<span>{{moniker}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.identity')}}</span>
-				<a class="validation_information_link" v-if="keyBaseName" :href="keyBaseName" target="_blank">{{identity}}</a>
-				<span v-else>{{identity}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.minSelfDelegation')}}</span>
-				<span>{{minSelfDelegation}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.commissionRate')}}</span>
-				<span>{{commissionRate}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.website')}}</span>
-				<template>
-					<span v-if="website !== '--' && website !== '[do-not-modify]'" class="website_link" @click="openUrl(website)">{{website}}</span>
-					<span v-else>{{website}}</span>
-				</template>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.details')}}</span>
-				<span>{{details}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.securityContact')}}</span>
-				<span>{{securityContact}}</span>
-			</p>
-		</div>
-		<div v-if="txType === TX_TYPE.delegate">
+      </p>
       <p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
-				<span>{{amount}}</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
-				<template>
-					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
-					<span v-else @click="addressRoute(from)" class="address_link">{{ fromMoniker || from}}</span>
-				</template>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.staking.to')}}</span>
-				<template>
-					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
-					<span v-else @click="addressRoute(to)" class="address_link">{{ toMoniker || to}}</span>
-				</template>
-			</p>
-		</div>
-		<!-- <div v-if="txType === TX_TYPE.fund_community_pool">
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.moniker') }}</span>
+        <span>{{ moniker }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.identity') }}</span>
+        <a
+          class="validation_information_link"
+          v-if="keyBaseName"
+          :href="keyBaseName"
+          target="_blank"
+          >{{ identity }}</a
+        >
+        <span v-else>{{ identity }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.minSelfDelegation') }}</span>
+        <span>{{ minSelfDelegation }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.commissionRate') }}</span>
+        <span>{{ commissionRate }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.website') }}</span>
+        <template>
+          <span
+            v-if="website !== '--' && website !== '[do-not-modify]'"
+            class="website_link"
+            @click="openUrl(website)"
+            >{{ website }}</span
+          >
+          <span v-else>{{ website }}</span>
+        </template>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.details') }}</span>
+        <span>{{ details }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.securityContact') }}</span>
+        <span>{{ securityContact }}</span>
+      </p>
+    </div>
+    <div v-if="txType === TX_TYPE.delegate">
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.amount') }}</span>
+        <span>{{ amount }}</span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.from') }}</span>
+        <template>
+          <span v-if="fromMoniker === '--' && from === '--'">{{ fromMoniker || from }}</span>
+          <span v-else @click="addressRoute(from)" class="address_link">{{
+            fromMoniker || from
+          }}</span>
+        </template>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.staking.to') }}</span>
+        <template>
+          <span v-if="toMoniker === '--' && to === '--'">{{ toMoniker || to }}</span>
+          <span v-else @click="addressRoute(to)" class="address_link">{{ toMoniker || to }}</span>
+        </template>
+      </p>
+    </div>
+    <!-- <div v-if="txType === TX_TYPE.fund_community_pool">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
 				<span>{{amount}}</span>
@@ -1366,7 +1420,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.swap_order">
+    <!-- <div v-if="txType === TX_TYPE.swap_order">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.isBuyOrder')}}</span>
 				<span>{{isBuyOrder}}</span>
@@ -1402,7 +1456,7 @@
 				<span>{{deadline}}</span>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.add_liquidity">
+    <!-- <div v-if="txType === TX_TYPE.add_liquidity">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.sender')}}</span>
 				<template>
@@ -1435,7 +1489,7 @@
 				<span>{{deadline}}</span>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.remove_liquidity">
+    <!-- <div v-if="txType === TX_TYPE.remove_liquidity">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.sender')}}</span>
 				<template>
@@ -1468,7 +1522,7 @@
 				<span>{{deadline}}</span>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.unjail">
+    <!-- <div v-if="txType === TX_TYPE.unjail">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.operatorAddress')}}</span>
 				<template>
@@ -1477,7 +1531,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.create_feed">
+    <!-- <div v-if="txType === TX_TYPE.create_feed">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.serviceName')}}: </span>
 				<template>
@@ -1539,7 +1593,7 @@
 				<span>{{ timeout }}</span>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.start_feed || txType === TX_TYPE.pause_feed">
+    <!-- <div v-if="txType === TX_TYPE.start_feed || txType === TX_TYPE.pause_feed">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.oracle.feedName')}}: </span>
 				<span>{{ feedName }}</span>
@@ -1552,7 +1606,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.edit_feed">
+    <!-- <div v-if="txType === TX_TYPE.edit_feed">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.oracle.feedName')}}: </span>
 				<span>{{ feedName }}</span>
@@ -1597,7 +1651,7 @@
 				<span>{{ timeout }}</span>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.request_rand">
+    <!-- <div v-if="txType === TX_TYPE.request_rand">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.random.blockInterval')}}: </span>
 				<span>{{ blockInterval }}</span>
@@ -1618,7 +1672,7 @@
 				<span>{{ serviceFeeCap }}</span>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.service_set_withdraw_address">
+    <!-- <div v-if="txType === TX_TYPE.service_set_withdraw_address">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
 				<template>
@@ -1634,7 +1688,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.withdraw_earned_fees">
+    <!-- <div v-if="txType === TX_TYPE.withdraw_earned_fees">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.provider')}}: </span>
 				<template>
@@ -1651,7 +1705,7 @@
 			</p>
 		</div> -->
 
-		<!-- <div v-if="txType === TX_TYPE.issue_token">
+    <!-- <div v-if="txType === TX_TYPE.issue_token">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.asset.symbol')}}: </span>
 				<template>
@@ -1691,7 +1745,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.edit_token">
+    <!-- <div v-if="txType === TX_TYPE.edit_token">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.asset.symbol')}}: </span>
 				<template>
@@ -1719,7 +1773,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.mint_token">
+    <!-- <div v-if="txType === TX_TYPE.mint_token">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.asset.tokenId')}}: </span>
 				<template>
@@ -1746,7 +1800,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.transfer_token_owner">
+    <!-- <div v-if="txType === TX_TYPE.transfer_token_owner">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.asset.tokenId')}}: </span>
 				<template>
@@ -1769,7 +1823,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.burn_token">
+    <!-- <div v-if="txType === TX_TYPE.burn_token">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.asset.symbol')}}: </span>
 				<template>
@@ -1789,7 +1843,7 @@
 				<span>{{ amount }}</span>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.deposit">
+    <!-- <div v-if="txType === TX_TYPE.deposit">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.gov.depositor')}}: </span>
 				<template>
@@ -1809,7 +1863,7 @@
 				<span>{{deposit}}</span>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.vote">
+    <!-- <div v-if="txType === TX_TYPE.vote">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.gov.voter')}}: </span>
 				<template>
@@ -1829,7 +1883,7 @@
 				<span>{{option}}</span>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.submit_proposal">
+    <!-- <div v-if="txType === TX_TYPE.submit_proposal">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.gov.proposer')}} : </span>
 				<template>
@@ -1882,29 +1936,33 @@
 				<span>{{amount}}</span>
 			</p>
 		</div> -->
-		<div v-if="txType === TX_TYPE.multisend">
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.multisend.inputs')}}: </span>
-				<span>
-					<p v-for="(input,index) in inputs" :key="index" class="address_container">
-<!--						<span @click="addressRoute(input.address)" class="address_link">{{input.address}}</span>-->
-						<router-link :to="`/address/${input.address}`" class="address_link">{{input.address}}</router-link>
-						<span>{{input.amount}}</span>
-					</p>
-				</span>
-			</p>
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.multisend.outputs')}}: </span>
-				<span>
-					<p v-for="(output,index) in outputs" :key="index" class="address_container">
-<!--						<span @click="addressRoute(output.address)" class="address_link">{{output.address}}</span>-->
-						<router-link :to="`/address/${output.address}`" class="address_link">{{output.address}}</router-link>
-						<span>{{output.amount}}</span>
-					</p>
-				</span>
-			</p>
-		</div>
-		<!-- <div v-if="txType === TX_TYPE.create_htlc">
+    <div v-if="txType === TX_TYPE.multisend">
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.multisend.inputs') }}: </span>
+        <span>
+          <p v-for="(input, index) in inputs" :key="index" class="address_container">
+            <!--						<span @click="addressRoute(input.address)" class="address_link">{{input.address}}</span>-->
+            <router-link :to="`/address/${input.address}`" class="address_link">{{
+              input.address
+            }}</router-link>
+            <span>{{ input.amount }}</span>
+          </p>
+        </span>
+      </p>
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.multisend.outputs') }}: </span>
+        <span>
+          <p v-for="(output, index) in outputs" :key="index" class="address_container">
+            <!--						<span @click="addressRoute(output.address)" class="address_link">{{output.address}}</span>-->
+            <router-link :to="`/address/${output.address}`" class="address_link">{{
+              output.address
+            }}</router-link>
+            <span>{{ output.amount }}</span>
+          </p>
+        </span>
+      </p>
+    </div>
+    <!-- <div v-if="txType === TX_TYPE.create_htlc">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.id')}} : </span>
 				<span>{{id || '--'}}</span>
@@ -1952,7 +2010,7 @@
 				<span>{{transfer}}</span>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.claim_htlc">
+    <!-- <div v-if="txType === TX_TYPE.claim_htlc">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.id')}} : </span>
 				<span>{{id}}</span>
@@ -1988,22 +2046,22 @@
 				<span>{{transfer}}</span>
 			</p>
 		</div> -->
-		<div v-if="txType === TX_TYPE.refund_htlc">
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.htlc.sender')}} : </span>
-				<template>
-					<span v-if="sender === '--' || this.judgeCosmos(sender)">{{sender}}</span>
-<!--					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>-->
-					<router-link class="address_link" :to="`/address/${sender}`"></router-link>
-				</template>
-			</p>
-			<p v-if="hashLock">
-				<span>{{$t('ExplorerLang.transactionInformation.htlc.hashLock')}} : </span>
-				<span>{{hashLock}}</span>
-			</p>
-		</div>
-		<!--新增TIBC NFT Transfer Out-->
-		<!-- <div v-if="txType === TX_TYPE.tibc_nft_transfer">
+    <div v-if="txType === TX_TYPE.refund_htlc">
+      <p>
+        <span>{{ $t('ExplorerLang.transactionInformation.htlc.sender') }} : </span>
+        <template>
+          <span v-if="sender === '--' || this.judgeCosmos(sender)">{{ sender }}</span>
+          <!--					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>-->
+          <router-link class="address_link" :to="`/address/${sender}`"></router-link>
+        </template>
+      </p>
+      <p v-if="hashLock">
+        <span>{{ $t('ExplorerLang.transactionInformation.htlc.hashLock') }} : </span>
+        <span>{{ hashLock }}</span>
+      </p>
+    </div>
+    <!--新增TIBC NFT Transfer Out-->
+    <!-- <div v-if="txType === TX_TYPE.tibc_nft_transfer">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.tibc.idTibc')}}</span>
 				<span>{{idTibc}}</span>
@@ -2038,8 +2096,8 @@
 			</p>
 
 			</div> -->
-		<!--新增TIBC NFT Transfer In -->
-		<!-- <div v-if="txType === TX_TYPE.tibc_recv_packet">
+    <!--新增TIBC NFT Transfer In -->
+    <!-- <div v-if="txType === TX_TYPE.tibc_recv_packet">
 				<p>
 					<span>{{$t('ExplorerLang.transactionInformation.tibc.idTibc')}}</span>
 					<span>{{idTibc}}</span>
@@ -2105,7 +2163,7 @@
 					</template>
 				</p>
 		</div> -->
-		<!--新增TIBC Acknowledge Packet-->
+    <!--新增TIBC Acknowledge Packet-->
     <!-- <div v-if="txType === TX_TYPE.tibc_acknowledge_packet">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.tibc.idTibc')}}</span>
@@ -2177,8 +2235,8 @@
 				</template>
 			</p>
 		</div> -->
-		<!--TIBC Clean Packet Out-->
-		<!-- <div v-if="txType === TX_TYPE.clean_packet">
+    <!--TIBC Clean Packet Out-->
+    <!-- <div v-if="txType === TX_TYPE.clean_packet">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.tibc.sequence')}}</span>
 				<span>{{sequence}}</span>
@@ -2205,8 +2263,8 @@
 				</template>
 			</p>
 		</div> -->
-        <!--  TIBC Clean Packet In-->
-		<!-- <div v-if="txType === TX_TYPE.recv_clean_packet">
+    <!--  TIBC Clean Packet In-->
+    <!-- <div v-if="txType === TX_TYPE.recv_clean_packet">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.tibc.cleanPacket')}}</span>
 				<span>{{cleanPacket}}</span>
@@ -2219,8 +2277,8 @@
 				</template>
 			</p>
 		</div> -->
-        <!--TIBC Update Client-->
-		<!-- <div v-if="txType === TX_TYPE.tibc_update_client">
+    <!--TIBC Update Client-->
+    <!-- <div v-if="txType === TX_TYPE.tibc_update_client">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.tibc.chainName')}}</span>
 				<span>{{chainName}}</span>
@@ -2233,8 +2291,8 @@
 				</template>
 			</p>
 		</div> -->
-        <!--新增Transfer Denom (Denom Transfer)-->
-		<!-- <div v-if="txType === TX_TYPE.transfer_denom">
+    <!--新增Transfer Denom (Denom Transfer)-->
+    <!-- <div v-if="txType === TX_TYPE.transfer_denom">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.nft.denomId')}}</span>
 				<span>{{denomId}}</span>
@@ -2259,8 +2317,8 @@
 			</p>
 
 		</div> -->
-		<!-- Farm stake/unstake -->
-		<!-- <div v-if="txType === TX_TYPE.stake || txType === TX_TYPE.unstake">
+    <!-- Farm stake/unstake -->
+    <!-- <div v-if="txType === TX_TYPE.stake || txType === TX_TYPE.unstake">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.farm.poolId')}}</span>
 				<span>{{poolId}}</span>
@@ -2283,7 +2341,7 @@
 			</p>
 
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.harvest">
+    <!-- <div v-if="txType === TX_TYPE.harvest">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.farm.poolId')}}</span>
 				<span>{{poolId}}</span>
@@ -2301,8 +2359,8 @@
 			</p>
 
 		</div> -->
-	
-		<!-- <div v-if="txType === TX_TYPE.create_pool">
+
+    <!-- <div v-if="txType === TX_TYPE.create_pool">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.farm.poolId')}}</span>
 				<span>{{poolId}}</span>
@@ -2327,7 +2385,7 @@
 				<span>{{$t('ExplorerLang.transactionInformation.farm.editable')}}</span>
 				<span>{{ editable ? 'Yes': 'No' }}</span>
 			</p>
-			
+
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.farm.creator')}}</span>
 				<template>
@@ -2339,11 +2397,11 @@
 				<span>{{$t('ExplorerLang.transactionInformation.farm.description')}}</span>
 				<span>{{description}}</span>
 			</p>
-			
+
 
 		</div> -->
-			
-		<!-- <div v-if="txType === TX_TYPE.create_pool_with_community_pool">    
+
+    <!-- <div v-if="txType === TX_TYPE.create_pool_with_community_pool">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.farm.proposalId')}}</span>
 				<span>{{proposalID}}</span>
@@ -2375,7 +2433,7 @@
 				<span>{{$t('ExplorerLang.transactionInformation.farm.rewardPerBlock')}}</span>
 				<span>{{rewardPerBlock}}</span>
 			</p>
-			
+
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.farm.fundApplied')}}</span>
 				<span>{{fundApplied}}</span>
@@ -2387,11 +2445,11 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.farm.poolDescription')}}</span>
 				<span>{{poolDescription}}</span>
-			</p>			
+			</p>
 
 		</div> -->
-		
-		<!-- <div v-if="txType === TX_TYPE.destroy_pool">
+
+    <!-- <div v-if="txType === TX_TYPE.destroy_pool">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.farm.poolId')}}</span>
 				<span>{{poolId}}</span>
@@ -2408,7 +2466,7 @@
 				</template>
 			</p>
 		</div> -->
-		<!-- <div v-if="txType === TX_TYPE.adjust_pool">
+    <!-- <div v-if="txType === TX_TYPE.adjust_pool">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.farm.poolId')}}</span>
 				<span>{{poolId}}</span>
@@ -2429,3625 +2487,3726 @@
 				</template>
 			</p>
 		</div> -->
-<!-- exclude UpdateClient -->
-		<p v-if="txType !== TX_TYPE.update_client" :style="{marginTop: '0.26rem'}">
-			<span>{{$t('ExplorerLang.transactionInformation.recvPacket.viewSource')}}：</span>
-			<LargeString :isShowPre="Tools.isJSON(viewSource)"  v-if="viewSource" :text="viewSource"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
-		</p>
-	</div>
+    <!-- exclude UpdateClient -->
+    <p v-if="txType !== TX_TYPE.update_client" :style="{ marginTop: '0.26rem' }">
+      <span>{{ $t('ExplorerLang.transactionInformation.recvPacket.viewSource') }}：</span>
+      <LargeString
+        :isShowPre="Tools.isJSON(viewSource)"
+        v-if="viewSource"
+        :text="viewSource"
+        :minHeight="LargeStringMinHeight"
+        :lineHeight="LargeStringLineHeight"
+      />
+    </p>
+  </div>
 </template>
 
 <script>
-	import {TX_TYPE,voteOptions,formatVoteOptions,EVENTS_TYPE, COSMOS_ADDRESS_PREFIX, IRIS_ADDRESS_PREFIX} from '../../constant';
-	import Tools from "../../util/Tools";
-	import { TxHelper } from '../../helper/TxHelper';
-    import LargeString from './LargeString';
-	import { converCoin,addressRoute,getTxType } from "../../helper/IritaHelper";
-	import prodConfig from "../../productionConfig";
-	import axios from '@/axios';
-	import {ExplorerLang} from "../../../lang/EN-Cindy";
-	const enLang = require( '../../../lang/EN-Cindy')
-	const cnLang = require( '../../../lang/CN-Cindy')
-	import TxDetailComponent from './TxDetailComponent.vue'
-	export default {
-		name: "txMessage",
-		components: {LargeString, TxDetailComponent},
-		props: {
-			msg: {
-				type: Object,
-				required: true,
-			},
-			msgIndex: {
-				type: Number,
-				required: true,
-			},
-			eventsNew: {
-				type: Array,
-			},
-			monikers: {
-				type: Array,
-				required: true,
-			},
-			ddcSigner: {
-				type: Array
-			},
-		},
-		data () {
-			return {
-				TX_TYPE_DISPLAY: {},
-				isShowFee: prodConfig.fee.isShowFee,
-				Tools,
-				prodConfig,
-				addressRoute,
-				TX_TYPE,
+import axios from '@/axios';
+import {
+  TX_TYPE,
+  voteOptions,
+  formatVoteOptions,
+  EVENTS_TYPE,
+  COSMOS_ADDRESS_PREFIX,
+  IRIS_ADDRESS_PREFIX,
+} from '../../constant';
+import Tools from '../../util/Tools';
+import { TxHelper } from '../../helper/TxHelper';
+import LargeString from './LargeString';
+import { converCoin, addressRoute, getTxType } from '../../helper/IritaHelper';
+import prodConfig from '../../productionConfig';
+import { ExplorerLang } from '../../../lang/EN-Cindy';
+import TxDetailComponent from './TxDetailComponent.vue';
 
-				// txHash : '',
-				// blockHeight : '',
-				// status : '',
-				// timestamp : '',
-				signer: '',
-				// memo : '',
-				txType: '',
-				from: '',
-				to: '',
-				tokenId: '',
-				denom: '',
-				// url : '',
-				requestId: '',
-				// defineChainId : '',
-				serviceName: '',
-				// bindChainId : '',
-				// requestChainId : '',
-				// methodId : '',
-				provider: '',
-				consumer: '',
-				input: '',
-				// profiling : '',
-				output: '',
-				// errorMessage : '',
-				// chainId : '',
-				author: '',
-				authorDescription: '',
-				// idlContent : '',
-				defineName: '',
-				// bindingType : '',
-				deposit: '',
-				// price : '',
-				// averageResponseTime : '',
-				// usableTime : '',
-				recordArray: [],
-				amount: '',
-				owner: '',
-				symbol : '',
-				tokenData: '',
-				recipient: '',
-				tokenUri: '',
-				// dstOwner : '',
-				// srcOwner : '',
-				// minTable : '',
-				schema: '',
-				initialSupply : '',
-				// minUnit : '',
-				// scale : '',
-				pricing: '',
-				qos: '',
-				schemas: '',
-				requestContextId: '',
-				serviceFeeCap: '',
-				timeout: '',
-				denomName: '',
-				nftName: '',
-				packet: '',
-				proof: '',
-				proofHeight: '',
-				proofPath: '',
-				proofData: '',
-				clientID: '',
-				module: '',
-				id: '',
-				pubkey: '',
-				certificate: '',
-				credentials: '',
-				pubKeyAlgo: '',
-				header: '',
-				pubkeyShow:false,
-				endTime: '',
-				shares: '',
-				operatorAddress: '',
-				moniker: '',
-				identity: '',
-				selfBond: '',
-				ownerAddress: '',
-				consensusPubkey: '',
-				commissionRate: '',
-				website: '',
-				details: '',
-				delegatorAddress:'',
-				withdrawAddress:'',
-				depositor:'',
+const enLang = require('../../../lang/EN-Cindy');
+const cnLang = require('../../../lang/CN-Cindy');
 
-				isBuyOrder: '',
-				inputAddress:'',
-				outputAddress:'',
-				deadline:'',
-				sender:'',
-				exactIrisAmt:'',
-				maxToken:'',
-				minLiquidity:'',
-				withdrawLiquidity:'',
-				minIrisAmt:'',
-				keyBaseName:'',
-				commissionMaxRate:'',
-				commissionMaxChangeRate:'',
-				validatorAddress:'',
-				feedName:'',
-				description:'',
-				latestHistory:'',
-				creator:'',
-				providers:'',
-				aggregateFunc:'',
-				valueJsonPath:'',
-				repeatedFrequency:'',
-				responseThreshold:'',
-				blockInterval:'',
-				oracle:'',
-				toMoniker:'',
-				fromMoniker:'',
-				operMoniker:'',
-				minToken:'',
-				minSelfDelegation:'',
-				securityContact:'',
-				LargeStringMinHeight: 100,
-				LargeStringLineHeight: 20,
-				name:'',
-				decimal:'',
-				maxSupply:'',
-				mintable:'',
-				originalOwner:'',
-				newOwner:'',
-				superMode:'',
-				proposalID:'',
-				option: '',
-				voter: '',
-				proposer:'',
-				title:'',
-				initialDeposit: '',
-				parameter:'',
-				time: '',
-				switchHeight: '',
-				info: '',
-				upgradedClientState:'',
-				minUnit:'',
-				options: '',
-				clientState:'',
-				consensusState: '',
-				proofUpgradeClient:'',
-				proofUpgradeConsensusState :'',
-				misbehaviour:'',
-				counterparty:'',
-				version:'',
-				delayPeriod:'',
-				previousConnectionId:'',
-				counterpartyVersions:'',
-				proofInit:'',
-				proofClient:'',
-				proofConsensus:'',
-				consensusHeight:'',
-				connectionId:'',
-				counterpartyConnectionId:'',
-				proofTry:'',
-				proofAck:'',
-				portId: '',
-				channel:'',
-				previousChannelId: '',
-				counterpartyVersion: '',
-				channelId: '',
-				counterpartyChannelId: '',
-				proofUnreceived: '',
-				nextSequenceRecv: '',
-				proofClose:'',
-				acknowledgement: '',
-				proofAcked: '',
-				proofCommitment:'',
-				sourcePort: '',
-				sourceChannel: '',
-				token: '',
-				receiver: '',
-				timeoutHeight: '',
-				timeoutTimestamp: '',
-				inputs:[],
-				outputs:[],
-				receiverOnOtherChain:'',
-				senderOnOtherChain:'',
-				hashLock:'',
-				timestamp:'',
-				timeLock:'',
-				secret:'',
-				transfer: '',
-				tokenPair: '',
-				viewSource: '',
-				amountArray:[],
-				COSMOS_ADDRESS_PREFIX,
-				IRIS_ADDRESS_PREFIX,
-				data:'',
-				//新增
-				classTibc:'',//tibc新增
-				destChain:'',
-				realayChain:'',
-				idTibc:'',
-				urlTibc:'',
-				sequence:'',
-				port:'',
-				sourceChain:'',
-				nft_status:'',
-				cleanPacket:'',
-				chainName:'',
-				denomId:'',//nft新增
-				mintRestricted:'',
-				updateRestricted:'',
-				// farm 
-				poolId:'',
-				reward:'',
-				lptDenom:'',
-				totalReward:'',
-				rewardPerBlock:'',
-				startHeight:'',
-				editable:'',
-				proposalTitle:'',
-				proposalDescription:'',
-				fundApplied:'',
-				fundSelfBond:'',
-				poolDescription:'',
-				refund:'',
-				additionalReward:'',
-				detailInfo:[]
-			}
-		},
-		computed: {
-			hide () {
-				let types = [];
-				return !types.some((item) => item == this.txType);
-			}
-		},
-		async mounted () {
-			await this.getTxTypeData()
-			this.getTransactionInformation();
-		},
-		methods: {
-			async getTxTypeData(){
-				try {
-					let res = await getTxType()
-					this.TX_TYPE_DISPLAY = res?.TX_TYPE_DISPLAY
-				} catch (error) {
-					console.log(error)
-				}
-			},
-			async getTransactionInformation () {
-				try {
-					const message = this.msg;
-					if (message) {
-						let msg = message.msg;
-						this.txType = message.type || '--';
-						(this.txType !== TX_TYPE.update_client) && (function (that) {
-							let copyMsg = JSON.parse(JSON.stringify(that.msg))
-							delete copyMsg.msg.ex
-							if(that.eventsNew && that.eventsNew.length > 0) {
-								that.eventsNew.forEach((item) => {
-									if(item.msg_index === that.msgIndex) {
-										that.viewSource = JSON.stringify({
-											msgs: copyMsg.msg,
-											events: item.events
-										})
-									}
-								})
-							} else {
-								let copyMsg = JSON.parse(JSON.stringify(that.msg))
-								delete copyMsg.msg.ex
-								// compatible no eventsNew situation
-								that.viewSource = JSON.stringify({
-									msgs: copyMsg
-								})
-							}
-						}(this))
-						switch (this.txType) {
-							case TX_TYPE.mint_nft:
-								this.buildMintNft(msg)
-								break;
-							case TX_TYPE.burn_nft:
-								this.buildBurnNft(msg)
-								break;
-							case TX_TYPE.create_record:
-								this.recordArray = msg.contents.map(item => {
-									return {
-										digest: item.digest ? item.digest : '--',
-										digest_algo: item.digest_algo ? item.digest_algo : '--',
-										uri: item.uri ? item.uri : '--',
-										meta: item.meta ? item.meta : "--",
-									}
-								})
-								break;
-							case TX_TYPE.define_service:
-								this.buildDefineService(msg)
-								break;
-							case TX_TYPE.bind_service:
-								this.buildBindService(msg)
-								break;
-							case TX_TYPE.send:
-								this.buildSend(msg)
-								break;
-							case TX_TYPE.call_service:
-								this.buildCallService(msg)
-								break;
-							case TX_TYPE.transfer_nft:
-								this.buildTransferNft(msg)
-								break;
-							case TX_TYPE.edit_nft:
-								this.buildEditNft(msg)
-								break;
-							case TX_TYPE.issue_denom:
-								this.buildIssueDenom(msg)
-								break;
-							case TX_TYPE.respond_service:
-								this.buildRespondService(msg)
-								break;
-							case TX_TYPE.pause_request_context:
-								this.buildPauseRequestContext(msg)
-								break;
-							case TX_TYPE.start_request_context:
-								this.buildPauseRequestContext(msg)
-								break;
-							case TX_TYPE.kill_request_context:
-								this.buildPauseRequestContext(msg)
-								break;
-							case TX_TYPE.update_request_context:
-								this.buildUpdateRequestContext(msg)
-								break;
-							case TX_TYPE.update_service_binding:
-								this.buildUpdateServiceBinding(msg)
-								break;
-							case TX_TYPE.disable_service_binding:
-								this.buildDisableServiceBinding(msg)
-								break;
-							case TX_TYPE.enable_service_binding:
-								this.buildEnableServiceBinding(msg)
-								break;
-							case TX_TYPE.refund_service_deposit:
-								this.buildDisableServiceBinding(msg)
-								break;
-							case TX_TYPE.recv_packet:
-								this.buildRecvPacket(msg, message.type)
-								break;
-							case TX_TYPE.create_identity:
-							case TX_TYPE.update_identity:
-								this.buildCreateIdentity(msg)
-								break;
-							case TX_TYPE.create_client:
-								this.buildCreateClient(msg)
-								if(prodConfig.txDetail && prodConfig.txDetail.ibc) {
-									this.clientID = msg.client_id || '--';
-									this.header = JSON.stringify(msg.header || {}) || '--';
-									this.signer = msg.signer || '--';
-								} else {
-									this.clientState = msg.client_state || '--';
-									this.consensusState = msg.consensus_state || '--';
-									this.signer = msg.signer || '--';
-								}
-								break;
-							case TX_TYPE.update_client:
-								this.buildUpdateClient(msg)
-								// this.clientID = msg.client_id || '--';
-								// this.header = msg.header || '--';
-								// this.signer = msg.signer || '--';
-								break;
-							case TX_TYPE.begin_redelegate:
-                                let amount = await converCoin(msg.amount);
-								this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
-								this.from = msg.validator_src_address;
-								// this.shares = '需要取值';
-								this.to = msg.validator_dst_address;
-								// this.endTime = Tools.format2UTC(message.time)
-								this.toMoniker = this.getMoniker(this.to,this.monikers)
-								this.fromMoniker = this.getMoniker(this.from,this.monikers)
-								break;
-							case TX_TYPE.create_validator:
-								this.operatorAddress = msg.validator_address;
-								this.moniker = msg.description.moniker;
-								if(msg.description.identity) {
-									this.getKeyBaseName(msg.description.identity)
-								}
-								this.identity = msg.description.identity || '--';
-								if(msg && msg.value && msg.value.amount ) {
-									let selfBond = await converCoin(msg.value)
-									this.selfBond = `${selfBond.amount} ${selfBond.denom.toUpperCase()}` || '--';
-								}else {
-									this.selfBond = '--'
-								}
-								this.ownerAddress = msg.delegator_address || '--';
-								this.consensusPubkey = msg.pubkey;
-								this.commissionRate = `${Tools.formatPercentage(msg.commission.rate)} %`;
-								this.commissionMaxRate = `${Tools.formatPercentage(msg.commission.max_rate)} %`
-								this.commissionMaxChangeRate = `${Tools.formatPercentage(msg.commission.max_change_rate)} %`
-								this.website = msg.description.website || '--';
-								this.details = msg.description.details || '--';
-								this.minSelfDelegation = msg.min_self_delegation || '--';
-								this.securityContact = msg.description && msg.description.security_contact || '--';
-								break;
-							case TX_TYPE.withdraw_delegator_reward:
-								this.from = msg.validator_address;
-								(this.eventsNew || []).forEach((item) => {
-									if(item.msg_index === this.msgIndex) {
-										(item.events || []).forEach((events) => {
-											if (events.type == 'withdraw_rewards') {
-												(events.attributes || []).forEach((attr) => {
-													if (attr.key == 'amount') {
-														amount = attr.value || '--';
-													}
-												});
-											}
-											if(events.type === 'transfer') {
-												(events.attributes || []).forEach((attr) => {
-													if (attr.key == 'recipient') {
-														this.to = attr.value || '--';
-													}
-												});
-											}
-										})
-									}
-								});
-								if(!this.to) {
-									this.to = '--';
-								}
-								if( amount && amount !== '--') {
-									amount = await converCoin(amount);
-									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
-								} else {
-									this.amount = '--'
-								}
-								this.toMoniker = this.getMoniker(this.to,this.monikers)
-								this.fromMoniker = this.getMoniker(this.from,this.monikers)
-								break;
-							case TX_TYPE.withdraw_validator_commission:
-								this.validatorAddress = msg.validator_address
-								this.moniker = this.getMoniker(this.validatorAddress,this.monikers)
-								break;
-							case TX_TYPE.set_withdraw_address:
-								this.buildSetWithdrawAddress(msg)
+export default {
+  name: 'txMessage',
+  components: { LargeString, TxDetailComponent },
+  props: {
+    msg: {
+      type: Object,
+      required: true,
+    },
+    msgIndex: {
+      type: Number,
+      required: true,
+    },
+    eventsNew: {
+      type: Array,
+    },
+    monikers: {
+      type: Array,
+      required: true,
+    },
+    ddcSigner: {
+      type: Array,
+    },
+  },
+  data() {
+    return {
+      TX_TYPE_DISPLAY: {},
+      isShowFee: prodConfig.fee.isShowFee,
+      Tools,
+      prodConfig,
+      addressRoute,
+      TX_TYPE,
 
-								// this.delegatorAddress = msg.delegator_address;
-								// this.withdrawAddress = msg.withdraw_address;
-								break;
-							case TX_TYPE.begin_unbonding:
-								if(msg.amount) {
-									let amount = await converCoin(msg.amount);
-									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
-								}
-								this.amount = this.amount || '--'
-								this.from = msg.validator_address;
-								this.to = msg.delegator_address;
-								this.toMoniker = this.getMoniker(this.to,this.monikers)
-								this.fromMoniker = this.getMoniker(this.from,this.monikers)
-								break;
-							case TX_TYPE.edit_validator:
-								this.operatorAddress = msg.validator_address;
-								this.moniker = msg.description.moniker;
-								if(msg.description.identity) {
-									this.getKeyBaseName(msg.description.identity)
-								}
-								this.identity = msg.description.identity || '--';
-								if(msg.commission_rate) {
-									this.commissionRate = `${Tools.formatPercentage(msg.commission_rate)} %`  || '--';
-								} else {
-									this.commissionRate = '--'
-								}
-								this.website = msg.description.website || '--';
-								this.details = msg.description.details || '--';
-								this.operMoniker = this.getMoniker(this.operatorAddress,this.monikers);
-								this.minSelfDelegation = msg.min_self_delegation || '--'
-								this.securityContact = msg.description && msg.description.security_contact || '--'
-								break;
-							case TX_TYPE.delegate:
-								this.from = msg.delegator_address;
-								this.to = msg.validator_address;
-								amount = await converCoin(msg.amount);
-								this.amount = `${amount.amount} ${amount.denom.toUpperCase()}` || '--'
-								this.toMoniker = this.getMoniker(this.to,this.monikers)
-								this.fromMoniker = this.getMoniker(this.from,this.monikers)
-								break;
-							case TX_TYPE.fund_community_pool:
-								this.buildFundCommunityPool(msg)
-								break;
-							case TX_TYPE.swap_order:
-								this.buildSwapOrder(msg);
-								break;
-							case TX_TYPE.add_liquidity:
-								this.buildAddLiquidity(msg);
-								break;
-							case TX_TYPE.remove_liquidity:
-								this.buildRemoveLiquidity(msg);
-								break;
-							case TX_TYPE.unjail:
-								this.buildUnjail(msg);
-								break;
-							case TX_TYPE.create_feed:
-								this.buildCreateFeed(msg)
-								break;
-							case TX_TYPE.start_feed:
-								this.buildStartFeed(msg)
-								break;
-							case TX_TYPE.pause_feed:
-								this.buildStartFeed(msg)
-								break;
-							case TX_TYPE.edit_feed:
-								this.buildEditFeed(msg)
-								break;
-							case TX_TYPE.request_rand:
-								this.buildRequestRand(msg)
-								break;
-							case TX_TYPE.service_set_withdraw_address:
-								this.buildServiceSetWithdrawAddress(msg)
-								break;
-							case TX_TYPE.withdraw_earned_fees:
-								this.buildWithdrawEarnedFees(msg)
-								break;
-							case TX_TYPE.issue_token:
-								this.buildIssueToken(msg)
-								break;
-							case TX_TYPE.edit_token:
-								this.buildEditToken(msg)
-								break;
-							case TX_TYPE.mint_token:
-								this.buildMintToken(msg)
-							break;
-							case TX_TYPE.transfer_token_owner:
-								this.buildTransferTokenOwner(msg)
-								break;
-							case TX_TYPE.burn_token:
-								this.buildBurnToken(msg)
-								break;
-							case TX_TYPE.deposit:
-								this.buildDeposit(msg)
-								break;
-							case TX_TYPE.vote:
-								this.buildVote(msg)
-								break;
-							case TX_TYPE.submit_proposal:
-								this.buildSubmitProposal(msg)
-								break;
-							case TX_TYPE.upgrade_client:
-								this.buildUpgradeClient(msg)
-							break;
-							case TX_TYPE.submit_misbehaviour:
-								this.buildSubmitMisbehaviour(msg)
-							break;
-							case TX_TYPE.connection_open_init:
-								this.buildConnectionOpenInit(msg)
-							break;
-							case TX_TYPE.connection_open_try:
-								this.buildConnectionOpenTry(msg)
-							break;
-							case TX_TYPE.connection_open_ack:
-								this.buildConnectionOpenAck(msg)
-							break;
-							case TX_TYPE.connection_open_confirm:
-								this.buildConnectionOpenConfirm(msg)
-								break;
-							case TX_TYPE.channel_open_init:
-								this.buildChannelOpenInit(msg)
-								break;
-							case TX_TYPE.channel_open_try:
-								this.buildChannelOpenTry(msg)
-								break;
-							case TX_TYPE.channel_open_ack:
-								this.buildChannelOpenAck(msg)
-							break;
-							case TX_TYPE.channel_open_confirm:
-								this.buildChannelOpenConfirm(msg)
-							break;
-							case TX_TYPE.channel_close_init:
-								this.buildChannelCloseInit(msg)
-							break;
-							case TX_TYPE.channel_close_confirm:
-								this.buildChannelCloseConfirm(msg)
-							break;
-							case TX_TYPE.timeout_packet:
-								this.buildTimeoutPacket(msg, message.type)
-							break;
-							case TX_TYPE.timeout_on_close_packet:
-								this.buildTimeoutOnClosePacket(msg)
-								break;
-							case TX_TYPE.acknowledge_packet:
-								this.buildAcknowledgePacket(msg, message.type)
-								break;
-							// MsgTypeIBCTransfer
-							case TX_TYPE.transfer:
-								this.buildTransfer(msg)
-							break;
-							case TX_TYPE.multisend:
-								this.inputs = [];
-								this.outputs = [];
-								if(msg && msg.inputs.length >0) {
-									for (const input of msg.inputs) {
-										let n = input.coins && input.coins[0] && await converCoin(input.coins[0])
-										this.inputs.push({
-											address: input.address,
-											amount: n ? `${n.amount} ${n.denom.toUpperCase()}` : '--'
-										})
-									}
-									for (const output of msg.outputs) {
-										let n = output.coins && output.coins[0] && await converCoin(output.coins[0])
-										this.outputs.push({
-											address: output.address,
-											amount: n ? `${n.amount} ${n.denom.toUpperCase()}` : '--'
-										})
-									}
-								}
-							break;
-							case TX_TYPE.create_htlc:
-								this.buildCreateHtlc(msg);
-							break;
-							case TX_TYPE.claim_htlc:
-								this.buildClaimHtlc(msg)
-							break;
-							case TX_TYPE.refund_htlc:
-								this.sender = msg.sender || '--';
-								this.hashLock = msg.hash_lock || '--';
-							break;
-							//新增TIBC NFT Transfer Out
-							case TX_TYPE.tibc_nft_transfer:
-								this.buildTibcNftTransfer(msg)
-								break;
-							//新增TIBC NFT Transfer In
-							case TX_TYPE.tibc_recv_packet:
-								this.buildTibcRecvPacket(msg)
-								break;
-							//新增TIBC Acknowledge Packet
-							case TX_TYPE.tibc_acknowledge_packet:
-								this.buildTibcAcknowledgePacket(msg)
-								break;
-              //新增 TIBC Clean Packet Out
-							case TX_TYPE.clean_packet:
-								this.buildCleanPacket(msg)
-								break;
-							//新增 	TIBC Clean Packet In
-							case TX_TYPE.recv_clean_packet:
-								this.buildRecvCleanPacket(msg)
-								break;
-							case TX_TYPE.tibc_update_client:
-								this.buildTibcUpdateClient(msg)
-								break;
-							case TX_TYPE.transfer_denom:
-								this.buildTransferDenom(msg)
-								break;
-							case TX_TYPE.stake:		  
-							  this.buildStake(msg)  
-								break;
-							case TX_TYPE.unstake:
-								this.buildStake(msg)
-								break;
-							case TX_TYPE.harvest:
-								this.buildHarvest(msg)
-								break;
-							case TX_TYPE.create_pool:
-								this.buildCreatePool(msg)
-								break;
-							case TX_TYPE.create_pool_with_community_pool:
-								this.buildCreatePoolWithCP(msg)
-								break;
-							case TX_TYPE.destroy_pool:
-								this.buildDestroyPool(msg)
-								break;
-							case TX_TYPE.adjust_pool:
-								this.buildAdjustPool(msg)
-								break;
-							case TX_TYPE.bsn_ddc:
-								this.buildBsnDdc(msg)
-								break;
-						}
-					}
-				} catch (e) {
-					console.error(e);
-				}
-			},
-			getAmountByAmountStr(str){
-				let amount = str.match(/\d+/g), denom = '';
-                if(amount && amount.length > 0){
-					denom = str.substr(amount[0].length);
-					return {
-						amount:amount[0],
-						denom
-					}
-                }
-			},
-			// 处理需打开的网站地址
-			openUrl(url) {
-				url = url.trim();
-				if (url) {
-					if (!/(http|https):\/\/([\w.]+\/?)\S*/.test(url)) {
-						url = `http://${url}`;
-					}
-					window.open(url);
-				}
-			},
-			// 通过identity，拿到keyBaseName数据
-			getKeyBaseName(identity) {
-				let url = `https://keybase.io/_/api/1.0/user/lookup.json?fields=basics&key_suffix=${identity}`;
-				if (identity) {
-					axios.http(url).then(res => {
-						if (res.them && res.them.length > 0 && res.them[0].basics && res.them[0].basics.username) {
-							this.keyBaseName = `https://keybase.io/${res.them[0].basics.username}`;
-						}else {
-							this.keyBaseName = ''
-						}
-					});
-				}
-			},
-			getMoniker(address,monikers) {
-				let moniker
-				if(monikers.length) {
-					monikers.map( item => {
-						moniker = moniker || item[address] || ''
-					})
-				}
-				return moniker
-			},
-			startStr(url){
-				return url.startsWith('www.')
-			},
-			async handleAmount(amountObj){
-				const amountItem = await converCoin(amountObj);
-				return `${amountItem.amount} ${amountItem.denom.toUpperCase()}`;
-			},
-			/**
-			 * 从events下匹配数据出来
-			 */
-			getValueFromEvents(msgType,attrKey){
-				const eventItem = this?.eventsNew && this?.eventsNew?.length && this.msgIndex >= 0 ? this?.eventsNew[this.msgIndex]?.events.find(item => item.type === msgType) : null;
-				const attrItem = eventItem && eventItem.attributes.find(item => item.key === attrKey);
-				const rewardValue = (attrItem && attrItem.value) ? attrItem.value : '--';
-				return rewardValue;
-			},
-			/**
-			 * 从eventsNew下匹配数据出来并处理
-			 * 入参：msgType=stake attrKey=reward
-			 * 返回： 0.12 IRIS 或者 0.12 IRIS、0.33 BSN
-			 */
-			async handleReward(msgType,attrKey){
-				const rewardValue = this.getValueFromEvents(msgType,attrKey);
-				if(rewardValue !== '--'){
-					if(rewardValue.includes(',')){
-						const reward1 = this.getAmountByAmountStr(rewardValue.split(',')[0]);
-						const reward2 = this.getAmountByAmountStr(rewardValue.split(',')[1]);
-						const rewardItem1 = await converCoin(reward1);
-						const rewardItem2 = await converCoin(reward2);
-						return `${rewardItem1.amount} ${rewardItem1.denom.toUpperCase()}、 ${rewardItem2.amount} ${rewardItem2.denom.toUpperCase()}`
-					}else{
-						const reward1 = this.getAmountByAmountStr(rewardValue);
-						const rewardItem1 = await converCoin(reward1);
-					  return `${rewardItem1.amount} ${rewardItem1.denom.toUpperCase()}`; 
-					}
-				}else{
-					return rewardValue;
-				}
-			},
-			/**
-			 * 处理入参结构如下：
-			 * @params [array] totalReward
-			 * [{"denom": "ubusd","amount": "1"},{"denom": "uiris","amount": "10"}]
-			 */
-			async handleTotalReward(totalReward){
-				const rewardArr = [];
-				const len = totalReward ? totalReward.length : 0;
-				if(len !== 0){
-						const res = await converCoin(totalReward[0]);
-						rewardArr.push(`${res.amount} ${res.denom.toLocaleUpperCase()}`)
-					if(len === 2){
-						const res = await converCoin(totalReward[1]);
-						rewardArr.push(`${res.amount} ${res.denom.toLocaleUpperCase()}`)
-					}
-					return len === 2 ? rewardArr.join('、') : rewardArr[0];
-				}else{
-					return '--'
-				}
-			},
-			judgeCosmos(addr){
-				return addr.startsWith(COSMOS_ADDRESS_PREFIX)
-			},
-			// bind_service
-			async buildBindService(msg){
-				let deposit;
-				if (msg.deposit && msg.deposit.length) {
-					let amount = await converCoin(msg.deposit[0]);
-					deposit = `${amount.amount} ${amount.denom.toUpperCase()}` || '--';
-				}
-				const serviceList = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.serviceName'),
-						value: msg.service_name,
-						isService: true,
-					}
-				]
-				const priceList = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.pricing'),
-						value: msg.pricing,
-					}
-				]
-				const otherList = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.qos'),
-						value: msg.qos,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.deposit'),
-						value: deposit,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.provider'),
-						value: msg.provider,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.bindService.options'),
-						value: msg.options
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.owner'),
-						value: msg.owner,
-						isAddress: true
-					}
-				]
-				this.detailInfo = this.isShowFee ? serviceList.concat(priceList,otherList) : serviceList.concat(otherList)
-			},
-			// define_service
-			buildDefineService(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.serviceName'),
-						value: msg.name,
-						isService: true,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.defineService.description'),
-						value: msg.description,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.defineService.author'),
-						value: msg.author,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.defineService.authorDescription'),
-						value: msg.author_description,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.defineService.tags'),
-						value: msg.tags.length && msg.tags || '--',
-					}
-				]
-			},
-			// call_service
-			async buildCallService(msg){
-				let requestContextId = '--',
-				 	serviceFeeCap='--';
-				if(this.eventsNew && this.eventsNew.length > 0) {
-					(this.eventsNew || []).forEach((item) => {
-						if(item.msg_index === this.msgIndex) {
-							(item.events || []).forEach((events) => {
-								(events.attributes || []).forEach((attr) => {
-									if (attr.key == 'request_context_id') {
-										requestContextId = attr.value || '--';
-									}
-								});
-							})
-						}
-					});
-				} else {
-					(this.events || []).forEach((item) => {
-							(item.attributes || []).forEach((attr) => {
-								if (attr.key == 'request_context_id') {
-									requestContextId = attr.value || '--';
-								}
-							});
-					})
-				}
-				if (msg.service_fee_cap && msg.service_fee_cap.length) {
-					let res = await converCoin(msg.service_fee_cap[0]);
-					serviceFeeCap = `${res.amount} ${res.denom.toUpperCase()}`;
-				}
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.serviceName'),
-						value: msg.service_name,
-						isService: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.requestContextId'),
-						value: requestContextId.toUpperCase()
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.consumer'),
-						value: msg.consumer,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.callService.input'),
-						value: msg.input,
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.provider'),
-						value: msg.providers,
-						isAddress: true,
-						isMulti: true,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.callService.input'),
-						value: msg.input,
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.callService.repeated'),
-						value: msg.repeated ? '是' : '否',
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.repeatedFrequency'),
-						value: msg.repeated_frequency
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.repeatedTotal'),
-						value: msg.repeated_total
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.serviceFeeCap'),
-						value: serviceFeeCap
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.callService.superMode'),
-						value: msg.super_mode
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.timeOut'),
-						value: msg.timeout
-					},
-				]
-			},
-			// response_service
-			buildRespondService(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.serviceName'),
-						value: msg.service_name ||  (msg.ex || {}).service_name,
-						isService: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.respondService.requestId'),
-						value: (msg.request_id || '--').toUpperCase()
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.requestContextId'),
-						value: ((msg.ex || {}).request_context_id || '--').toUpperCase()
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.provider'),
-						value:  msg.provider,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.respondService.result'),
-						value: msg.result
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.respondService.output'),
-						value:  msg.output,
-						isSchema: true
-					}
-				]
-			},
-			// update_service_binding
-			async buildUpdateServiceBinding(msg){
-				let deposit;
-				if (msg.deposit && msg.deposit.length) {
-					let amount = await converCoin(msg.deposit[0]);
-					deposit = `${amount.amount} ${amount.denom.toUpperCase()}`;
-				}
-				const serviceList = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.serviceName'),
-						value: msg.service_name ||  (msg.ex || {}).service_name,
-						isService: true
-					},
-				]
-				const priceList = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.pricing'),
-						value: msg.pricing
-					}
-				]
-				const otherList = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.qos'),
-						value: msg.qos,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.deposit'),
-						value: deposit,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.provider'),
-						value: msg.provider,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.owner'),
-						value: msg.owner,
-						isAddress: true
-					},
-				]
-				this.detailInfo = this.isShowFee ?  serviceList.concat(priceList, otherList) : serviceList.concat(otherList)
-			},
-			// disable_service_binding 未自测 refund_service_deposit 未自测
-			buildDisableServiceBinding(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.serviceName'),
-						value:  msg.service_name ||  (msg.ex || {}).service_name,
-						isService: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.provider'),
-						value:  msg.provider,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.owner'),
-						value:  msg.owner,
-						isAddress: true
-					}	
-				]
-			},
-			// enable_service_binding  未自测
-			async buildEnableServiceBinding(msg){
-				let deposit;
-				if (msg.deposit && msg.deposit.length) {
-					let amount = await converCoin(msg.deposit[0]);
-					deposit = `${amount.amount} ${amount.denom.toUpperCase()}`;
-				}
-				this.detailInfo = [
-					{	
-						label: this.$t('ExplorerLang.transactionInformation.serviceName'),
-						value:  msg.service_name ||  (msg.ex || {}).service_name,
-						isService: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.deposit'),
-						value: deposit 
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.provider'),
-						value: msg.provider,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.owner'),
-						value: msg.owner,
-						isAddress: true
-					}
-				]
-			},
-			// pause_request_context 未自测 start_request_context 未自测 kill_request_context 未自测
-			buildPauseRequestContext(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.serviceName'),
-						value: msg.service_name ||  (msg.ex || {}).service_name,
-						isService: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.requestContextId'),
-						value: (msg.request_context_id || '--').toUpperCase()
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.consumer'),
-						value:  msg.consumer,
-						isAddress: true
-					}
-				]
-			},
-			// update_request_context 未自测
-			async buildUpdateRequestContext(msg){
-				let serviceFeeCap
-				if (msg.service_fee_cap && msg.service_fee_cap.length) {
-					const res = await converCoin(msg.service_fee_cap[0])
-					serviceFeeCap = `${res.amount} ${res.denom.toUpperCase()}`;
-				}
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.serviceName'),
-						value: msg.service_name ||  (msg.ex || {}).service_name,
-						isService: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.requestContextId'),
-						value: msg.request_context_id
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.consumer'),
-						value: msg.consumer,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.provider'),
-						value: msg.providers,
-						isAddress: true,
-						isMulti: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.repeatedFrequency'),
-						value: msg.repeated_frequency
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.repeatedTotal'),
-						value: msg.repeated_total
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.serviceFeeCap'),
-						value: serviceFeeCap
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.timeOut'),
-						value: msg.timeout
-					}
-				]
-				if(!this.isShowFee){
-					// 去掉fee的展示
-					this.detailInfo.splice(-2, 1)
-				}
-			},
-			// service_set_withdraw_address 未自测
-			buildServiceSetWithdrawAddress(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.owner'),
-						value: msg.owner,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.withdrawAddress'),
-						value: msg.withdraw_address,
-						isAddress: true
-					},
-				]
-			},
-			// withdraw_earned_fees 未自测
-			buildWithdrawEarnedFees(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.provider'),
-						value: msg.provider,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.owner'),
-						value: msg.owner,
-						isAddress: true
-					}
-				]
-			},
-			// burn_nft
-			buildBurnNft(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.from'),
-						value: msg.sender,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.denomId'),
-						value: msg.denom,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.denomName'),
-						value: msg.denom_name,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nftId'),
-						value: msg.id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nftName'),
-						value: msg.nft_name,
-					}
-				]
-			},
-			// mint_nft
-			buildMintNft(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.denomId'),
-						value: msg.denom,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.denomName'),
-						value: msg.denom_name,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nftId'),
-						value: msg.id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nftName'),
-						value: msg.name,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.from'),
-						value: msg.sender,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.to'),
-						value: msg.recipient,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.uri'),
-						value: msg.uri,
-						isUri: true
-					}
-				]
-			},
-			// edit_nft
-			buildEditNft(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.denomId'),
-						value: msg.denom,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.denomName'),
-						value: msg.denom_name,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nftId'),
-						value: msg.id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nftName'),
-						value: msg.name,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.from'),
-						value: msg.sender,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.data'),
-						value: msg.data,
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.uri'),
-						value: msg.uri,
-						isUri: true
-					}
-				]
-			},
-			// transfer_nft
-			buildTransferNft(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.denomId'),
-						value: msg.denom,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.denomName'),
-						value: msg.denom_name,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nftId'),
-						value: msg.id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nftName'),
-						value: msg.name,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.from'),
-						value: msg.sender,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.to'),
-						value: msg.recipient,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.data'),
-						value: msg.data,
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.uri'),
-						value: msg.uri,
-						isUri: true
-					}
-				]
-			},
-			// issue_denom
-			buildIssueDenom(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nft.denomId'),
-						value: msg.id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nft.denomName'),
-						value: msg.name,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nft.symbol'),
-						value: msg.symbol,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nft.schema'),
-						value: msg.schema,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nft.mintRestricted'),
-						value: msg.mint_restricted,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nft.updateRestricted'),
-						value: msg.update_restricted,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.issueDenom.sender'),
-						value: msg.sender,
-						isAddress: true
-					}
-				]
-			},
-			// transfer_denom
-			buildTransferDenom(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nft.denomId'),
-						value: msg.id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nft.sender'),
-						value: msg.sender,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.nft.receiver'),
-						value: msg.recipient,
-						isComplexAddr: true
-					}
-				]
-			},
-			// issue_token
-			buildIssueToken(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.symbol'),
-						value: msg.symbol,
-						isAsset: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.name'),
-						value: msg.name,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.minUnit'),
-						value: msg.min_unit,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.decimal'),
-						value: msg.scale,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.initialSupply'),
-						value: msg.max_supply,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.maxSupply'),
-						value: msg.update_restricted,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.mintable'),
-						value: msg.mintable,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.owner'),
-						value: msg.owner,
-						isAddress: true
-					}
-				]
-			},
-		  // edit_token
-			buildEditToken(msg){
-				this.detailInfo =  [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.symbol'),
-						value: msg.symbol,
-						isAsset: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.name'),
-						value: msg.name,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.maxSupply'),
-						value: msg.max_supply !== 0 ? (msg.max_supply || '--') : msg.max_supply,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.mintable'),
-						value: msg.mintable,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.owner'),
-						value: msg.owner,
-						isAddress: true
-					}
-				]
-			},
-			// mint_token
-			buildMintToken(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.tokenId'),
-						value: msg.symbol,
-						isAsset: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.owner'),
-						value: msg.owner,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.amount'),
-						value: msg.amount,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.to'),
-						value: msg.to,
-						isAddress: true
-					}
-				]
-			},
-			// transfer_token_owner
-			buildTransferTokenOwner(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.tokenId'),
-						value: msg.symbol,
-						isAsset: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.originalOwner'),
-						value: msg.src_owner,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.newOwner'),
-						value: msg.dst_owner,
-						isAddress: true
-					}
-				]
-			},
-			// burn_token
-			buildBurnToken(msg){
-					this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.symbol'),
-						value: msg.symbol,
-						isAsset: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.sender'),
-						value: msg.sender,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.asset.amount'),
-						value: msg.amount,
-					}
-				]
-			},
-			// send
-			async buildSend(msg){
-				const amountArray = [];
-				if (msg.amount && msg.amount.length > 0) {
-					for (const item of msg.amount) {
-						const amount = await converCoin(item);
-						amountArray.push(`${amount.amount} ${amount.denom.toUpperCase()}` || '--')
-					}
-				}
-				amountArray && amountArray.length > 0 ? '' : amountArray.push('--')
+      // txHash : '',
+      // blockHeight : '',
+      // status : '',
+      // timestamp : '',
+      signer: '',
+      // memo : '',
+      txType: '',
+      from: '',
+      to: '',
+      tokenId: '',
+      denom: '',
+      // url : '',
+      requestId: '',
+      // defineChainId : '',
+      serviceName: '',
+      // bindChainId : '',
+      // requestChainId : '',
+      // methodId : '',
+      provider: '',
+      consumer: '',
+      input: '',
+      // profiling : '',
+      output: '',
+      // errorMessage : '',
+      // chainId : '',
+      author: '',
+      authorDescription: '',
+      // idlContent : '',
+      defineName: '',
+      // bindingType : '',
+      deposit: '',
+      // price : '',
+      // averageResponseTime : '',
+      // usableTime : '',
+      recordArray: [],
+      amount: '',
+      owner: '',
+      symbol: '',
+      tokenData: '',
+      recipient: '',
+      tokenUri: '',
+      // dstOwner : '',
+      // srcOwner : '',
+      // minTable : '',
+      schema: '',
+      initialSupply: '',
+      // minUnit : '',
+      // scale : '',
+      pricing: '',
+      qos: '',
+      schemas: '',
+      requestContextId: '',
+      serviceFeeCap: '',
+      timeout: '',
+      denomName: '',
+      nftName: '',
+      packet: '',
+      proof: '',
+      proofHeight: '',
+      proofPath: '',
+      proofData: '',
+      clientID: '',
+      module: '',
+      id: '',
+      pubkey: '',
+      certificate: '',
+      credentials: '',
+      pubKeyAlgo: '',
+      header: '',
+      pubkeyShow: false,
+      endTime: '',
+      shares: '',
+      operatorAddress: '',
+      moniker: '',
+      identity: '',
+      selfBond: '',
+      ownerAddress: '',
+      consensusPubkey: '',
+      commissionRate: '',
+      website: '',
+      details: '',
+      delegatorAddress: '',
+      withdrawAddress: '',
+      depositor: '',
 
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.send.amount'),
-						value: amountArray,
-						isArray: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.from'),
-						value: msg.from_address,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.to'),
-						value: msg.to_address,
-						isAddress: true
-					}
-				]
-			},
-			// transfer 
-			async buildTransfer(msg){
-				const token = msg.token ?  await converCoin(msg.token) : '--';
-				const timeoutHeight = msg.timeout_height ? JSON.stringify(msg.timeout_height) : '--';
-				let timeoutTimestamp = msg.timeout_timestamp  && Math.floor(new Date(msg.timeout_timestamp).getTime() / 1000);
-				timeoutTimestamp = timeoutTimestamp ? Tools.formatLocalTime(timeoutTimestamp) : '--';
-			
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.sourcePort'),
-						value: msg.source_port,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.sourceChannel'),
-						value: msg.source_channel,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.token'),
-						value: token.amount + ' ' + (token.denom || '').toUpperCase(),
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.sender'),
-						value: msg.sender,
-						isComplexAddr: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.receiver'),
-						value: msg.receiver,
-						isComplexAddr: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.timeoutHeight'),
-						value: timeoutHeight,
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.timeoutTimestamp'),
-						value: timeoutTimestamp,
-					}
-				]
-			},
-			// recv_packet
-			async buildRecvPacket(msg, type){
-				let originalDenom = TxHelper.getOriginalDenomFromPacket(msg.packet, type);
-				let amount,sender,receiver;
-				if(msg.packet && msg.packet.data){
-					sender = msg.packet.data.sender;
-					receiver = msg.packet.data.receiver;
-					amount = await converCoin({
-						denom:originalDenom || msg.packet.data.denom,
-						amount:msg.packet.data.amount,
-					});
-				}
-
-				let infoList = []
-				if(prodConfig.txDetail && prodConfig.txDetail.ibc){
-					infoList = [
-						{
-							label: this.$t('ExplorerLang.transactionInformation.recvPacket.proof'),
-							value: msg.proof,
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.recvPacket.proofHeight'),
-							value: msg.proof_height,
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.recvPacket.proofPath'),
-							value: JSON.stringify(msg.proof_path || []) || '--',
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.recvPacket.proofData'),
-							value: msg.proof_data || '--',
-							isSchema: true
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.recvPacket.clientID'),
-							value: msg.client_id,
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.recvPacket.module'),
-							value: msg.module,
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.signer'),
-							value: msg.signer,
-							isAddress: true
-						}
-					]
-				}else{
-					infoList = [
-						{
-							label: this.$t('ExplorerLang.transactionInformation.ibc.amount'),
-							value: amount.amount + ' ' + (amount.denom || '').toUpperCase(),
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.ibc.from'),
-							value: sender,
-							isAddress: true,
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.ibc.to'),
-							value: receiver,
-							isAddress: true,
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
-							value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
-							isSchema: true,
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.signer'),
-							value: msg.signer,
-							isAddress: true
-						}
-					]
-				}
-				this.detailInfo = infoList
-			},
-
-			// timeout_packet
-			async buildTimeoutPacket(msg, type){
-				let originalDenom = TxHelper.getOriginalDenomFromPacket(msg.packet,type);
-				let sender, receiver, amount;
-				if(msg.packet && msg.packet.data && JSON.stringify(msg.packet.data) !== '{}'){
-						sender = msg.packet.data.sender;
-						receiver = msg.packet.data.receiver;
-						amount = await converCoin({
-								denom:originalDenom || msg.packet.data.denom,
-								amount:msg.packet.data.amount,
-						});
-				}
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.amount'),
-						value: amount.amount + ' ' + (amount.denom || '').toUpperCase(),
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.from'),
-						value: sender,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.to'),
-						value: receiver,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
-						value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.nextSequenceRecv'),
-						value: msg.next_sequence_recv,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// create_identity/update_identity -未自测
-			buildCreateIdentity(msg){
-				const credentials = msg.credentials && msg.credentials !== '[do-not-modify]' ? msg.credentials : '--';
-				const pubKeyAlgo = TxHelper.getPubKeyAlgorithm(pubkey.algorithm) || '--';
-				this.detailInfo = [
-					{
-							label: this.$t('ExplorerLang.transactionInformation.identity.id'),
-							value: msg.id,
-							isIdentity: true
-					},
-					{
-							label: this.$t('ExplorerLang.transactionInformation.identity.pubkey'),
-							value: msg?.pubkey?.pubkey || '--',
-							isSchema: true
-					},
-					{
-							label: this.$t('ExplorerLang.transactionInformation.identity.pubKeyAlgo'),
-							value: pubKeyAlgo,
-							isIdentity: true
-					},
-					{
-							label: this.$t('ExplorerLang.transactionInformation.identity.certificate'),
-							value: msg.certificate,
-							isSchema: true
-					},
-					{
-							label: this.$t('ExplorerLang.transactionInformation.identity.credentials'),
-							value: credentials,
-							isLink: true
-					},
-					{
-							label: this.$t('ExplorerLang.transactionInformation.owner'),
-							value: msg.owner,
-							isAddress: true
-					}
-				]
-			},
-
-			//create_client
-			buildCreateClient(msg){
-				if(prodConfig.txDetail && prodConfig.txDetail.ibc){
-					this.detailInfo = [
-						{
-							label: this.$t('ExplorerLang.transactionInformation.client.clientID'),
-							value: msg.client_id,
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.client.header'),
-							value: JSON.stringify(msg.header || {}) || '--',
-							isSchema: true
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.signer'),
-							value: msg.signer,
-							isAddress: true
-						}
-					]
-				}else{
-					this.detailInfo = [
-						{
-							label: this.$t('ExplorerLang.transactionInformation.signer'),
-							value: msg.signer,
-							isAddress: true
-						}
-					]
-				}
-				
-			}, 
-
-			// update_client
-			buildUpdateClient(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.client.clientID'),
-						value: msg.client_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// upgrade_client 未自测
-			buildUpgradeClient(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.clientID'),
-						value: msg.client_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.clientState'),
-						value: msg.client_state,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.consensusState'),
-						value: msg.consensus_state,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofUpgradeClient'),
-						value: msg.proof_upgrade_client,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofUpgradeConsensusState'),
-						value: msg.proof_upgrade_consensus_state,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-			
-			//submit_misbehaviour 未自测
-			buildSubmitMisbehaviour(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.clientID'),
-						value: msg.client_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.misbehaviour'),
-						value: msg.misbehaviour
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-			
-			// connection_open_init
-			buildConnectionOpenInit(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.clientID'),
-						value: msg.client_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.counterparty'),
-						value: msg.counterparty ? JSON.stringify(msg.counterparty) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.version'),
-						value: msg.version ? JSON.stringify(msg.version) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.delayPeriod'),
-						value: msg.delay_period,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// connection_open_try
-			buildConnectionOpenTry(msg){
-				this.detailInfo =  [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.clientID'),
-						value: msg.client_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.previousConnectionId'),
-						value: msg.previous_connection_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.clientState'),
-						value: msg.client_state,
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.counterparty'),
-						value: msg.counterparty ? JSON.stringify(msg.counterparty) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.delayPeriod'),
-						value: msg.delay_period,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.counterpartyVersions'),
-						value: msg.counterparty_versions ? JSON.stringify(msg.counterparty_versions) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
-						value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofInit'),
-						value: msg.proof_init,
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofClient'),
-						value: msg.proof_client,
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofConsensus'),
-						value: msg.proof_consensus,
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.consensusHeight'),
-						value: msg.consensus_height ? JSON.stringify(msg.consensus_height) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// connection_open_ack
-			buildConnectionOpenAck(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.connectionId'),
-						value: msg.connection_id,
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.counterpartyConnectionId'),
-						value: msg.counterparty_connection_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.version'),
-						value: msg.version ? JSON.stringify(msg.version) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
-						value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.consensusHeight'),
-						value: msg.consensus_height ? JSON.stringify(msg.consensus_height) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// connection_open_confirm
-			buildConnectionOpenConfirm(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.connectionId'),
-						value: msg.connection_id,
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofAck'),
-						value: msg.proof_ack,
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
-						value:  msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// channel_open_init 
-			buildChannelOpenInit(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.portId'),
-						value: msg.port_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// channel_open_try
-			buildChannelOpenTry(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.portId'),
-						value: msg.port_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.previousChannelId'),
-						value: msg.previous_channel_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.channel'),
-						value: msg.channel ? JSON.stringify(msg.channel) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.counterpartyVersion'),
-						value: msg.counterparty_version,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofInit'),
-						value: msg.proof_init,
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
-						value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// channel_open_ack
-			buildChannelOpenAck(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.portId'),
-						value: msg.port_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.channelId'),
-						value: msg.channel_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.counterpartyChannelId'),
-						value: msg.counterparty_channel_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.counterpartyVersion'),
-						value: msg.counterparty_version,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
-						value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// channel_open_confirm
-			buildChannelOpenConfirm(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.portId'),
-						value: msg.port_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.channelId'),
-						value: msg.channel_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofAck'),
-						value: msg.proof_ack,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
-						value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			}, 
-
-			// channel_close_init -未自测
-			buildChannelCloseInit(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.portId'),
-						value: msg.port_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.channelId'),
-						value: msg.channel_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// channel_close_confirm -未自测
-			buildChannelCloseConfirm(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.portId'),
-						value: msg.port_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.channelId'),
-						value: msg.channel_id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofInit'),
-						value: msg.proof_init,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
-						value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// timeout_on_close_packet -未自测
-			buildTimeoutOnClosePacket(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.packet'),
-						value: msg.packet ? JSON.stringify(msg.packet) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofUnreceived'),
-						value: msg.proof_unreceived,
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofClose'),
-						value: msg.proof_close,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
-						value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
-						isSchema: true
-					},
-					
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.nextSequenceRecv'),
-						value: msg.next_sequence_recv,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// acknowledge_packet
-			async buildAcknowledgePacket(msg, type){
-				let amount;
-				let originalDenom = TxHelper.getOriginalDenomFromPacket(msg.packet, type);
-				if(msg.packet && msg.packet.data && JSON.stringify(msg.packet.data) !== '{}' ){
-					amount = await converCoin({
-							denom: originalDenom || msg.packet.data.denom,
-							amount:msg.packet.data.amount,
-					});
-				}
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.acknowledgement'),
-						value: msg.acknowledgement,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.token'),
-						value: `${amount.amount} ${amount.denom.toUpperCase()}`,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
-						value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
-						isSchema: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-			// deposit
-			async buildDeposit(msg){
-				let deposit;
-				if(msg.amount && msg.amount.length > 0) {
-					let amount = await converCoin(msg.amount[0]);
-					deposit = `${amount.amount} ${amount.denom.toUpperCase()}`;
-				} else {
-					deposit = '--'
-				}
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.gov.depositor'),
-						value: msg.depositor,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.gov.proposalID'),
-						value: msg.proposal_id,
-						isProposal: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.gov.deposit'),
-						value: deposit,
-					}
-				]
-				
-			},
-
-			// vote
-			buildVote(msg){
-				const option = msg.option ? formatVoteOptions[voteOptions[msg.option]] : '--';
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.gov.voter'),
-						value: msg.voter,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.gov.proposalID'),
-						value: msg.proposal_id,
-						isProposal: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.gov.option'),
-						value: option
-					}
-			
-				]
-			},
-
-			// submit_proposal 
-			async buildSubmitProposal(msg){	
-				let initialDeposit;
-				if(msg.initial_deposit && msg.initial_deposit.length > 0) {
-					let res  = await converCoin(msg.initial_deposit[0]);
-					initialDeposit = `${res.amount} ${res.denom.toUpperCase()}`;
-				} else {
-					initialDeposit = '--'
-				}
-				let plan = msg.content &&  msg.content.plan
-				let name, switchHeight, time, info, upgradedClientState, amount;
-				if(plan) {
-					name = plan.name
-					let timestamp = plan.time  && Math.floor(new Date(plan.time).getTime() / 1000)
-					switchHeight = plan.height ? plan.height : '--'
-					if(switchHeight && switchHeight !== '--') {
-						time = '--'
-					} else {
-						time = timestamp && Tools.formatLocalTime(timestamp)
-					}
-					info = plan.info
-					upgradedClientState = plan.upgradedclientstate || '--'
-				}
-				let n = msg.content && msg.content.amount && msg.content.amount[0]
-				if(n) {
-					n = await converCoin(n)
-					if(n.amount !== '0') {
-						amount = `${n.amount} ${n.denom.toUpperCase()}`
-					} else {
-						amount = '--'
-					}
-				}
-
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.gov.proposer'),
-						value: msg.proposer,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.gov.title'),
-						value: msg.content && msg.content.title || '--',
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.gov.initialDeposit'),
-						value: initialDeposit,
-					}, 
-					{
-						label: this.$t('ExplorerLang.transactionInformation.gov.description'),
-						value: msg.content && msg.content.description || '--',
-					}
-				]
-				if(msg.content && msg.content.changes){
-					this.detailInfo.push(
-						{
-							label: this.$t('ExplorerLang.transactionInformation.gov.parameter'),
-							value: msg.content && msg.content.changes,
-					})
-				}
-				if(name){
-					this.detailInfo.push(
-						{
-							label: this.$t('ExplorerLang.transactionInformation.gov.name'),
-							value: name,
-						}
-					)
-				}
-				if(time){
-					this.detailInfo.push(
-						{
-						label: this.$t('ExplorerLang.transactionInformation.gov.time'),
-						value: time,
-						})
-				}
-				if(switchHeight){
-					this.detailInfo.push(
-						{
-							label: this.$t('ExplorerLang.transactionInformation.gov.switchHeight'),
-							value: switchHeight,
-					})
-				}
-				if(info){
-					this.detailInfo.push({
-						label: this.$t('ExplorerLang.transactionInformation.gov.info'),
-						value: info,
-					})
-				}
-				if(upgradedClientState){
-					this.detailInfo.push({
-						label: this.$t('ExplorerLang.transactionInformation.gov.upgradedClientState'),
-						value: upgradedClientState,
-					})
-				}
-				if(msg.content && msg.content.recipient){
-					this.detailInfo.push({
-						label: this.$t('ExplorerLang.transactionInformation.gov.recipient'),
-						value: msg.content && msg.content.recipient,
-					})
-				}
-				if(amount){
-					this.detailInfo.push({
-						label: this.$t('ExplorerLang.transactionInformation.gov.amount'),
-						value: amount,
-					})
-				}	
-			},
-
-			// create_htlc
-			async buildCreateHtlc(msg){
-				let id, amount;
-				(this.eventsNew || []).forEach((item) => {
-					if(item.msg_index === this.msgIndex) {
-							(item.events || []).forEach((events) => {
-								if(events.type === 'create_htlc') {
-									(events.attributes || []).forEach(attrs => {
-										if(attrs.key === 'id') {
-											id = attrs.value
-										}
-									})
-								}
-							})
-						}
-				});
-
-				if(msg.amount && msg.amount[0]) {
-					let coin = await converCoin(msg.amount[0])
-					amount = `${coin.amount} ${coin.denom.toUpperCase()}`;
-				} else {
-					amount = '--';
-				}
-
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.id'),
-						value: id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.amount'),
-						value: amount,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.sender'),
-						value: msg.sender,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.to'),
-						value: msg.to,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.receiverOnOtherChain'),
-						value: msg.receiver_on_other_chain,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.senderOnOtherChain'),
-						value: msg.sender_on_other_chain,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.hashLock'),
-						value: msg.hash_lock,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.timestamp'),
-						value: Tools.formatLocalTime(msg.timestamp) || '--',
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.timeLock'),
-						value: msg.time_lock ? `${msg.time_lock} block` : '--',
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.transfer'),
-						value: msg.transfer === false ? 'HTLC' : 'HTLT',
-					},
-				]
-			},
-
-			// claim_htlc 
-			async buildClaimHtlc(msg){
-					let transfer, attributeMap, hashLock, amount, recipient;
-					(this.eventsNew || []).forEach((item) => {
-						if(item.msg_index === this.msgIndex) {
-							(item.events || []).forEach((events) => {
-									if(events.type === 'claim_htlc') {
-										(events.attributes || []).forEach(item => {
-											if(item.key === 'transfer')  {
-												transfer = item.value
-											}
-											if(item.key == 'hash_lock') {
-												hashLock = item.value
-											}
-										})
-									}
-									if(events.type === "transfer") {
-										attributeMap = Tools.MultKeyValueObjToOneMap(events.attributes)
-									}
-							})
-						}
-					});
-					if(attributeMap && attributeMap.has('amount')){
-						let coin = await converCoin(attributeMap.get('amount'))
-						amount = `${coin.amount} ${coin.denom.toUpperCase()}`;
-					}
-					if(attributeMap && attributeMap.has('recipient')){
-						recipient = attributeMap.get('recipient')
-					}
-					this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.id'),
-						value: msg.id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.amount'),
-						value: amount,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.secret'),
-						value: msg.secret,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.sender'),
-						value: msg.sender,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.recipient'),
-						value: recipient,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.hashLock'),
-						value: hashLock,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.htlc.transfer'),
-						value: transfer === 'false' ? 'HTLC' : 'HTLT',
-					},
-				]
-			},
-
-			// tibc_nft_transfer
-			buildTibcNftTransfer(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.idTibc'),
-						value: msg.id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.classTibc'),
-						value: msg.class,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.destChain'),
-						value: msg.dest_chain,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.realayChain'),
-						value: msg.realay_chain,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.sender'),
-						value: msg.sender,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.receiver'),
-						value: msg.receiver,
-						isComplexAddr: true
-					}
-				]
-			},
-			
-			// tibc_recv_packet
-			buildTibcRecvPacket(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.idTibc'),
-						value: msg?.packet?.data?.id,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.urlTibc'),
-						value: msg?.packet?.data?.uri,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.classTibc'),
-						value: msg?.packet?.data?.class,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.sequence'),
-						value: msg?.packet?.sequence,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.port'),
-						value: msg?.packet?.port,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.sourceChain'),
-						value: msg?.packet?.source_chain,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.destChain'),
-						value: msg?.packet?.destination_chain,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.realayChain'),
-						value: msg?.packet?.relay_chain,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.sender'),
-						value: msg?.packet?.data?.sender,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.receiver'),
-						value: msg?.packet?.data?.receiver,
-						isComplexAddr: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// tibc_acknowledge_packet -未自测
-			buildTibcAcknowledgePacket(msg){
-				let acknowledgementResult = ''
-				if(msg?.acknowledgement){
-					acknowledgementResult = msg.acknowledgement.replace(/[^0-9]/ig,"");
-				}
-				const nftStatus = acknowledgementResult && Number(acknowledgementResult) === 1 ? this.$t('ExplorerLang.common.success'):this.$t('ExplorerLang.common.failed')
-				
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.idTibc'),
-						value: msg.packet.data.id
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.urlTibc'),
-						value: msg.packet.data.uri,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.classTibc'),
-						value: msg.packet.data.class,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.sequence'),
-						value: msg.packet.sequence,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.port'),
-						value: msg.packet.port,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.sourceChain'),
-						value: msg.packet.source_chain,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.destChain'),
-						value: msg.packet.destination_chain,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.realayChain'),
-						value: msg.packet.relay_chain,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.sender'),
-						value: msg.packet.data.sender,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.receiver'),
-						value: msg.packet.data.receiver,
-						isComplexAddr: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.nftStatus'),
-						value: nftStatus,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.signer'),
-						value: msg.signer,
-						isAddress: true
-					},
-				]
-			},
-
-			// clean_packet 
-			buildCleanPacket(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.sequence'),
-						value: msg.clean_packet.sequence
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.sourceChain'),
-						value: msg.clean_packet.source_chain,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.destChain'),
-						value: msg.clean_packet.destination_chain,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.realayChain'),
-						value: msg.clean_packet.relay_chain,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// recv_clean_packet - 未自测
-			buildRecvCleanPacket(msg){
-		    this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.cleanPacket'),
-						value: msg.clean_packet
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// tibc_update_client
-			buildTibcUpdateClient(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.chainName'),
-						value: msg.chain_name
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.tibc.signer'),
-						value: msg.signer,
-						isAddress: true
-					}
-				]
-			},
-
-			// set_withdraw_address 
-			buildSetWithdrawAddress(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.staking.delegatorAddress'),
-						value: msg.delegator_address,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.staking.withdrawAddress'),
-						value: msg.withdraw_address,
-						isAddress: true
-					}
-				]
-			},
-
-			// fund_community_pool
-			async buildFundCommunityPool(msg){					
-				let poolAmount = await converCoin(msg.amount[0])
-				const amount =  `${poolAmount.amount} ${poolAmount.denom.toLocaleUpperCase()}`
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.staking.amount'),
-						value: amount
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.staking.from'),
-						value: msg.depositor,
-						isAddress: true
-					}
-				]
-			},
-
-			// swap_order
-			async buildSwapOrder(msg){
-				let input,output,tokenPair;
-					(this.eventsNew || []).forEach((item) => {
-						if(item.msg_index === this.msgIndex) {
-							(item.events || []).forEach((events) => {
-								if(events.type === 'swap') {
-									(events.attributes || []).forEach(async attribute => {
-										if(attribute.key === 'token_pair') {
-											let list = attribute.value.split('-');
-											if(list.length > 1){
-												let token1 = await converCoin({
-													denom:list[0],
-													amount:0
-												})
-												let token2 = await converCoin({
-													denom:list[1],
-													amount:0
-												})
-												tokenPair = `${token1.denom.toUpperCase()} - ${token2.denom.toUpperCase()}`;
-											}
-
-										}
-									})
-								}
-							})
-						}
-					});
-					if(this.eventsNew && this.eventsNew.length > 0){
-							let currentEvents = this.eventsNew.find((e)=>e.msg_index === this.msgIndex);
-							if(currentEvents && currentEvents.events.length > 0){
-									let transferItem = currentEvents.events.find(e=>e.type === TX_TYPE.transfer);
-									if(transferItem && transferItem.attributes && transferItem.attributes.length > 0){
-											let amountList = transferItem.attributes.filter((t)=>t.key === 'amount');
-											if(amountList && amountList.length > 0){
-													let inputItem = amountList[0],
-															outputItem = amountList[amountList.length - 1]
-													let inputAmount = inputItem.value.match(/\d+/g), inputDenom = '',
-															outputAmount = outputItem.value.match(/\d+/g), outputDenom = '';
-													if(inputAmount && inputAmount.length > 0){
-															inputDenom = inputItem.value.substr(inputAmount[0].length);
-													}
-													if(outputAmount && outputAmount.length > 0){
-														outputDenom = outputItem.value.substr(outputAmount[0].length);
-													}
-													let inputRes = await converCoin({
-															denom:inputDenom,
-															amount:inputAmount[0]})
-
-													input = `${inputRes.amount} ${inputRes.denom.toLocaleUpperCase()}`;
-													let outputRes = await converCoin({
-															denom:outputDenom,
-															amount:outputAmount[0]
-													})
-													output = `${outputRes.amount} ${outputRes.denom.toLocaleUpperCase()}`;
-											}
-									}
-							}
-					}else{
-						let inputRes = await converCoin({
-								denom:msg.input.coin.denom,
-								amount:msg.input.coin.amount
-						})
-						input = `${inputRes.amount} ${inputRes.denom.toLocaleUpperCase()}`;
-						let outputRes = await converCoin({
-								denom:msg.output.coin.denom,
-								amount:msg.output.coin.amount
-						})
-						output = `${outputRes.amount} ${outputRes.denom.toLocaleUpperCase()}`;
-					}
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.coinswap.isBuyOrder'),
-						value: msg.is_buy_order
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.coinswap.inputAddress'),
-						value: msg.input.address ,
-						isAddress: true
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.coinswap.Input'),
-						value: input,
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.coinswap.outputAddress'),
-						value: msg.output.address,
-						isAddress: true
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.coinswap.output'),
-						value: output,
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.coinswap.tokenPair'),
-						value: tokenPair,
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.coinswap.deadline'),
-						value: Tools.formatLocalTime(msg.deadline)  || '--',
-					},
-				]
-			},
-
-			// remove_liquidity
-			async buildRemoveLiquidity(msg){
-				let amount, tokenPair, withdrawLiquidity;
-				(this.eventsNew || []).forEach((item) => {
-						if(item.msg_index === this.msgIndex) {
-							(item.events || []).forEach((events) => {
-								if(events.type === 'transfer') {
-									(events.attributes || []).forEach(async attribute => {
-										if(attribute.key === 'amount') {
-											if(attribute.value && attribute.value.includes(",")) {
-												const amount1 = this.getAmountByAmountStr(attribute.value.split(',')[0]);
-												const amount2 = this.getAmountByAmountStr(attribute.value.split(',')[1]);
-												const amountItem1 = await converCoin(amount1);
-												const amountItem2 = await converCoin(amount2);
-												amount = `${amountItem1.amount} ${amountItem1.denom.toUpperCase()}, ${amountItem2.amount} ${amountItem2.denom.toUpperCase()}`
-											  this.detailInfo[4].value = amount;
-											}
-										}
-									})
-								}
-								if(events.type === 'remove_liquidity') {
-									(events.attributes || []).forEach(async attribute => {
-										if(attribute.key === 'token_pair') {
-											let list = attribute.value.split('-');
-											if(list.length > 1){
-												let token1 = await converCoin({
-													denom:list[0],
-													amount:0
-												})
-												let token2 = await converCoin({
-													denom:list[1],
-													amount:0
-												})
-												tokenPair = `${token1.denom.toUpperCase()} - ${token2.denom.toUpperCase()}`;
-												this.detailInfo[5].value = tokenPair;
-											}
-										}
-									})
-								}
-							})
-						}
-				});
-				let res = await converCoin(msg.withdraw_liquidity)
-				withdrawLiquidity = `${res.amount} ${res.denom.toLocaleUpperCase()}`;
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.coinswap.sender'),
-						value: msg.sender,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.coinswap.withdrawLiquidity'),
-						value: withdrawLiquidity ,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.coinswap.minIrisAmt'),
-						value: msg.min_iris_amt,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.coinswap.minToken'),
-						value: msg.min_token,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.coinswap.amount'),
-						value: amount,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.coinswap.tokenPair'),
-						value: tokenPair,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.coinswap.deadline'),
-						value: Tools.formatLocalTime(msg.deadline)  || '--',
-					},
-				]
-			},
-
-			// add_liquidity
-			async buildAddLiquidity(msg){
-				let amount, tokenPair, maxToken;
-				(this.eventsNew || []).forEach((item) => {
-					if(item.msg_index === this.msgIndex) {
-							(item.events || []).forEach((events) => {
-								if(events.type === 'transfer') {
-									(events.attributes || []).forEach(async attribute => {
-										if(attribute.key === 'amount') {
-											if(attribute.value && attribute.value.includes(",")) {
-												const amount1 = this.getAmountByAmountStr(attribute.value.split(',')[0]);
-												const amount2 = this.getAmountByAmountStr(attribute.value.split(',')[1]);
-												const amountItem1 = await converCoin(amount1);
-												const amountItem2 = await converCoin(amount2);
-												amount = `${amountItem1.amount} ${amountItem1.denom.toUpperCase()}, ${amountItem2.amount} ${amountItem2.denom.toUpperCase()}`
-												this.detailInfo[3].value = amount;
-											}
-										}
-									})
-								}
-								if(events.type === 'add_liquidity') {
-									(events.attributes || []).forEach(async attribute => {
-										if(attribute.key === 'token_pair') {
-											let list = attribute.value.split('-');
-											if(list.length > 1){
-												let token1 = await converCoin({
-													denom:list[0],
-													amount:0
-												})
-												let token2 = await converCoin({
-													denom:list[1],
-													amount:0
-												})
-												tokenPair = `${token1.denom.toUpperCase()} - ${token2.denom.toUpperCase()}`;
-												this.detailInfo[5].value = tokenPair;
-											}
-										}
-									})
-								}
-							})
-						}
-					});
-					let res = await converCoin(msg.max_token);
-					maxToken = `${res.amount} ${res.denom.toLocaleUpperCase()}`;
-				
-					this.detailInfo = [
-						{
-							label: this.$t('ExplorerLang.transactionInformation.coinswap.sender'),
-							value: msg.sender,
-							isAddress: true
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.coinswap.exactIrisAmt'),
-							value: msg.exact_iris_amt ,
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.coinswap.maxToken'),
-							value: maxToken,
-						},
-						{
-							label: this.$t('ExplorerLang.transactionInformation.coinswap.amount'),
-							value: amount,
-						},
-						
-							{
-							label: this.$t('ExplorerLang.transactionInformation.coinswap.minLiquidity'),
-							value: msg.min_liquidity,
-						},
-							{
-							label: this.$t('ExplorerLang.transactionInformation.coinswap.tokenPair'),
-							value: tokenPair,
-						},
-							{
-							label: this.$t('ExplorerLang.transactionInformation.coinswap.deadline'),
-							value: Tools.formatLocalTime(msg.deadline)  || '--',
-						},
-					]
-			},
-
-			// unjail 
-			buildUnjail(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.staking.operatorAddress'),
-						value: msg.address,
-						isAddress: true
-					}
-				]
-			},
-
-			// create_feed -未自测
-			async buildCreateFeed(msg){
-				let serviceFeeCap;
-				if( msg && msg.service_fee_cap && msg.service_fee_cap[0]) {
-					let res = await converCoin(msg.service_fee_cap[0])
-					serviceFeeCap = `${res.amount} ${res.denom.toLocaleUpperCase()}`;
-				} else {
-					serviceFeeCap = '--'
-				}
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.serviceName'),
-						value: msg.serviceName || msg.service_name,
-						isService: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.feedName'),
-						value: msg.feed_name ,
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.description'),
-						value: msg.description,
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.latestHistory'),
-						value: msg.latest_history !== 0 ?  msg.latest_history || '--' : '--',
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.creator'),
-						value: msg.creator,
-						isAddress: true
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.providers'),
-						value: msg.providers,
-						isAddress: true,
-						isMulti: true
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.serviceFeeCap'),
-						value: serviceFeeCap,
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.aggregateFunc'),
-						value: msg.aggregate_func,
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.valueJsonPath'),
-						value: msg.value_json_path,
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.repeatedFrequency'),
-						value: msg.repeatedFrequency !== 0 ? msg.repeated_frequency || '--' : '--',
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.responseThreshold'),
-						value: msg.responseThreshold !== 0 ? msg.response_threshold || '--' : '--',
-					},
-						{
-						label: this.$t('ExplorerLang.transactionInformation.timeOut'),
-						value: msg.timeout !== 0 ? msg.timeout || '--' : '--',
-					}
-				]
-			},
-
-			// start_feed pause_feed
-			buildStartFeed(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.feedName'),
-						value: msg.feed_name
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.creator'),
-						value: msg.creator ,
-						isComplexAddr: true
-					}
-				]
-			},
-
-			// edit_feed
-			async buildEditFeed(msg){
-				let serviceFeeCap;
-				if( msg && msg.service_fee_cap && msg.service_fee_cap[0]) {
-					let res = await converCoin(msg.service_fee_cap[0])
-					serviceFeeCap = `${res.amount} ${res.denom.toLocaleUpperCase()}`;
-				} else {
-					serviceFeeCap = '--'
-				}
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.feedName'),
-						value: msg.feed_name
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.description'),
-						value: msg.description,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.latestHistory'),
-						value: msg.latest_history !== 0 ?  msg.latest_history || '--' : '--',
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.creator'),
-						value: msg.creator,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.providers'),
-						value: msg.providers,
-						isAddress: true,
-						isMulti: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.serviceFeeCap'),
-						value: serviceFeeCap,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.repeatedFrequency'),
-						value: msg.repeatedFrequency !== 0 ? msg.repeated_frequency || '--' : '--',
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.oracle.responseThreshold'),
-						value: msg.responseThreshold !== 0 ? msg.response_threshold || '--' : '--',
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.timeOut'),
-						value:  msg.timeout !== 0 ? msg.timeout || '--' : '--',
-					},
-					
-				]
-			},
-
-			// request_rand
-			async buildRequestRand(msg){
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.random.blockInterval'),
-						value: msg.block_interval == 0 ? msg.block_interval : msg.block_interval || '--'
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.consumer'),
-						value: msg.consumer ,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.random.oracle'),
-						value: msg.oracle ,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.serviceFeeCap'),
-						value: '',
-					}
-				]
-				if (msg.service_fee_cap && msg.service_fee_cap.length) {
-					const res = await converCoin(msg.service_fee_cap[0]);
-					const serviceFeeCap = `${res.amount} ${res.denom.toUpperCase()}`;
-					this.detailInfo[3].value = serviceFeeCap;
-				}
-			},
-
-			// stake
-			async buildStake(msg){
-				const amount = await this.handleAmount(msg.amount);
-				const reward = await this.handleReward(TX_TYPE.stake,'reward');
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.poolId'),
-						value: Tools.formatPoolId(msg.pool_id)
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.amount'),
-						value: amount,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.reward'),
-						value: reward,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.sender'),
-						value: msg.sender,
-						isAddress: true
-					}
-				]
-			},
-
-			// harvest
-			async buildHarvest(msg){
-			  const reward = await this.handleReward(TX_TYPE.harvest,'reward');
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.poolId'),
-						value: Tools.formatPoolId(msg.pool_id)
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.reward'),
-						value: reward,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.sender'),
-						value: msg.sender,
-						isAddress: true
-					}
-				]
-			},
-
-			// create_pool
-			async buildCreatePool(msg){
-				const createPoolId =  await this.getValueFromEvents(TX_TYPE.create_pool,'pool_id');
-				const poolId = Tools.formatPoolId(createPoolId) || '--';
-				const lptDenom = msg.lpt_denom ? msg.lpt_denom.toLocaleUpperCase() : '--';
-				const totalReward = await this.handleTotalReward(msg.total_reward);
-				const rewardPerBlock = await this.handleTotalReward(msg.reward_per_block);
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.poolId'),
-						value: poolId
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.lptDenom'),
-						value: lptDenom,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.totalReward'),
-						value: totalReward,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.rewardPerBlock'),
-						value: rewardPerBlock,
-					},	
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.startHeight'),
-						value: msg.start_height,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.editable'),
-						value: msg.editable ? 'Yes': 'No' ,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.creator'),
-						value: msg.creator,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.description'),
-						value: msg.description,
-					}
-
-				]
-			},
-
-			// create_pool_with_community_pool
-			async buildCreatePoolWithCP(msg){
-				const proposalID = this.getValueFromEvents(TX_TYPE.create_pool_with_community_pool, 'proposal_id');
-				const initialDeposit = await this.handleTotalReward(msg?.initial_deposit);
-				const lptDenom = msg?.content?.lpt_denom ? msg?.content?.lpt_denom.toLocaleUpperCase() : '--';
-				const rewardPerBlock = await this.handleTotalReward(msg?.content?.reward_per_block);
-				const fundApplied = await this.handleTotalReward(msg?.content?.fund_applied);
-				const fundSelfBond = await this.handleTotalReward(msg?.content?.fund_self_bond);
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.proposalId'),
-						value: proposalID
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.proposer'),
-						value: msg.proposer,
-						isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.initialDeposit'),
-						value: initialDeposit,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.proposalTitle'),
-						value: msg?.content?.title,
-					},	
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.proposalDescription'),
-						value: msg?.content?.description,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.lptDenom'),
-						value: lptDenom,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.rewardPerBlock'),
-						value: rewardPerBlock,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.fundApplied'),
-						value: fundApplied,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.fundSelfBond'),
-						value: fundSelfBond,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.poolDescription'),
-						value:  msg?.content?.pool_description,
-					},
-				]
-			},
-
-			// destroy_pool
-			async buildDestroyPool(msg){
-				const poolId = Tools.formatPoolId(msg.pool_id) || '--';
-				const refund = await this.handleReward(TX_TYPE.destroy_pool,'amount');
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.poolId'),
-						value: poolId
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.refund'),
-						value: refund,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.creator'),
-						value: msg.creator,
-						isAddress: true
-					}
-				]
-			},
-
-			// adjust_pool
-			async buildAdjustPool(msg){
-				const poolId = Tools.formatPoolId(msg.pool_id) || '--';
-				const additionalReward = await this.handleTotalReward(msg.additional_reward);
-				const rewardPerBlock = await this.handleTotalReward(msg.reward_per_block)
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.poolId'),
-						value: poolId
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.additionalReward'),
-						value: additionalReward,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.rewardPerBlock'),
-						value: rewardPerBlock,
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.farm.creator'),
-						value: msg.creator,
-						isAddress: true
-					}
-				]
-			},
-			setMethodLang(ddcMethod){
-				if(ddcMethod){
-					if(prodConfig?.lang === 'EN'){
-						return enLang?.ExplorerLang?.smartContract[ddcMethod]
-					}
-					if(prodConfig?.lang === 'CN'){
-						return cnLang?.ExplorerLang?.smartContract[ddcMethod]
-					}
-					return ddcMethod
-				}
-			},
-			// BSN-DDC 合约
-			buildBsnDdc(msg){
-				let ddcId,ddcUri,ddcStatus;
-				if(Array.isArray(msg?.ex?.ddc_id)){
-					ddcId = msg.ex.ddc_id.join('、')
-				}else{
-					ddcId = msg.ex.ddc_id || '--'
-				}
-				if(Array.isArray(msg?.ex?.ddc_uri)){
-					// 去掉空值
-					ddcUri = msg.ex.ddc_uri.filter(item => item)
-					ddcUri = ddcUri.length === 0 ? ['--']: ddcUri
-				}else{
-					ddcUri = (msg.ex.ddc_uri &&  [msg.ex.ddc_uri]) || ['--']
-				}
-                if(msg?.ex?.tx_receipt) {
-                    switch(msg.ex.tx_receipt?.status) {
-                        case 0:
-                            ddcStatus = this.$t('ExplorerLang.common.failed');
-                            break;
-                        case 1:
-                            ddcStatus = this.$t('ExplorerLang.common.success');
-                            break;
+      isBuyOrder: '',
+      inputAddress: '',
+      outputAddress: '',
+      deadline: '',
+      sender: '',
+      exactIrisAmt: '',
+      maxToken: '',
+      minLiquidity: '',
+      withdrawLiquidity: '',
+      minIrisAmt: '',
+      keyBaseName: '',
+      commissionMaxRate: '',
+      commissionMaxChangeRate: '',
+      validatorAddress: '',
+      feedName: '',
+      description: '',
+      latestHistory: '',
+      creator: '',
+      providers: '',
+      aggregateFunc: '',
+      valueJsonPath: '',
+      repeatedFrequency: '',
+      responseThreshold: '',
+      blockInterval: '',
+      oracle: '',
+      toMoniker: '',
+      fromMoniker: '',
+      operMoniker: '',
+      minToken: '',
+      minSelfDelegation: '',
+      securityContact: '',
+      LargeStringMinHeight: 100,
+      LargeStringLineHeight: 20,
+      name: '',
+      decimal: '',
+      maxSupply: '',
+      mintable: '',
+      originalOwner: '',
+      newOwner: '',
+      superMode: '',
+      proposalID: '',
+      option: '',
+      voter: '',
+      proposer: '',
+      title: '',
+      initialDeposit: '',
+      parameter: '',
+      time: '',
+      switchHeight: '',
+      info: '',
+      upgradedClientState: '',
+      minUnit: '',
+      options: '',
+      clientState: '',
+      consensusState: '',
+      proofUpgradeClient: '',
+      proofUpgradeConsensusState: '',
+      misbehaviour: '',
+      counterparty: '',
+      version: '',
+      delayPeriod: '',
+      previousConnectionId: '',
+      counterpartyVersions: '',
+      proofInit: '',
+      proofClient: '',
+      proofConsensus: '',
+      consensusHeight: '',
+      connectionId: '',
+      counterpartyConnectionId: '',
+      proofTry: '',
+      proofAck: '',
+      portId: '',
+      channel: '',
+      previousChannelId: '',
+      counterpartyVersion: '',
+      channelId: '',
+      counterpartyChannelId: '',
+      proofUnreceived: '',
+      nextSequenceRecv: '',
+      proofClose: '',
+      acknowledgement: '',
+      proofAcked: '',
+      proofCommitment: '',
+      sourcePort: '',
+      sourceChannel: '',
+      token: '',
+      receiver: '',
+      timeoutHeight: '',
+      timeoutTimestamp: '',
+      inputs: [],
+      outputs: [],
+      receiverOnOtherChain: '',
+      senderOnOtherChain: '',
+      hashLock: '',
+      timestamp: '',
+      timeLock: '',
+      secret: '',
+      transfer: '',
+      tokenPair: '',
+      viewSource: '',
+      amountArray: [],
+      COSMOS_ADDRESS_PREFIX,
+      IRIS_ADDRESS_PREFIX,
+      data: '',
+      // 新增
+      classTibc: '', // tibc新增
+      destChain: '',
+      realayChain: '',
+      idTibc: '',
+      urlTibc: '',
+      sequence: '',
+      port: '',
+      sourceChain: '',
+      nft_status: '',
+      cleanPacket: '',
+      chainName: '',
+      denomId: '', // nft新增
+      mintRestricted: '',
+      updateRestricted: '',
+      // farm
+      poolId: '',
+      reward: '',
+      lptDenom: '',
+      totalReward: '',
+      rewardPerBlock: '',
+      startHeight: '',
+      editable: '',
+      proposalTitle: '',
+      proposalDescription: '',
+      fundApplied: '',
+      fundSelfBond: '',
+      poolDescription: '',
+      refund: '',
+      additionalReward: '',
+      detailInfo: [],
+    };
+  },
+  computed: {
+    hide() {
+      const types = [];
+      return !types.some((item) => item == this.txType);
+    },
+  },
+  async mounted() {
+    await this.getTxTypeData();
+    this.getTransactionInformation();
+  },
+  methods: {
+    async getTxTypeData() {
+      try {
+        const res = await getTxType();
+        this.TX_TYPE_DISPLAY = res?.TX_TYPE_DISPLAY;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getTransactionInformation() {
+      try {
+        const message = this.msg;
+        if (message) {
+          const { msg } = message;
+          this.txType = message.type || '--';
+          this.txType !== TX_TYPE.update_client &&
+            (function (that) {
+              const copyMsg = JSON.parse(JSON.stringify(that.msg));
+              delete copyMsg.msg.ex;
+              if (that.eventsNew && that.eventsNew.length > 0) {
+                that.eventsNew.forEach((item) => {
+                  if (item.msg_index === that.msgIndex) {
+                    that.viewSource = JSON.stringify({
+                      msgs: copyMsg.msg,
+                      events: item.events,
+                    });
+                  }
+                });
+              } else {
+                const copyMsg = JSON.parse(JSON.stringify(that.msg));
+                delete copyMsg.msg.ex;
+                // compatible no eventsNew situation
+                that.viewSource = JSON.stringify({
+                  msgs: copyMsg,
+                });
+              }
+            })(this);
+          switch (this.txType) {
+            case TX_TYPE.mint_nft:
+              this.buildMintNft(msg);
+              break;
+            case TX_TYPE.burn_nft:
+              this.buildBurnNft(msg);
+              break;
+            case TX_TYPE.create_record:
+              this.recordArray = msg.contents.map((item) => {
+                return {
+                  digest: item.digest ? item.digest : '--',
+                  digest_algo: item.digest_algo ? item.digest_algo : '--',
+                  uri: item.uri ? item.uri : '--',
+                  meta: item.meta ? item.meta : '--',
+                };
+              });
+              break;
+            case TX_TYPE.define_service:
+              this.buildDefineService(msg);
+              break;
+            case TX_TYPE.bind_service:
+              this.buildBindService(msg);
+              break;
+            case TX_TYPE.send:
+              this.buildSend(msg);
+              break;
+            case TX_TYPE.call_service:
+              this.buildCallService(msg);
+              break;
+            case TX_TYPE.transfer_nft:
+              this.buildTransferNft(msg);
+              break;
+            case TX_TYPE.edit_nft:
+              this.buildEditNft(msg);
+              break;
+            case TX_TYPE.issue_denom:
+              this.buildIssueDenom(msg);
+              break;
+            case TX_TYPE.respond_service:
+              this.buildRespondService(msg);
+              break;
+            case TX_TYPE.pause_request_context:
+              this.buildPauseRequestContext(msg);
+              break;
+            case TX_TYPE.start_request_context:
+              this.buildPauseRequestContext(msg);
+              break;
+            case TX_TYPE.kill_request_context:
+              this.buildPauseRequestContext(msg);
+              break;
+            case TX_TYPE.update_request_context:
+              this.buildUpdateRequestContext(msg);
+              break;
+            case TX_TYPE.update_service_binding:
+              this.buildUpdateServiceBinding(msg);
+              break;
+            case TX_TYPE.disable_service_binding:
+              this.buildDisableServiceBinding(msg);
+              break;
+            case TX_TYPE.enable_service_binding:
+              this.buildEnableServiceBinding(msg);
+              break;
+            case TX_TYPE.refund_service_deposit:
+              this.buildDisableServiceBinding(msg);
+              break;
+            case TX_TYPE.recv_packet:
+              this.buildRecvPacket(msg, message.type);
+              break;
+            case TX_TYPE.create_identity:
+            case TX_TYPE.update_identity:
+              this.buildCreateIdentity(msg);
+              break;
+            case TX_TYPE.create_client:
+              this.buildCreateClient(msg);
+              if (prodConfig.txDetail && prodConfig.txDetail.ibc) {
+                this.clientID = msg.client_id || '--';
+                this.header = JSON.stringify(msg.header || {}) || '--';
+                this.signer = msg.signer || '--';
+              } else {
+                this.clientState = msg.client_state || '--';
+                this.consensusState = msg.consensus_state || '--';
+                this.signer = msg.signer || '--';
+              }
+              break;
+            case TX_TYPE.update_client:
+              this.buildUpdateClient(msg);
+              // this.clientID = msg.client_id || '--';
+              // this.header = msg.header || '--';
+              // this.signer = msg.signer || '--';
+              break;
+            case TX_TYPE.begin_redelegate:
+              let amount = await converCoin(msg.amount);
+              this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
+              this.from = msg.validator_src_address;
+              // this.shares = '需要取值';
+              this.to = msg.validator_dst_address;
+              // this.endTime = Tools.format2UTC(message.time)
+              this.toMoniker = this.getMoniker(this.to, this.monikers);
+              this.fromMoniker = this.getMoniker(this.from, this.monikers);
+              break;
+            case TX_TYPE.create_validator:
+              this.operatorAddress = msg.validator_address;
+              this.moniker = msg.description.moniker;
+              if (msg.description.identity) {
+                this.getKeyBaseName(msg.description.identity);
+              }
+              this.identity = msg.description.identity || '--';
+              if (msg && msg.value && msg.value.amount) {
+                const selfBond = await converCoin(msg.value);
+                this.selfBond = `${selfBond.amount} ${selfBond.denom.toUpperCase()}` || '--';
+              } else {
+                this.selfBond = '--';
+              }
+              this.ownerAddress = msg.delegator_address || '--';
+              this.consensusPubkey = msg.pubkey;
+              this.commissionRate = `${Tools.formatPercentage(msg.commission.rate)} %`;
+              this.commissionMaxRate = `${Tools.formatPercentage(msg.commission.max_rate)} %`;
+              this.commissionMaxChangeRate = `${Tools.formatPercentage(
+                msg.commission.max_change_rate
+              )} %`;
+              this.website = msg.description.website || '--';
+              this.details = msg.description.details || '--';
+              this.minSelfDelegation = msg.min_self_delegation || '--';
+              this.securityContact = (msg.description && msg.description.security_contact) || '--';
+              break;
+            case TX_TYPE.withdraw_delegator_reward:
+              this.from = msg.validator_address;
+              (this.eventsNew || []).forEach((item) => {
+                if (item.msg_index === this.msgIndex) {
+                  (item.events || []).forEach((events) => {
+                    if (events.type == 'withdraw_rewards') {
+                      (events.attributes || []).forEach((attr) => {
+                        if (attr.key == 'amount') {
+                          amount = attr.value || '--';
+                        }
+                      });
                     }
+                    if (events.type === 'transfer') {
+                      (events.attributes || []).forEach((attr) => {
+                        if (attr.key == 'recipient') {
+                          this.to = attr.value || '--';
+                        }
+                      });
+                    }
+                  });
                 }
-				this.detailInfo = [
-					{
-						label: this.$t('ExplorerLang.transactionInformation.txHash'),
-						value: msg.hash
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.bsnddc.contractExecutionResult'),
-						value: ddcStatus,
-                        log: !(msg?.ex?.tx_receipt?.status) && JSON.parse(JSON.stringify(msg?.ex?.tx_receipt?.log)),
-                        isTip: msg?.ex?.tx_receipt?.status ? false : true
-					},
-					{
-						label: this.$t('ExplorerLang.transactionInformation.bsnddc.signer'),
-						value: this.ddcSigner?.length && this.ddcSigner[0],
-                        isAddress: true
-					},
-					{
-						label: this.$t('ExplorerLang.table.contractAddress'),
-						value: msg.ex.contract_address
-					},
-					{
-						label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.bsnddc.contractMethod'),
-						value: this.setMethodLang(msg.ex.ddc_method),
-					},
-					{
-						label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.bsnddc.ddcId'),
-						value: ddcId,
-						isSchema: true
-					},
-						{
-						label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.bsnddc.ddcName'),
-						value: msg.ex.ddc_name,
-					},
-					{
-						label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.from'),
-						value: msg.ex.sender,
-						isAddress: true
-					},
-					{
-						label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.to'),
-						value: msg.ex.recipient,
-						isAddress: true
-					},
-					{
-						label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.uri'),
-						value: ddcUri,
-						isMultiLink: true
-					},
-					{
-						label: !msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.bsnddc.tradingData'),
-						value: msg?.ex?.data,
-					}
-				]
-			}
-			
+              });
+              if (!this.to) {
+                this.to = '--';
+              }
+              if (amount && amount !== '--') {
+                amount = await converCoin(amount);
+                this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
+              } else {
+                this.amount = '--';
+              }
+              this.toMoniker = this.getMoniker(this.to, this.monikers);
+              this.fromMoniker = this.getMoniker(this.from, this.monikers);
+              break;
+            case TX_TYPE.withdraw_validator_commission:
+              this.validatorAddress = msg.validator_address;
+              this.moniker = this.getMoniker(this.validatorAddress, this.monikers);
+              break;
+            case TX_TYPE.set_withdraw_address:
+              this.buildSetWithdrawAddress(msg);
 
-		}
-	}
+              // this.delegatorAddress = msg.delegator_address;
+              // this.withdrawAddress = msg.withdraw_address;
+              break;
+            case TX_TYPE.begin_unbonding:
+              if (msg.amount) {
+                const amount = await converCoin(msg.amount);
+                this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
+              }
+              this.amount = this.amount || '--';
+              this.from = msg.validator_address;
+              this.to = msg.delegator_address;
+              this.toMoniker = this.getMoniker(this.to, this.monikers);
+              this.fromMoniker = this.getMoniker(this.from, this.monikers);
+              break;
+            case TX_TYPE.edit_validator:
+              this.operatorAddress = msg.validator_address;
+              this.moniker = msg.description.moniker;
+              if (msg.description.identity) {
+                this.getKeyBaseName(msg.description.identity);
+              }
+              this.identity = msg.description.identity || '--';
+              if (msg.commission_rate) {
+                this.commissionRate = `${Tools.formatPercentage(msg.commission_rate)} %` || '--';
+              } else {
+                this.commissionRate = '--';
+              }
+              this.website = msg.description.website || '--';
+              this.details = msg.description.details || '--';
+              this.operMoniker = this.getMoniker(this.operatorAddress, this.monikers);
+              this.minSelfDelegation = msg.min_self_delegation || '--';
+              this.securityContact = (msg.description && msg.description.security_contact) || '--';
+              break;
+            case TX_TYPE.delegate:
+              this.from = msg.delegator_address;
+              this.to = msg.validator_address;
+              amount = await converCoin(msg.amount);
+              this.amount = `${amount.amount} ${amount.denom.toUpperCase()}` || '--';
+              this.toMoniker = this.getMoniker(this.to, this.monikers);
+              this.fromMoniker = this.getMoniker(this.from, this.monikers);
+              break;
+            case TX_TYPE.fund_community_pool:
+              this.buildFundCommunityPool(msg);
+              break;
+            case TX_TYPE.swap_order:
+              this.buildSwapOrder(msg);
+              break;
+            case TX_TYPE.add_liquidity:
+              this.buildAddLiquidity(msg);
+              break;
+            case TX_TYPE.remove_liquidity:
+              this.buildRemoveLiquidity(msg);
+              break;
+            case TX_TYPE.unjail:
+              this.buildUnjail(msg);
+              break;
+            case TX_TYPE.create_feed:
+              this.buildCreateFeed(msg);
+              break;
+            case TX_TYPE.start_feed:
+              this.buildStartFeed(msg);
+              break;
+            case TX_TYPE.pause_feed:
+              this.buildStartFeed(msg);
+              break;
+            case TX_TYPE.edit_feed:
+              this.buildEditFeed(msg);
+              break;
+            case TX_TYPE.request_rand:
+              this.buildRequestRand(msg);
+              break;
+            case TX_TYPE.service_set_withdraw_address:
+              this.buildServiceSetWithdrawAddress(msg);
+              break;
+            case TX_TYPE.withdraw_earned_fees:
+              this.buildWithdrawEarnedFees(msg);
+              break;
+            case TX_TYPE.issue_token:
+              this.buildIssueToken(msg);
+              break;
+            case TX_TYPE.edit_token:
+              this.buildEditToken(msg);
+              break;
+            case TX_TYPE.mint_token:
+              this.buildMintToken(msg);
+              break;
+            case TX_TYPE.transfer_token_owner:
+              this.buildTransferTokenOwner(msg);
+              break;
+            case TX_TYPE.burn_token:
+              this.buildBurnToken(msg);
+              break;
+            case TX_TYPE.deposit:
+              this.buildDeposit(msg);
+              break;
+            case TX_TYPE.vote:
+              this.buildVote(msg);
+              break;
+            case TX_TYPE.submit_proposal:
+              this.buildSubmitProposal(msg);
+              break;
+            case TX_TYPE.upgrade_client:
+              this.buildUpgradeClient(msg);
+              break;
+            case TX_TYPE.submit_misbehaviour:
+              this.buildSubmitMisbehaviour(msg);
+              break;
+            case TX_TYPE.connection_open_init:
+              this.buildConnectionOpenInit(msg);
+              break;
+            case TX_TYPE.connection_open_try:
+              this.buildConnectionOpenTry(msg);
+              break;
+            case TX_TYPE.connection_open_ack:
+              this.buildConnectionOpenAck(msg);
+              break;
+            case TX_TYPE.connection_open_confirm:
+              this.buildConnectionOpenConfirm(msg);
+              break;
+            case TX_TYPE.channel_open_init:
+              this.buildChannelOpenInit(msg);
+              break;
+            case TX_TYPE.channel_open_try:
+              this.buildChannelOpenTry(msg);
+              break;
+            case TX_TYPE.channel_open_ack:
+              this.buildChannelOpenAck(msg);
+              break;
+            case TX_TYPE.channel_open_confirm:
+              this.buildChannelOpenConfirm(msg);
+              break;
+            case TX_TYPE.channel_close_init:
+              this.buildChannelCloseInit(msg);
+              break;
+            case TX_TYPE.channel_close_confirm:
+              this.buildChannelCloseConfirm(msg);
+              break;
+            case TX_TYPE.timeout_packet:
+              this.buildTimeoutPacket(msg, message.type);
+              break;
+            case TX_TYPE.timeout_on_close_packet:
+              this.buildTimeoutOnClosePacket(msg);
+              break;
+            case TX_TYPE.acknowledge_packet:
+              this.buildAcknowledgePacket(msg, message.type);
+              break;
+            // MsgTypeIBCTransfer
+            case TX_TYPE.transfer:
+              this.buildTransfer(msg);
+              break;
+            case TX_TYPE.multisend:
+              this.inputs = [];
+              this.outputs = [];
+              if (msg && msg.inputs.length > 0) {
+                for (const input of msg.inputs) {
+                  const n = input.coins && input.coins[0] && (await converCoin(input.coins[0]));
+                  this.inputs.push({
+                    address: input.address,
+                    amount: n ? `${n.amount} ${n.denom.toUpperCase()}` : '--',
+                  });
+                }
+                for (const output of msg.outputs) {
+                  const n = output.coins && output.coins[0] && (await converCoin(output.coins[0]));
+                  this.outputs.push({
+                    address: output.address,
+                    amount: n ? `${n.amount} ${n.denom.toUpperCase()}` : '--',
+                  });
+                }
+              }
+              break;
+            case TX_TYPE.create_htlc:
+              this.buildCreateHtlc(msg);
+              break;
+            case TX_TYPE.claim_htlc:
+              this.buildClaimHtlc(msg);
+              break;
+            case TX_TYPE.refund_htlc:
+              this.sender = msg.sender || '--';
+              this.hashLock = msg.hash_lock || '--';
+              break;
+            // 新增TIBC NFT Transfer Out
+            case TX_TYPE.tibc_nft_transfer:
+              this.buildTibcNftTransfer(msg);
+              break;
+            // 新增TIBC NFT Transfer In
+            case TX_TYPE.tibc_recv_packet:
+              this.buildTibcRecvPacket(msg);
+              break;
+            // 新增TIBC Acknowledge Packet
+            case TX_TYPE.tibc_acknowledge_packet:
+              this.buildTibcAcknowledgePacket(msg);
+              break;
+            // 新增 TIBC Clean Packet Out
+            case TX_TYPE.clean_packet:
+              this.buildCleanPacket(msg);
+              break;
+            // 新增 	TIBC Clean Packet In
+            case TX_TYPE.recv_clean_packet:
+              this.buildRecvCleanPacket(msg);
+              break;
+            case TX_TYPE.tibc_update_client:
+              this.buildTibcUpdateClient(msg);
+              break;
+            case TX_TYPE.transfer_denom:
+              this.buildTransferDenom(msg);
+              break;
+            case TX_TYPE.stake:
+              this.buildStake(msg);
+              break;
+            case TX_TYPE.unstake:
+              this.buildStake(msg);
+              break;
+            case TX_TYPE.harvest:
+              this.buildHarvest(msg);
+              break;
+            case TX_TYPE.create_pool:
+              this.buildCreatePool(msg);
+              break;
+            case TX_TYPE.create_pool_with_community_pool:
+              this.buildCreatePoolWithCP(msg);
+              break;
+            case TX_TYPE.destroy_pool:
+              this.buildDestroyPool(msg);
+              break;
+            case TX_TYPE.adjust_pool:
+              this.buildAdjustPool(msg);
+              break;
+            case TX_TYPE.bsn_ddc:
+              this.buildBsnDdc(msg);
+              break;
+            case TX_TYPE.grant_allowance:
+            case TX_TYPE.revoke_allowance:
+              this.buildFee(msg);
+              break;
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    getAmountByAmountStr(str) {
+      const amount = str.match(/\d+/g);
+      let denom = '';
+      if (amount && amount.length > 0) {
+        denom = str.substr(amount[0].length);
+        return {
+          amount: amount[0],
+          denom,
+        };
+      }
+    },
+    // 处理需打开的网站地址
+    openUrl(url) {
+      url = url.trim();
+      if (url) {
+        if (!/(http|https):\/\/([\w.]+\/?)\S*/.test(url)) {
+          url = `http://${url}`;
+        }
+        window.open(url);
+      }
+    },
+    // 通过identity，拿到keyBaseName数据
+    getKeyBaseName(identity) {
+      const url = `https://keybase.io/_/api/1.0/user/lookup.json?fields=basics&key_suffix=${identity}`;
+      if (identity) {
+        axios.http(url).then((res) => {
+          if (
+            res.them &&
+            res.them.length > 0 &&
+            res.them[0].basics &&
+            res.them[0].basics.username
+          ) {
+            this.keyBaseName = `https://keybase.io/${res.them[0].basics.username}`;
+          } else {
+            this.keyBaseName = '';
+          }
+        });
+      }
+    },
+    getMoniker(address, monikers) {
+      let moniker;
+      if (monikers.length) {
+        monikers.map((item) => {
+          moniker = moniker || item[address] || '';
+        });
+      }
+      return moniker;
+    },
+    startStr(url) {
+      return url.startsWith('www.');
+    },
+    async handleAmount(amountObj) {
+      const amountItem = await converCoin(amountObj);
+      return `${amountItem.amount} ${amountItem.denom.toUpperCase()}`;
+    },
+    /**
+     * 从events下匹配数据出来
+     */
+    getValueFromEvents(msgType, attrKey) {
+      const eventItem =
+        this?.eventsNew && this?.eventsNew?.length && this.msgIndex >= 0
+          ? this?.eventsNew[this.msgIndex]?.events.find((item) => item.type === msgType)
+          : null;
+      const attrItem = eventItem && eventItem.attributes.find((item) => item.key === attrKey);
+      const rewardValue = attrItem && attrItem.value ? attrItem.value : '--';
+      return rewardValue;
+    },
+    /**
+     * 从eventsNew下匹配数据出来并处理
+     * 入参：msgType=stake attrKey=reward
+     * 返回： 0.12 IRIS 或者 0.12 IRIS、0.33 BSN
+     */
+    async handleReward(msgType, attrKey) {
+      const rewardValue = this.getValueFromEvents(msgType, attrKey);
+      if (rewardValue !== '--') {
+        if (rewardValue.includes(',')) {
+          const reward1 = this.getAmountByAmountStr(rewardValue.split(',')[0]);
+          const reward2 = this.getAmountByAmountStr(rewardValue.split(',')[1]);
+          const rewardItem1 = await converCoin(reward1);
+          const rewardItem2 = await converCoin(reward2);
+          return `${rewardItem1.amount} ${rewardItem1.denom.toUpperCase()}、 ${
+            rewardItem2.amount
+          } ${rewardItem2.denom.toUpperCase()}`;
+        }
+        const reward1 = this.getAmountByAmountStr(rewardValue);
+        const rewardItem1 = await converCoin(reward1);
+        return `${rewardItem1.amount} ${rewardItem1.denom.toUpperCase()}`;
+      }
+      return rewardValue;
+    },
+    /**
+     * 处理入参结构如下：
+     * @params [array] totalReward
+     * [{"denom": "ubusd","amount": "1"},{"denom": "uiris","amount": "10"}]
+     */
+    async handleTotalReward(totalReward) {
+      const rewardArr = [];
+      const len = totalReward ? totalReward.length : 0;
+      if (len !== 0) {
+        const res = await converCoin(totalReward[0]);
+        rewardArr.push(`${res.amount} ${res.denom.toLocaleUpperCase()}`);
+        if (len === 2) {
+          const res = await converCoin(totalReward[1]);
+          rewardArr.push(`${res.amount} ${res.denom.toLocaleUpperCase()}`);
+        }
+        return len === 2 ? rewardArr.join('、') : rewardArr[0];
+      }
+      return '--';
+    },
+    judgeCosmos(addr) {
+      return addr.startsWith(COSMOS_ADDRESS_PREFIX);
+    },
+    // bind_service
+    async buildBindService(msg) {
+      let deposit;
+      if (msg.deposit && msg.deposit.length) {
+        const amount = await converCoin(msg.deposit[0]);
+        deposit = `${amount.amount} ${amount.denom.toUpperCase()}` || '--';
+      }
+      const serviceList = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceName'),
+          value: msg.service_name,
+          isService: true,
+        },
+      ];
+      const priceList = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.pricing'),
+          value: msg.pricing,
+        },
+      ];
+      const otherList = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.qos'),
+          value: msg.qos,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.deposit'),
+          value: deposit,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.provider'),
+          value: msg.provider,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.bindService.options'),
+          value: msg.options,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.owner'),
+          value: msg.owner,
+          isAddress: true,
+        },
+      ];
+      this.detailInfo = this.isShowFee
+        ? serviceList.concat(priceList, otherList)
+        : serviceList.concat(otherList);
+    },
+    // define_service
+    buildDefineService(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceName'),
+          value: msg.name,
+          isService: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.defineService.description'),
+          value: msg.description,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.defineService.author'),
+          value: msg.author,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.defineService.authorDescription'),
+          value: msg.author_description,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.defineService.tags'),
+          value: (msg.tags.length && msg.tags) || '--',
+        },
+      ];
+    },
+    // call_service
+    async buildCallService(msg) {
+      let requestContextId = '--';
+      let serviceFeeCap = '--';
+      if (this.eventsNew && this.eventsNew.length > 0) {
+        (this.eventsNew || []).forEach((item) => {
+          if (item.msg_index === this.msgIndex) {
+            (item.events || []).forEach((events) => {
+              (events.attributes || []).forEach((attr) => {
+                if (attr.key == 'request_context_id') {
+                  requestContextId = attr.value || '--';
+                }
+              });
+            });
+          }
+        });
+      } else {
+        (this.events || []).forEach((item) => {
+          (item.attributes || []).forEach((attr) => {
+            if (attr.key == 'request_context_id') {
+              requestContextId = attr.value || '--';
+            }
+          });
+        });
+      }
+      if (msg.service_fee_cap && msg.service_fee_cap.length) {
+        const res = await converCoin(msg.service_fee_cap[0]);
+        serviceFeeCap = `${res.amount} ${res.denom.toUpperCase()}`;
+      }
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceName'),
+          value: msg.service_name,
+          isService: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.requestContextId'),
+          value: requestContextId.toUpperCase(),
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.consumer'),
+          value: msg.consumer,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.callService.input'),
+          value: msg.input,
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.provider'),
+          value: msg.providers,
+          isAddress: true,
+          isMulti: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.callService.input'),
+          value: msg.input,
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.callService.repeated'),
+          value: msg.repeated ? '是' : '否',
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.repeatedFrequency'),
+          value: msg.repeated_frequency,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.repeatedTotal'),
+          value: msg.repeated_total,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceFeeCap'),
+          value: serviceFeeCap,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.callService.superMode'),
+          value: msg.super_mode,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.timeOut'),
+          value: msg.timeout,
+        },
+      ];
+    },
+    // response_service
+    buildRespondService(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceName'),
+          value: msg.service_name || (msg.ex || {}).service_name,
+          isService: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.respondService.requestId'),
+          value: (msg.request_id || '--').toUpperCase(),
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.requestContextId'),
+          value: ((msg.ex || {}).request_context_id || '--').toUpperCase(),
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.provider'),
+          value: msg.provider,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.respondService.result'),
+          value: msg.result,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.respondService.output'),
+          value: msg.output,
+          isSchema: true,
+        },
+      ];
+    },
+    // update_service_binding
+    async buildUpdateServiceBinding(msg) {
+      let deposit;
+      if (msg.deposit && msg.deposit.length) {
+        const amount = await converCoin(msg.deposit[0]);
+        deposit = `${amount.amount} ${amount.denom.toUpperCase()}`;
+      }
+      const serviceList = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceName'),
+          value: msg.service_name || (msg.ex || {}).service_name,
+          isService: true,
+        },
+      ];
+      const priceList = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.pricing'),
+          value: msg.pricing,
+        },
+      ];
+      const otherList = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.qos'),
+          value: msg.qos,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.deposit'),
+          value: deposit,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.provider'),
+          value: msg.provider,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.owner'),
+          value: msg.owner,
+          isAddress: true,
+        },
+      ];
+      this.detailInfo = this.isShowFee
+        ? serviceList.concat(priceList, otherList)
+        : serviceList.concat(otherList);
+    },
+    // disable_service_binding 未自测 refund_service_deposit 未自测
+    buildDisableServiceBinding(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceName'),
+          value: msg.service_name || (msg.ex || {}).service_name,
+          isService: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.provider'),
+          value: msg.provider,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.owner'),
+          value: msg.owner,
+          isAddress: true,
+        },
+      ];
+    },
+    // enable_service_binding  未自测
+    async buildEnableServiceBinding(msg) {
+      let deposit;
+      if (msg.deposit && msg.deposit.length) {
+        const amount = await converCoin(msg.deposit[0]);
+        deposit = `${amount.amount} ${amount.denom.toUpperCase()}`;
+      }
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceName'),
+          value: msg.service_name || (msg.ex || {}).service_name,
+          isService: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.deposit'),
+          value: deposit,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.provider'),
+          value: msg.provider,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.owner'),
+          value: msg.owner,
+          isAddress: true,
+        },
+      ];
+    },
+    // pause_request_context 未自测 start_request_context 未自测 kill_request_context 未自测
+    buildPauseRequestContext(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceName'),
+          value: msg.service_name || (msg.ex || {}).service_name,
+          isService: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.requestContextId'),
+          value: (msg.request_context_id || '--').toUpperCase(),
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.consumer'),
+          value: msg.consumer,
+          isAddress: true,
+        },
+      ];
+    },
+    // update_request_context 未自测
+    async buildUpdateRequestContext(msg) {
+      let serviceFeeCap;
+      if (msg.service_fee_cap && msg.service_fee_cap.length) {
+        const res = await converCoin(msg.service_fee_cap[0]);
+        serviceFeeCap = `${res.amount} ${res.denom.toUpperCase()}`;
+      }
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceName'),
+          value: msg.service_name || (msg.ex || {}).service_name,
+          isService: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.requestContextId'),
+          value: msg.request_context_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.consumer'),
+          value: msg.consumer,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.provider'),
+          value: msg.providers,
+          isAddress: true,
+          isMulti: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.repeatedFrequency'),
+          value: msg.repeated_frequency,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.repeatedTotal'),
+          value: msg.repeated_total,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceFeeCap'),
+          value: serviceFeeCap,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.timeOut'),
+          value: msg.timeout,
+        },
+      ];
+      if (!this.isShowFee) {
+        // 去掉fee的展示
+        this.detailInfo.splice(-2, 1);
+      }
+    },
+    // service_set_withdraw_address 未自测
+    buildServiceSetWithdrawAddress(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.owner'),
+          value: msg.owner,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.withdrawAddress'),
+          value: msg.withdraw_address,
+          isAddress: true,
+        },
+      ];
+    },
+    // withdraw_earned_fees 未自测
+    buildWithdrawEarnedFees(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.provider'),
+          value: msg.provider,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.owner'),
+          value: msg.owner,
+          isAddress: true,
+        },
+      ];
+    },
+    // burn_nft
+    buildBurnNft(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.from'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.denomId'),
+          value: msg.denom,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.denomName'),
+          value: msg.denom_name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nftId'),
+          value: msg.id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nftName'),
+          value: msg.nft_name,
+        },
+      ];
+    },
+    // mint_nft
+    buildMintNft(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.denomId'),
+          value: msg.denom,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.denomName'),
+          value: msg.denom_name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nftId'),
+          value: msg.id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nftName'),
+          value: msg.name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.from'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.to'),
+          value: msg.recipient,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.uri'),
+          value: msg.uri,
+          isUri: true,
+        },
+      ];
+    },
+    // edit_nft
+    buildEditNft(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.denomId'),
+          value: msg.denom,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.denomName'),
+          value: msg.denom_name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nftId'),
+          value: msg.id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nftName'),
+          value: msg.name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.from'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.data'),
+          value: msg.data,
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.uri'),
+          value: msg.uri,
+          isUri: true,
+        },
+      ];
+    },
+    // transfer_nft
+    buildTransferNft(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.denomId'),
+          value: msg.denom,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.denomName'),
+          value: msg.denom_name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nftId'),
+          value: msg.id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nftName'),
+          value: msg.name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.from'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.to'),
+          value: msg.recipient,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.data'),
+          value: msg.data,
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.uri'),
+          value: msg.uri,
+          isUri: true,
+        },
+      ];
+    },
+    // issue_denom
+    buildIssueDenom(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nft.denomId'),
+          value: msg.id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nft.denomName'),
+          value: msg.name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nft.symbol'),
+          value: msg.symbol,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nft.schema'),
+          value: msg.schema,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nft.mintRestricted'),
+          value: msg.mint_restricted,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nft.updateRestricted'),
+          value: msg.update_restricted,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.issueDenom.sender'),
+          value: msg.sender,
+          isAddress: true,
+        },
+      ];
+    },
+    // transfer_denom
+    buildTransferDenom(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nft.denomId'),
+          value: msg.id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nft.sender'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.nft.receiver'),
+          value: msg.recipient,
+          isComplexAddr: true,
+        },
+      ];
+    },
+    // issue_token
+    buildIssueToken(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.symbol'),
+          value: msg.symbol,
+          isAsset: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.name'),
+          value: msg.name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.minUnit'),
+          value: msg.min_unit,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.decimal'),
+          value: msg.scale,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.initialSupply'),
+          value: msg.max_supply,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.maxSupply'),
+          value: msg.update_restricted,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.mintable'),
+          value: msg.mintable,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.owner'),
+          value: msg.owner,
+          isAddress: true,
+        },
+      ];
+    },
+    // edit_token
+    buildEditToken(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.symbol'),
+          value: msg.symbol,
+          isAsset: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.name'),
+          value: msg.name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.maxSupply'),
+          value: msg.max_supply !== 0 ? msg.max_supply || '--' : msg.max_supply,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.mintable'),
+          value: msg.mintable,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.owner'),
+          value: msg.owner,
+          isAddress: true,
+        },
+      ];
+    },
+    // mint_token
+    buildMintToken(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.tokenId'),
+          value: msg.symbol,
+          isAsset: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.owner'),
+          value: msg.owner,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.amount'),
+          value: msg.amount,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.to'),
+          value: msg.to,
+          isAddress: true,
+        },
+      ];
+    },
+    // transfer_token_owner
+    buildTransferTokenOwner(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.tokenId'),
+          value: msg.symbol,
+          isAsset: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.originalOwner'),
+          value: msg.src_owner,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.newOwner'),
+          value: msg.dst_owner,
+          isAddress: true,
+        },
+      ];
+    },
+    // burn_token
+    buildBurnToken(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.symbol'),
+          value: msg.symbol,
+          isAsset: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.sender'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.asset.amount'),
+          value: msg.amount,
+        },
+      ];
+    },
+    // send
+    async buildSend(msg) {
+      const amountArray = [];
+      if (msg.amount && msg.amount.length > 0) {
+        for (const item of msg.amount) {
+          const amount = await converCoin(item);
+          amountArray.push(`${amount.amount} ${amount.denom.toUpperCase()}` || '--');
+        }
+      }
+      amountArray && amountArray.length > 0 ? '' : amountArray.push('--');
+
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.send.amount'),
+          value: amountArray,
+          isArray: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.from'),
+          value: msg.from_address,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.to'),
+          value: msg.to_address,
+          isAddress: true,
+        },
+      ];
+    },
+    // transfer
+    async buildTransfer(msg) {
+      const token = msg.token ? await converCoin(msg.token) : '--';
+      const timeoutHeight = msg.timeout_height ? JSON.stringify(msg.timeout_height) : '--';
+      let timeoutTimestamp =
+        msg.timeout_timestamp && Math.floor(new Date(msg.timeout_timestamp).getTime() / 1000);
+      timeoutTimestamp = timeoutTimestamp ? Tools.formatLocalTime(timeoutTimestamp) : '--';
+
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.sourcePort'),
+          value: msg.source_port,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.sourceChannel'),
+          value: msg.source_channel,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.token'),
+          value: `${token.amount} ${(token.denom || '').toUpperCase()}`,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.sender'),
+          value: msg.sender,
+          isComplexAddr: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.receiver'),
+          value: msg.receiver,
+          isComplexAddr: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.timeoutHeight'),
+          value: timeoutHeight,
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.timeoutTimestamp'),
+          value: timeoutTimestamp,
+        },
+      ];
+    },
+    // recv_packet
+    async buildRecvPacket(msg, type) {
+      const originalDenom = TxHelper.getOriginalDenomFromPacket(msg.packet, type);
+      let amount;
+      let sender;
+      let receiver;
+      if (msg.packet && msg.packet.data) {
+        sender = msg.packet.data.sender;
+        receiver = msg.packet.data.receiver;
+        amount = await converCoin({
+          denom: originalDenom || msg.packet.data.denom,
+          amount: msg.packet.data.amount,
+        });
+      }
+
+      let infoList = [];
+      if (prodConfig.txDetail && prodConfig.txDetail.ibc) {
+        infoList = [
+          {
+            label: this.$t('ExplorerLang.transactionInformation.recvPacket.proof'),
+            value: msg.proof,
+          },
+          {
+            label: this.$t('ExplorerLang.transactionInformation.recvPacket.proofHeight'),
+            value: msg.proof_height,
+          },
+          {
+            label: this.$t('ExplorerLang.transactionInformation.recvPacket.proofPath'),
+            value: JSON.stringify(msg.proof_path || []) || '--',
+          },
+          {
+            label: this.$t('ExplorerLang.transactionInformation.recvPacket.proofData'),
+            value: msg.proof_data || '--',
+            isSchema: true,
+          },
+          {
+            label: this.$t('ExplorerLang.transactionInformation.recvPacket.clientID'),
+            value: msg.client_id,
+          },
+          {
+            label: this.$t('ExplorerLang.transactionInformation.recvPacket.module'),
+            value: msg.module,
+          },
+          {
+            label: this.$t('ExplorerLang.transactionInformation.signer'),
+            value: msg.signer,
+            isAddress: true,
+          },
+        ];
+      } else {
+        infoList = [
+          {
+            label: this.$t('ExplorerLang.transactionInformation.ibc.amount'),
+            value: `${amount.amount} ${(amount.denom || '').toUpperCase()}`,
+          },
+          {
+            label: this.$t('ExplorerLang.transactionInformation.ibc.from'),
+            value: sender,
+            isAddress: true,
+          },
+          {
+            label: this.$t('ExplorerLang.transactionInformation.ibc.to'),
+            value: receiver,
+            isAddress: true,
+          },
+          {
+            label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
+            value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
+            isSchema: true,
+          },
+          {
+            label: this.$t('ExplorerLang.transactionInformation.signer'),
+            value: msg.signer,
+            isAddress: true,
+          },
+        ];
+      }
+      this.detailInfo = infoList;
+    },
+
+    // timeout_packet
+    async buildTimeoutPacket(msg, type) {
+      const originalDenom = TxHelper.getOriginalDenomFromPacket(msg.packet, type);
+      let sender;
+      let receiver;
+      let amount;
+      if (msg.packet && msg.packet.data && JSON.stringify(msg.packet.data) !== '{}') {
+        sender = msg.packet.data.sender;
+        receiver = msg.packet.data.receiver;
+        amount = await converCoin({
+          denom: originalDenom || msg.packet.data.denom,
+          amount: msg.packet.data.amount,
+        });
+      }
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.amount'),
+          value: `${amount.amount} ${(amount.denom || '').toUpperCase()}`,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.from'),
+          value: sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.to'),
+          value: receiver,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
+          value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.nextSequenceRecv'),
+          value: msg.next_sequence_recv,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // create_identity/update_identity -未自测
+    buildCreateIdentity(msg) {
+      const credentials =
+        msg.credentials && msg.credentials !== '[do-not-modify]' ? msg.credentials : '--';
+      const pubKeyAlgo = TxHelper.getPubKeyAlgorithm(pubkey.algorithm) || '--';
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.identity.id'),
+          value: msg.id,
+          isIdentity: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.identity.pubkey'),
+          value: msg?.pubkey?.pubkey || '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.identity.pubKeyAlgo'),
+          value: pubKeyAlgo,
+          isIdentity: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.identity.certificate'),
+          value: msg.certificate,
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.identity.credentials'),
+          value: credentials,
+          isLink: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.owner'),
+          value: msg.owner,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // create_client
+    buildCreateClient(msg) {
+      if (prodConfig.txDetail && prodConfig.txDetail.ibc) {
+        this.detailInfo = [
+          {
+            label: this.$t('ExplorerLang.transactionInformation.client.clientID'),
+            value: msg.client_id,
+          },
+          {
+            label: this.$t('ExplorerLang.transactionInformation.client.header'),
+            value: JSON.stringify(msg.header || {}) || '--',
+            isSchema: true,
+          },
+          {
+            label: this.$t('ExplorerLang.transactionInformation.signer'),
+            value: msg.signer,
+            isAddress: true,
+          },
+        ];
+      } else {
+        this.detailInfo = [
+          {
+            label: this.$t('ExplorerLang.transactionInformation.signer'),
+            value: msg.signer,
+            isAddress: true,
+          },
+        ];
+      }
+    },
+
+    // update_client
+    buildUpdateClient(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.client.clientID'),
+          value: msg.client_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // upgrade_client 未自测
+    buildUpgradeClient(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.clientID'),
+          value: msg.client_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.clientState'),
+          value: msg.client_state,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.consensusState'),
+          value: msg.consensus_state,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofUpgradeClient'),
+          value: msg.proof_upgrade_client,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofUpgradeConsensusState'),
+          value: msg.proof_upgrade_consensus_state,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // submit_misbehaviour 未自测
+    buildSubmitMisbehaviour(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.clientID'),
+          value: msg.client_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.misbehaviour'),
+          value: msg.misbehaviour,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // connection_open_init
+    buildConnectionOpenInit(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.clientID'),
+          value: msg.client_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.counterparty'),
+          value: msg.counterparty ? JSON.stringify(msg.counterparty) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.version'),
+          value: msg.version ? JSON.stringify(msg.version) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.delayPeriod'),
+          value: msg.delay_period,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // connection_open_try
+    buildConnectionOpenTry(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.clientID'),
+          value: msg.client_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.previousConnectionId'),
+          value: msg.previous_connection_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.clientState'),
+          value: msg.client_state,
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.counterparty'),
+          value: msg.counterparty ? JSON.stringify(msg.counterparty) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.delayPeriod'),
+          value: msg.delay_period,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.counterpartyVersions'),
+          value: msg.counterparty_versions ? JSON.stringify(msg.counterparty_versions) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
+          value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofInit'),
+          value: msg.proof_init,
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofClient'),
+          value: msg.proof_client,
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofConsensus'),
+          value: msg.proof_consensus,
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.consensusHeight'),
+          value: msg.consensus_height ? JSON.stringify(msg.consensus_height) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // connection_open_ack
+    buildConnectionOpenAck(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.connectionId'),
+          value: msg.connection_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.counterpartyConnectionId'),
+          value: msg.counterparty_connection_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.version'),
+          value: msg.version ? JSON.stringify(msg.version) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
+          value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.consensusHeight'),
+          value: msg.consensus_height ? JSON.stringify(msg.consensus_height) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // connection_open_confirm
+    buildConnectionOpenConfirm(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.connectionId'),
+          value: msg.connection_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofAck'),
+          value: msg.proof_ack,
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
+          value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // channel_open_init
+    buildChannelOpenInit(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.portId'),
+          value: msg.port_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // channel_open_try
+    buildChannelOpenTry(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.portId'),
+          value: msg.port_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.previousChannelId'),
+          value: msg.previous_channel_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.channel'),
+          value: msg.channel ? JSON.stringify(msg.channel) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.counterpartyVersion'),
+          value: msg.counterparty_version,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofInit'),
+          value: msg.proof_init,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
+          value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // channel_open_ack
+    buildChannelOpenAck(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.portId'),
+          value: msg.port_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.channelId'),
+          value: msg.channel_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.counterpartyChannelId'),
+          value: msg.counterparty_channel_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.counterpartyVersion'),
+          value: msg.counterparty_version,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
+          value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // channel_open_confirm
+    buildChannelOpenConfirm(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.portId'),
+          value: msg.port_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.channelId'),
+          value: msg.channel_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofAck'),
+          value: msg.proof_ack,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
+          value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // channel_close_init -未自测
+    buildChannelCloseInit(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.portId'),
+          value: msg.port_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.channelId'),
+          value: msg.channel_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // channel_close_confirm -未自测
+    buildChannelCloseConfirm(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.portId'),
+          value: msg.port_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.channelId'),
+          value: msg.channel_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofInit'),
+          value: msg.proof_init,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
+          value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // timeout_on_close_packet -未自测
+    buildTimeoutOnClosePacket(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.packet'),
+          value: msg.packet ? JSON.stringify(msg.packet) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofUnreceived'),
+          value: msg.proof_unreceived,
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofClose'),
+          value: msg.proof_close,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
+          value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
+          isSchema: true,
+        },
+
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.nextSequenceRecv'),
+          value: msg.next_sequence_recv,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // acknowledge_packet
+    async buildAcknowledgePacket(msg, type) {
+      let amount;
+      const originalDenom = TxHelper.getOriginalDenomFromPacket(msg.packet, type);
+      if (msg.packet && msg.packet.data && JSON.stringify(msg.packet.data) !== '{}') {
+        amount = await converCoin({
+          denom: originalDenom || msg.packet.data.denom,
+          amount: msg.packet.data.amount,
+        });
+      }
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.acknowledgement'),
+          value: msg.acknowledgement,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.token'),
+          value: `${amount.amount} ${amount.denom.toUpperCase()}`,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.ibc.proofHeight'),
+          value: msg.proof_height ? JSON.stringify(msg.proof_height) : '--',
+          isSchema: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+    // deposit
+    async buildDeposit(msg) {
+      let deposit;
+      if (msg.amount && msg.amount.length > 0) {
+        const amount = await converCoin(msg.amount[0]);
+        deposit = `${amount.amount} ${amount.denom.toUpperCase()}`;
+      } else {
+        deposit = '--';
+      }
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.gov.depositor'),
+          value: msg.depositor,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.gov.proposalID'),
+          value: msg.proposal_id,
+          isProposal: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.gov.deposit'),
+          value: deposit,
+        },
+      ];
+    },
+
+    // vote
+    buildVote(msg) {
+      const option = msg.option ? formatVoteOptions[voteOptions[msg.option]] : '--';
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.gov.voter'),
+          value: msg.voter,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.gov.proposalID'),
+          value: msg.proposal_id,
+          isProposal: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.gov.option'),
+          value: option,
+        },
+      ];
+    },
+
+    // submit_proposal
+    async buildSubmitProposal(msg) {
+      let initialDeposit;
+      if (msg.initial_deposit && msg.initial_deposit.length > 0) {
+        const res = await converCoin(msg.initial_deposit[0]);
+        initialDeposit = `${res.amount} ${res.denom.toUpperCase()}`;
+      } else {
+        initialDeposit = '--';
+      }
+      const plan = msg.content && msg.content.plan;
+      let name;
+      let switchHeight;
+      let time;
+      let info;
+      let upgradedClientState;
+      let amount;
+      if (plan) {
+        name = plan.name;
+        const timestamp = plan.time && Math.floor(new Date(plan.time).getTime() / 1000);
+        switchHeight = plan.height ? plan.height : '--';
+        if (switchHeight && switchHeight !== '--') {
+          time = '--';
+        } else {
+          time = timestamp && Tools.formatLocalTime(timestamp);
+        }
+        info = plan.info;
+        upgradedClientState = plan.upgradedclientstate || '--';
+      }
+      let n = msg.content && msg.content.amount && msg.content.amount[0];
+      if (n) {
+        n = await converCoin(n);
+        if (n.amount !== '0') {
+          amount = `${n.amount} ${n.denom.toUpperCase()}`;
+        } else {
+          amount = '--';
+        }
+      }
+
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.gov.proposer'),
+          value: msg.proposer,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.gov.title'),
+          value: (msg.content && msg.content.title) || '--',
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.gov.initialDeposit'),
+          value: initialDeposit,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.gov.description'),
+          value: (msg.content && msg.content.description) || '--',
+        },
+      ];
+      if (msg.content && msg.content.changes) {
+        this.detailInfo.push({
+          label: this.$t('ExplorerLang.transactionInformation.gov.parameter'),
+          value: msg.content && msg.content.changes,
+        });
+      }
+      if (name) {
+        this.detailInfo.push({
+          label: this.$t('ExplorerLang.transactionInformation.gov.name'),
+          value: name,
+        });
+      }
+      if (time) {
+        this.detailInfo.push({
+          label: this.$t('ExplorerLang.transactionInformation.gov.time'),
+          value: time,
+        });
+      }
+      if (switchHeight) {
+        this.detailInfo.push({
+          label: this.$t('ExplorerLang.transactionInformation.gov.switchHeight'),
+          value: switchHeight,
+        });
+      }
+      if (info) {
+        this.detailInfo.push({
+          label: this.$t('ExplorerLang.transactionInformation.gov.info'),
+          value: info,
+        });
+      }
+      if (upgradedClientState) {
+        this.detailInfo.push({
+          label: this.$t('ExplorerLang.transactionInformation.gov.upgradedClientState'),
+          value: upgradedClientState,
+        });
+      }
+      if (msg.content && msg.content.recipient) {
+        this.detailInfo.push({
+          label: this.$t('ExplorerLang.transactionInformation.gov.recipient'),
+          value: msg.content && msg.content.recipient,
+        });
+      }
+      if (amount) {
+        this.detailInfo.push({
+          label: this.$t('ExplorerLang.transactionInformation.gov.amount'),
+          value: amount,
+        });
+      }
+    },
+
+    // create_htlc
+    async buildCreateHtlc(msg) {
+      let id;
+      let amount;
+      (this.eventsNew || []).forEach((item) => {
+        if (item.msg_index === this.msgIndex) {
+          (item.events || []).forEach((events) => {
+            if (events.type === 'create_htlc') {
+              (events.attributes || []).forEach((attrs) => {
+                if (attrs.key === 'id') {
+                  id = attrs.value;
+                }
+              });
+            }
+          });
+        }
+      });
+
+      if (msg.amount && msg.amount[0]) {
+        const coin = await converCoin(msg.amount[0]);
+        amount = `${coin.amount} ${coin.denom.toUpperCase()}`;
+      } else {
+        amount = '--';
+      }
+
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.id'),
+          value: id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.amount'),
+          value: amount,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.sender'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.to'),
+          value: msg.to,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.receiverOnOtherChain'),
+          value: msg.receiver_on_other_chain,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.senderOnOtherChain'),
+          value: msg.sender_on_other_chain,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.hashLock'),
+          value: msg.hash_lock,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.timestamp'),
+          value: Tools.formatLocalTime(msg.timestamp) || '--',
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.timeLock'),
+          value: msg.time_lock ? `${msg.time_lock} block` : '--',
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.transfer'),
+          value: msg.transfer === false ? 'HTLC' : 'HTLT',
+        },
+      ];
+    },
+
+    // claim_htlc
+    async buildClaimHtlc(msg) {
+      let transfer;
+      let attributeMap;
+      let hashLock;
+      let amount;
+      let recipient;
+      (this.eventsNew || []).forEach((item) => {
+        if (item.msg_index === this.msgIndex) {
+          (item.events || []).forEach((events) => {
+            if (events.type === 'claim_htlc') {
+              (events.attributes || []).forEach((item) => {
+                if (item.key === 'transfer') {
+                  transfer = item.value;
+                }
+                if (item.key == 'hash_lock') {
+                  hashLock = item.value;
+                }
+              });
+            }
+            if (events.type === 'transfer') {
+              attributeMap = Tools.MultKeyValueObjToOneMap(events.attributes);
+            }
+          });
+        }
+      });
+      if (attributeMap && attributeMap.has('amount')) {
+        const coin = await converCoin(attributeMap.get('amount'));
+        amount = `${coin.amount} ${coin.denom.toUpperCase()}`;
+      }
+      if (attributeMap && attributeMap.has('recipient')) {
+        recipient = attributeMap.get('recipient');
+      }
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.id'),
+          value: msg.id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.amount'),
+          value: amount,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.secret'),
+          value: msg.secret,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.sender'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.recipient'),
+          value: recipient,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.hashLock'),
+          value: hashLock,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.htlc.transfer'),
+          value: transfer === 'false' ? 'HTLC' : 'HTLT',
+        },
+      ];
+    },
+
+    // tibc_nft_transfer
+    buildTibcNftTransfer(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.idTibc'),
+          value: msg.id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.classTibc'),
+          value: msg.class,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.destChain'),
+          value: msg.dest_chain,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.realayChain'),
+          value: msg.realay_chain,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.sender'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.receiver'),
+          value: msg.receiver,
+          isComplexAddr: true,
+        },
+      ];
+    },
+
+    // tibc_recv_packet
+    buildTibcRecvPacket(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.idTibc'),
+          value: msg?.packet?.data?.id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.urlTibc'),
+          value: msg?.packet?.data?.uri,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.classTibc'),
+          value: msg?.packet?.data?.class,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.sequence'),
+          value: msg?.packet?.sequence,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.port'),
+          value: msg?.packet?.port,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.sourceChain'),
+          value: msg?.packet?.source_chain,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.destChain'),
+          value: msg?.packet?.destination_chain,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.realayChain'),
+          value: msg?.packet?.relay_chain,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.sender'),
+          value: msg?.packet?.data?.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.receiver'),
+          value: msg?.packet?.data?.receiver,
+          isComplexAddr: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // tibc_acknowledge_packet -未自测
+    buildTibcAcknowledgePacket(msg) {
+      let acknowledgementResult = '';
+      if (msg?.acknowledgement) {
+        acknowledgementResult = msg.acknowledgement.replace(/[^0-9]/gi, '');
+      }
+      const nftStatus =
+        acknowledgementResult && Number(acknowledgementResult) === 1
+          ? this.$t('ExplorerLang.common.success')
+          : this.$t('ExplorerLang.common.failed');
+
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.idTibc'),
+          value: msg.packet.data.id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.urlTibc'),
+          value: msg.packet.data.uri,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.classTibc'),
+          value: msg.packet.data.class,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.sequence'),
+          value: msg.packet.sequence,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.port'),
+          value: msg.packet.port,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.sourceChain'),
+          value: msg.packet.source_chain,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.destChain'),
+          value: msg.packet.destination_chain,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.realayChain'),
+          value: msg.packet.relay_chain,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.sender'),
+          value: msg.packet.data.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.receiver'),
+          value: msg.packet.data.receiver,
+          isComplexAddr: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.nftStatus'),
+          value: nftStatus,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // clean_packet
+    buildCleanPacket(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.sequence'),
+          value: msg.clean_packet.sequence,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.sourceChain'),
+          value: msg.clean_packet.source_chain,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.destChain'),
+          value: msg.clean_packet.destination_chain,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.realayChain'),
+          value: msg.clean_packet.relay_chain,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // recv_clean_packet - 未自测
+    buildRecvCleanPacket(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.cleanPacket'),
+          value: msg.clean_packet,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // tibc_update_client
+    buildTibcUpdateClient(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.chainName'),
+          value: msg.chain_name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.tibc.signer'),
+          value: msg.signer,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // set_withdraw_address
+    buildSetWithdrawAddress(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.staking.delegatorAddress'),
+          value: msg.delegator_address,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.staking.withdrawAddress'),
+          value: msg.withdraw_address,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // fund_community_pool
+    async buildFundCommunityPool(msg) {
+      const poolAmount = await converCoin(msg.amount[0]);
+      const amount = `${poolAmount.amount} ${poolAmount.denom.toLocaleUpperCase()}`;
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.staking.amount'),
+          value: amount,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.staking.from'),
+          value: msg.depositor,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // swap_order
+    async buildSwapOrder(msg) {
+      let input;
+      let output;
+      let tokenPair;
+      (this.eventsNew || []).forEach((item) => {
+        if (item.msg_index === this.msgIndex) {
+          (item.events || []).forEach((events) => {
+            if (events.type === 'swap') {
+              (events.attributes || []).forEach(async (attribute) => {
+                if (attribute.key === 'token_pair') {
+                  const list = attribute.value.split('-');
+                  if (list.length > 1) {
+                    const token1 = await converCoin({
+                      denom: list[0],
+                      amount: 0,
+                    });
+                    const token2 = await converCoin({
+                      denom: list[1],
+                      amount: 0,
+                    });
+                    tokenPair = `${token1.denom.toUpperCase()} - ${token2.denom.toUpperCase()}`;
+                  }
+                }
+              });
+            }
+          });
+        }
+      });
+      if (this.eventsNew && this.eventsNew.length > 0) {
+        const currentEvents = this.eventsNew.find((e) => e.msg_index === this.msgIndex);
+        if (currentEvents && currentEvents.events.length > 0) {
+          const transferItem = currentEvents.events.find((e) => e.type === TX_TYPE.transfer);
+          if (transferItem && transferItem.attributes && transferItem.attributes.length > 0) {
+            const amountList = transferItem.attributes.filter((t) => t.key === 'amount');
+            if (amountList && amountList.length > 0) {
+              const inputItem = amountList[0];
+              const outputItem = amountList[amountList.length - 1];
+              const inputAmount = inputItem.value.match(/\d+/g);
+              let inputDenom = '';
+              const outputAmount = outputItem.value.match(/\d+/g);
+              let outputDenom = '';
+              if (inputAmount && inputAmount.length > 0) {
+                inputDenom = inputItem.value.substr(inputAmount[0].length);
+              }
+              if (outputAmount && outputAmount.length > 0) {
+                outputDenom = outputItem.value.substr(outputAmount[0].length);
+              }
+              const inputRes = await converCoin({
+                denom: inputDenom,
+                amount: inputAmount[0],
+              });
+
+              input = `${inputRes.amount} ${inputRes.denom.toLocaleUpperCase()}`;
+              const outputRes = await converCoin({
+                denom: outputDenom,
+                amount: outputAmount[0],
+              });
+              output = `${outputRes.amount} ${outputRes.denom.toLocaleUpperCase()}`;
+            }
+          }
+        }
+      } else {
+        const inputRes = await converCoin({
+          denom: msg.input.coin.denom,
+          amount: msg.input.coin.amount,
+        });
+        input = `${inputRes.amount} ${inputRes.denom.toLocaleUpperCase()}`;
+        const outputRes = await converCoin({
+          denom: msg.output.coin.denom,
+          amount: msg.output.coin.amount,
+        });
+        output = `${outputRes.amount} ${outputRes.denom.toLocaleUpperCase()}`;
+      }
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.isBuyOrder'),
+          value: msg.is_buy_order,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.inputAddress'),
+          value: msg.input.address,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.Input'),
+          value: input,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.outputAddress'),
+          value: msg.output.address,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.output'),
+          value: output,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.tokenPair'),
+          value: tokenPair,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.deadline'),
+          value: Tools.formatLocalTime(msg.deadline) || '--',
+        },
+      ];
+    },
+
+    // remove_liquidity
+    async buildRemoveLiquidity(msg) {
+      let amount;
+      let tokenPair;
+      let withdrawLiquidity;
+      (this.eventsNew || []).forEach((item) => {
+        if (item.msg_index === this.msgIndex) {
+          (item.events || []).forEach((events) => {
+            if (events.type === 'transfer') {
+              (events.attributes || []).forEach(async (attribute) => {
+                if (attribute.key === 'amount') {
+                  if (attribute.value && attribute.value.includes(',')) {
+                    const amount1 = this.getAmountByAmountStr(attribute.value.split(',')[0]);
+                    const amount2 = this.getAmountByAmountStr(attribute.value.split(',')[1]);
+                    const amountItem1 = await converCoin(amount1);
+                    const amountItem2 = await converCoin(amount2);
+                    amount = `${amountItem1.amount} ${amountItem1.denom.toUpperCase()}, ${
+                      amountItem2.amount
+                    } ${amountItem2.denom.toUpperCase()}`;
+                    this.detailInfo[4].value = amount;
+                  }
+                }
+              });
+            }
+            if (events.type === 'remove_liquidity') {
+              (events.attributes || []).forEach(async (attribute) => {
+                if (attribute.key === 'token_pair') {
+                  const list = attribute.value.split('-');
+                  if (list.length > 1) {
+                    const token1 = await converCoin({
+                      denom: list[0],
+                      amount: 0,
+                    });
+                    const token2 = await converCoin({
+                      denom: list[1],
+                      amount: 0,
+                    });
+                    tokenPair = `${token1.denom.toUpperCase()} - ${token2.denom.toUpperCase()}`;
+                    this.detailInfo[5].value = tokenPair;
+                  }
+                }
+              });
+            }
+          });
+        }
+      });
+      const res = await converCoin(msg.withdraw_liquidity);
+      withdrawLiquidity = `${res.amount} ${res.denom.toLocaleUpperCase()}`;
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.sender'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.withdrawLiquidity'),
+          value: withdrawLiquidity,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.minIrisAmt'),
+          value: msg.min_iris_amt,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.minToken'),
+          value: msg.min_token,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.amount'),
+          value: amount,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.tokenPair'),
+          value: tokenPair,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.deadline'),
+          value: Tools.formatLocalTime(msg.deadline) || '--',
+        },
+      ];
+    },
+
+    // add_liquidity
+    async buildAddLiquidity(msg) {
+      let amount;
+      let tokenPair;
+      let maxToken;
+      (this.eventsNew || []).forEach((item) => {
+        if (item.msg_index === this.msgIndex) {
+          (item.events || []).forEach((events) => {
+            if (events.type === 'transfer') {
+              (events.attributes || []).forEach(async (attribute) => {
+                if (attribute.key === 'amount') {
+                  if (attribute.value && attribute.value.includes(',')) {
+                    const amount1 = this.getAmountByAmountStr(attribute.value.split(',')[0]);
+                    const amount2 = this.getAmountByAmountStr(attribute.value.split(',')[1]);
+                    const amountItem1 = await converCoin(amount1);
+                    const amountItem2 = await converCoin(amount2);
+                    amount = `${amountItem1.amount} ${amountItem1.denom.toUpperCase()}, ${
+                      amountItem2.amount
+                    } ${amountItem2.denom.toUpperCase()}`;
+                    this.detailInfo[3].value = amount;
+                  }
+                }
+              });
+            }
+            if (events.type === 'add_liquidity') {
+              (events.attributes || []).forEach(async (attribute) => {
+                if (attribute.key === 'token_pair') {
+                  const list = attribute.value.split('-');
+                  if (list.length > 1) {
+                    const token1 = await converCoin({
+                      denom: list[0],
+                      amount: 0,
+                    });
+                    const token2 = await converCoin({
+                      denom: list[1],
+                      amount: 0,
+                    });
+                    tokenPair = `${token1.denom.toUpperCase()} - ${token2.denom.toUpperCase()}`;
+                    this.detailInfo[5].value = tokenPair;
+                  }
+                }
+              });
+            }
+          });
+        }
+      });
+      const res = await converCoin(msg.max_token);
+      maxToken = `${res.amount} ${res.denom.toLocaleUpperCase()}`;
+
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.sender'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.exactIrisAmt'),
+          value: msg.exact_iris_amt,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.maxToken'),
+          value: maxToken,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.amount'),
+          value: amount,
+        },
+
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.minLiquidity'),
+          value: msg.min_liquidity,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.tokenPair'),
+          value: tokenPair,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.coinswap.deadline'),
+          value: Tools.formatLocalTime(msg.deadline) || '--',
+        },
+      ];
+    },
+
+    // unjail
+    buildUnjail(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.staking.operatorAddress'),
+          value: msg.address,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // create_feed -未自测
+    async buildCreateFeed(msg) {
+      let serviceFeeCap;
+      if (msg && msg.service_fee_cap && msg.service_fee_cap[0]) {
+        const res = await converCoin(msg.service_fee_cap[0]);
+        serviceFeeCap = `${res.amount} ${res.denom.toLocaleUpperCase()}`;
+      } else {
+        serviceFeeCap = '--';
+      }
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceName'),
+          value: msg.serviceName || msg.service_name,
+          isService: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.feedName'),
+          value: msg.feed_name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.description'),
+          value: msg.description,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.latestHistory'),
+          value: msg.latest_history !== 0 ? msg.latest_history || '--' : '--',
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.creator'),
+          value: msg.creator,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.providers'),
+          value: msg.providers,
+          isAddress: true,
+          isMulti: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceFeeCap'),
+          value: serviceFeeCap,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.aggregateFunc'),
+          value: msg.aggregate_func,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.valueJsonPath'),
+          value: msg.value_json_path,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.repeatedFrequency'),
+          value: msg.repeatedFrequency !== 0 ? msg.repeated_frequency || '--' : '--',
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.responseThreshold'),
+          value: msg.responseThreshold !== 0 ? msg.response_threshold || '--' : '--',
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.timeOut'),
+          value: msg.timeout !== 0 ? msg.timeout || '--' : '--',
+        },
+      ];
+    },
+
+    // start_feed pause_feed
+    buildStartFeed(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.feedName'),
+          value: msg.feed_name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.creator'),
+          value: msg.creator,
+          isComplexAddr: true,
+        },
+      ];
+    },
+
+    // edit_feed
+    async buildEditFeed(msg) {
+      let serviceFeeCap;
+      if (msg && msg.service_fee_cap && msg.service_fee_cap[0]) {
+        const res = await converCoin(msg.service_fee_cap[0]);
+        serviceFeeCap = `${res.amount} ${res.denom.toLocaleUpperCase()}`;
+      } else {
+        serviceFeeCap = '--';
+      }
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.feedName'),
+          value: msg.feed_name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.description'),
+          value: msg.description,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.latestHistory'),
+          value: msg.latest_history !== 0 ? msg.latest_history || '--' : '--',
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.creator'),
+          value: msg.creator,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.providers'),
+          value: msg.providers,
+          isAddress: true,
+          isMulti: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceFeeCap'),
+          value: serviceFeeCap,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.repeatedFrequency'),
+          value: msg.repeatedFrequency !== 0 ? msg.repeated_frequency || '--' : '--',
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.oracle.responseThreshold'),
+          value: msg.responseThreshold !== 0 ? msg.response_threshold || '--' : '--',
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.timeOut'),
+          value: msg.timeout !== 0 ? msg.timeout || '--' : '--',
+        },
+      ];
+    },
+
+    // request_rand
+    async buildRequestRand(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.random.blockInterval'),
+          value: msg.block_interval == 0 ? msg.block_interval : msg.block_interval || '--',
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.consumer'),
+          value: msg.consumer,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.random.oracle'),
+          value: msg.oracle,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.serviceFeeCap'),
+          value: '',
+        },
+      ];
+      if (msg.service_fee_cap && msg.service_fee_cap.length) {
+        const res = await converCoin(msg.service_fee_cap[0]);
+        const serviceFeeCap = `${res.amount} ${res.denom.toUpperCase()}`;
+        this.detailInfo[3].value = serviceFeeCap;
+      }
+    },
+
+    // stake
+    async buildStake(msg) {
+      const amount = await this.handleAmount(msg.amount);
+      const reward = await this.handleReward(TX_TYPE.stake, 'reward');
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.poolId'),
+          value: Tools.formatPoolId(msg.pool_id),
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.amount'),
+          value: amount,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.reward'),
+          value: reward,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.sender'),
+          value: msg.sender,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // harvest
+    async buildHarvest(msg) {
+      const reward = await this.handleReward(TX_TYPE.harvest, 'reward');
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.poolId'),
+          value: Tools.formatPoolId(msg.pool_id),
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.reward'),
+          value: reward,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.sender'),
+          value: msg.sender,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // create_pool
+    async buildCreatePool(msg) {
+      const createPoolId = await this.getValueFromEvents(TX_TYPE.create_pool, 'pool_id');
+      const poolId = Tools.formatPoolId(createPoolId) || '--';
+      const lptDenom = msg.lpt_denom ? msg.lpt_denom.toLocaleUpperCase() : '--';
+      const totalReward = await this.handleTotalReward(msg.total_reward);
+      const rewardPerBlock = await this.handleTotalReward(msg.reward_per_block);
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.poolId'),
+          value: poolId,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.lptDenom'),
+          value: lptDenom,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.totalReward'),
+          value: totalReward,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.rewardPerBlock'),
+          value: rewardPerBlock,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.startHeight'),
+          value: msg.start_height,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.editable'),
+          value: msg.editable ? 'Yes' : 'No',
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.creator'),
+          value: msg.creator,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.description'),
+          value: msg.description,
+        },
+      ];
+    },
+
+    // create_pool_with_community_pool
+    async buildCreatePoolWithCP(msg) {
+      const proposalID = this.getValueFromEvents(
+        TX_TYPE.create_pool_with_community_pool,
+        'proposal_id'
+      );
+      const initialDeposit = await this.handleTotalReward(msg?.initial_deposit);
+      const lptDenom = msg?.content?.lpt_denom ? msg?.content?.lpt_denom.toLocaleUpperCase() : '--';
+      const rewardPerBlock = await this.handleTotalReward(msg?.content?.reward_per_block);
+      const fundApplied = await this.handleTotalReward(msg?.content?.fund_applied);
+      const fundSelfBond = await this.handleTotalReward(msg?.content?.fund_self_bond);
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.proposalId'),
+          value: proposalID,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.proposer'),
+          value: msg.proposer,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.initialDeposit'),
+          value: initialDeposit,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.proposalTitle'),
+          value: msg?.content?.title,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.proposalDescription'),
+          value: msg?.content?.description,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.lptDenom'),
+          value: lptDenom,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.rewardPerBlock'),
+          value: rewardPerBlock,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.fundApplied'),
+          value: fundApplied,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.fundSelfBond'),
+          value: fundSelfBond,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.poolDescription'),
+          value: msg?.content?.pool_description,
+        },
+      ];
+    },
+
+    // destroy_pool
+    async buildDestroyPool(msg) {
+      const poolId = Tools.formatPoolId(msg.pool_id) || '--';
+      const refund = await this.handleReward(TX_TYPE.destroy_pool, 'amount');
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.poolId'),
+          value: poolId,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.refund'),
+          value: refund,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.creator'),
+          value: msg.creator,
+          isAddress: true,
+        },
+      ];
+    },
+
+    // adjust_pool
+    async buildAdjustPool(msg) {
+      const poolId = Tools.formatPoolId(msg.pool_id) || '--';
+      const additionalReward = await this.handleTotalReward(msg.additional_reward);
+      const rewardPerBlock = await this.handleTotalReward(msg.reward_per_block);
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.poolId'),
+          value: poolId,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.additionalReward'),
+          value: additionalReward,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.rewardPerBlock'),
+          value: rewardPerBlock,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.farm.creator'),
+          value: msg.creator,
+          isAddress: true,
+        },
+      ];
+    },
+    setMethodLang(ddcMethod) {
+      if (ddcMethod) {
+        if (prodConfig?.lang === 'EN') {
+          return enLang?.ExplorerLang?.smartContract[ddcMethod];
+        }
+        if (prodConfig?.lang === 'CN') {
+          return cnLang?.ExplorerLang?.smartContract[ddcMethod];
+        }
+        return ddcMethod;
+      }
+    },
+    // BSN-DDC 合约
+    buildBsnDdc(msg) {
+      let ddcId;
+      let ddcUri;
+      let ddcStatus;
+      if (Array.isArray(msg?.ex?.ddc_id)) {
+        ddcId = msg.ex.ddc_id.join('、');
+      } else {
+        ddcId = msg.ex.ddc_id || '--';
+      }
+      if (Array.isArray(msg?.ex?.ddc_uri)) {
+        // 去掉空值
+        ddcUri = msg.ex.ddc_uri.filter((item) => item);
+        ddcUri = ddcUri.length === 0 ? ['--'] : ddcUri;
+      } else {
+        ddcUri = (msg.ex.ddc_uri && [msg.ex.ddc_uri]) || ['--'];
+      }
+      if (msg?.ex?.tx_receipt) {
+        switch (msg.ex.tx_receipt?.status) {
+          case 0:
+            ddcStatus = this.$t('ExplorerLang.common.failed');
+            break;
+          case 1:
+            ddcStatus = this.$t('ExplorerLang.common.success');
+            break;
+        }
+      }
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.txHash'),
+          value: msg.hash,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.bsnddc.contractExecutionResult'),
+          value: ddcStatus,
+          log: !msg?.ex?.tx_receipt?.status && JSON.parse(JSON.stringify(msg?.ex?.tx_receipt?.log)),
+          isTip: !msg?.ex?.tx_receipt?.status,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.bsnddc.signer'),
+          value: this.ddcSigner?.length && this.ddcSigner[0],
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.table.contractAddress'),
+          value: msg.ex.contract_address,
+        },
+        {
+          label:
+            msg.ex.ddc_method &&
+            this.$t('ExplorerLang.transactionInformation.bsnddc.contractMethod'),
+          value: this.setMethodLang(msg.ex.ddc_method),
+        },
+        {
+          label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.bsnddc.ddcId'),
+          value: ddcId,
+          isSchema: true,
+        },
+        {
+          label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.bsnddc.ddcName'),
+          value: msg.ex.ddc_name,
+        },
+        {
+          label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.from'),
+          value: msg.ex.sender,
+          isAddress: true,
+        },
+        {
+          label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.to'),
+          value: msg.ex.recipient,
+          isAddress: true,
+        },
+        {
+          label: msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.uri'),
+          value: ddcUri,
+          isMultiLink: true,
+        },
+        {
+          label:
+            !msg.ex.ddc_method && this.$t('ExplorerLang.transactionInformation.bsnddc.tradingData'),
+          value: msg?.ex?.data,
+        },
+      ];
+    },
+
+    buildFee(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.grant.granter'),
+          value: msg.granter,
+	        isAddress:true
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.grant.grantee'),
+          value: msg.grantee,
+	        isAddress:true
+        },
+      ];
+
+      if (msg.allowance) {
+        if (msg.allowance?.expiration) {
+          const expiration = Tools.formatLocalTime(msg.allowance?.expiration);
+          this.detailInfo.push({
+            label: this.$t('ExplorerLang.transactionInformation.grant.expiration'),
+            value: expiration,
+          });
+        }
+
+        if (msg.allowance.spend_limit && msg.allowance.spend_limit.length) {
+          const values = [];
+          // xxx 能量值（ugas） xxx 业务费（business）
+          // amount denom
+          const ugas = msg.allowance.spend_limit[0];
+          const denomText = this.$t(`ExplorerLang.transactionInformation.grant.${ugas.denom}`);
+          const denomTextTrs = /^ExplorerLang\.transactionInformation\.grant/.test(denomText)
+            ? ugas.denom
+            : denomText;
+          values.push(`${ugas.amount}${denomTextTrs}`);
+
+          msg.allowance.spend_limit.slice(1).forEach((v) => {
+            values.push(
+              `${v.amount}${v.denom} ${this.$t(
+                'ExplorerLang.transactionInformation.grant.business'
+              )}`
+            );
+          });
+
+          this.detailInfo.push({
+            label: this.$t('ExplorerLang.transactionInformation.grant.amount'),
+            value: values,
+            isArray: true,
+          });
+        }
+      }
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
-	a {
-		color: $t_link_c !important;
-	}
+a {
+  color: $t_link_c !important;
+}
 
-	.tx_message_content {
-		padding: 0.36rem 0;
-		background: $bg_white_c;
-		font-size: $s14;
-		.record_container {
-			display: flex;
-			width: 100%;
-			max-width: 12rem;
+.tx_message_content {
+  padding: 0.36rem 0;
+  background: $bg_white_c;
+  font-size: $s14;
+  .record_container {
+    display: flex;
+    width: 100%;
+    max-width: 12rem;
 
-			.record_content {
-				width: 100%;
+    .record_content {
+      width: 100%;
 
-				.record_name {
-					color: $t_second_c;
-					min-width: 1.5rem;
-					text-align: left;
-					font-size: $s14;
-				}
+      .record_name {
+        color: $t_second_c;
+        min-width: 1.5rem;
+        text-align: left;
+        font-size: $s14;
+      }
 
-				.record_list_content {
-					flex: 1;
-					width: 100%;
-					box-sizing: border-box;
-					background: $bg_cancel_c;
-					border-radius: 0.05rem;
+      .record_list_content {
+        flex: 1;
+        width: 100%;
+        box-sizing: border-box;
+        background: $bg_cancel_c;
+        border-radius: 0.05rem;
 
-					::v-deep .el-table {
-						background: $bg_cancel_c;
+        ::v-deep .el-table {
+          background: $bg_cancel_c;
 
-						tr {
-							background: $bg_cancel_c;
+          tr {
+            background: $bg_cancel_c;
 
-							th {
-								background: $bg_cancel_c;
-							}
-						}
-					}
-				}
-			}
-		}
-		.address_container{
-			flex-wrap: wrap;
-			a{
-				margin-right: 0.1rem;
-			}
-			span{
-				
-				font-weight: normal !important;
-				color: #171D44 !important;
-			}
-		}
+            th {
+              background: $bg_cancel_c;
+            }
+          }
+        }
+      }
+    }
+  }
+  .address_container {
+    flex-wrap: wrap;
+    a {
+      margin-right: 0.1rem;
+    }
+    span {
+      font-weight: normal !important;
+      color: #171d44 !important;
+    }
+  }
 
-		p {
-			display: flex;
-			margin-bottom: 0.26rem;
+  p {
+    display: flex;
+    margin-bottom: 0.26rem;
 
-			span:nth-of-type(1) {
-				margin-right: 0.15rem;
-				color: $t_second_c;
-				// min-width: 1.52rem;
-				min-width: 1.64rem;
-				text-align: left;
-				font-size: $s14;
-				font-weight: 600;
-			}
+    span:nth-of-type(1) {
+      margin-right: 0.15rem;
+      color: $t_second_c;
+      // min-width: 1.52rem;
+      min-width: 1.64rem;
+      text-align: left;
+      font-size: $s14;
+      font-weight: 600;
+    }
 
-			span:nth-of-type(2) {
-				text-align: left;
-				font-size: $s14;
-				color: $t_first_c;
-				word-break: break-all;
-				line-height: 0.20rem;
-			}
-			.wrap {
-				.text {
-					flex: 1;
-					text-align: left;
-					font-size: $s14;
-					color: $t_first_c;
-					word-break: break-all;
-					line-height: 0.20rem;
-					font-weight: normal;
-				}
-			}
-			a {
-				word-break: break-all;
-			}
-		}
+    span:nth-of-type(2) {
+      text-align: left;
+      font-size: $s14;
+      color: $t_first_c;
+      word-break: break-all;
+      line-height: 0.2rem;
+    }
+    .wrap {
+      .text {
+        flex: 1;
+        text-align: left;
+        font-size: $s14;
+        color: $t_first_c;
+        word-break: break-all;
+        line-height: 0.2rem;
+        font-weight: normal;
+      }
+    }
+    a {
+      word-break: break-all;
+    }
+  }
 
-		p:last-child {
-			margin-bottom: 0;
-		}
+  p:last-child {
+    margin-bottom: 0;
+  }
 
-		.website_link{
-			font-size:  $s14;
-			line-height: 0.16rem;
-			color:$theme_c !important;
-			cursor: pointer;
-		}
+  .website_link {
+    font-size: $s14;
+    line-height: 0.16rem;
+    color: $theme_c !important;
+    cursor: pointer;
+  }
+}
 
-	}
+@media screen and (max-width: 768px) {
+  .tx_message_content {
+    .record_container {
+      .record_content {
+        .record_name {
+          min-width: 1.4rem;
+        }
 
-	@media screen and (max-width: 768px) {
-		.tx_message_content {
+        .record_list_content {
+          ::v-deep .el-table {
+            tr {
+              th {
+              }
+            }
+          }
+        }
+      }
+    }
 
-			.record_container {
+    p {
+      span:nth-of-type(1) {
+        min-width: 1.4rem;
+      }
 
-				.record_content {
+      span:nth-of-type(2) {
+      }
+    }
 
-					.record_name {
-						min-width: 1.4rem;
-					}
-
-					.record_list_content {
-
-						::v-deep .el-table {
-
-							tr {
-
-								th {
-
-								}
-							}
-						}
-					}
-				}
-			}
-
-			p {
-				span:nth-of-type(1) {
-					min-width: 1.4rem;
-				}
-
-				span:nth-of-type(2) {
-
-				}
-			}
-
-			p:last-child {
-
-			}
-		}
-	}
+    p:last-child {
+    }
+  }
+}
 </style>

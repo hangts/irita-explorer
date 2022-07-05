@@ -21,7 +21,7 @@
 		</div>
 		<div class="footer_content_bg_bottom"
 			 :style="`background:${(prodConfig.footer || {}).bgColor_bottom || '#000000'}`">
-			<div class="footer_content_bottom" >
+			<div class="footer_content_bottom" ref="iphone_style">
 				<p>{{(prodConfig.footer || {}).copyright || 'copyright © 2021 边界智能'}}</p>
 				<p v-if="(prodConfig.footer || {}).chainIdShow">{{chainId}}</p>
 				<p v-if="(prodConfig.footer || {}).versionShow">{{version}}</p>
@@ -54,6 +54,14 @@
 		},
 		mounted(){
 			this.nodeInfo();
+			
+			const isIphoneX = () => {
+				return !!(window.navigator.userAgent.match(/iphone/i) && window.screen.height >= 812 && window.screen.width >= 375)
+			}
+			if(isIphoneX()) {
+				this.$refs.iphone_style.style.marginBottom = '0.2rem'
+			}
+			
 		},
 		methods:{
 			async nodeInfo(){
@@ -128,56 +136,12 @@
 				p:last-child{
 					margin-right:0;
 				}
-			}
-		}
-	}
-
-	@media screen and (max-width: 1300px) {
-		.footer_container{
-			.footer_content_bg_top{
-				.footer_content_top{
-					.footer_content_top_icon{
-						
+				@media (max-width: 500px) {
+					flex-direction:column;
+					p {
+						margin:0.03rem !important;
+						text-align: center;
 					}
-				}
-			}
-			.footer_content_bg_bottom{
-				.footer_content_bottom{
-				}
-			}
-		}
-	}
-
-	@media screen and (max-width: 768px) {
-		.footer_container{
-			.footer_content_bg_top{
-				.footer_content_top{
-					.footer_content_top_icon{
-						
-					}
-				}
-			}
-			.footer_content_bg_bottom{
-				.footer_content_bottom{
-				}
-			}
-		}
-	}
-
-	@media screen and (max-width: 500px) {
-		.footer_container{
-			.footer_content_top{
-				.footer_content_top_icon{
-					
-				}
-			}
-		}
-		.footer_content_bg_bottom{
-			.footer_content_bottom{
-				flex-direction:column;
-				p {
-					margin:0.03rem !important;
-					text-align: center;
 				}
 			}
 		}

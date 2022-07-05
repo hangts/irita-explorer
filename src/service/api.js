@@ -254,8 +254,8 @@ export function getServiceTxList(type, status, serviceName, pageNum, pageSize, u
   return get(url);
 }
 
-export function getBlockTxList(height) {
-  const url = `txs/blocks?pageNum=1&pageSize=100&height=${height}`;
+export function getBlockTxList(pageNumber,pageSize,height) {
+  const url = `txs/blocks?pageNum=${pageNumber}&pageSize=${pageSize}&height=${height}`;
   return get(url);
 }
 

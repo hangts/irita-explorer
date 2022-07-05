@@ -6,18 +6,19 @@
           {{ `${$t('ExplorerLang.addressDetail.addressDetail')} |` }}
         </div>
         <div class="address_content_title_address">
-          {{ address }}<m-clip v-if="address" :text="address" style="margin-left: 0.09rem"></m-clip>
+          {{ address }}
+          <m-clip v-if="address" :text="address" style="margin-left: 0.09rem"></m-clip>
         </div>
       </div>
       <div class="address_tab_container">
         <vue-scroll :ops="opsConfig">
           <div class="address_tab_content">
             <div
-                class="address_tab_item"
-                :key="index"
-                v-for="(item, index) in tabList"
-                :class="item.isActive ? 'active_content' : ''"
-                @click="selectOptions(index)"
+              class="address_tab_item"
+              :key="index"
+              v-for="(item, index) in tabList"
+              :class="item.isActive ? 'active_content' : ''"
+              @click="selectOptions(index)"
             >
               <span>{{ item.label }}</span>
             </div>
@@ -359,102 +360,36 @@
         v-if="moduleSupport('103', prodConfig.navFuncList)"
         v-show="isNftInfo"
       >
-        <div class="content_title">
-          {{ $t('ExplorerLang.addressDetail.assets') }}
-          <span> {{ this.assetCount }}</span>
-        </div>
-        <el-table
-          class="table"
-          :data="assetArray"
-          row-key="nft_id"
-          :empty-text="$t('ExplorerLang.table.emptyDescription')"
+        <!--				<div class="content_title">
+                  {{ $t('ExplorerLang.addressDetail.assets') }}
+                  <span> {{ this.assetCount }}</span>
+                </div>-->
+        <list-component
+          :is-loading="assetLoading"
+          :list-data="assetArray"
+          :column-list="assetColumnArray"
+          :large-string-min-height="LargeStringMinHeight"
+          :large-string-line-height="LargeStringLineHeight"
+          :nft-key="nftKey"
+          :pagination="{
+            pageSize: Number(assetPageSize),
+            dataCount: assetCount,
+            pageNum: Number(assetPageNum),
+          }"
+          @pageChange="assetPageChange"
         >
-          <el-table-column
-            :min-width="ColumnMinWidth.denom"
-            :label="$t('ExplorerLang.table.denom')"
-            prop="denomName"
-          ></el-table-column>
-          <el-table-column
-            :min-width="ColumnMinWidth.tokenId"
-            :label="$t('ExplorerLang.table.tokenName')"
-          >
-            <template slot-scope="scope">
-              <el-tooltip
-                :content="scope.row.nftName"
-                placement="top"
-                effect="dark"
-                :disabled="Tools.disabled(scope.row.nftName)"
-              >
-                <router-link
-                  v-if="formatAddress(scope.row.nftName) != '--'"
-                  :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`"
-                >
-                  {{ formatAddress(scope.row.nftName) }}
-                </router-link>
-                <span v-else>{{ '--' }}</span>
-              </el-tooltip>
-            </template>
-          </el-table-column>
-          <el-table-column
-            :min-width="ColumnMinWidth.tokenId"
-            :label="$t('ExplorerLang.table.tokenId')"
-          >
-            <template slot-scope="scope">
-              <el-tooltip
-                :content="scope.row.id"
-                placement="top"
-                effect="dark"
-                :disabled="Tools.disabled(scope.row.id)"
-              >
-                <router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">
-                  {{ formatAddress(scope.row.id) }}
-                </router-link>
-              </el-tooltip>
-            </template>
-          </el-table-column>
-          <el-table-column
-            :width="ColumnMinWidth.schema"
-            :label="$t('ExplorerLang.table.data')"
-            prop="tokenData"
-          >
-            <template slot-scope="scope">
-              <LargeString
-                :isShowPre="Tools.isJSON(scope.row.tokenData)"
-                :key="scope.row.nftName + scope.row.id + nftKey"
-                v-if="scope.row.tokenData"
-                :text="scope.row.tokenData"
-                mode="cell"
-                :minHeight="LargeStringMinHeight"
-                :lineHeight="LargeStringLineHeight"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column
-            :min-width="ColumnMinWidth.URI"
-            :label="$t('ExplorerLang.table.uri')"
-            prop="tokenUri"
-          >
-            <template slot-scope="scope">
-              <a
-                v-if="scope.row.tokenUri"
-                :download="scope.row.tokenUri"
-                :href="scope.row.tokenUri"
-                target="_blank"
-                >{{ scope.row.tokenUri }}</a
-              >
-              <span v-else>--</span>
-            </template>
-          </el-table-column>
-        </el-table>
-        <div class="pagination_content" v-show="assetCount > assetPageSize">
-          <m-pagination
-            :page-size="assetPageSize"
-            :total="assetCount"
-            :page="assetPageNum"
-            :page-change="assetPageChange"
-          >
-          </m-pagination>
-        </div>
+          <template v-slot:txCount>
+            <tx-count-component
+              :title="
+                assetCount > 1
+                  ? $t('ExplorerLang.nftAsset.subTitles')
+                  : $t('ExplorerLang.nftAsset.subTitle')
+              "
+              :icon="'iconNFT'"
+              :tx-count="assetCount"
+            ></tx-count-component>
+          </template>
+        </list-component>
       </div>
 
       <div
@@ -795,7 +730,7 @@
             :label="$t('ExplorerLang.table.block')"
           >
             <template slot-scope="scope">
-              <router-link :to="`/block/${scope.row.height}`">{{ scope.row.height }} </router-link>
+              <router-link :to="`/block/${scope.row.height}`">{{ scope.row.height }}</router-link>
             </template>
           </el-table-column>
           <el-table-column
@@ -883,7 +818,7 @@
             :label="$t('ExplorerLang.table.identity')"
           >
             <template slot-scope="scope">
-              <router-link :to="`/identity/${scope.row.id}`">{{ scope.row.id }} </router-link>
+              <router-link :to="`/identity/${scope.row.id}`">{{ scope.row.id }}</router-link>
             </template>
           </el-table-column>
           <el-table-column
@@ -995,9 +930,11 @@
                 :icon="'iconTrainsaction'"
                 :tx-count="totalTxNumber"
               >
-	              <template v-slot:displayShowAddressSendTx>
-		              <address-send-and-receive-tx v-if="isShowSendAndReceiveTxComponent"></address-send-and-receive-tx>
-	              </template>
+                <template v-slot:displayShowAddressSendTx>
+                  <address-send-and-receive-tx
+                    v-if="isShowSendAndReceiveTxComponent"
+                  ></address-send-and-receive-tx>
+                </template>
               </tx-count-component>
             </div>
             <!-- todo end -->
@@ -1069,6 +1006,8 @@ import {
 } from '@/service/api';
 import BigNumber from 'bignumber.js';
 import moveDecimal from 'move-decimal-point';
+import AddressSendAndReceiveTx from '@/components/common/AddressSendAndReceiveTx';
+import addressDetailNftTabColumnConfig from '@/components/tableListColumnConfig/addressDetailNftTabColumnConfig';
 import Tools from '../util/Tools';
 import MPagination from './common/MPagination';
 import { TxHelper } from '../helper/TxHelper';
@@ -1100,12 +1039,12 @@ import TxResetButtonComponent from './common/TxResetButtonComponent';
 import ddcListColumnConfig from './tableListColumnConfig/ddcListColumnConfig';
 import energyAssetColumn from './tableListColumnConfig/energyAssetColumn';
 import { energyAsset, assetInfo, nftCount, ddc, identity, iService, tx } from './ownerDetail/lib';
-import AddressSendAndReceiveTx from "@/components/common/AddressSendAndReceiveTx";
+import TxTypes from '@/helper/TxTypes';
 
 export default {
   name: 'OwnerDetail',
   components: {
-	  AddressSendAndReceiveTx,
+    AddressSendAndReceiveTx,
     TxResetButtonComponent,
     MClip,
     TxCountComponent,
@@ -1119,6 +1058,7 @@ export default {
   },
   data() {
     return {
+      assetLoading: false,
       feeDecimals: decimals.fee,
       isShowDenom: prodConfig.fee.isShowDenom,
       isShowFee: prodConfig.fee.isShowFee,
@@ -1244,7 +1184,7 @@ export default {
       energyAssetData: [],
       energyAssetColumn,
       isEnergyAsset: false,
-	    isShowSendAndReceiveTxComponent: false,
+      isShowSendAndReceiveTxComponent: false,
       opsConfig: {
         rail: {
           opacity: 1,
@@ -1262,9 +1202,10 @@ export default {
           wheelScrollDuration: 0,
           wheelDirectionReverse: false,
           locking: true,
-          checkShifKey: true
-        }
-      }
+          checkShifKey: true,
+        },
+      },
+      assetColumnArray: addressDetailNftTabColumnConfig,
     };
   },
   watch: {
@@ -1297,7 +1238,7 @@ export default {
     await this.getConfigTokenData();
   },
   async mounted() {
-		this.isShowSendAndReceiveTxComponent = prodConfig.isShowSendAndReceiveTxCount;
+    this.isShowSendAndReceiveTxComponent = prodConfig.isShowSendAndReceiveTxCount;
     this.txColumnList = txCommonTable.concat(SignerColunmn, txCommonLatestTable);
     this.ddcListColumn = ddcListColumnConfig;
     await this.getTxTypeData();
@@ -1451,6 +1392,7 @@ export default {
     },
     async getNftList() {
       try {
+        this.assetLoading = true;
         const nftData = await getNfts(
           this.assetPageNum,
           this.assetPageSize,
@@ -1459,6 +1401,7 @@ export default {
           '',
           this.$route.params.param
         );
+        this.assetLoading = false;
         if (nftData && nftData.data) {
           this.assetArray = nftData.data.map((item) => {
             return {
@@ -1473,6 +1416,7 @@ export default {
           });
         }
       } catch (e) {
+        this.assetLoading = false;
         console.error(e);
       }
     },
@@ -2855,8 +2799,10 @@ export default {
     },
     async getAllTxType() {
       try {
-        const res = await getAllTxTypes();
+        const res = await TxTypes.getData();
         this.txTypeOption = TxHelper.formatTxType(res.data);
+        // const res = await getAllTxTypes();
+        // this.txTypeOption = TxHelper.formatTxType(res.data);
         // this.txTypeOption = res?.txTypeDataOptions
         this.txTypeOption.unshift({
           value: '',
@@ -2975,7 +2921,9 @@ export default {
           let { denom } = balanceAmount;
           if (denom.startsWith(ibcDenomPrefix)) {
             const hash = denom.replace(ibcDenomPrefix, '');
-            const res = await getIbcTransferByHash(hash);
+            const res = await getIbcTransferByHash(hash).catch(error => {
+							console.error(error)
+            });
             if (res && res.denom_trace && res.denom_trace.base_denom) {
               denom = (ibcDenomPrefix + res.denom_trace.base_denom).toUpperCase();
             }
@@ -3316,6 +3264,11 @@ export default {
       }
     },
   },
+	beforeDestroy(){
+		sessionStorage.removeItem('currentTxModelIndex')
+		sessionStorage.removeItem('lastChoiceMsgModelIndex')
+		sessionStorage.removeItem('currentChoiceMsgType')
+	}
 };
 </script>
 
@@ -3332,6 +3285,7 @@ a {
 .txCountWrap {
   display: flex;
   flex-wrap: wrap;
+
   > div + div {
     margin-left: 20px;
   }
@@ -3388,9 +3342,11 @@ a {
           font-size: 0.14rem;
           background-color: $bg_white_c;
         }
+
         .address_tab_item:first-child {
           border-radius: 0.08rem 0 0 0.08rem;
         }
+
         .address_tab_item:last-child {
           border-right: 0.01rem solid $bd_first_c;
           border-radius: 0 0.08rem 0.08rem 0;
@@ -3406,10 +3362,6 @@ a {
 
     .address_nft_content {
       background: $bg_white_c;
-      padding: 0.25rem;
-      border-radius: 0.05rem;
-      // border: 0.01rem solid $bd_first_c;
-      margin-bottom: 0.48rem;
     }
 
     .address_content {
@@ -3534,10 +3486,12 @@ a {
         font-weight: 600;
         line-height: 22px;
       }
+
       .list_table_content_container .box-card {
         padding-left: 0.25rem;
         padding-top: 0;
       }
+
       .address_transaction_content_hash {
         display: flex;
         align-items: center;

@@ -81,7 +81,7 @@
 					},
 					{
 						label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.delegators'),
-						dataName:'delegator_num',
+						dataName:'delegatorNum',
 						flShowSelectIcon:false,
 						flShowChildren:false,
 						value:'',

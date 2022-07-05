@@ -64,6 +64,7 @@ export default {
             label:'#',
             isShowIndex: true,
             isAdjustStyle: true,
+            width: 40
         },
         {
             label:'Moniker',

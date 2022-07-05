@@ -88,11 +88,16 @@ html body {
       background: $bg_white_c !important;
       .el-menu-item {
         background: $bg_white_c !important;
+        &.is-active {
+          a {
+            color: $t_link_c;
+          }
+        }
         a {
           color: $t_first_c;
         }
         a:hover {
-          color: $t_link_c !important;
+          color: $t_link_c;
         }
       }
     }

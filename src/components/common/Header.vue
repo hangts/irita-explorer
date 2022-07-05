@@ -1,20 +1,12 @@
 <template>
-  <div
-    class="header_container"
-    :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`"
-  >
+  <div class="header_container" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`">
     <div class="header_content">
       <div class="header_menu_content">
         <div class="header_logo_content" @click="logoClick">
-          <img
-            class="header_logo_content_icon"
-            v-if="logoImg.length"
-            :src="logoImg"
-            alt=""
-          />
+          <img class="header_logo_content_icon" v-if="logoImg.length" :src="logoImg" alt="" />
           <div :style="`color:${(prodConfig.nav || {}).color || ''}`">
             <p class="header_logo_content_title">
-              {{ (prodConfig.logo || {}).title || "CSChain-Bond" }}
+              {{ (prodConfig.logo || {}).title || 'CSChain-Bond' }}
             </p>
             <p class="header_logo_content_subTitle">
               {{ (prodConfig.logo || {}).subTitle }}
@@ -30,15 +22,13 @@
             @select="handleSelect"
             :background-color="(prodConfig.nav || {}).bgColor || '#3264FD'"
             :text-color="(prodConfig.nav || {}).color || '#CBD8FE'"
-            :active-text-color="
-              (prodConfig.nav || {}).activeTextColor || '#fff'
-            "
+            :active-text-color="(prodConfig.nav || {}).activeTextColor || '#fff'"
           >
             <MenuItem
-                :menu-item="item"
-                v-for="(item, index) in menuList"
-                :key="index"
-                :index="String(index + 1)"
+              :menu-item="item"
+              v-for="(item, index) in menuList"
+              :key="index"
+              :index="String(index + 1)"
             />
           </el-menu>
         </div>
@@ -87,14 +77,8 @@
         @mouseleave="hideNetWorkLogo()"
       >
         <span style="color: #fff">
-          <i
-            style="font-size: 0.24rem; padding-right: 0.02rem"
-            :class="mainnet.icon"
-          ></i>
-          <i
-            style="font-size: 0.08rem"
-            class="iconfont iconwangluoqiehuanjiantou"
-          ></i>
+          <i style="font-size: 0.24rem; padding-right: 0.02rem" :class="mainnet.icon"></i>
+          <i style="font-size: 0.08rem" class="iconfont iconwangluoqiehuanjiantou"></i>
         </span>
         <ul
           class="network_list_container"
@@ -104,19 +88,12 @@
         >
           <li
             class="network_list_item"
-            :class="
-              item.network_id == constant.CHAINID.STARGATE
-                ? 'stargate_icon'
-                : ''
-            "
+            :class="item.network_id == constant.CHAINID.STARGATE ? 'stargate_icon' : ''"
             v-for="item in netWorkArray"
             :key="item.network_id"
             @click="windowOpenUrl(item.uri)"
           >
-            <i
-              v-if="item.network_id !== constant.CHAINID.DATANGCHAINMAIN"
-              :class="item.icon"
-            />
+            <i v-if="item.network_id !== constant.CHAINID.DATANGCHAINMAIN" :class="item.icon" />
             <img
               v-if="item.network_id == constant.CHAINID.DATANGCHAINMAIN"
               class="datang_svg"
@@ -182,11 +159,8 @@
           :style="`color:${(prodConfig.nav || {}).color || ''}`"
         >
           <div class="mobile_tab_item_children_container">
-            <span
-              class="mobile_tab_item mobile_tab_item_has_children"
-              @click="flShowNetWork"
-            >
-              {{ $t("ExplorerLang.Navigation.network") }}
+            <span class="mobile_tab_item mobile_tab_item_has_children" @click="flShowNetWork">
+              {{ $t('ExplorerLang.Navigation.network') }}
               <img
                 src="../../assets/expanding.svg"
                 v-show="!flShowNetWorkMenu"
@@ -221,21 +195,18 @@
   </div>
 </template>
 <script>
-import {
-  getBlockWithHeight,
-  getTxDetail,
-  getAddressTxList,
-} from '@/service/api';
+import { getBlockWithHeight, getTxDetail, getAddressTxList } from '@/service/api';
 import MenuItem from '@/components/common/MenuItem';
 import { moduleSupport } from '@/helper/ModulesHelper';
 import { getConfig, addressRoute, getMainToken } from '@/helper/IritaHelper';
+import { getActiveIndex } from '@/helper/lib';
 import Tools from '../../util/Tools';
 import constant, {
   ModuleMap,
   product,
   COSMOS_ADDRESS_PREFIX,
-	NETWORK_ICON,
-	CHAIN_ICON
+  NETWORK_ICON,
+  CHAIN_ICON,
 } from '../../constant';
 import prodConfig from '../../productionConfig';
 
@@ -304,10 +275,7 @@ export default {
           } else if (ModuleMap[item.id]) {
             const menu = ModuleMap[item.id];
             if (item.title) {
-              menu.title = item.title.replace(
-                '\$\{mainToken\}',
-                this.$store.state.mainToken,
-              );
+              menu.title = item.title.replace('\$\{mainToken\}', this.$store.state.mainToken);
             }
             menuList.push(menu);
           }
@@ -326,7 +294,7 @@ export default {
       if (this.expandingList.includes(index)) {
         this.expandingList.splice(
           this.expandingList.findIndex((i) => i === index),
-          1,
+          1
         );
       } else {
         this.expandingList.push(index);
@@ -339,15 +307,7 @@ export default {
       this.$router.push('/home');
     },
     setActiveIndex(hash = window.location.hash) {
-      if (this.menuList.every((m) => !hash.includes(m.link))) {
-        this.activeIndex2 = '';
-      } else {
-        this.menuList.forEach((m, i) => {
-          if (hash.includes(m.link)) {
-            this.activeIndex2 = String(i + 1);
-          }
-        });
-      }
+      this.activeIndex2 = getActiveIndex(this.menuList, hash);
     },
     clearSearchContent() {
       this.searchInputValue = '';
@@ -449,11 +409,11 @@ export default {
     },
     handleConfigs(configs = []) {
       this.netWorkArray = configs.map((item) => {
-      // eslint-disable-next-line no-param-reassign
+        // eslint-disable-next-line no-param-reassign
         item.icon = item?.network_id ? NETWORK_ICON[item.network_id] : '';
-	      if (item.is_main) {
-	        this.mainnet = { ...item };
-	      }
+        if (item.is_main) {
+          this.mainnet = { ...item };
+        }
         return item;
       });
       if (prodConfig?.product) {

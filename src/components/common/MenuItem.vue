@@ -44,9 +44,12 @@
     class="text-left"
   >
     <!-- 没有子集情况 -->
-    <router-link v-if="!menuItem.children" :to="menuItem.link || ''" class="block">
+    <a v-if="!menuItem.children" class="block" @click="windowOpenUrl(menuItem.link || '')">
       {{ menuItem.title }}
-    </router-link>
+    </a>
+    <!--    <router-link v-if="!menuItem.children" :to="menuItem.link || ''" class="block">-->
+    <!--      {{ menuItem.title }}-->
+    <!--    </router-link>-->
     <!-- 有子集情况，进行递归处理 -->
     <template v-else>
       <template slot="title">
@@ -76,6 +79,16 @@ export default {
     },
     popperAppendToBody: {
       type: Boolean,
+    },
+  },
+  methods: {
+    windowOpenUrl(url) {
+      // if (this.$route.path === url) {
+      //   window.location.href = `/#${url}`;
+      //   window.location.reload();
+      // } else {
+      this.$router.push(url);
+      // }
     },
   },
 };

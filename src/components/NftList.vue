@@ -163,6 +163,7 @@ export default {
 		this.$refs.searchNft.resetFilterCondition()
       this.getNftsByFilterCount()
       this.getNftsByFilter()
+	    this.$router.push('/nftAsset')
     },
     pageChange(pageNum) {
       this.currentPageNum = pageNum

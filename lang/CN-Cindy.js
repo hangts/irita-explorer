@@ -572,6 +572,14 @@ export const ExplorerLang = {
       signer: '调用者',
       tradingData: '交易数据',
     },
+    grant: {
+      granter: '授权者',
+      grantee: '接受者',
+      expiration: '授权有效期',
+      amount: '数量',
+      ugas: '能量值',
+      business: '业务费',
+    },
   },
   addressDetail: {
     addressDetail: '地址详情',
