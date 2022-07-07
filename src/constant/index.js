@@ -497,7 +497,7 @@ export const CHAIN_ICON = {
   NYANCAT: { icon: 'iconfont iconcaihongmao' },
   IRISHUB: { icon: 'iconfont iconiris' },
   WENCHANG:{ icon: 'iconfont iconBianjie_wenchanglian_Logo-02' },
-  DATANG: {icon:'iconfont iconhuaban'},
+  datangchain: {icon:'iconfont iconhuaban'},
   WENCHANGTESTNET: {icon:'iconfont iconxingzhuangjiehe1'},
 };
 const CHAINID = {};

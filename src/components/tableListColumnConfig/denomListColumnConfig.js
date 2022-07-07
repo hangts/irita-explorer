@@ -33,13 +33,13 @@ export default [
         isNeedFormat: true,
         isNeedFormatHash: true,
     },
-    {
-        label: i18n.t('ExplorerLang.table.nftCount'),
-        displayValue: 'nftCount',
-        nativeValue: 'denomId',
-        linkRoute: '/nftAsset?denomId=',
-        isLink: true,
-    },
+    // {
+    //     label: i18n.t('ExplorerLang.table.nftCount'),
+    //     displayValue: 'nftCount',
+    //     nativeValue: 'denomId',
+    //     linkRoute: '/nftAsset?denomId=',
+    //     isLink: true,
+    // },
 
     {
         label: i18n.t('ExplorerLang.table.creatorName'),
