@@ -1860,9 +1860,9 @@ export default {
                 serviceName = msg.msg.service_name;
               }
               if (
-                (msg?.type === TX_TYPE.issue_denom && msg?.msg?.id) ||
+                msg?.type === TX_TYPE.issue_denom &&( msg?.msg?.id ||
                 msg?.msg?.name ||
-                msg?.msg?.sender
+                msg?.msg?.sender)
               ) {
                 sender = msg.msg.sender;
                 denomId = msg.msg.id;
