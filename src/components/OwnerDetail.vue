@@ -25,104 +25,52 @@
           </div>
         </vue-scroll>
       </div>
-	    
-      <div v-if="moduleSupport('107', prodConfig.navFuncList) && isAsset" >
-	      <!-- 地址详情 -->
-	      <assets-tab-options></assets-tab-options>
+
+      <div v-if="moduleSupport('107', prodConfig.navFuncList) && isAsset">
+        <!-- 地址详情 -->
+        <assets-tab-options></assets-tab-options>
       </div>
-	    
-	    
+
       <div
         class="address_nft_content"
         v-if="moduleSupport('103', prodConfig.navFuncList) && isNftInfo"
       >
-	      <nft-tab-options></nft-tab-options>
+        <nft-tab-options></nft-tab-options>
       </div>
 
       <div
         class="consumer_transaction_content"
         v-if="moduleSupport('105', prodConfig.navFuncList) && isIservice"
       >
-	      <i-service-consumer-options></i-service-consumer-options>
+        <i-service-consumer-options></i-service-consumer-options>
       </div>
-	    
+
       <div
         class="provider_transaction_content"
         v-if="moduleSupport('105', prodConfig.navFuncList) && isIservice"
       >
-	      <i-service-provider-options></i-service-provider-options>
+        <i-service-provider-options></i-service-provider-options>
       </div>
 
       <div
         class="address_content"
-        v-if="moduleSupport('106', prodConfig.navFuncList)  && isIdentity"
+        v-if="moduleSupport('106', prodConfig.navFuncList) && isIdentity"
       >
-	      <identity-options></identity-options>
-<!--        <div class="content_title">-->
-<!--          {{ $t('ExplorerLang.addressDetail.identities') }}-->
-<!--        </div>-->
-<!--        <el-table-->
-<!--          class="table"-->
-<!--          :data="identityList"-->
-<!--          :empty-text="$t('ExplorerLang.table.emptyDescription')"-->
-<!--        >-->
-<!--          <el-table-column-->
-<!--            :min-width="ColumnMinWidth.identity"-->
-<!--            :label="$t('ExplorerLang.table.identity')"-->
-<!--          >-->
-<!--            <template slot-scope="scope">-->
-<!--              <router-link :to="`/identity/${scope.row.id}`">{{ scope.row.id }}</router-link>-->
-<!--            </template>-->
-<!--          </el-table-column>-->
-<!--          <el-table-column-->
-<!--            :min-width="ColumnMinWidth.txHash"-->
-<!--            :label="$t('ExplorerLang.table.txHash')"-->
-<!--          >-->
-<!--            <template slot-scope="scope">-->
-<!--              <el-tooltip-->
-<!--                :content="scope.row.txHash"-->
-<!--                placement="top"-->
-<!--                :disabled="!Tools.isValid(scope.row.txHash)"-->
-<!--              >-->
-<!--                <router-link :to="`/tx?txHash=${scope.row.txHash}`"-->
-<!--                  >{{ formatTxHash(scope.row.txHash) }}-->
-<!--                </router-link>-->
-<!--              </el-tooltip>-->
-<!--            </template>-->
-<!--          </el-table-column>-->
-<!--          <el-table-column-->
-<!--            :min-width="ColumnMinWidth.time"-->
-<!--            :label="$t('ExplorerLang.table.timestamp')"-->
-<!--            prop="time"-->
-<!--          >-->
-<!--            <template slot-scope="scope">-->
-<!--              <span>{{ scope.row.time }}</span>-->
-<!--            </template>-->
-<!--          </el-table-column>-->
-<!--        </el-table>-->
-<!--        <div class="pagination_content" v-show="identityCount > identityPageSize">-->
-<!--          <m-pagination-->
-<!--            :page-size="identityPageSize"-->
-<!--            :total="identityCount"-->
-<!--            :page="identityPageNum"-->
-<!--            :page-change="identityPageChange"-->
-<!--          >-->
-<!--          </m-pagination>-->
-<!--        </div>-->
+        <identity-options></identity-options>
       </div>
 
       <div v-if="isTx" class="address_transaction_content">
-      <txs-options></txs-options>
+        <txs-options></txs-options>
       </div>
       <!-- bsn ddc -->
       <div
         class="address_transaction_content"
         v-if="moduleSupport('117', prodConfig.navFuncList) && isDDC"
       >
-      <bsn-ddc-options></bsn-ddc-options>
+        <bsn-ddc-options></bsn-ddc-options>
       </div>
       <!-- energy asset -->
-      <div v-if="moduleSupport('116', prodConfig.navFuncList)&& isEnergyAsset" >
+      <div v-if="moduleSupport('116', prodConfig.navFuncList) && isEnergyAsset">
         <energy-asset-options></energy-asset-options>
       </div>
     </div>
@@ -130,12 +78,7 @@
 </template>
 
 <script>
-import {
-  getConfig,
-  converCoin,
-  getMainToken,
-  getTxType,
-} from '@/helper/IritaHelper';
+import { getConfig, converCoin, getMainToken, getTxType } from '@/helper/IritaHelper';
 import {
   getNfts,
   getCallServiceWithAddress,
@@ -153,6 +96,16 @@ import {
 import BigNumber from 'bignumber.js';
 import AddressSendAndReceiveTx from '@/components/common/AddressSendAndReceiveTx';
 import addressDetailNftTabColumnConfig from '@/components/tableListColumnConfig/addressDetailNftTabColumnConfig';
+import AddressInfoComponent from '@/addressPage/AssetsTabOptions';
+import AssetsTabOptions from '@/addressPage/AssetsTabOptions';
+import NFTTabOptions from '@/addressPage/NftTabOptions';
+import NftTabOptions from '@/addressPage/NftTabOptions';
+import TxsOptions from '@/addressPage/TxsOptions';
+import IServiceConsumerOptions from '@/addressPage/IServiceConsumerOptions';
+import IServiceProviderOptions from '@/addressPage/IServiceProviderOptions';
+import IdentityOptions from '@/addressPage/IdentityOptions';
+import BsnDdcOptions from '@/addressPage/BsnDdcOptions';
+import EnergyAssetOptions from '@/addressPage/EnergyAssetOptions';
 import Tools from '../util/Tools';
 import MPagination from './common/MPagination';
 import { TxHelper } from '../helper/TxHelper';
@@ -185,30 +138,20 @@ import ddcListColumnConfig from './tableListColumnConfig/ddcListColumnConfig';
 import energyAssetColumn from './tableListColumnConfig/energyAssetColumn';
 import { energyAsset, assetInfo, nftCount, ddc, identity, iService, tx } from './ownerDetail/lib';
 
-import AddressInfoComponent from "@/addressPage/AssetsTabOptions";
-import AssetsTabOptions from "@/addressPage/AssetsTabOptions";
-import NFTTabOptions from "@/addressPage/NftTabOptions";
-import NftTabOptions from "@/addressPage/NftTabOptions";
-import TxsOptions from "@/addressPage/TxsOptions";
-import IServiceConsumerOptions from "@/addressPage/IServiceConsumerOptions";
-import IServiceProviderOptions from "@/addressPage/IServiceProviderOptions";
-import IdentityOptions from "@/addressPage/IdentityOptions";
-import BsnDdcOptions from "@/addressPage/BsnDdcOptions";
-import EnergyAssetOptions from "@/addressPage/EnergyAssetOptions";
 
 export default {
   name: 'OwnerDetail',
   components: {
-	  EnergyAssetOptions,
-	  BsnDdcOptions,
-	  IdentityOptions,
-	  IServiceProviderOptions,
-	  IServiceConsumerOptions,
-	  TxsOptions,
-	  NftTabOptions,
-	  NFTTabOptions,
-	  AssetsTabOptions,
-	  AddressInfoComponent,
+    EnergyAssetOptions,
+    BsnDdcOptions,
+    IdentityOptions,
+    IServiceProviderOptions,
+    IServiceConsumerOptions,
+    TxsOptions,
+    NftTabOptions,
+    NFTTabOptions,
+    AssetsTabOptions,
+    AddressInfoComponent,
     AddressSendAndReceiveTx,
     TxResetButtonComponent,
     MClip,
@@ -346,12 +289,6 @@ export default {
     $route() {
       this.address = this.$route.params.param;
       this.getTxByAddress();
-      // this.getConsumerTxListCount();
-      // this.getConsumerTxList();
-      // this.getRspondRecordListCount();
-      // this.getRspondRecordList();
-      // this.getProviderTxListCount();
-      // this.getProviderTxList();
     },
   },
   async created() {
@@ -418,7 +355,6 @@ export default {
       this.tabList = [];
       if (moduleSupport('116', prodConfig.navFuncList)) {
         this.tabList.push({ ...energyAsset });
-        // this.getEnergyAssetList();
       }
       if (moduleSupport('107', prodConfig.navFuncList)) {
         this.tabList.push({ ...assetInfo });
@@ -428,22 +364,12 @@ export default {
       }
       if (moduleSupport('117', prodConfig.navFuncList)) {
         this.tabList.push({ ...ddc });
-        // this.getDdcListCount();
-        // this.getDdcList();
       }
       if (moduleSupport('106', prodConfig.navFuncList)) {
         this.tabList.push({ ...identity });
-        // this.getIdentityListCount();
-        // this.getIdentityList();
       }
       if (moduleSupport('105', prodConfig.navFuncList)) {
         this.tabList.push({ ...iService });
-        // this.getRspondRecordListCount();
-        // this.getRspondRecordList();
-        // this.getProviderTxListCount();
-        // this.getProviderTxList();
-        // this.getConsumerTxListCount();
-        // this.getConsumerTxList();
       }
       this.tabList.push({ ...tx });
       this.tabList[0].isActive = true;
@@ -491,443 +417,6 @@ export default {
       });
       this.tabList[index].isActive = true;
       this.showAndHideByModule();
-    },
-    assetPageChange(pageNum) {
-      this.assetPageNum = pageNum;
-    },
-    // 身份id列表
-    identityPageChange(pageNum) {
-      this.identityPageNum = pageNum;
-      this.getIdentityList();
-    },
-    async getIdentityList() {
-      try {
-        const res = await getIdentityListByAddress(
-          this.$route.params.param,
-          this.identityPageNum,
-          this.identityPageSize,
-          false
-        );
-        if (res?.data?.length > 0) {
-          this.identityList = res.data.map((item) => {
-            return {
-              id: item.identities_id,
-              txHash: item.update_tx_hash || '--',
-              time: Tools.formatLocalTime(item.update_block_time) || '--',
-            };
-          });
-        }
-      } catch (e) {
-        console.error(e);
-        this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
-      }
-    },
-    async getIdentityListCount() {
-      try {
-        const res = await getIdentityListByAddress(this.$route.params.param, null, null, true);
-        if (res?.count) {
-          this.identityCount = res.count;
-        } else {
-          this.identityCount = 0;
-        }
-      } catch (e) {
-        console.error(e);
-        this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
-      }
-    },
-
-
-   
-    // 服务调用-消费者
-    // async getConsumerTxList() {
-    //   try {
-    //     const res = await getCallServiceWithAddress(
-    //       this.consumerTxPageNum,
-    //       this.consumerTxPageSize,
-    //       false,
-    //       this.$route.params.param
-    //     );
-    //     if (res?.data?.length > 0) {
-    //       this.consumerTxList = [];
-    //       for (const item of res.data) {
-    //         const result = {
-    //           serviceName: item.msgs[0].msg.service_name || '--',
-    //           txHash: item.tx_hash,
-    //           blockHeight: item.height,
-    //           txType: this.TX_TYPE_DISPLAY[item.type],
-    //           provider: item.msgs[0].msg.providers,
-    //           time: Tools.formatLocalTime(item.time),
-    //           state: 'Running',
-    //           status: item.status,
-    //           respond: [],
-    //         };
-    //         item.events.forEach((item) => {
-    //           (item.attributes || []).forEach((attr) => {
-    //             if (attr.key == 'request_context_id') {
-    //               result.requestContextId = attr.value;
-    //             }
-    //           });
-    //         });
-    //         const context = await this.getContext(result.requestContextId || '');
-    //         if (context && context.result) {
-    //           result.state = context.result.state;
-    //         }
-    //         this.consumerTxList.push(result);
-    //         if (item.respond && item.respond.length) {
-    //           item.respond.forEach((r, index) => {
-    //             const respondResult = {
-    //               index,
-    //               isChildren: true,
-    //               count: item.respond.length,
-    //               serviceName: (r.msgs[0].msg.ex || {}).service_name || '',
-    //               txHash: r.tx_hash,
-    //               blockHeight: r.height,
-    //               txType: this.TX_TYPE_DISPLAY[r.type],
-    //               provider: r.msgs[0].msg.provider,
-    //               time: Tools.formatLocalTime(r.time),
-    //               requestContextId: (r.msgs[0].msg.ex || {}).request_context_id,
-    //               requestStatus: '--',
-    //               status: r.status,
-    //             };
-    //             this.consumerTxList.push(respondResult);
-    //           });
-    //         }
-    //       }
-    //     } else {
-    //       this.consumerTxList = [];
-    //     }
-    //   } catch (e) {
-    //     console.error(e);
-    //     this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
-    //   }
-    // },
-    // async getContext(requestContextId) {
-    //   try {
-    //     return await getServiceContextsByServiceName(requestContextId);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
-    // async getConsumerTxListCount() {
-    //   try {
-    //     const res = await getCallServiceWithAddress(null, null, true, this.$route.params.param);
-    //     if (res?.count) {
-    //       this.consumerTxCount = res.count;
-    //     } else {
-    //       this.consumerTxCount = 0;
-    //     }
-    //   } catch (e) {
-    //     console.error(e);
-    //     this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
-    //   }
-    // },
-    // consumerTxPageChange(pageNum) {
-    //   this.consumerTxPageNum = pageNum;
-    //   this.getConsumerTxList();
-    // },
-    // providerTxPageChange(pageNum) {
-    //   this.providerTxPageNum = pageNum;
-    //   this.getProviderTxList();
-    // },
-    // // 响应记录
-    // async getRspondRecordList() {
-    //   try {
-    //     const res = await getRespondServiceRecord(
-    //       '',
-    //       this.$route.params.param,
-    //       this.respondRecordPageNum,
-    //       this.respondRecordPageSize,
-    //       false
-    //     );
-    //     if (res?.data?.length > 0) {
-    //       this.respondRecordList = (res.data || []).map((tx) => {
-    //         tx.type = this.TX_TYPE_DISPLAY[tx.type];
-    //         return tx;
-    //       });
-    //     } else {
-    //       this.respondRecordList = [];
-    //     }
-    //   } catch (e) {
-    //     console.error(e);
-    //     this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
-    //   }
-    // },
-    // async getRspondRecordListCount() {
-    //   try {
-    //     const res = await getRespondServiceRecord('', this.$route.params.param, null, null, true);
-    //     if (res?.count) {
-    //       this.respondRecordCount = res.count;
-    //     } else {
-    //       this.respondRecordCount = 0;
-    //     }
-    //   } catch (e) {
-    //     console.error(e);
-    //     this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
-    //   }
-    // },
-    // respondRecordPageChange(pageNum) {
-    //   this.respondRecordPageNum = pageNum;
-    //   this.getRspondRecordList();
-    // },
-    // 服务调用-提供者
-    // async getProviderTxList() {
-    //   try {
-    //     const res = await getRespondServiceWithAddress(
-    //       this.$route.params.param,
-    //       this.providerTxPageNum,
-    //       this.providerTxPageSize,
-    //       false
-    //     );
-    //     if (res?.data?.length > 0) {
-    //       this.providerTxList = [];
-    //       for (const item of res.data) {
-    //         const result = {
-    //           serviceName: (item.msgs[0].msg.ex || {}).service_name,
-    //           provider: item.msgs[0].msg.provider,
-    //           owner: item.msgs[0].msg.owner,
-    //           respond_times: item.respond_times,
-    //           pricing: JSON.parse(item.msgs[0].msg.pricing || '{}').price,
-    //           qos: item.msgs[0].msg.qos,
-    //           time: Tools.formatLocalTime(item.time),
-    //           unbindTime: item.unbinding_time ? Tools.formatLocalTime(item.unbinding_time) : '--',
-    //           txHash: item.tx_hash,
-    //           blockHeight: item.height,
-    //           txType: item.type,
-    //           status: item.status,
-    //         };
-    //         if (item.msgs[0].msg.deposit && item.msgs[0].msg.deposit.length) {
-    //           result.deposit = `${item.msgs[0].msg.deposit[0].amount} ${item.msgs[0].msg.deposit[0].denom}`;
-    //         }
-    //         const bindings = await getServiceBindingByServiceName(result.serviceName);
-    //         result.isAvailable = this.$t('ExplorerLang.common.false');
-    //         (bindings.result || []).forEach((bind) => {
-    //           if (result.provider === bind.provider && result.owner == bind.owner) {
-    //             result.isAvailable = bind.available
-    //               ? this.$t('ExplorerLang.common.true')
-    //               : this.$t('ExplorerLang.common.false');
-    //             result.pricing = JSON.parse(bind.pricing || '{}').price;
-    //             result.qos = bind.qos;
-    //             if (bind.disabled_time) {
-    //               const time = new Date(bind.disabled_time).getTime();
-    //               result.unbindTime = time > 0 ? Tools.formatLocalTime(time / 1000) : '--';
-    //             }
-    //           }
-    //         });
-    //         if (result.pricing && result.pricing.length) {
-    //           result.pricing = result.pricing.replace('point', ' point');
-    //         }
-    //         this.providerTxList.push(result);
-    //       }
-    //     }
-    //   } catch (e) {
-	  
-	  
-    //     console.error(e);
-    //     this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
-    //   }
-    // },
-    // async getProviderTxListCount() {
-    //   try {
-    //     const res = await getRespondServiceWithAddress(this.$route.params.param, null, null, true);
-    //     if (res?.count) {
-    //       this.providerTxCount = res.count;
-    //     } else {
-    //       this.providerTxCount = 0;
-    //     }
-    //   } catch (e) {
-    //     console.error(e);
-    //     this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
-    //   }
-    // },
-    formatTxHash(TxHash) {
-      if (TxHash) {
-        return Tools.formatTxHash(TxHash);
-      }
-      return '--';
-    },
-    getCallProviders(providers) {
-      if (providers && providers.length > 2) {
-        return providers.slice(0, 2);
-      }
-      return providers;
-    },
-    getContentWithState(state) {
-      let content = '';
-      switch (state) {
-        case 0:
-          content = 'running';
-          break;
-        case 1:
-          content = 'paused';
-          break;
-        case 2:
-          content = 'completed';
-          break;
-      }
-      return content;
-    },
-    arraySpanMethod(table) {
-      if (table.columnIndex === 0) {
-        if (table.row.isChildren) {
-          if (table.row.index == 0) {
-            return {
-              rowspan: table.row.count,
-              colspan: 1,
-            };
-          }
-          return {
-            rowspan: 0,
-            colspan: 0,
-          };
-        }
-        return {
-          rowspan: 1,
-          colspan: 1,
-        };
-      }
-    },
-    getRespondCount(count) {
-      return this.$t('ExplorerLang.unit.totalRespond').replace(/\$\{\%value\%\}/, count);
-    },
-    handleSearchClick() {
-      this.type = this.type_temp;
-      this.status = this.status_temp;
-      this.pageNum = 1;
-    },
-   
-    async getAddressInformation() {
-      try {
-        const res = await getAddressInformationApi(this.$route.params.param);
-        if (res) {
-          let arrayIndexOneData;
-          if (res.amount) {
-            res.amount.forEach((item) => {
-              if (item.denom === this.mainToken.denom) {
-                arrayIndexOneData = item;
-              }
-            });
-            if (arrayIndexOneData) {
-              res.amount.unshift(arrayIndexOneData);
-            }
-            res.amount = Array.from(new Set(res.amount));
-            this.assetList = res.amount;
-          }
-          this.validatorMoniker = res.moniker ? res.moniker : '--';
-          this.OperatorAddress = res.operator_address ? res.operator_address : '--';
-          this.validatorStatus = res.status;
-          this.withdrewToAddress = res.withdrawAddress ? res.withdrawAddress : '--';
-          this.isProfiler = res.isProfiler;
-          this.getAssetList();
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    },
-    async getAssetList() {
-      const assetList = [];
-      const balanceAmountsArr = [];
-      // console.time('amount')
-      for (const key in this.assetList) {
-        const item = this.assetList[key];
-        balanceAmountsArr.push(item && item.amount ? converCoin(item) : {});
-      }
-      const balanceAmounts = await Promise.all(balanceAmountsArr);
-      for (const key in this.assetList) {
-        const item = this.assetList[key];
-        // let balanceAmount = item && item.amount ? await converCoin(item) : {};
-        const balanceAmount = balanceAmounts[key];
-        if (item && item.denom && item.denom === this.mainToken.denom) {
-          assetList.unshift({
-            token: this.mainToken.symbol.toUpperCase(),
-            balance:
-              balanceAmount && balanceAmount.amount
-                ? `${new BigNumber(
-                    Tools.formatStringToFixedNumber(balanceAmount.amount, this.fixedNumber)
-                  ).toFormat()} ${balanceAmount.denom.toUpperCase()}`
-                : 0,
-            balanceNumber: balanceAmount.amount,
-            delegatedValue: this.totalDelegator ? this.totalDelegator : 0,
-            delegated: this.totalDelegator
-              ? `${Tools.formatStringToFixedNumber(
-                  new BigNumber(this.totalDelegator).toFormat(),
-                  this.fixedNumber
-                )} ${this.mainToken.symbol.toUpperCase()}`
-              : 0,
-            unBondingValue: this.totalUnBondingDelegator ? this.totalUnBondingDelegator : 0,
-            unBonding: this.totalUnBondingDelegator
-              ? `${Tools.formatStringToFixedNumber(
-                  new BigNumber(this.totalUnBondingDelegator).toFormat(),
-                  this.fixedNumber
-                )} ${this.mainToken.symbol.toUpperCase()}`
-              : 0,
-            rewards: this.allRewardsValue
-              ? `${Tools.formatStringToFixedNumber(
-                  new BigNumber(this.allRewardsAmountValue).toFormat(),
-                  this.fixedNumber
-                )} ${this.mainToken.symbol.toUpperCase()}`
-              : 0,
-            rewardsValue: this.allRewardsAmountValue ? this.allRewardsAmountValue : 0,
-            totalAmount: `${Tools.formatStringToFixedNumber(
-              new BigNumber(
-                (
-                  Number(
-                    Tools.formatStringToFixedNumber(
-                      balanceAmount.amount.toString(),
-                      this.computerNumber
-                    )
-                  ) +
-                  Number(
-                    Tools.formatStringToFixedNumber(
-                      this.totalDelegator.toString(),
-                      this.computerNumber
-                    )
-                  ) +
-                  Number(
-                    Tools.formatStringToFixedNumber(
-                      this.totalUnBondingDelegator.toString(),
-                      this.computerNumber
-                    )
-                  ) +
-                  Number(
-                    Tools.formatStringToFixedNumber(
-                      this.allRewardsAmountValue.toString(),
-                      this.computerNumber
-                    )
-                  )
-                ).toString()
-              ).toFormat(),
-              this.fixedNumber
-            )} ${this.mainToken.symbol.toUpperCase()}`,
-          });
-        } else if (balanceAmount && balanceAmount.denom) {
-          let { denom } = balanceAmount;
-          if (denom.startsWith(ibcDenomPrefix)) {
-            const hash = denom.replace(ibcDenomPrefix, '');
-            const res = await getIbcTransferByHash(hash).catch(error => {
-							console.error(error)
-            });
-            if (res && res.denom_trace && res.denom_trace.base_denom) {
-              denom = (ibcDenomPrefix + res.denom_trace.base_denom).toUpperCase();
-            }
-          }
-          assetList.push({
-            token: item.denom.toUpperCase(),
-            balance: balanceAmount.amount
-              ? `${new BigNumber(balanceAmount.amount).toFormat()} ${denom.toUpperCase()}`
-              : 0,
-            delegated: 0,
-            unBonding: 0,
-            rewards: 0,
-            totalAmount: balanceAmount.amount
-              ? `${new BigNumber(
-                  balanceAmount.amount
-                ).toFormat()} ${balanceAmount.denom.toUpperCase()}`
-              : 0,
-          });
-        }
-      }
-      this.assetsItems = assetList;
-      //  console.timeEnd('amount')
     },
     pageNation(dataArray) {
       let index = 0;
@@ -989,91 +478,16 @@ export default {
         console.error(e);
       }
     },
-    formatAddress(address) {
-      return Tools.formatValidatorAddress(address) || '--';
-    },
-    handleChange(value) {
-      value ? (this.type_temp = value[1] ? value[1] : '') : '';
-    },
     async getConfigTokenData() {
       const res = await getConfig();
       this.tokenData = res.tokenData;
     },
-    // ddcPageChange(pageNum) {
-    //   this.ddcPageNum = pageNum;
-    //   // this.getDdcList();
-    // },
-    // async getDdcList() {
-    //   try {
-    //     const ddcData = await getDdcList({
-    //       owner: this.$route.params.param,
-    //       ddc_id: '',
-    //       contract_address: '',
-    //       useCount: false,
-    //       pageNum: this.ddcPageNum,
-    //       pageSize: this.ddcPageSize,
-    //     });
-    //     if (ddcData && ddcData.data) {
-    //       this.ddcList = ddcData.data.map((item) => {
-    //         return {
-    //           ddcId: item.ddc_id,
-    //           ddcName: item.ddc_name,
-    //           contractAddr: item.contract_address,
-    //           owner: item.owner,
-    //           creator: item.creator,
-    //           ddcUri: item.ddc_uri || '--',
-    //           Time: Tools.formatLocalTime(item.lastest_tx_time),
-    //         };
-    //       });
-    //     }
-    //   } catch (e) {
-    //     console.error(e);
-    //   }
-    // },
-    // async getDdcListCount() {
-    //   try {
-    //     const res = await getDdcList({
-    //       owner: this.$route.params.param,
-    //       ddc_id: '',
-    //       contract_address: '',
-    //       useCount: true,
-    //     });
-    //     if (res?.count) {
-    //       this.ddcCount = res.count;
-    //     } else {
-    //       this.ddcCount = 0;
-    //     }
-    //   } catch (e) {
-    //     console.error(e);
-    //   }
-    // },
-    async getEnergyAssetList() {
-      this.isLoading = true;
-      const res = await getEnergyAssetApi(this.address);
-      this.isLoading = false;
-      if (res && res.result && res.result.length > 0) {
-        const energyItem = res.result.find((item) => item.denom === UGAS);
-        this.energyAssetData = [
-          {
-            title: this.$t('ExplorerLang.table.energy'),
-            amount: energyItem?.amount || '--',
-          },
-        ];
-      } else {
-        this.energyAssetData = [
-          {
-            title: this.$t('ExplorerLang.table.energy'),
-            amount: '--',
-          },
-        ];
-      }
-    },
   },
-	beforeDestroy(){
-		sessionStorage.removeItem('currentTxModelIndex')
-		sessionStorage.removeItem('lastChoiceMsgModelIndex')
-		sessionStorage.removeItem('currentChoiceMsgType')
-	}
+  beforeDestroy() {
+    sessionStorage.removeItem('currentTxModelIndex');
+    sessionStorage.removeItem('lastChoiceMsgModelIndex');
+    sessionStorage.removeItem('currentChoiceMsgType');
+  },
 };
 </script>
 
