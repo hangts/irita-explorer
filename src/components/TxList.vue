@@ -45,6 +45,7 @@
 <script>
 import { addressRoute, formatMoniker, getMainToken, getConfig } from '@/helper/IritaHelper';
 import TxTypes from '@/helper/TxTypes';
+import { formatTxDataFn } from '@/helper/txList/common';
 import Tools from '../util/Tools';
 import MPagination from './common/MPagination';
 import TxListComponent from './common/TxListComponent';
@@ -67,7 +68,6 @@ import TxStatusTabsComponents from './common/TxStatusTabsComponents';
 import TxCountComponent from './TxCountComponent';
 import TxResetButtonComponent from './common/TxResetButtonComponent';
 import { getColumnByTxTyp } from './tableListColumnConfig/common';
-import { formatTxDataFn } from './txList/common';
 
 export default {
   name: 'TxList',
@@ -359,15 +359,19 @@ export default {
       return Tools.formatValidatorAddress(address);
     },
     async formatTxData(msgType) {
-      const res = await formatTxDataFn(msgType, this.txData, {
-        isShowFee: prodConfig.fee.isShowFee,
-        isShowDenom: prodConfig.fee.isShowDenom,
-        feeDecimals: decimals.fee,
-        parseTimeFn: () => {
-          this.parseTime('transactionArray', 'Time', 'ageTime');
-        },
-      });
-      this.transactionArray = res.transactionArray;
+      try {
+        const res = await formatTxDataFn(msgType, this.txData, {
+          isShowFee: prodConfig.fee.isShowFee,
+          isShowDenom: prodConfig.fee.isShowDenom,
+          feeDecimals: decimals.fee,
+          parseTimeFn: () => {
+            this.parseTime('transactionArray', 'Time', 'ageTime');
+          },
+        });
+        this.transactionArray = res.transactionArray;
+      } catch (e) {
+        console.log(e);
+      }
     },
     async getConfigTokenData() {
       const res = await getConfig();
