@@ -214,6 +214,7 @@ export const ExplorerLang = {
     votingPower: '在线投票权',
     communityPool: '社区池',
     address: '地址',
+    msgCount:'交易消息数量'
   },
   block: {
     title: '区块',

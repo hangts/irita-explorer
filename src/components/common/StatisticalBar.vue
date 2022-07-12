@@ -214,6 +214,14 @@ export default {
 					value: "--",
 					to: "",
 				},
+				[STATISTICAL.TX_MSG_COUNT]: {
+					id: STATISTICAL.TX_MSG_COUNT,
+					iconClass: "iconfont iconxingzhuangjiehe3",
+					label: this.$t("ExplorerLang.home.msgCount"),
+					footerLabel: "",
+					value: "--",
+					to: "/txs",
+				},
 			},
 			navigationArray: [],
 			navigationArrayDbNet: [],
@@ -382,6 +390,8 @@ export default {
 								break;
 							case STATISTICAL.ADDRESS_COUNT_ID:
 								itemObj.value = statisticsDb.total_address;
+							case STATISTICAL.TX_MSG_COUNT:
+								itemObj.value = statisticsDb.total_tx_msgs;
 						}
 						this.navigationArrayDbNet.push(itemObj);
 					});
@@ -483,6 +493,9 @@ export default {
 									break;
 								case STATISTICAL.ADDRESS_COUNT_ID:
 									itemObj.value = statisticsDb.total_address;
+									break;
+								case STATISTICAL.TX_MSG_COUNT:
+									itemObj.value = statisticsDb.total_tx_msgs;
 									break;
 							}
 							this.navigationArrayDbNet.push(itemObj);
