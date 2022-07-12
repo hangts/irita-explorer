@@ -404,7 +404,7 @@ export const ColumnMinWidth = {
   validatorValue: '120',
   votingPowerValue: '120',
   ownerDetailDelegationsAmount: '135',
-  listDenom: '60',
+  listDenom: '82',
 };
 
 export const ModuleMap = {
