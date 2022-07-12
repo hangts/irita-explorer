@@ -33,6 +33,7 @@
           :title="$t('ExplorerLang.transactions.txs')"
           :icon="'iconTrainsaction'"
           :tx-count="totalTxNumber"
+          :countMsgs="countMsgs"
         >
           <template v-slot:displayShowAddressSendTx>
             <address-send-and-receive-tx
@@ -63,7 +64,7 @@ import txCommonTable from '@/components/tableListColumnConfig/txCommonTable';
 import SignerColunmn from '@/components/tableListColumnConfig/SignerColunmn';
 import txCommonLatestTable from '@/components/tableListColumnConfig/txCommonLatestTable';
 import { needAddColumn } from '@/components/tableListColumnConfig/allTxTableColumnConfig';
-import { formatTxDataFn } from '@/helper/txList/common';
+import { formatTxDataFn, getCountMsgs } from '@/helper/txList/common';
 
 export default {
   name: 'TxsOptions',
@@ -111,6 +112,7 @@ export default {
       isShowSendAndReceiveTxComponent: false,
       isShowDenom: prodConfig.fee.isShowDenom,
       isShowFee: prodConfig.fee.isShowFee,
+      countMsgs: [],
     };
   },
   created() {
@@ -150,19 +152,23 @@ export default {
     },
     async getTxByAddressCount() {
       try {
-        const res = await getAddressTxList(
-          this.$route.params.param,
-          this.type,
-          this.status,
-          null,
-          null,
-          true
-        );
+        const params = {
+          address: this.$route.params.param,
+          type: this.type,
+          status: this.status,
+          pageNum: null,
+          pageSize: null,
+          useCount: true,
+          ...prodConfig.txQueryKeys,
+        };
+        const res = await getAddressTxList(params);
         if (res?.count) {
           this.totalTxNumber = res.count;
         } else {
           this.totalTxNumber = 0;
         }
+
+        this.countMsgs = getCountMsgs(params, res);
       } catch (e) {
         console.error(e);
       }
@@ -170,14 +176,15 @@ export default {
     async getTxByAddress() {
       this.isAddressTxLoading = true;
       try {
-        const res = await getAddressTxList(
-          this.$route.params.param,
-          this.type,
-          this.status,
-          this.pageNum,
-          this.pageSize,
-          false
-        );
+        const res = await getAddressTxList({
+          address: this.$route.params.param,
+          type: this.type,
+          status: this.status,
+          pageNum: this.pageNum,
+          pageSize: this.pageSize,
+          useCount: false,
+          countMsg: false,
+        });
         if (res?.data && res.data.length > 0) {
           this.txList = res.data;
         } else {

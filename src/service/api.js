@@ -1,6 +1,5 @@
 import Tools from '@/util/Tools';
 import moment from 'moment';
-import axios from 'axios';
 import { HttpHelper } from '../helper/httpHelper';
 import { requestThrottler } from '../helper/throttleHttpHelper';
 import { TX_STATUS } from '../constant';
@@ -153,26 +152,23 @@ export function getAllServiceTxTypes() {
 }
 
 export function getTxList(params) {
-  const { txType, status, beginTime, endTime, pageNum, pageSize, useCount } = params;
-  let url = `txs?`;
+  const { beginTime, endTime, pageNum, pageSize, ...others } = params;
+  const formatParams = {};
+
   if (pageNum && pageSize) {
-    url += `pageNum=${pageNum}&pageSize=${pageSize}`;
-  }
-  if (useCount) {
-    url += `&useCount=${useCount}`;
-  }
-  if (txType) {
-    url += `&type=${txType}`;
-  }
-  if (status) {
-    url += `&status=${status}`;
+    formatParams.pageNum = pageNum;
+    formatParams.pageSize = pageSize;
   }
   if (beginTime) {
-    url += `&beginTime=${moment(beginTime).startOf('d').unix()}`;
+    formatParams.beginTime = moment(beginTime).startOf('d').unix();
   }
   if (endTime) {
-    url += `&endTime=${moment(endTime).endOf('d').unix()}`;
+    formatParams.endTime = moment(endTime).startOf('d').unix();
   }
+
+  const queryStr = Tools.formatParams({ ...others, ...formatParams }, [null, undefined, '']);
+  const url = `txs${queryStr}`;
+
   return get(url);
 }
 
@@ -254,7 +250,7 @@ export function getServiceTxList(type, status, serviceName, pageNum, pageSize, u
   return get(url);
 }
 
-export function getBlockTxList(pageNumber,pageSize,height) {
+export function getBlockTxList(pageNumber, pageSize, height) {
   const url = `txs/blocks?pageNum=${pageNumber}&pageSize=${pageSize}&height=${height}`;
   return get(url);
 }
@@ -264,14 +260,17 @@ export function getTxDetail(hash) {
   return get(url);
 }
 
-export function getAddressTxList(address, type, status, pageNum, pageSize, useCount) {
-  let url = `txs/addresses?address=${address}&type=${type}&status=${status}`;
+export function getAddressTxList({ pageNum, pageSize, ...others }) {
+  const formatParams = {};
+
   if (pageNum && pageSize) {
-    url += `&pageNum=${pageNum}&pageSize=${pageSize}`;
+    formatParams.pageNum = pageNum;
+    formatParams.pageSize = pageSize;
   }
-  if (useCount) {
-    url += `&useCount=${useCount}`;
-  }
+
+  const queryStr = Tools.formatParams({ ...others, ...formatParams }, [null, undefined, '']);
+  const url = `txs/addresses${queryStr}`;
+
   return get(url);
 }
 
@@ -714,10 +713,10 @@ export function getEnergyAssetApi(valAddress) {
 }
 
 // 地址发送交易 接收交易 总数
-export const getTxCountByAddress = (params,address) => {
-  if(!address && !params){
-    return
+export const getTxCountByAddress = (params, address) => {
+  if (!address && !params) {
+    return;
   }
-  const url = `/txs/addresses/statistic?params=${params}&address=${address}`
+  const url = `/txs/addresses/statistic?params=${params}&address=${address}`;
   return get(url);
-}
+};
