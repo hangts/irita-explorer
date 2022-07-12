@@ -223,6 +223,7 @@ export const needAddColumn = {
       isLink: true,
       isNeedFormat: true,
       isFormatAddress: true,
+      linkRoute: '/staking/',
     },
   ],
   create_validator: [
@@ -1172,7 +1173,6 @@ export const needAddColumn = {
       label: i18n.t('ExplorerLang.table.sender'),
       displayValue: 'to',
       nativeValue: 'to',
-      isLink: true,
       isNeedFormat: true,
       isFormatAddress: true,
     },
@@ -1180,10 +1180,10 @@ export const needAddColumn = {
       label: i18n.t('ExplorerLang.table.receiver'),
       displayValue: 'from',
       nativeValue: 'from',
-      isHref: true,
-      href: cfg.cosmosXpAddress,
+      isLink: true,
       isNeedFormat: true,
       isFormatAddress: true,
+      linkRoute: '/address/',
     },
   ],
   create_htlc: [

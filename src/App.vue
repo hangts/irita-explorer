@@ -34,11 +34,6 @@ export default {
     } else {
       this.$store.commit('isMobile', true);
     }
-    // 友盟统计添加
-    const script = document.createElement('script');
-    script.src = `https://v1.cnzz.com/z_stat.php?id=${prodConfig.umeng.umengId}&web_id=${prodConfig.umeng.umengWebId}`;
-    script.language = 'JavaScript';
-    document.body.appendChild(script);
   },
   methods: {
     closeMsgChildrenType() {

@@ -404,7 +404,7 @@ export const ColumnMinWidth = {
   validatorValue: '120',
   votingPowerValue: '120',
   ownerDetailDelegationsAmount: '135',
-  listDenom: '60',
+  listDenom: '82',
 };
 
 export const ModuleMap = {
@@ -672,4 +672,5 @@ export const STATISTICAL = {
   BOND_TOKENS_ID: 209,
   COMMUNITY_POOL_ID: 210,
   ADDRESS_COUNT_ID: 211,
+  TX_MSG_COUNT: 212,
 };

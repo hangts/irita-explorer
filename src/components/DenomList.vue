@@ -167,6 +167,7 @@ export default {
               denomId: denom.denomId,
               denomName: denom.denomName || denom.denomId,
               hash: denom.hash,
+	            nftCount: denom.nftCount,
               sender: denom.sender,
               time: Tools.formatAge(
                 Tools.getTimestamp(),
