@@ -245,7 +245,7 @@ export default {
       }
     ) {
       const { txType, status, beginTime, endTime } = Tools.urlParser();
-      let params = { txType, status, beginTime, endTime };
+      let params = { type: txType, status, beginTime, endTime };
       if (otherParams) {
         params = { ...params, ...otherParams };
       }

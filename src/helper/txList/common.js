@@ -673,7 +673,7 @@ export const getCountMsgs = (params, response) => {
         if (params[v.queryKey]) {
           res.push({
             title: v.title,
-            count: response[v.resKey],
+            count: response[v.resKey] || 0,
             icon: v.icon,
           });
         }
