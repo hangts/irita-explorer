@@ -297,7 +297,7 @@ export default {
               txHash: item.tx_hash,
               txType: (item.msgs || []).map((item) => item.type),
               blockHeight: item.height,
-              fee: item?.fee?.amount[0]?.amount ? item?.fee.amount[0] : ' ',
+              fee: item?.fee?.amount?.[0]?.amount ? item?.fee.amount[0] : ' ',
               Time: Tools.formatLocalTime(item.time),
               status: item.status,
               sender,

@@ -223,6 +223,7 @@ export const ExplorerLang = {
     votingPower: 'Voting Power',
     communityPool: 'Community Pool',
     address: 'Addresses',
+    msgCount: 'Msg Count',
   },
   block: {
     title: 'Blockchain',
@@ -316,7 +317,7 @@ export const ExplorerLang = {
     memo: 'Memo',
     transactionMessageTitle: 'Messages',
     relevanceTx: 'Related Transaction',
-    txType: 'Type',
+    txType: 'Msg Type',
     denomId: 'Denom ID',
     denomName: 'Denom Name',
     from: 'From',

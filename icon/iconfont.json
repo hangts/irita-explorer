@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "30503351",
+      "name": "hg_icon",
+      "font_class": "xingzhuangjiehe3",
+      "unicode": "e705",
+      "unicode_decimal": 59141
+    },
+    {
+      "icon_id": "30503112",
+      "name": "Transactions_msg",
+      "font_class": "xingzhuangjiehe2",
+      "unicode": "e704",
+      "unicode_decimal": 59140
+    },
+    {
       "icon_id": "29810640",
       "name": "IRITA",
       "font_class": "xingzhuangjiehe1",
