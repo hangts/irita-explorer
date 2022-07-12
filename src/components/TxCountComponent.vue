@@ -91,6 +91,7 @@ export default {
   .show_address_send_tx_content {
     margin-left: 0.2rem;
     @media (max-width: 768px) {
+      margin-top: 0.12rem;
       margin-left: 0;
     }
   }

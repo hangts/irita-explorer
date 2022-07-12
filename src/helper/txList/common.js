@@ -664,7 +664,7 @@ export const getCountMsgs = (params, response) => {
         queryKey: 'countMsg',
         resKey: 'total_tx_msgs',
         title: i18n.t('ExplorerLang.transactions.countMsg'),
-        icon: 'xingzhuangjiehe2',
+        icon: 'iconxingzhuangjiehe2',
       },
     ];
     countKey
