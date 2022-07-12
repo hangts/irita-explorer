@@ -223,7 +223,7 @@ export const ExplorerLang = {
     votingPower: 'Voting Power',
     communityPool: 'Community Pool',
     address: 'Addresses',
-    msgCount: 'Msg Count',
+    msgCount: 'Messages Count',
   },
   block: {
     title: 'Blockchain',
