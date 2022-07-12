@@ -242,6 +242,7 @@ export const ExplorerLang = {
     validationTxsList: 'Validation Txs List',
     tooltip: '数据可选范围从第一个区块至当前区块为止',
     govTxsList: 'Gov Txs List',
+    countMsg: '交易消息数量',
   },
   validators: {
     bonded: '共识中',
