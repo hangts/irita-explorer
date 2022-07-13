@@ -199,7 +199,6 @@ export default {
         },
       },
       navigationArray: [],
-      navigationArrayDbNet: [],
       syncTimer: null,
       currentBlockHeight: 0,
       validatorHeaderImgSrc: '',
@@ -247,7 +246,7 @@ export default {
         );
 
         const statisticsDb = await getDbStatistics(HomeCardArrayDb);
-        this.navigationArrayDbNet = [];
+
         if (statisticsDb) {
           HomeCardArrayDb.forEach(async (item) => {
             const itemObj = this.navigationObj[item];
@@ -336,12 +335,12 @@ export default {
               default:
                 break;
             }
-            this.navigationArrayDbNet.push(itemObj);
           });
         }
+
         const statisticsNetwork = await getNetworkStatistics(HomeCardArrayNetwork);
+
         if (statisticsNetwork) {
-          this.navigationArrayDbNet = [];
           this.validatorHeaderImgHref = '';
           // 先通过正则剔除符号空格及表情，只保留数字字母汉字
           const regex = /[^\w\u4e00-\u9fa50-9a-zA-Z]/g;
@@ -369,20 +368,33 @@ export default {
               default:
                 break;
             }
-            this.navigationArrayDbNet.push(itemObj);
-          }
-          if (!moduleSupport('107', prodConfig.navFuncList)) {
-            this.navigationArrayDbNet.unshift({
-              id: 200,
-              iconClass: 'iconfont iconBlocks',
-              label: this.$t('ExplorerLang.home.blockHeight'),
-              footerLabel: '',
-              value: this.currentBlockHeight,
-              to: `/block/${this.currentBlockHeight}`,
-            });
           }
         }
-        this.navigationArray = this.navigationArrayDbNet;
+
+        // 之前定义在data里，不需要
+        // 数据清空
+        const navigationArrayDbNet = [];
+
+        // 重新赋值
+        HomeCardArrayDb.forEach((item) => {
+          const itemObj = this.navigationObj[item];
+          navigationArrayDbNet.push(itemObj);
+        });
+
+        // 区块高度如何展示：unshift作为card展示，正常左右结构展示
+        if (!moduleSupport('107', prodConfig.navFuncList)) {
+          navigationArrayDbNet.unshift({
+            id: 200,
+            iconClass: 'iconfont iconBlocks',
+            label: this.$t('ExplorerLang.home.blockHeight'),
+            footerLabel: '',
+            value: this.currentBlockHeight,
+            to: `/block/${this.currentBlockHeight}`,
+          });
+        }
+
+        // 赋值重新渲染
+        this.navigationArray = navigationArrayDbNet;
       } catch (err) {
         console.error(err);
       }
