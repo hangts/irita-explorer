@@ -98,11 +98,11 @@ export default {
 }
 .count_item {
   font-size: 0.18rem;
-  color: rgba(23, 29, 68, 0.5);
   margin-left: 0.24rem;
   position: relative;
   display: flex;
   align-items: center;
+  color: #171d44;
   &:before {
     content: '';
     width: 1px;
@@ -120,10 +120,6 @@ export default {
   &_label {
     font-weight: 400;
     margin-right: 0.08rem;
-    color: #171d44;
-  }
-  &_val {
-    color: #171d44;
   }
 }
 @media (max-width: 768px) {
