@@ -939,7 +939,7 @@ export default {
                   (this.columns.length - secondPracticalWidthCount.length);
               }
               this.tableListWidth = this.tableListWidth.map((item, index) => {
-								
+
                 if (item <= 40) {
                   item = 40;
                   return item;
@@ -953,7 +953,7 @@ export default {
                   return ColumnMinWidth.fee;
                 }
                 if (!label.trim()) {
-									
+
                   // 同时减少下 denom 列的宽度
                   return ColumnMinWidth.listDenom;
                 }
@@ -1018,7 +1018,6 @@ export default {
 
     .header_content {
       display: flex;
-      align-items: center;
       justify-content: space-between;
       @media (max-width: 1150px) {
       }
@@ -1172,7 +1171,7 @@ export default {
 					td{
 						padding: 0.07rem 0 !important;
 					}
-					
+
 				}
 			}*/
       .caret-wrapper {

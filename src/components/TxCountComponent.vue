@@ -64,10 +64,6 @@ export default {
     display: flex;
     align-items: center;
   }
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
   .iconfont {
     margin-right: 0.08rem;
     font-size: 0.24rem;
@@ -90,10 +86,6 @@ export default {
   }
   .show_address_send_tx_content {
     margin-left: 0.2rem;
-    @media (max-width: 768px) {
-      margin-top: 0.12rem;
-      margin-left: 0;
-    }
   }
 }
 .count_item {
@@ -122,12 +114,20 @@ export default {
     margin-right: 0.08rem;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .count_item {
     margin-top: 0.14rem;
     margin-left: 0;
     &:before {
       display: none;
+    }
+  }
+  .tx_count_content {
+    flex-direction: column;
+    align-items: flex-start;
+    .show_address_send_tx_content {
+      margin-top: 0.12rem;
+      margin-left: 0;
     }
   }
 }
