@@ -215,7 +215,7 @@ export default {
     async getTxListData(pageNum, pageSize) {
       this.isLoading = true;
       const { txType, status, beginTime, endTime } = Tools.urlParser();
-      let params = { txType, status, beginTime, endTime };
+      let params = { type: txType, status, beginTime, endTime };
       if (pageNum && pageSize) {
         params = { ...params, pageNum, pageSize };
       }
