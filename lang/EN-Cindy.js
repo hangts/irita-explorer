@@ -251,6 +251,7 @@ export const ExplorerLang = {
     validationTxsList: 'Validation Txs List',
     tooltip: 'Date selection range from the first block to the latest block.',
     govTxsList: 'Gov Txs List',
+    countMsg: 'Tx Messages',
   },
   validators: {
     bonded: 'Active',

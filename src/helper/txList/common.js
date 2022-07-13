@@ -653,3 +653,31 @@ export const formatTxDataFn = async (
     transactionArray,
   };
 };
+
+export const getCountMsgs = (params, response) => {
+  const res = [];
+
+  if (prodConfig.txQueryKeys && Object.keys(prodConfig.txQueryKeys).length) {
+    const queryKey = Object.keys(prodConfig.txQueryKeys);
+    const countKey = [
+      {
+        queryKey: 'countMsg',
+        resKey: 'total_tx_msgs',
+        title: i18n.t('ExplorerLang.transactions.countMsg'),
+        icon: 'iconxingzhuangjiehe2',
+      },
+    ];
+    countKey
+      .filter((v) => queryKey.includes(v.queryKey))
+      .forEach((v) => {
+        if (params[v.queryKey]) {
+          res.push({
+            title: v.title,
+            count: response[v.resKey] || 0,
+            icon: v.icon,
+          });
+        }
+      });
+  }
+  return res;
+};

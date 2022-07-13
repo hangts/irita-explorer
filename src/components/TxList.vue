@@ -35,6 +35,7 @@
             :title="$t('ExplorerLang.transactions.txs')"
             :icon="'iconTrainsaction'"
             :tx-count="txCount"
+            :countMsgs="countMsgs"
           ></tx-count-component>
         </template>
       </list-component>
@@ -45,7 +46,7 @@
 <script>
 import { addressRoute, formatMoniker, getMainToken, getConfig } from '@/helper/IritaHelper';
 import TxTypes from '@/helper/TxTypes';
-import { formatTxDataFn } from '@/helper/txList/common';
+import { formatTxDataFn, getCountMsgs } from '@/helper/txList/common';
 import Tools from '../util/Tools';
 import MPagination from './common/MPagination';
 import TxListComponent from './common/TxListComponent';
@@ -138,6 +139,7 @@ export default {
       COSMOS_ADDRESS_PREFIX,
       isShowIbc: false,
       isShowHashLock: false,
+      countMsgs: [], // 写成数组为了后面拓展
     };
   },
   async created() {
@@ -185,7 +187,7 @@ export default {
       );
 
       param === 'init' ? history.replaceState(null, null, url) : history.pushState(null, null, url);
-      this.getTxListData(null, null, true);
+      this.getTxListDataCount({ useCount: true, ...prodConfig.txQueryKeys });
       this.getTxListData(this.pageNum, this.pageSize);
     },
     /* filterTxByTxType(e){
@@ -210,15 +212,12 @@ export default {
         `/#/txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&useCount=true`
       );
     },
-    async getTxListData(pageNum, pageSize, useCount = false) {
+    async getTxListData(pageNum, pageSize) {
       this.isLoading = true;
       const { txType, status, beginTime, endTime } = Tools.urlParser();
       let params = { txType, status, beginTime, endTime };
       if (pageNum && pageSize) {
         params = { ...params, pageNum, pageSize };
-      }
-      if (useCount) {
-        params = { ...params, useCount };
       }
       try {
         const res = await getTxList(params);
@@ -226,9 +225,6 @@ export default {
           this.txData = res.data;
           this.formatTxData(txType);
           this.isLoading = false;
-        }
-        if (useCount) {
-          this.txCount = res.count;
         }
         if (pageNum) {
           this.pageNum = res.pageNum;
@@ -238,6 +234,29 @@ export default {
         }
       } catch (e) {
         this.isLoading = false;
+        console.error(e);
+        // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
+      }
+    },
+    async getTxListDataCount(
+      otherParams = {
+        useCount: false,
+        countMsg: false,
+      }
+    ) {
+      const { txType, status, beginTime, endTime } = Tools.urlParser();
+      let params = { type: txType, status, beginTime, endTime };
+      if (otherParams) {
+        params = { ...params, ...otherParams };
+      }
+      try {
+        const res = await getTxList(params);
+        if (params.useCount) {
+          this.txCount = res.count;
+        }
+
+        this.countMsgs = getCountMsgs(params, res);
+      } catch (e) {
         console.error(e);
         // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
       }
@@ -274,7 +293,7 @@ export default {
       this.pageSize = 15;
       this.$refs.statusDatePicker.resetParams();
       this.resetUrl();
-      this.getTxListData(null, null, true);
+      this.getTxListDataCount({ useCount: true, ...prodConfig.txQueryKeys });
       this.getTxListData(this.pageNum, this.pageSize);
       this.$store.commit('currentTxModelIndex', 0);
       sessionStorage.setItem('lastChoiceMsgModelIndex', 0);
