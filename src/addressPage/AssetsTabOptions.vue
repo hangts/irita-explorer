@@ -978,4 +978,178 @@ export default {
     }
   }
 }
+
+@media screen and (max-width: 1280px) {
+	.address_container_content {
+		.address_content_wrap {
+			.delegations_wrap {
+				.delegations_container {
+					display: block;
+					
+					.one_table_container {
+						width: 100%;
+					}
+					
+					.second_table_container {
+						width: 100%;
+						margin-left: 0rem;
+					}
+				}
+			}
+			
+			.address_information_redelegation_header_title {
+				margin-left: 0rem;
+			}
+			
+			.address_information_redelegation_tx_container {
+				flex-direction: column;
+				// margin: 0 0.1rem;
+				.address_information_delegator_rewards_content {
+					width: 100%;
+					margin-right: 0;
+					
+					.address_information_detail_option {
+						padding-left: 0;
+						display: flex;
+						
+						.address_information_detail_option_value {
+							padding-right: 0.1rem;
+							word-break: break-word;
+						}
+					}
+					
+					.address_information_list_content {
+						overflow-x: auto;
+					}
+				}
+				
+				.address_information_detail_container {
+					width: 100%;
+					
+					.address_information_redelegation_title {
+						padding: 0.2rem 0;
+					}
+					
+					.address_information_detail_content {
+						.address_information_detail_option {
+							display: flex;
+							align-items: center;
+							flex-direction: row;
+							
+							.address_information_detail_option_name {
+								margin-right: 0.05rem;
+							}
+							
+							.validator_status_content {
+								display: flex;
+								margin: 0.05rem 0;
+							}
+							
+							.address_information_detail_option_value {
+								word-break: break-word;
+							}
+						}
+					}
+				}
+				
+				.hide_style {
+					display: none;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.address_container_content {
+		.address_content_wrap {
+			.pagination_content {
+				display: flex;
+				justify-content: flex-end;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.address_container_content {
+		.address_content_wrap {
+			.address_transaction_content {
+				.address_transaction_condition_container {
+					flex-direction: column;
+					align-items: flex-start;
+					
+					.address_transaction_condition_count {
+						margin-bottom: 0.1rem;
+					}
+					
+					::v-deep .el-select {
+						width: 100%;
+						margin-bottom: 0.1rem;
+					}
+				}
+			}
+			
+			.pagination_content {
+				.tooltip_box {
+					text-align: end;
+				}
+				
+				.common_pagination_content {
+					border: 0;
+					text-align: end;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 705px) {
+	.address_container_content {
+		.address_content_wrap {
+			.address_content_title {
+				margin-left: 0rem;
+			}
+			
+			.address_tab_container {
+				.address_tab_content {
+					margin-left: 0rem;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 551px) {
+	.address_container_content {
+		.address_content_wrap {
+			.address_content_title {
+				display: block;
+			}
+			
+			.address_information_redelegation_tx_container {
+				.address_information_delegator_rewards_content {
+					.address_information_detail_option {
+						display: block;
+						
+						.address_information_detail_option_value {
+							display: block;
+						}
+					}
+				}
+				
+				.address_information_detail_container {
+					.address_information_detail_content {
+						.address_information_detail_option {
+							.address_information_detail_option_name {
+								min-width: 1.2rem;
+								margin-right: 0.01rem;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
 </style>
