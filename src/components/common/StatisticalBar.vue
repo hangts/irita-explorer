@@ -199,7 +199,6 @@ export default {
         },
       },
       navigationArray: [],
-      navigationArrayDbNet: [],
       syncTimer: null,
       currentBlockHeight: 0,
       validatorHeaderImgSrc: '',
@@ -239,31 +238,19 @@ export default {
   methods: {
     async getNavigation() {
       try {
-        const HomeCardArrayDb = [];
-        const HomeCardArrayNetwork = [];
-        prodConfig.homeCard.forEach((code) => {
-          if (code == STATISTICAL.LATEST_BLOCK_HEIGHT) {
-            HomeCardArrayNetwork.push(code);
-          } else {
-            HomeCardArrayDb.push(code);
-          }
+        const HomeCardArrayDb = prodConfig.homeCard.filter(
+          (v) => v !== STATISTICAL.LATEST_BLOCK_HEIGHT
+        );
+        const HomeCardArrayNetwork = prodConfig.homeCard.filter(
+          (v) => v === STATISTICAL.LATEST_BLOCK_HEIGHT
+        );
+
+        const statisticsDb = await getDbStatistics(HomeCardArrayDb).catch((e) => {
+          console.log(e, '接口报错');
         });
-        const statisticsDb = await getDbStatistics(HomeCardArrayDb);
-        this.navigationArrayDbNet = [];
+
         if (statisticsDb) {
-          // this.validatorHeaderImgHref = ''
-          // //先通过正则剔除符号空格及表情，只保留数字字母汉字
-          // let regex =  /[^\w\u4e00-\u9fa50-9a-zA-Z]/g;
-          // if(statisticsNetwork.moniker) {
-          //     let replaceMoniker = statisticsNetwork.moniker && statisticsNetwork.moniker.replace(regex,'');
-          //     this.validatorHeaderImgHref = statisticsNetwork.validator_icon ? statisticsNetwork.validator_icon : replaceMoniker ? '' : require('../../assets/default_validator_icon.svg');
-          //     this.validatorHeaderImgSrc = replaceMoniker ? Tools.firstWordUpperCase(replaceMoniker.match(/^[0-9a-zA-Z\u4E00-\u9FA5]/g)[0]) : '';
-          //     this.moniker = formatMoniker(statisticsNetwork.moniker,monikerNum.home);
-          // }
-          // this.proposerAddress = statisticsNetwork.operator_addr;
-          // this.currentBlockHeight = statisticsNetwork.blockHeight;
-          prodConfig.homeCard.forEach(async (item) => {
-            if (item === STATISTICAL.LATEST_BLOCK_HEIGHT) return;
+          HomeCardArrayDb.forEach(async (item) => {
             const itemObj = this.navigationObj[item];
             switch (item) {
               case STATISTICAL.TRANSACTIONS_ID:
@@ -341,27 +328,23 @@ export default {
                 }
                 break;
               case STATISTICAL.ADDRESS_COUNT_ID:
-                itemObj.value = statisticsDb.total_address;
-	              break;
+                itemObj.value =
+                  statisticsDb.total_address + (prodConfig.fakeData?.total_address || 0);
+                break;
               case STATISTICAL.TX_MSG_COUNT:
                 itemObj.value = statisticsDb.total_tx_msgs;
+                break;
+              default:
+                break;
             }
-            this.navigationArrayDbNet.push(itemObj);
           });
-          if (!moduleSupport('107', prodConfig.navFuncList)) {
-            this.navigationArrayDbNet.unshift({
-              id: 200,
-              iconClass: 'iconfont iconBlocks',
-              label: this.$t('ExplorerLang.home.blockHeight'),
-              footerLabel: '',
-              value: this.currentBlockHeight,
-              to: `/block/${this.currentBlockHeight}`,
-            });
-          }
         }
-        const statisticsNetwork = await getNetworkStatistics(HomeCardArrayNetwork);
-        if (statisticsDb && statisticsNetwork) {
-          this.navigationArrayDbNet = [];
+
+        const statisticsNetwork = await getNetworkStatistics(HomeCardArrayNetwork).catch((e) => {
+          console.log(e, '接口报错');
+        });
+
+        if (statisticsNetwork) {
           this.validatorHeaderImgHref = '';
           // 先通过正则剔除符号空格及表情，只保留数字字母汉字
           const regex = /[^\w\u4e00-\u9fa50-9a-zA-Z]/g;
@@ -380,76 +363,42 @@ export default {
           }
           this.proposerAddress = statisticsNetwork.operator_addr;
           this.currentBlockHeight = statisticsNetwork.blockHeight;
-          for (const item of prodConfig.homeCard) {
-            if (item !== STATISTICAL.LATEST_BLOCK_HEIGHT) {
-              const itemObj = this.navigationObj[item];
-              switch (item) {
-                case STATISTICAL.TRANSACTIONS_ID:
-                  // itemObj.value = statisticsNetwork.txCount;
-                  itemObj.footerLabel = Tools.formatLocalTime(statisticsNetwork.latestBlockTime);
-                  break;
-                case STATISTICAL.BLOCKS_ID:
-                  itemObj.value = statisticsDb.validatorCount;
-                  break;
-                case STATISTICAL.AVG_BLOCK_TIME_ID:
-                  itemObj.value = `${statisticsDb.avgBlockTime}${this.$t('ExplorerLang.common.s')}`;
-                  break;
-                case STATISTICAL.ASSETS_ID:
-                  itemObj.value = statisticsDb.assetCount;
-                  break;
-                case STATISTICAL.DENOMS_ID:
-                  itemObj.value = statisticsDb.denomCount;
-                  break;
-                case STATISTICAL.I_SERVICES:
-                  itemObj.value = statisticsDb.serviceCount;
-                  break;
-                case STATISTICAL.IDENTITIES_ID:
-                  itemObj.value = statisticsDb.identityCount;
-                  break;
-                case STATISTICAL.VALIDATOR_COUNT_ID:
-                  itemObj.value = statisticsDb.validatorNumCount;
-                  break;
-                case STATISTICAL.BOND_TOKENS_ID:
-                  // if(Number(statisticsNetwork.total_supply) && Number(statisticsNetwork.bonded_tokens)) {
-                  //     itemObj.value = Tools.formatPercentageNumbers(statisticsNetwork.bonded_tokens,statisticsNetwork.total_supply)
-                  //     let mainToken  = await getMainToken()
-                  //     let [bonded_tokens,total_supply] = await Promise.all([converCoin({
-                  //         denom: mainToken.denom,
-                  //         amount: Number(statisticsNetwork.bonded_tokens)
-                  //     }),converCoin({
-                  //         denom: mainToken.denom,
-                  //         amount: Number(statisticsNetwork.total_supply)
-                  //     })])
-                  //     itemObj.footerLabel = Tools.formatBondedTokens(Number(bonded_tokens.amount || 0),Number(total_supply.amount || 0))
-                  // } else {
-                  //     itemObj.value = '--';
-                  //     itemObj.footerLabel = `${statisticsNetwork.bonded_tokens || '--'} / ${statisticsNetwork.total_supply || '--'}`;
-                  // }
-                  break;
-                case STATISTICAL.COMMUNITY_POOL_ID:
-                  break;
-                case STATISTICAL.ADDRESS_COUNT_ID:
-                  itemObj.value = statisticsDb.total_address;
-                  break;
-                case STATISTICAL.TX_MSG_COUNT:
-                  itemObj.value = statisticsDb.total_tx_msgs;
-                  break;
-              }
-              this.navigationArrayDbNet.push(itemObj);
+          for (const item of HomeCardArrayDb) {
+            const itemObj = this.navigationObj[item];
+            switch (item) {
+              case STATISTICAL.TRANSACTIONS_ID:
+                itemObj.footerLabel = Tools.formatLocalTime(statisticsNetwork.latestBlockTime);
+                break;
+              default:
+                break;
             }
           }
-          if (!moduleSupport('107', prodConfig.navFuncList)) {
-            this.navigationArrayDbNet.unshift({
-              id: 200,
-              iconClass: 'iconfont iconBlocks',
-              label: this.$t('ExplorerLang.home.blockHeight'),
-              footerLabel: '',
-              value: this.currentBlockHeight,
-              to: `/block/${this.currentBlockHeight}`,
-            });
-          }
         }
-        this.navigationArray = this.navigationArrayDbNet;
+
+        // 之前定义在data里，不需要
+        // 数据清空
+        const navigationArrayDbNet = [];
+
+        // 重新赋值
+        HomeCardArrayDb.forEach((item) => {
+          const itemObj = this.navigationObj[item];
+          navigationArrayDbNet.push(itemObj);
+        });
+
+        // 区块高度如何展示：unshift作为card展示，正常左右结构展示
+        if (!moduleSupport('107', prodConfig.navFuncList)) {
+          navigationArrayDbNet.unshift({
+            id: 200,
+            iconClass: 'iconfont iconBlocks',
+            label: this.$t('ExplorerLang.home.blockHeight'),
+            footerLabel: '',
+            value: this.currentBlockHeight,
+            to: `/block/${this.currentBlockHeight}`,
+          });
+        }
+
+        // 赋值重新渲染
+        this.navigationArray = navigationArrayDbNet;
       } catch (err) {
         console.error(err);
       }
