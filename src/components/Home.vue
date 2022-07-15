@@ -17,8 +17,8 @@
           </div>
           <ul class="home_block_bottom_content" v-if="latestBlockArray && latestBlockArray.length">
             <div
-              v-for="(item, index) in latestBlockArray"
-              :key="index"
+              v-for="item in latestBlockArray"
+              :key="item.height"
               :class="item.flShowTranslationalAnimation ? 'animation ' : ''"
             >
               <li
@@ -29,7 +29,9 @@
                   <router-link class="home_block" :to="`block/${item.height}`">{{
                     item.height
                   }}</router-link>
-                  <span class="home_age_time"> {{ item.blockAgeTime }}</span>
+                  <span class="home_age_time">
+                    <count-down :timeProp="item.Time"></count-down>
+                  </span>
                 </p>
                 <p class="home_tx_time_content">
                   <span class="home_tx"
@@ -60,8 +62,8 @@
           >
             <li
               class="home_transaction_list_item_content"
-              v-for="(item, index) in latestTransaction"
-              :key="index"
+              v-for="item in latestTransaction"
+              :key="item.hash"
             >
               <p class="home_transaction_time_content">
                 <span class="home_transaction">
@@ -72,7 +74,9 @@
                     }}</router-link>
                   </el-tooltip>
                 </span>
-                <span class="home_age_time">{{ item.txAgeTime }}</span>
+                <span class="home_age_time">
+                  <count-down :timeProp="item.Time"></count-down>
+                </span>
               </p>
               <p class="home_tx_type_content">
                 <!-- <span class="home_tx_type">{{item.txType}}</span> -->
@@ -117,11 +121,12 @@
 </template>
 
 <script>
-import { getProposalsListApi, getBlockList, getTxList } from '@/service/api.js';
+import { getProposalsListApi, getBlockList, getTxList } from '@/service/api';
 import Tools from '../util/Tools';
 import StatisticalBar from './common/StatisticalBar';
 import MDepositCard from './common/MDepositCard';
 import MVotingCard from './common/MVotingCard';
+import CountDown from './common/CountDown';
 import { proposalStatus } from '../constant';
 import { moduleSupport } from '../helper/ModulesHelper';
 import prodConfig from '../productionConfig';
@@ -129,15 +134,13 @@ import { getTxType } from '../helper/IritaHelper';
 
 export default {
   name: 'Home',
-  components: { StatisticalBar, MDepositCard, MVotingCard },
+  components: { StatisticalBar, MDepositCard, MVotingCard, CountDown },
   data() {
     return {
       TX_TYPE_DISPLAY: {},
       syncTimer: null,
       latestBlockArray: [],
       latestTransaction: [],
-      blocksTimer: null,
-      transfersTimer: null,
       screenWidth: document.body.clientWidth,
       depositPeriodDatas: [],
       votingPeriodDatas: [],
@@ -261,21 +264,8 @@ export default {
               time: Tools.formatLocalTime(item.time),
               Time: item.time,
               txNumber: item.txn,
-              blockAgeTime: Tools.formatAge(Tools.getTimestamp(), item.time * 1000, 'ago', '>'),
             };
           });
-          clearInterval(this.blocksTimer);
-          this.blocksTimer = setInterval(() => {
-            that.latestBlockArray = that.latestBlockArray.map((item) => {
-              item.blockAgeTime = Tools.formatAge(
-                Tools.getTimestamp(),
-                item.Time * 1000,
-                'ago',
-                '>'
-              );
-              return item;
-            });
-          }, 1000);
         }
       } catch (err) {
         console.error(err);
@@ -318,16 +308,8 @@ export default {
               // txType: item.msgs ? (item.msgs.length > 1 ? '--' : item.msgs[0].type) : '--',
               txType: (item.msgs || []).map((item) => item.type),
               Time: item.time,
-              txAgeTime: Tools.formatAge(Tools.getTimestamp(), item.time * 1000, 'ago', '>'),
             };
           });
-          clearInterval(this.transfersTimer);
-          this.transfersTimer = setInterval(() => {
-            this.latestTransaction = this.latestTransaction.map((item) => {
-              item.txAgeTime = Tools.formatAge(Tools.getTimestamp(), item.Time * 1000, 'ago', '>');
-              return item;
-            });
-          }, 1000);
         }
       } catch (e) {
         // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
@@ -339,14 +321,19 @@ export default {
         ? sessionStorage.getItem('lastBlockHeight')
         : '';
       if (storedLastBlockHeight) {
-        for (let index = 0; index < blockList.length; index++) {
-          if (blockList[index].height > storedLastBlockHeight) {
-            blockList.forEach((item) => {
-              item.flShowTranslationalAnimation = true;
-            });
-            blockList[index].showAnimation = 'show';
-          }
+        const flag = blockList.some((v) => v.height > storedLastBlockHeight);
+
+        if (flag) {
+          blockList.forEach((item) => {
+            item.flShowTranslationalAnimation = true;
+          });
         }
+
+        blockList.forEach((v) => {
+          if (v.height > storedLastBlockHeight) {
+            v.showAnimation = 'show';
+          }
+        });
       }
     },
     componentAgeTime(beginTime, endTime) {
@@ -387,8 +374,6 @@ export default {
     },
   },
   destroyed() {
-    clearInterval(this.blocksTimer);
-    clearInterval(this.transfersTimer);
     clearInterval(this.syncTimer);
     clearInterval(this.txTimer);
     window.removeEventListener('resize', this.monitorScreenWidth);
