@@ -324,7 +324,8 @@ export default class Tools {
   /**
    * 格式化数字的类型是string的数字并在小数点后面补零
    */
-  static formatStringToFixedNumber(str, splitNum) {
+
+  static formatStringToFixedNumber(str ='', splitNum) {
     if (str.toString().indexOf('e') !== -1 || str.toString().indexOf('E') !== -1) {
       str = new BigNumber(str).toFixed().toString();
     }

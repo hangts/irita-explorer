@@ -35,6 +35,7 @@
             :title="$t('ExplorerLang.transactions.txs')"
             :icon="'iconTrainsaction'"
             :tx-count="txCount"
+            :countMsgs="countMsgs"
           ></tx-count-component>
         </template>
       </list-component>
@@ -43,20 +44,14 @@
 </template>
 
 <script>
-import {
-  addressRoute,
-  formatMoniker,
-  converCoin,
-  getMainToken,
-  getTxType,
-  getConfig,
-} from '@/helper/IritaHelper';
+import { addressRoute, formatMoniker, getMainToken, getConfig } from '@/helper/IritaHelper';
 import TxTypes from '@/helper/TxTypes';
+import { formatTxDataFn, getCountMsgs } from '@/helper/txList/common';
 import Tools from '../util/Tools';
 import MPagination from './common/MPagination';
 import TxListComponent from './common/TxListComponent';
 import { TxHelper } from '../helper/TxHelper';
-import { getTxList, getAllTxTypes, getIbcTransferByHash } from '../service/api';
+import { getTxList } from '../service/api';
 import {
   TX_TYPE,
   TX_STATUS,
@@ -67,7 +62,6 @@ import {
   COSMOS_ADDRESS_PREFIX,
 } from '../constant';
 import ListComponent from './common/ListComponent';
-import { getAmountByTx, getDenomMap, getDenomTheme } from '../helper/txListAmoutHelper';
 import parseTimeMixin from '../mixins/parseTime';
 import prodConfig from '../productionConfig';
 import TabsComponent from './common/TabsComponent';
@@ -75,15 +69,6 @@ import TxStatusTabsComponents from './common/TxStatusTabsComponents';
 import TxCountComponent from './TxCountComponent';
 import TxResetButtonComponent from './common/TxResetButtonComponent';
 import { getColumnByTxTyp } from './tableListColumnConfig/common';
-import {
-  isMultisend,
-  isRespondService,
-  isDenomAndId,
-  isFeedNameAndCreator,
-  isConsumer,
-  isClientId,
-  isConsumerReqIdServiceName,
-} from './txList/lib';
 
 export default {
   name: 'TxList',
@@ -101,7 +86,6 @@ export default {
     const { txType, status, beginTime, endTime, pageNum, pageSize } = Tools.urlParser();
     return {
       isLoading: false,
-      // TX_TYPE_DISPLAY: {}, // 无用代码待删除
       IBC: 'IBC',
       HashLock: 'Hash Lock',
       PickerOptions: {
@@ -134,10 +118,6 @@ export default {
       txType: txType || '',
       beginTime: beginTime || '',
       endTime: endTime || '',
-      /* filterStartTime : '',
-			filterEndTime : '',
-			urlParamsShowStartTime : this.getParamsByUrlHash().urlParamShowStartTime ? this.getParamsByUrlHash().urlParamShowStartTime : '',
-			urlParamsShowEndTime : this.getParamsByUrlHash().urlParamShowEndTime ? this.getParamsByUrlHash().urlParamShowEndTime : '', */
       txStatus: '',
       pageNum: pageNum || 1,
       pageSize: pageSize || 15,
@@ -145,8 +125,6 @@ export default {
       txColumnList: [],
       tyepWidth: ColumnMinWidth.txType,
       TxHelper,
-      isShowFee: prodConfig.fee.isShowFee,
-      isShowDenom: prodConfig.fee.isShowDenom,
       ColumnMinWidth,
       Tools,
       addressRoute,
@@ -159,89 +137,20 @@ export default {
       mainTokenSymbol: '',
       IRIS_ADDRESS_PREFIX,
       COSMOS_ADDRESS_PREFIX,
-      denomMap: {},
       isShowIbc: false,
       isShowHashLock: false,
+      countMsgs: [], // 写成数组为了后面拓展
     };
   },
   async created() {
-    // 无用代码
-    // await this.getTxTypeData();
-    // 获取列表数据才会执行，所以这里可以删除
-    // const { txType, status, beginTime, endTime } = Tools.urlParser();
-    // this.formatTxData(txType);
     await this.getConfigTokenData();
   },
   mounted() {
     this.getFilterTxs('init');
-    // 初始化了两次，没必要，待删除
-    // const { txType } = Tools.urlParser();
-    // this.txColumnList = txCommonTable.concat(SignerColunmn, txCommonLatestTable);
-    // if (txType && needAddColumn[txType]) {
-    //   this.txColumnList = txCommonTable.concat(needAddColumn[txType], txCommonLatestTable);
-    // }
-    // this.getTxListData(this.pageNum,this.pageSize,true)
     this.getAllTxType();
     this.setMainToken();
-    /** 在listComponent.vue 内部判断了，没用了 start * */
-    // this.setIsShowIbc();
-    // this.setIsShowHashLock();
-    /** 在listComponent.vue 内部判断了，没用了 end * */
   },
   methods: {
-    /** 在listComponent.vue 内部判断了，没用了 start * */
-    // async setIsShowIbc() {
-    //   const msgTypeIbcList = await getTxType();
-    //   const IbcList = [
-    //     TX_TYPE.recv_packet,
-    //     TX_TYPE.create_client,
-    //     TX_TYPE.update_client,
-    //     TX_TYPE.transfer,
-    //     TX_TYPE.timeout_packet,
-    //     TX_TYPE.upgrade_client,
-    //     TX_TYPE.submit_misbehaviour,
-    //     TX_TYPE.connection_open_init,
-    //     TX_TYPE.connection_open_try,
-    //     TX_TYPE.connection_open_ack,
-    //     TX_TYPE.connection_open_confirm,
-    //     TX_TYPE.channel_open_init,
-    //     TX_TYPE.channel_open_try,
-    //     TX_TYPE.channel_open_ack,
-    //     TX_TYPE.channel_open_confirm,
-    //     TX_TYPE.channel_close_init,
-    //     TX_TYPE.channel_close_confirm,
-    //     TX_TYPE.timeout_on_close_packet,
-    //     TX_TYPE.acknowledge_packet,
-    //   ];
-    //
-    //   if (msgTypeIbcList?.txTypeData?.length) {
-    //     let ibcArr = [];
-    //     ibcArr = msgTypeIbcList.txTypeData.filter((item) => {
-    //       if (item?.typeName && IbcList.includes(item.typeName)) {
-    //         return true;
-    //       }
-    //       return false;
-    //     });
-    //     this.isShowIbc = !!ibcArr?.length;
-    //   }
-    // },
-    // async setIsShowHashLock() {
-    //   const msgTypeHashLockList = await getTxType();
-    //   const HashLockList = [TX_TYPE.create_htlc, TX_TYPE.claim_htlc];
-    //
-    //   if (msgTypeHashLockList?.txTypeData?.length) {
-    //     let HashLockArr = [];
-    //     HashLockArr = msgTypeHashLockList.txTypeData.filter((item) => {
-    //       if (item?.typeName && HashLockList.includes(item.typeName)) {
-    //         return true;
-    //       }
-    //       return false;
-    //     });
-    //     this.isShowHashLock = !!HashLockArr?.length;
-    //   }
-    // },
-    /** 在listComponent.vue 内部判断了，没用了 end * */
-
     changeTxStatus(txStatus) {
       this.statusValue = Number(txStatus);
       this.getFilterTxs();
@@ -278,7 +187,7 @@ export default {
       );
 
       param === 'init' ? history.replaceState(null, null, url) : history.pushState(null, null, url);
-      this.getTxListData(null, null, true);
+      this.getTxListDataCount({ useCount: true, ...prodConfig.txQueryKeys });
       this.getTxListData(this.pageNum, this.pageSize);
     },
     /* filterTxByTxType(e){
@@ -303,15 +212,12 @@ export default {
         `/#/txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&useCount=true`
       );
     },
-    async getTxListData(pageNum, pageSize, useCount = false) {
+    async getTxListData(pageNum, pageSize) {
       this.isLoading = true;
       const { txType, status, beginTime, endTime } = Tools.urlParser();
-      let params = { txType, status, beginTime, endTime };
+      let params = { type: txType, status, beginTime, endTime };
       if (pageNum && pageSize) {
         params = { ...params, pageNum, pageSize };
-      }
-      if (useCount) {
-        params = { ...params, useCount };
       }
       try {
         const res = await getTxList(params);
@@ -319,9 +225,6 @@ export default {
           this.txData = res.data;
           this.formatTxData(txType);
           this.isLoading = false;
-        }
-        if (useCount) {
-          this.txCount = res.count;
         }
         if (pageNum) {
           this.pageNum = res.pageNum;
@@ -331,6 +234,29 @@ export default {
         }
       } catch (e) {
         this.isLoading = false;
+        console.error(e);
+        // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
+      }
+    },
+    async getTxListDataCount(
+      otherParams = {
+        useCount: false,
+        countMsg: false,
+      }
+    ) {
+      const { txType, status, beginTime, endTime } = Tools.urlParser();
+      let params = { type: txType, status, beginTime, endTime };
+      if (otherParams) {
+        params = { ...params, ...otherParams };
+      }
+      try {
+        const res = await getTxList(params);
+        if (params.useCount) {
+          this.txCount = res.count;
+        }
+
+        this.countMsgs = getCountMsgs(params, res);
+      } catch (e) {
         console.error(e);
         // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
       }
@@ -352,29 +278,12 @@ export default {
         // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
       }
     },
-    /* filterTxByStatus(e){
-			if(e === '' || e === undefined){
-				this.txStatus = ''
-			} else {
-				this.txStatus = e
-			}
-		}, */
     getStartTime(time) {
       this.beginTime = time;
     },
     getEndTime(time) {
       this.endTime = time;
     },
-    /* formatEndTime(time){
-
-			// let utcTime = Tools.conversionTimeToUTCByValidatorsLine(new Date(time).toISOString());
-			let oneDaySeconds = 24 * 60 * 60;
-			return Number(new Date(time).getTime() / 1000) + Number(oneDaySeconds)
-		},
-		formatStartTime(time){
-			// let utcTime = Tools.conversionTimeToUTCByValidatorsLine(new Date(time).toISOString());
-			return Number(new Date(time).getTime() / 1000)
-		}, */
     resetFilterCondition() {
       this.txType = '';
       this.statusValue = '';
@@ -384,7 +293,7 @@ export default {
       this.pageSize = 15;
       this.$refs.statusDatePicker.resetParams();
       this.resetUrl();
-      this.getTxListData(null, null, true);
+      this.getTxListDataCount({ useCount: true, ...prodConfig.txQueryKeys });
       this.getTxListData(this.pageNum, this.pageSize);
       this.$store.commit('currentTxModelIndex', 0);
       sessionStorage.setItem('lastChoiceMsgModelIndex', 0);
@@ -392,17 +301,8 @@ export default {
       this.txTypeArray = [''];
       this.txColumnList = getColumnByTxTyp();
     },
-    // 无用代码，待删除
-    // async getTxTypeData() {
-    //   try {
-    //     const res = await getTxType();
-    //     this.TX_TYPE_DISPLAY = res?.TX_TYPE_DISPLAY;
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
     isValid(value) {
-      return !(!value || !value.length || value == '--');
+      return !(!value || !value.length || value === '--');
     },
     async setMainToken() {
       const mainToken = await getMainToken();
@@ -434,41 +334,9 @@ export default {
       const result = amount.match(denomRule);
       return result ? result[0] : ' ';
     },
-    /* getParamsByUrlHash(){
-			let txType,
-				txStatus,
-				filterStartTime,
-				urlParamShowStartTime,
-				urlParamShowEndTime,
-				filterEndTime;
-			let path = window.location.hash;
-			if(path.includes("?")){
-				let urlHash = path.split('?')[1];
-				let params = urlHash.split("&");
-				params.forEach(item =>{
-					if(item.includes('txType')){
-						txType = item.split("=")[1]
-					} else if(item.includes('status')){
-						txStatus = item.split("=")[1]
-					} else if(item.includes('beginTime')){
-						urlParamShowStartTime = item.split("=")[1]
-						filterStartTime = this.formatStartTime(item.split("=")[1])
-					} else if(item.includes('endTime')){
-						urlParamShowEndTime = item.split("=")[1]
-						filterEndTime = this.formatEndTime(item.split("=")[1])
-					}
-				})
-			}
-			return {txType, txStatus, filterStartTime, filterEndTime, urlParamShowStartTime, urlParamShowEndTime}
-		}, */
     pageChange(pageNum) {
       if (this.pageNum === pageNum) return;
       this.pageNum = pageNum;
-      /* let urlParams = this.getParamsByUrlHash();
-			this.statusValue = urlParams.txStatus ? urlParams.txStatus : '';
-			this.txType = urlParams.txType ? urlParams.txType : 'allTxType';
-			this.beginTime = urlParams.urlParamShowStartTime ? urlParams.urlParamShowStartTime : '';
-			this.endTime = urlParams.urlParamShowEndTime ? urlParams.urlParamShowEndTime : ''; */
 
       const { txType, status, beginTime, endTime, pageSize } = Tools.urlParser();
       let url = `/#/txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=false`;
@@ -509,1068 +377,24 @@ export default {
     formatAddress(address) {
       return Tools.formatValidatorAddress(address);
     },
-    handleChange(value) {
-      this.txType = value[1] ? value[1] : '';
-    },
     async formatTxData(msgType) {
-      this.transactionArray = [];
       try {
-        // 这里处理方式需要优化
-        if (this.txData && this.txData.length) {
-          const fees = [];
-          const amounts = [];
-          for (const tx of this.txData) {
-            let numberOfTo = '--';
-            let numberOfToArr = [];
-            let requestId = '--';
-            let requestIdArr = [];
-            let denomId = '--';
-            let denomIdArr = [];
-            let denomName = '--';
-            let denomNameArr = [];
-            let nftId = '--';
-            let nftIdArr = [];
-            let feedName = '--';
-            let feedNameArr = [];
-            let oracleCreator = '--';
-            let oracleCreatorArr = [];
-            let consumer = '--';
-            let consumerArr = [];
-            let digest = '--';
-            let digestArr = [];
-            let digest_algo = '--';
-            let digest_algoArr = [];
-            let symbol = '--';
-            let symbolArr = [];
-            let minUnit = '--';
-            let minUnitArr = [];
-            let owner = '--';
-            let ownerArr = [];
-            let dstOwner = '--';
-            let dstOwnerArr = [];
-            let srcOwner = '--';
-            let srcOwnerArr = [];
-            let sender = '--';
-            let senderArr = [];
-            let proposalId = '--';
-            let proposalIdArr = [];
-            let option = '--';
-            let optionArr = [];
-            let voter = '--';
-            let voterArr = [];
-            let depositor = '--';
-            let depositorArr = [];
-            let title = '--';
-            let author = '--';
-            let authorArr = [];
-            let provider = '--';
-            let providerArr = [];
-            let requestContextId = '--';
-            let requestContextIdArr = [];
-            let serviceName = '--';
-            let serviceNameArr = [];
-            let clientId = '--';
-            let clientIdArr = [];
-            let portId = '--';
-            let portIdArr = [];
-            let channelId = '--';
-            let channelIdArr = [];
-            let connectionId = '--';
-            let connectionIdArr = [];
-            let receiver = '--';
-            let receiverArr = [];
-            const sameMsg = [];
-            let sameMsgFromAddrArr = [];
-            let sameMsgToAddrArr = [];
-            let dest_chain = '--';
-            let dest_chainArr = [];
-            let source_chain = '--';
-            let source_chainArr = [];
-            let sequence = '--';
-            let sequenceArr = [];
-            let chain_name = '--';
-            let chain_nameArr = [];
-            let signer = '--';
-            const signers = [];
-            let msg;
-            // farm => stake unstake
-            let poolId = '--';
-            const poolIdArr = [];
-            let farmAmount = '--';
-            let farmAmountDenom = '';
-            let farmAmountNativeDenom = '';
-            const farmAmountArr = [];
-            // farm => create pool
-            let totalReward1 = '--';
-            let totalReward1Denom = '';
-            let totalReward1NativeDenom = '';
-            let totalReward2 = '--';
-            let totalReward2Denom = '';
-            let totalReward2NativeDenom = '';
-            let poolCreator = '--';
-            // farm => Create Pool With Community Pool
-            let proposer = '--';
-            let initialDeposit = '--';
-            // farm => destory pool/ adjust pool : poolId poolCreator
-
-            if (tx.msgs.length > 0) {
-              tx.msgs.forEach((item) => {
-                if (item.type === msgType) {
-                  sameMsg.push(item);
-                  msg = item;
-                }
-              });
-            }
-
-            /*
-             * 处理单一类型多msg的情况
-             * */
-            if (sameMsg?.length > 1) {
-              // 处理from 跟 to 的情况
-              sameMsg.forEach((item) => {
-                const addrObj = TxHelper.getFromAndToAddressFromMsg(item);
-                if (addrObj?.from) {
-                  sameMsgFromAddrArr.push(addrObj.from);
-                }
-                if (addrObj?.to) {
-                  sameMsgToAddrArr.push(addrObj.to);
-                }
-
-                if (isMultisend(item)) {
-                  numberOfToArr.push(item.msg.outputs.length);
-                }
-                if (isRespondService(item)) {
-                  requestIdArr.push(item.msg.request_id);
-                }
-                if (isDenomAndId(item)) {
-                  denomIdArr.push(item.msg.denom);
-                  nftIdArr.push(item.msg.id);
-                }
-
-                if (isFeedNameAndCreator(item)) {
-                  feedNameArr.push(item.msg.feed_name);
-                  oracleCreatorArr.push(item.msg.creator);
-                }
-
-                if (isConsumer(item)) {
-                  consumerArr.push(item.msg.consumer);
-                }
-                if (isClientId(item)) {
-                  clientIdArr.push(item.msg.client_id);
-                }
-                if (isConsumerReqIdServiceName(item)) {
-                  consumerArr.push(item.msg.consumer);
-                  requestContextIdArr.push(item.msg.request_context_id);
-                  serviceNameArr.push(item.msg.service_name);
-                }
-                if (
-                  item?.type === TX_TYPE.issue_denom &&
-                  item?.msg?.id &&
-                  item?.msg?.name &&
-                  item?.msg?.sender
-                ) {
-                  senderArr.push(item.msg.sender);
-                  denomIdArr.push(item.msg.id);
-                  denomNameArr.push(item.msg.name);
-                }
-                if (
-                  item?.type === TX_TYPE.channel_open_init ||
-                  item?.type === TX_TYPE.channel_open_confirm ||
-                  item?.type === TX_TYPE.channel_open_try ||
-                  (item?.type === TX_TYPE.channel_open_ack &&
-                    item?.msg?.channel_id &&
-                    item?.msg?.port_id)
-                ) {
-                  portIdArr.push(item.msg.port_id);
-                  channelIdArr.push(item.msg.channel_id);
-                }
-                if (
-                  item?.type === TX_TYPE.connection_open_init ||
-                  item?.type === TX_TYPE.connection_open_confirm ||
-                  item?.type === TX_TYPE.connection_open_try ||
-                  (item?.type === TX_TYPE.connection_open_ack &&
-                    item?.msg?.connection_id &&
-                    item?.msg?.client_id)
-                ) {
-                  clientIdArr.push(item.msg.client_id);
-                  connectionIdArr.push(item.msg.connection_id);
-                }
-
-                if (
-                  item?.type === TX_TYPE.create_record &&
-                  item?.msg?.contents?.length &&
-                  item?.msg?.contents[0]?.digest &&
-                  item?.msg?.contents[0]?.digest_algo
-                ) {
-                  digestArr.push(item.msg.contents[0].digest);
-                  digest_algoArr.push(item.msg.contents[0].digest_algo);
-                }
-                if (
-                  item?.type === TX_TYPE.issue_token &&
-                  item?.msg?.symbol &&
-                  item?.msg?.owner &&
-                  item?.msg?.min_unit
-                ) {
-                  symbolArr.push(item.msg.symbol);
-                  minUnitArr.push(item.msg.min_unit);
-                  ownerArr.push(item.msg.owner);
-                }
-                if (
-                  item?.type === TX_TYPE.acknowledge_packet &&
-                  item?.msg?.packet?.data?.receiver
-                ) {
-                  receiverArr.push(item.msg.packet.data.receiver);
-                }
-                if (item?.type === TX_TYPE.edit_token && item?.msg?.symbol && item?.msg?.owner) {
-                  symbolArr.push(item.msg.symbol);
-                  ownerArr.push(item.msg.owner);
-                }
-                if (
-                  item?.type === TX_TYPE.transfer_token_owner &&
-                  item?.msg?.symbol &&
-                  item?.msg?.dst_owner &&
-                  item?.msg?.src_owner
-                ) {
-                  symbolArr.push(item.msg.symbol);
-                  dstOwnerArr.push(item.msg.dst_owner);
-                  srcOwnerArr.push(item.msg.src_owner);
-                }
-                if (
-                  item?.type === TX_TYPE.mint_token &&
-                  item?.msg?.owner &&
-                  item?.msg?.symbol &&
-                  item?.msg?.amount &&
-                  item?.msg?.to
-                ) {
-                  symbolArr.push(item.msg.symbol);
-                  ownerArr.push(item.msg.owner);
-                }
-                if (
-                  item?.type === TX_TYPE.burn_token &&
-                  item?.msg?.sender &&
-                  item?.msg?.symbol &&
-                  item?.msg?.amount
-                ) {
-                  symbolArr.push(item.msg.symbol);
-                  senderArr.push(item.msg.sender);
-                }
-                if (
-                  item?.type === TX_TYPE.vote &&
-                  item?.msg?.option &&
-                  item?.msg?.proposal_id &&
-                  item?.msg?.voter
-                ) {
-                  proposalIdArr.push(item.msg.proposal_id);
-                  optionArr.push(item.msg.option);
-                  voterArr.push(item.msg.voter);
-                }
-                if (
-                  item?.type === TX_TYPE.deposit &&
-                  item?.msg?.depositor &&
-                  item?.msg?.proposal_id
-                ) {
-                  proposalIdArr.push(item.msg.proposal_id);
-                  depositorArr.push(item.msg.depositor);
-                }
-                if (item?.type === TX_TYPE.submit_proposal && item?.msg?.content?.title) {
-                  title = item.msg.content.title;
-                }
-                if (
-                  item?.type === TX_TYPE.pause_request_context ||
-                  item?.type === TX_TYPE.start_request_context ||
-                  item?.type === TX_TYPE.update_request_context ||
-                  (item?.type === TX_TYPE.kill_request_context &&
-                    item?.msg?.consumer &&
-                    item?.msg?.request_context_id)
-                ) {
-                  consumerArr.push(item.msg.consumer);
-                  requestContextIdArr.push(item.msg.request_context_id);
-                }
-                if (item?.type === TX_TYPE.define_service && item?.msg?.author && item?.msg?.name) {
-                  authorArr.push(item.msg.author);
-                  serviceNameArr.push(item.msg.service_name);
-                }
-                if (
-                  item?.type === TX_TYPE.bind_service ||
-                  item?.type === TX_TYPE.refund_service_deposit ||
-                  item?.type === TX_TYPE.disable_service_binding ||
-                  item?.type === TX_TYPE.enable_service_binding ||
-                  (item?.type === TX_TYPE.update_service_binding &&
-                    item?.msg?.owner &&
-                    item?.msg?.provider &&
-                    item?.msg?.service_name)
-                ) {
-                  ownerArr.push(item.msg.owner);
-                  providerArr.push(item.msg.provider);
-                  serviceNameArr.push(item.msg.service_name);
-                }
-                if (
-                  item?.type === TX_TYPE.update_request_context &&
-                  item?.msg?.ex &&
-                  item?.msg?.ex?.service_name
-                ) {
-                  serviceNameArr.push(item.msg.service_name);
-                }
-                // 新增
-                if (
-                  item?.type === TX_TYPE.tibc_nft_transfer &&
-                  item?.msg?.id &&
-                  item?.msg?.sender &&
-                  item?.msg?.dest_chain
-                ) {
-                  nftIdArr.push(item.msg.id);
-                  senderArr.push(item.msg.sender);
-                  dest_chainArr.push(item.msg.dest_chain);
-                }
-                if (
-                  item?.type === TX_TYPE.tibc_recv_packet &&
-                  item?.msg?.packet?.data?.id &&
-                  item?.msg?.packet?.data?.receiver &&
-                  item?.msg?.packet?.source_chain
-                ) {
-                  nftIdArr.push(item.msg.packet.data.id);
-                  receiverArr.push(item.msg.packet.data.receiver);
-                  source_chainArr.push(item.msg.packet.source_chain);
-                }
-                if (
-                  item?.type === TX_TYPE.tibc_acknowledge_packet &&
-                  item?.msg?.packet?.id &&
-                  item?.msg?.packet?.data?.sender &&
-                  item?.msg?.packet?.destination_chain
-                ) {
-                  nftIdArr.push(item.msg.packet.id);
-                  senderArr.push(item.msg.packet.data.sender);
-                  dest_chainArr.push(item.msg.packet.destination_chain);
-                }
-                if (
-                  item?.type === TX_TYPE.clean_packet &&
-                  item?.msg?.clean_packet?.sequence &&
-                  item?.msg?.clean_packet?.source_chain &&
-                  item?.msg?.signer
-                ) {
-                  sequenceArr.push(item.msg.clean_packet.sequence);
-                  source_chainArr.push(item.msg.clean_packet.source_chain);
-                  signers.push(item.msg.signer);
-                }
-                if (item?.type === TX_TYPE.recv_clean_packet && item?.msg?.signer) {
-                  signers.push(item.msg.signer);
-                }
-                if (
-                  item?.type === TX_TYPE.tibc_update_client &&
-                  item?.msg?.chain_name &&
-                  item?.msg?.signer
-                ) {
-                  chain_nameArr.push(item.msg.chain_name);
-                  signers.push(item.msg.signer);
-                }
-                if (
-                  item?.type === TX_TYPE.transfer_denom &&
-                  item?.msg?.id &&
-                  item?.msg?.sender &&
-                  item?.msg?.recipient
-                ) {
-                  denomIdArr.push(item.msg.id);
-                  senderArr.push(item.msg.sender);
-                  receiverArr.push(item.msg.recipient);
-                }
-              });
-              /*
-               * 同一类型多msg 去重
-               * */
-              sameMsgFromAddrArr = Array.from(new Set(sameMsgFromAddrArr));
-              sameMsgToAddrArr = Array.from(new Set(sameMsgToAddrArr));
-              portIdArr = Array.from(new Set(portIdArr));
-              channelIdArr = Array.from(new Set(channelIdArr));
-              connectionIdArr = Array.from(new Set(connectionIdArr));
-              receiverArr = Array.from(new Set(receiverArr));
-              numberOfToArr = Array.from(new Set(numberOfToArr));
-              requestIdArr = Array.from(new Set(requestIdArr));
-              denomIdArr = Array.from(new Set(denomIdArr));
-              nftIdArr = Array.from(new Set(nftIdArr));
-              feedNameArr = Array.from(new Set(feedNameArr));
-              clientIdArr = Array.from(new Set(clientIdArr));
-              denomNameArr = Array.from(new Set(denomNameArr));
-              oracleCreatorArr = Array.from(new Set(oracleCreatorArr));
-              consumerArr = Array.from(new Set(consumerArr));
-              digestArr = Array.from(new Set(digestArr));
-              digest_algoArr = Array.from(new Set(digest_algoArr));
-              symbolArr = Array.from(new Set(symbolArr));
-              minUnitArr = Array.from(new Set(minUnitArr));
-              ownerArr = Array.from(new Set(ownerArr));
-              dstOwnerArr = Array.from(new Set(dstOwnerArr));
-              srcOwnerArr = Array.from(new Set(srcOwnerArr));
-              senderArr = Array.from(new Set(senderArr));
-              proposalIdArr = Array.from(new Set(proposalIdArr));
-              optionArr = Array.from(new Set(optionArr));
-              voterArr = Array.from(new Set(voterArr));
-              depositorArr = Array.from(new Set(depositorArr));
-              authorArr = Array.from(new Set(authorArr));
-              providerArr = Array.from(new Set(providerArr));
-              requestContextIdArr = Array.from(new Set(requestContextIdArr));
-              serviceNameArr = Array.from(new Set(serviceNameArr));
-              dest_chainArr = Array.from(new Set(dest_chainArr));
-              source_chainArr = Array.from(new Set(source_chainArr));
-              sequenceArr = Array.from(new Set(sequenceArr));
-              chain_nameArr = Array.from(new Set(chain_nameArr));
-            } else {
-              if (isMultisend(msg)) {
-                numberOfTo = msg.msg.outputs.length;
-              }
-              if (isRespondService(msg)) {
-                requestId = msg.msg.request_id;
-              }
-              if (isDenomAndId(msg)) {
-                denomId = msg.msg.denom;
-                nftId = msg.msg.id;
-              }
-              if (isFeedNameAndCreator(msg)) {
-                feedName = msg.msg.feed_name;
-                oracleCreator = msg.msg.creator;
-              }
-
-              if (isConsumer(msg)) {
-                consumer = msg.msg.consumer;
-              }
-              if (isClientId(msg)) {
-                clientId = msg.msg.client_id;
-              }
-              if (isConsumerReqIdServiceName(msg)) {
-                consumer = msg.msg.consumer;
-                requestContextId = msg.msg.request_context_id;
-                serviceName = msg.msg.service_name;
-              }
-              if (
-                msg?.type === TX_TYPE.issue_denom &&
-                msg?.msg?.id &&
-                msg?.msg?.name &&
-                msg?.msg?.sender
-              ) {
-                sender = msg.msg.sender;
-                denomId = msg.msg.id;
-                denomName = msg.msg.name;
-              }
-              if (
-                msg?.type === TX_TYPE.channel_open_init ||
-                msg?.type === TX_TYPE.channel_open_confirm ||
-                msg?.type === TX_TYPE.channel_open_try ||
-                (msg?.type === TX_TYPE.channel_open_ack &&
-                  msg?.msg?.channel_id &&
-                  msg?.msg?.port_id)
-              ) {
-                portId = msg.msg.port_id;
-                channelId = msg.msg.channel_id;
-              }
-              if (
-                msg?.type === TX_TYPE.connection_open_init ||
-                msg?.type === TX_TYPE.connection_open_confirm ||
-                msg?.type === TX_TYPE.connection_open_try ||
-                (msg?.type === TX_TYPE.connection_open_ack &&
-                  msg?.msg?.connection_id &&
-                  msg?.msg?.client_id)
-              ) {
-                clientId = msg.msg.client_id;
-                connectionId = msg.msg.connection_id;
-              }
-
-              if (
-                msg?.type === TX_TYPE.create_record &&
-                msg?.msg?.contents?.length &&
-                msg?.msg?.contents[0]?.digest &&
-                msg?.msg?.contents[0]?.digest_algo
-              ) {
-                digest = msg.msg.contents[0].digest;
-                digest_algo = msg.msg.contents[0].digest_algo;
-              }
-              if (
-                msg?.type === TX_TYPE.issue_token &&
-                msg?.msg?.symbol &&
-                msg?.msg?.owner &&
-                msg?.msg?.min_unit
-              ) {
-                symbol = msg.msg.symbol;
-                minUnit = msg.msg.min_unit;
-                owner = msg.msg.owner;
-              }
-              if (msg?.type === TX_TYPE.acknowledge_packet && msg?.msg?.packet?.data?.receiver) {
-                receiver = msg.msg.packet.data.receiver;
-              }
-              if (msg?.type === TX_TYPE.edit_token && msg?.msg?.symbol && msg?.msg?.owner) {
-                symbol = msg.msg.symbol;
-                owner = msg.msg.owner;
-              }
-              if (
-                msg?.type === TX_TYPE.transfer_token_owner &&
-                msg?.msg?.symbol &&
-                msg?.msg?.dst_owner &&
-                msg?.msg?.src_owner
-              ) {
-                symbol = msg.msg.symbol;
-                dstOwner = msg.msg.dst_owner;
-                srcOwner = msg.msg.src_owner;
-              }
-              if (
-                msg?.type === TX_TYPE.mint_token &&
-                msg?.msg?.owner &&
-                msg?.msg?.symbol &&
-                msg?.msg?.amount &&
-                msg?.msg?.to
-              ) {
-                symbol = msg.msg.symbol;
-                owner = msg.msg.owner;
-              }
-              if (
-                msg?.type === TX_TYPE.burn_token &&
-                msg?.msg?.sender &&
-                msg?.msg?.symbol &&
-                msg?.msg?.amount
-              ) {
-                symbol = msg.msg.symbol;
-                sender = msg.msg.sender;
-              }
-              if (
-                msg?.type === TX_TYPE.vote &&
-                msg?.msg?.option &&
-                msg?.msg?.proposal_id &&
-                msg?.msg?.voter
-              ) {
-                proposalId = msg.msg.proposal_id;
-                option = msg.msg.option;
-                voter = msg.msg.voter;
-              }
-              if (msg?.type === TX_TYPE.deposit && msg?.msg?.depositor && msg?.msg?.proposal_id) {
-                proposalId = msg.msg.proposal_id;
-                depositor = msg.msg.depositor;
-              }
-              if (msg?.type === TX_TYPE.submit_proposal && msg?.msg?.content?.title) {
-                title = msg.msg.content.title;
-              }
-              if (
-                msg?.type === TX_TYPE.pause_request_context ||
-                msg?.type === TX_TYPE.start_request_context ||
-                msg?.type === TX_TYPE.update_request_context ||
-                (msg?.type === TX_TYPE.kill_request_context &&
-                  msg?.msg?.consumer &&
-                  msg?.msg?.request_context_id)
-              ) {
-                consumer = msg.msg.consumer;
-                requestContextId = msg.msg.request_context_id;
-              }
-              if (msg?.type === TX_TYPE.define_service && msg?.msg?.author && msg?.msg?.name) {
-                author = msg.msg.author;
-                serviceName = msg.msg.name;
-              }
-              if (
-                msg?.type === TX_TYPE.bind_service ||
-                msg?.type === TX_TYPE.refund_service_deposit ||
-                msg?.type === TX_TYPE.disable_service_binding ||
-                msg?.type === TX_TYPE.enable_service_binding ||
-                (msg?.type === TX_TYPE.update_service_binding &&
-                  msg?.msg?.owner &&
-                  msg?.msg?.provider &&
-                  msg?.msg?.service_name)
-              ) {
-                owner = msg.msg.owner;
-                provider = msg.msg.provider;
-                serviceName = msg.msg.service_name;
-              }
-              if (
-                msg?.type === TX_TYPE.update_request_context &&
-                msg?.msg?.ex &&
-                msg?.msg?.ex?.service_name
-              ) {
-                serviceName = msg.msg.ex.service_name;
-              }
-            }
-
-            if (msg?.type === TX_TYPE.tibc_nft_transfer && msg?.msg?.id) {
-              nftId = msg.msg.id;
-            }
-            if (
-              msg?.type === TX_TYPE.tibc_recv_packet ||
-              (msg?.type === TX_TYPE.tibc_acknowledge_packet && msg?.msg?.packet?.data?.id)
-            ) {
-              nftId = msg.msg.packet.data.id;
-            }
-            if (msg?.type === TX_TYPE.tibc_recv_packet && msg?.msg?.packet?.data?.receiver) {
-              receiver = msg.msg.packet.data.receiver;
-            }
-            if (msg?.type === TX_TYPE.tibc_acknowledge_packet && msg?.msg?.packet?.data?.sender) {
-              sender = msg.msg.packet.data.sender;
-            }
-            if (msg?.type === TX_TYPE.tibc_update_client && msg?.msg?.chain_name) {
-              chain_name = msg.msg.chain_name;
-            }
-            if (msg?.type === TX_TYPE.tibc_nft_transfer && msg?.msg?.dest_chain) {
-              dest_chain = msg.msg.dest_chain;
-            }
-            if (msg?.type === TX_TYPE.tibc_recv_packet && msg?.msg?.packet?.source_chain) {
-              source_chain = msg.msg.packet.source_chain;
-            }
-            if (
-              msg?.type === TX_TYPE.tibc_acknowledge_packet &&
-              msg?.msg?.packet?.destination_chain
-            ) {
-              dest_chain = msg.msg.packet.destination_chain;
-            }
-            if (msg?.type === TX_TYPE.tibc_nft_transfer) {
-              sender = msg.msg.sender;
-            }
-            if (msg?.type === TX_TYPE.issue_denom && msg?.msg?.denomName) {
-              denomName = msg.msg.denomName;
-            }
-
-            if (msg?.type === TX_TYPE.clean_packet && msg?.msg?.clean_packet?.source_chain) {
-              source_chain = msg.msg.clean_packet.source_chain;
-            }
-            if (msg?.type === TX_TYPE.clean_packet && msg?.msg?.clean_packet?.sequence) {
-              sequence = msg.msg.clean_packet.sequence;
-            }
-
-            if (
-              msg?.type === TX_TYPE.transfer_denom ||
-              (msg?.type === TX_TYPE.issue_denom && msg?.msg?.sender)
-            ) {
-              sender = msg.msg.sender;
-            }
-
-            if (
-              msg?.type === TX_TYPE.recv_clean_packet ||
-              msg?.type === TX_TYPE.tibc_update_client ||
-              (msg?.type === TX_TYPE.clean_packet && msg?.msg?.signer)
-            ) {
-              signer = msg.msg.signer;
-            }
-            if (msg?.type === TX_TYPE.transfer_denom && (msg?.msg?.recipient || msg?.msg?.id)) {
-              receiver = msg.msg.recipient;
-              denomId = msg.msg.id;
-            }
-
-            if (msg?.type === TX_TYPE.issue_denom && msg?.msg?.denomId && msg?.msg?.sender) {
-              denomId = msg.msg.denomId;
-              sender = msg.msg.sender;
-            }
-            // farm -> stake unstake
-            if (msg?.type === TX_TYPE.stake || msg?.type === TX_TYPE.unstake) {
-              poolId = Tools.formatPoolId(msg?.msg?.pool_id);
-              if (sameMsg?.length > 1) {
-                // 判断是多msg, amount显示为空
-                farmAmount = ' ';
-              } else {
-                const res = await converCoin(msg?.msg?.amount);
-                farmAmount = res?.amount;
-                farmAmountDenom = res?.denom.startsWith('lpt')
-                  ? res?.denom.toLocaleUpperCase()
-                  : this.getAmountUnit(res?.denom.toLocaleUpperCase());
-                farmAmountNativeDenom = msg?.msg?.amount.denom.toLocaleUpperCase();
-              }
-              sender = msg?.msg?.sender;
-            }
-            // farm -> harvest
-            if (msg?.type === TX_TYPE.harvest) {
-              poolId = Tools.formatPoolId(msg?.msg?.pool_id);
-              sender = msg.msg?.sender;
-            }
-            // farm -> create pool
-            if (msg?.type === TX_TYPE.create_pool) {
-              const len =
-                msg?.msg?.total_reward && Array.isArray(msg?.msg?.total_reward)
-                  ? msg?.msg?.total_reward.length
-                  : 0;
-              if (len > 0) {
-                const res = await converCoin(msg?.msg?.total_reward?.[0]);
-                totalReward1 = Tools.toDecimal(res.amount, 2);
-                totalReward1Denom = res?.denom.startsWith('lpt')
-                  ? res?.denom.toLocaleUpperCase()
-                  : this.getAmountUnit(res?.denom.toLocaleUpperCase());
-                totalReward1NativeDenom = msg?.msg?.total_reward?.[0].denom.toLocaleUpperCase();
-              }
-              if (len === 2) {
-                const res = await converCoin(msg?.msg?.total_reward?.[1]);
-                totalReward2 = Tools.toDecimal(res.amount, 2);
-                totalReward2Denom = res?.denom.startsWith('lpt')
-                  ? res?.denom.toLocaleUpperCase()
-                  : this.getAmountUnit(res?.denom.toLocaleUpperCase());
-                totalReward2NativeDenom = msg?.msg?.total_reward?.[1].denom.toLocaleUpperCase();
-              }
-              poolCreator = msg.msg.creator;
-            }
-
-            // farm -> create_pool_with_community_pool
-            if (msg?.type === TX_TYPE.create_pool_with_community_pool) {
-              proposer = msg.msg.proposer;
-              title = msg.msg.content.title;
-              if (msg?.msg?.initial_deposit && msg?.msg?.initial_deposit.length > 0) {
-                const res = await converCoin(msg?.msg?.initial_deposit?.[0]);
-                initialDeposit = Tools.toDecimal(res?.amount, 2);
-                farmAmountDenom = res?.denom.startsWith('lpt')
-                  ? res?.denom.toLocaleUpperCase()
-                  : this.getAmountUnit(res?.denom.toLocaleUpperCase());
-                farmAmountNativeDenom = msg?.msg?.initial_deposit?.[0].denom.toLocaleUpperCase();
-              }
-            }
-            // farm => destroy_pool
-            if (msg?.type === TX_TYPE.destroy_pool || msg?.type === TX_TYPE.adjust_pool) {
-              poolId = Tools.formatPoolId(msg?.msg?.pool_id);
-              poolCreator = msg.msg.creator;
-            }
-
-            const addrObj = TxHelper.getFromAndToAddressFromMsg(msg);
-            amounts.push(msg ? (sameMsg?.length > 1 ? ' ' : await getAmountByTx(msg, true)) : '--');
-            const from =
-              sameMsg?.length > 1
-                ? sameMsgFromAddrArr?.length > 1
-                  ? ' '
-                  : sameMsgFromAddrArr?.length === 1
-                  ? sameMsgFromAddrArr[0]
-                  : '--'
-                : addrObj.from || '--';
-            const to =
-              sameMsg?.length > 1
-                ? sameMsgToAddrArr?.length > 1
-                  ? ' '
-                  : sameMsgToAddrArr?.length === 1
-                  ? sameMsgToAddrArr[0]
-                  : '--'
-                : addrObj.to || '--';
-            let fromMonikers = ' ';
-            let toMonikers = ' ';
-            let validatorMoniker;
-            let validatorAddress;
-            if ((tx.monikers || {}).length) {
-              const monikersMap = new Map();
-              tx.monikers.forEach((item) => {
-                validatorMoniker = Object.values(item)[0] || ' ';
-                validatorAddress = Object.keys(item)[0] || ' ';
-                monikersMap.set(Object.keys(item)[0], Object.values(item)[0]);
-              });
-              if (monikersMap.has(from)) {
-                fromMonikers = monikersMap.get(from);
-              }
-              if (monikersMap.has(to)) {
-                toMonikers = monikersMap.get(to);
-              }
-            }
-            if (this.isShowFee) {
-              fees.push(
-                tx.fee && tx.fee.amount && tx.fee.amount.length > 0
-                  ? await converCoin(tx.fee.amount[0])
-                  : '--'
-              );
-            }
-            let isShowMore = false;
-            const type = tx.msgs && tx.msgs[0] && tx.msgs[0].type;
-            if (type && (type === TX_TYPE.add_liquidity || type === TX_TYPE.remove_liquidity)) {
-              isShowMore = true;
-            }
-            if (tx.type === TX_TYPE.send) {
-              tx &&
-              tx.msgs &&
-              tx.msgs[0] &&
-              tx.msgs[0].msg &&
-              tx.msgs[0].msg.amount &&
-              tx.msgs[0].msg.amount.length > 1
-                ? (isShowMore = true)
-                : '';
-              const denom = tx?.msgs?.[0]?.msg?.amount?.[0]?.denom;
-              if (denom !== undefined && /(ltp|LPT|lpt-|LPT-)/g.test(denom)) {
-                isShowMore = true;
-              }
-            }
-            const _contractMethod =
-              (this?.$i18n?.messages &&
-                this?.$i18n?.messages[prodConfig.lang]?.ExplorerLang?.smartContract &&
-                this?.$i18n?.messages &&
-                this?.$i18n?.messages[prodConfig.lang]?.ExplorerLang?.smartContract[
-                  tx?.msgs[0]?.msg?.ex?.ddc_method
-                ]) ||
-              tx?.msgs[0]?.msg?.ex?.ddc_method;
-            this.transactionArray.push({
-              txHash: tx.tx_hash,
-              blockHeight: tx.height,
-              txType: (tx.msgs || []).map((item) => item.type),
-              from,
-              author: authorArr?.length > 1 ? ' ' : authorArr?.length === 1 ? authorArr[0] : author,
-              provider:
-                providerArr?.length > 1
-                  ? ' '
-                  : providerArr?.length === 1
-                  ? providerArr[0]
-                  : provider,
-              requestContextId:
-                requestContextIdArr?.length > 1
-                  ? ' '
-                  : requestContextIdArr?.length === 1
-                  ? requestContextIdArr[0]
-                  : requestContextId,
-              fromMonikers,
-              toMonikers,
-              receiver:
-                receiverArr?.length > 1
-                  ? ' '
-                  : receiverArr?.length === 1
-                  ? receiverArr[0]
-                  : receiver,
-              to,
-              portId: portIdArr?.length > 1 ? ' ' : portIdArr?.length === 1 ? portIdArr[0] : portId,
-              channelId:
-                channelIdArr?.length > 1
-                  ? ' '
-                  : channelIdArr?.length === 1
-                  ? channelIdArr[0]
-                  : channelId,
-              connectionId:
-                connectionIdArr?.length > 1
-                  ? ' '
-                  : connectionIdArr?.length === 1
-                  ? connectionIdArr[0]
-                  : connectionId,
-              validatorMoniker,
-              validatorAddress,
-              numberOfTo:
-                numberOfToArr?.length > 1
-                  ? ' '
-                  : numberOfToArr?.length === 1
-                  ? numberOfToArr[0]
-                  : numberOfTo,
-              requestId:
-                requestIdArr?.length > 1
-                  ? ' '
-                  : requestIdArr?.length === 1
-                  ? requestIdArr[0]
-                  : requestId,
-              denomId:
-                denomIdArr?.length > 1 ? ' ' : denomIdArr?.length === 1 ? denomIdArr[0] : denomId,
-              denomName:
-                denomNameArr?.length > 1
-                  ? ' '
-                  : denomNameArr?.length === 1
-                  ? denomNameArr[0]
-                  : denomName,
-              nftId: nftIdArr?.length > 1 ? ' ' : nftIdArr?.length === 1 ? nftIdArr[0] : nftId,
-              clientId:
-                clientIdArr?.length > 1
-                  ? ' '
-                  : clientIdArr?.length === 1
-                  ? clientIdArr[0]
-                  : clientId,
-              feedName:
-                feedNameArr?.length > 1
-                  ? ' '
-                  : feedNameArr?.length === 1
-                  ? feedNameArr[0]
-                  : feedName,
-              oracleCreator:
-                oracleCreatorArr?.length > 1
-                  ? ' '
-                  : oracleCreatorArr?.length === 1
-                  ? oracleCreatorArr[0]
-                  : oracleCreator,
-              consumer:
-                consumerArr?.length > 1
-                  ? ' '
-                  : consumerArr?.length === 1
-                  ? consumerArr[0]
-                  : consumer,
-              serviceName:
-                serviceNameArr?.length > 1
-                  ? ' '
-                  : serviceNameArr?.length === 1
-                  ? serviceNameArr[0]
-                  : serviceName,
-              digest: digestArr?.length > 1 ? ' ' : digestArr?.length === 1 ? digestArr[0] : digest,
-              digest_algo:
-                digest_algoArr?.length > 1
-                  ? ' '
-                  : digest_algoArr?.length === 1
-                  ? digest_algoArr[0]
-                  : digest_algo,
-              symbol: symbolArr?.length > 1 ? ' ' : symbolArr?.length === 1 ? symbolArr[0] : symbol,
-              minUnit:
-                minUnitArr?.length > 1 ? ' ' : minUnitArr?.length === 1 ? minUnitArr[0] : minUnit,
-              owner: ownerArr?.length > 1 ? ' ' : ownerArr?.length === 1 ? ownerArr[0] : owner,
-              dstOwner:
-                dstOwnerArr?.length > 1
-                  ? ' '
-                  : dstOwnerArr?.length === 1
-                  ? dstOwnerArr[0]
-                  : dstOwner,
-              srcOwner:
-                srcOwnerArr?.length > 1
-                  ? ' '
-                  : srcOwnerArr?.length === 1
-                  ? srcOwnerArr[0]
-                  : srcOwner,
-              sender: senderArr?.length > 1 ? ' ' : senderArr?.length === 1 ? senderArr[0] : sender,
-              proposalId:
-                proposalIdArr?.length > 1
-                  ? ' '
-                  : proposalIdArr?.length === 1
-                  ? proposalIdArr[0]
-                  : proposalId,
-              option: optionArr?.length > 1 ? ' ' : optionArr?.length === 1 ? optionArr[0] : option,
-              voter: voterArr?.length > 1 ? ' ' : voterArr?.length === 1 ? voterArr[0] : voter,
-              depositor:
-                depositorArr?.length > 1
-                  ? ' '
-                  : depositorArr?.length === 1
-                  ? depositorArr[0]
-                  : depositor,
-              title,
-              signer:
-                tx.signers?.length > 1 ? ' ' : tx.signers?.length === 1 ? tx.signers[0] : '--',
-              status: tx.status,
-              msgCount: tx.msgs.length,
-              // time :Tools.getDisplayDate(tx.time),
-              Tx_Fee: '',
-              Time: Tools.formatLocalTime(tx.time),
-              amount: '',
-              swapAmount1: '',
-              swapDenomTheme1: '',
-              swapAmount2: '',
-              swapDenomTheme2: '',
-              ageTime: Tools.formatAge(
-                Tools.getTimestamp(),
-                tx.time * 1000,
-                this.$t('ExplorerLang.table.suffix')
-              ),
-              isShowMore,
-              denomTheme: {
-                denomColor: '',
-                tooltipContent: '',
-              },
-              dest_chain:
-                dest_chainArr?.length > 1
-                  ? ' '
-                  : dest_chainArr?.length === 1
-                  ? dest_chainArr[0]
-                  : dest_chain,
-              source_chain:
-                source_chainArr?.length > 1
-                  ? ' '
-                  : source_chainArr?.length === 1
-                  ? source_chainArr[0]
-                  : source_chain,
-              sequence:
-                sequenceArr?.length > 1
-                  ? ' '
-                  : sequenceArr?.length === 1
-                  ? sequenceArr[0]
-                  : sequence,
-              chain_name:
-                chain_nameArr?.length > 1
-                  ? ' '
-                  : chain_nameArr?.length === 1
-                  ? chain_nameArr[0]
-                  : chain_name,
-              // farm stake/unstake/harvest
-              poolId,
-              farmAmount,
-              farmAmountDenom,
-              farmAmountNativeDenom,
-              // farm create_pool
-              totalReward1,
-              totalReward1Denom,
-              totalReward1NativeDenom,
-              totalReward2,
-              totalReward2Denom,
-              totalReward2NativeDenom,
-              poolCreator,
-              // farm create_pool_with_community_pool
-              proposer,
-              initialDeposit,
-              // EVM智能合约
-              contractAddr:
-                tx?.contract_addrs && tx?.contract_addrs.length > 0 ? tx?.contract_addrs[0] : '--',
-              contractMethod: _contractMethod || '--',
-            });
-            /**
-             * @description: from parseTimeMixin
-             */
+        const res = await formatTxDataFn(msgType, this.txData, {
+          isShowFee: prodConfig.fee.isShowFee,
+          isShowDenom: prodConfig.fee.isShowDenom,
+          feeDecimals: decimals.fee,
+          parseTimeFn: () => {
             this.parseTime('transactionArray', 'Time', 'ageTime');
-          }
-          if (fees && fees.length > 0 && this.isShowFee) {
-            const fee = await Promise.all(fees);
-            this.transactionArray.forEach((item, index) => {
-              // this.transactionArray[index].Tx_Fee = fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--';
-              // remove denom
-              this.transactionArray[index].Tx_Fee =
-                fee[index] && fee[index].amount
-                  ? this.isShowDenom
-                    ? `${Tools.toDecimal(fee[index].amount, this.feeDecimals)}`
-                    : `${Tools.toDecimal(fee[index].amount, this.feeDecimals)}`
-                  : '--';
-            });
-          }
-          if (amounts && amounts.length > 0) {
-            const amount = await Promise.all(amounts);
-            this.denomMap = await getDenomMap();
-            this.transactionArray.forEach((item, index) => {
-              if (amount[index]?.length === 2) {
-                /**
-                 * 取 % 后面拼接的原始denom, 用来匹配theme
-                 */
-                const result1 = amount[index][0].split('%');
-                const result2 = amount[index][1].split('%');
-                this.transactionArray[index].swapDenomTheme1 = getDenomTheme(
-                  result1[1],
-                  this.denomMap
-                );
-                this.transactionArray[index].swapDenomTheme2 = getDenomTheme(
-                  result2[1],
-                  this.denomMap
-                );
-                this.transactionArray[index].swapAmount1 = this.getAmount(result1[0]);
-                this.transactionArray[index].swapAmount1Denom = this.getAmountUnit(result1[0]);
-                this.transactionArray[index].swapAmount2 = this.getAmount(result2[0]);
-                this.transactionArray[index].swapAmount2Denom = this.getAmountUnit(result2[0]);
-              } else {
-                const result = amount[index].split('%');
-                this.transactionArray[index].denomTheme = getDenomTheme(result[1], this.denomMap);
-                this.transactionArray[index].amount = this.getAmount(result[0]);
-                this.transactionArray[index].denom = this.getAmountUnit(result[0]);
-                const denom = /[A-Za-z\-]{2,15}/.exec(amount[index])?.length
-                  ? /[A-Za-z\-]{2,15}/.exec(amount[index])[0]
-                  : ' ';
-                if (denom !== undefined && /(lpt|LPT|lpt-|LPT-)/g.test(denom)) {
-                  this.transactionArray[index].amount = '';
-                } else if (/(IBC | ibc)/g.test(denom)) {
-                  this.transactionArray[index].amount = ' ';
-                  this.transactionArray[index].denom = ' ';
-                }
-              }
-              /**
-               * 目标：给farm下的farmAmount totalReward1 totalReward2 initialDeposit上色
-               * 方法：借助了farmAmountNativeDenom 用于保存原始denom,不使用转换后的symbol, totalReward同理
-               * farmAmount initalDeposit 都是用dnomeTheme
-               */
-              if (this.transactionArray[index].farmAmountDenom) {
-                this.transactionArray[index].denomTheme = getDenomTheme(
-                  this.transactionArray[index].farmAmountNativeDenom,
-                  this.denomMap
-                );
-              } else if (this.transactionArray[index].totalReward1Denom) {
-                this.transactionArray[index].swapDenomTheme1 = getDenomTheme(
-                  this.transactionArray[index].totalReward1NativeDenom,
-                  this.denomMap
-                );
-                this.transactionArray[index].swapDenomTheme2 = getDenomTheme(
-                  this.transactionArray[index].totalReward2NativeDenom,
-                  this.denomMap
-                );
-              }
-            });
-          }
-        }
-      } catch (error) {
-        console.log(error);
+          },
+        });
+        this.transactionArray = res.transactionArray;
+      } catch (e) {
+        console.log(e);
       }
     },
     async getConfigTokenData() {
       const res = await getConfig();
       this.tokenData = res.tokenData;
-    },
-    beforeDestroy() {
-      this.$store.commit('currentTxModelIndex', 0);
     },
 
     updateTxtype(param) {
