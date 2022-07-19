@@ -14,7 +14,9 @@ export default {
 
 <style scoped lang="scss">
 .spinner {
-  text-align: center;
+  width: 0.33rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .spinner > div {

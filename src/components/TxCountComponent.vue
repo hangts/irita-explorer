@@ -5,7 +5,7 @@
       <span class="tx_count_label"> {{ title }}</span>
       <span class="tx_count_number">
         <template v-if="loading">
-          <LoadingBounce />
+          <LoadingBounce class="ml-12" />
         </template>
         <template v-else>
           <router-link class="link_style" v-if="isLink" :to="`${linkRoute}/${txCount}`">
@@ -21,7 +21,7 @@
         <span class="count_item_label">{{ item.title }}</span>
         <span class="count_item_val">
           <template v-if="loading">
-            <LoadingBounce />
+            <LoadingBounce class="ml-12" />
           </template>
           <template v-else>
             {{ item.count }}
