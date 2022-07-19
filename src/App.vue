@@ -211,7 +211,7 @@ td.sender {
   color: $theme_c !important;
 }
 .el-date-table td.today.start-date span {
-  color: $theme_c !important;
+  color: $theme_c ;
 }
 .el-date-table td.start-date span {
   background-color: $theme_c !important;
