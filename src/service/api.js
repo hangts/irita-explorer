@@ -163,7 +163,7 @@ export function getTxList(params) {
     formatParams.beginTime = moment(beginTime).startOf('d').unix();
   }
   if (endTime) {
-    formatParams.endTime = moment(endTime).startOf('d').unix();
+    formatParams.endTime = moment(endTime).endOf('d').unix();
   }
 
   const queryStr = Tools.formatParams({ ...others, ...formatParams }, [null, undefined, '']);
