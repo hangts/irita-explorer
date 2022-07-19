@@ -34,6 +34,7 @@
           :icon="'iconTrainsaction'"
           :tx-count="totalTxNumber"
           :countMsgs="countMsgs"
+          :loading="countLoading"
         >
           <template v-slot:displayShowAddressSendTx>
             <address-send-and-receive-tx
@@ -113,6 +114,7 @@ export default {
       isShowDenom: prodConfig.fee.isShowDenom,
       isShowFee: prodConfig.fee.isShowFee,
       countMsgs: [],
+      countLoading: false,
     };
   },
   created() {
@@ -161,6 +163,8 @@ export default {
           useCount: true,
           ...prodConfig.txQueryKeys,
         };
+        this.countLoading = true;
+
         const res = await getAddressTxList(params);
         if (res?.count) {
           this.totalTxNumber = res.count;
@@ -171,6 +175,8 @@ export default {
         this.countMsgs = getCountMsgs(params, res);
       } catch (e) {
         console.error(e);
+      } finally {
+        this.countLoading = false;
       }
     },
     async getTxByAddress() {
