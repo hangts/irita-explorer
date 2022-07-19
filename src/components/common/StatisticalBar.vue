@@ -206,6 +206,10 @@ export default {
       moniker: '',
       proposerAddress: '',
       isChrome: window.navigator.userAgent.indexOf('Chrome') > -1,
+      HomeCardArrayDb: prodConfig.homeCard.filter((v) => v !== STATISTICAL.LATEST_BLOCK_HEIGHT),
+      HomeCardArrayNetwork: prodConfig.homeCard.filter(
+        (v) => v === STATISTICAL.LATEST_BLOCK_HEIGHT
+      ),
     };
   },
   computed: {
@@ -227,7 +231,9 @@ export default {
     },
   },
   watch: {},
-  created() {},
+  created() {
+    this.renderCard(); // created 时候，展示骨架，不会白屏
+  },
   mounted() {
     this.getNavigation();
     clearInterval(this.syncTimer);
@@ -238,19 +244,12 @@ export default {
   methods: {
     async getNavigation() {
       try {
-        const HomeCardArrayDb = prodConfig.homeCard.filter(
-          (v) => v !== STATISTICAL.LATEST_BLOCK_HEIGHT
-        );
-        const HomeCardArrayNetwork = prodConfig.homeCard.filter(
-          (v) => v === STATISTICAL.LATEST_BLOCK_HEIGHT
-        );
-
-        const statisticsDb = await getDbStatistics(HomeCardArrayDb).catch((e) => {
+        const statisticsDb = await getDbStatistics(this.HomeCardArrayDb).catch((e) => {
           console.log(e, '接口报错');
         });
 
         if (statisticsDb) {
-          HomeCardArrayDb.forEach(async (item) => {
+          this.HomeCardArrayDb.forEach(async (item) => {
             const itemObj = this.navigationObj[item];
             switch (item) {
               case STATISTICAL.TRANSACTIONS_ID:
@@ -340,9 +339,11 @@ export default {
           });
         }
 
-        const statisticsNetwork = await getNetworkStatistics(HomeCardArrayNetwork).catch((e) => {
-          console.log(e, '接口报错');
-        });
+        const statisticsNetwork = await getNetworkStatistics(this.HomeCardArrayNetwork).catch(
+          (e) => {
+            console.log(e, '接口报错');
+          }
+        );
 
         if (statisticsNetwork) {
           this.validatorHeaderImgHref = '';
@@ -363,7 +364,7 @@ export default {
           }
           this.proposerAddress = statisticsNetwork.operator_addr;
           this.currentBlockHeight = statisticsNetwork.blockHeight;
-          for (const item of HomeCardArrayDb) {
+          for (const item of this.HomeCardArrayDb) {
             const itemObj = this.navigationObj[item];
             switch (item) {
               case STATISTICAL.TRANSACTIONS_ID:
@@ -375,36 +376,39 @@ export default {
           }
         }
 
-        // 之前定义在data里，不需要
-        // 数据清空
-        const navigationArrayDbNet = [];
-
-        // 重新赋值
-        HomeCardArrayDb.forEach((item) => {
-          const itemObj = this.navigationObj[item];
-          navigationArrayDbNet.push(itemObj);
-        });
-
-        // 区块高度如何展示：unshift作为card展示，正常左右结构展示
-        if (!moduleSupport('107', prodConfig.navFuncList)) {
-          navigationArrayDbNet.unshift({
-            id: 200,
-            iconClass: 'iconfont iconBlocks',
-            label: this.$t('ExplorerLang.home.blockHeight'),
-            footerLabel: '',
-            value: this.currentBlockHeight,
-            to: `/block/${this.currentBlockHeight}`,
-          });
-        }
-
-        // 赋值重新渲染
-        this.navigationArray = navigationArrayDbNet;
+        this.renderCard();
       } catch (err) {
         console.error(err);
       }
     },
     imgLoadError() {
       this.validatorHeaderImgHref = '';
+    },
+    renderCard() {
+      // 之前定义在data里，不需要
+      // 数据清空
+      const navigationArrayDbNet = [];
+
+      // 重新赋值
+      this.HomeCardArrayDb.forEach((item) => {
+        const itemObj = this.navigationObj[item];
+        navigationArrayDbNet.push(itemObj);
+      });
+
+      // 区块高度如何展示：unshift作为card展示，正常左右结构展示
+      if (!moduleSupport('107', prodConfig.navFuncList)) {
+        navigationArrayDbNet.unshift({
+          id: 200,
+          iconClass: 'iconfont iconBlocks',
+          label: this.$t('ExplorerLang.home.blockHeight'),
+          footerLabel: '',
+          value: this.currentBlockHeight,
+          to: `/block/${this.currentBlockHeight}`,
+        });
+      }
+
+      // 赋值重新渲染
+      this.navigationArray = navigationArrayDbNet;
     },
   },
   destroyed() {
