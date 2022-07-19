@@ -36,6 +36,7 @@
             :icon="'iconTrainsaction'"
             :tx-count="txCount"
             :countMsgs="countMsgs"
+            :loading="countLoading"
           ></tx-count-component>
         </template>
       </list-component>
@@ -140,6 +141,7 @@ export default {
       isShowIbc: false,
       isShowHashLock: false,
       countMsgs: [], // 写成数组为了后面拓展
+      countLoading: false,
     };
   },
   async created() {
@@ -250,6 +252,7 @@ export default {
         params = { ...params, ...otherParams };
       }
       try {
+        this.countLoading = true;
         const res = await getTxList(params);
         if (params.useCount) {
           this.txCount = res.count;
@@ -259,6 +262,8 @@ export default {
       } catch (e) {
         console.error(e);
         // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
+      } finally {
+        this.countLoading = false;
       }
     },
     async getAllTxType() {
