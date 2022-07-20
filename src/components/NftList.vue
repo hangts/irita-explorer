@@ -18,7 +18,7 @@
 			@pageChange="pageChange"
 		  >
 			  <template v-slot:txCount>
-				  <tx-count-component :title="allCount > 1 && isShowPlurality ? $t('ExplorerLang.nftAsset.subTitles') : $t('ExplorerLang.nftAsset.subTitle')" :icon="'iconNFT'" :tx-count="allCount"></tx-count-component>
+				  <tx-count-component :title="allCount > 1  ? $t('ExplorerLang.nftAsset.subTitles') : $t('ExplorerLang.nftAsset.subTitle')" :icon="'iconNFT'" :tx-count="allCount"></tx-count-component>
 			  </template>
 			  <template v-slot:resetButton>
 				  <nft-reset-button-component @resetFilterCondition="resetFilterCondition"></nft-reset-button-component>
@@ -141,11 +141,6 @@ export default {
     if (this.$store.state.tempDenomId) {
       this.$store.commit('SET_TEMP_DENOM_ID', '')
     }
-  },
-  computed: {
-    isShowPlurality() {
-      return productionConfig.lang === 'EN'
-    },
   },
   methods: {
     startStr(url) {
