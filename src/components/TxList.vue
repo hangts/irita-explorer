@@ -10,7 +10,11 @@
         :token-symbol="mainTokenSymbol"
         :list-data="transactionArray"
         :column-list="txColumnList"
-        :pagination="{ pageSize: Number(pageSize), dataCount: txCount, pageNum: Number(pageNum) }"
+        :pagination="{
+          pageSize: Number(pageSize),
+          dataCount: Number(txCount) || 0,
+          pageNum: Number(pageNum),
+        }"
         @pageChange="pageChange"
         :empty-text="$t('ExplorerLang.table.emptyDescription')"
       >
@@ -216,17 +220,22 @@ export default {
     },
     async getTxListData(pageNum, pageSize) {
       this.isLoading = true;
+
       const { txType, status, beginTime, endTime } = Tools.urlParser();
       let params = { type: txType, status, beginTime, endTime };
       if (pageNum && pageSize) {
         params = { ...params, pageNum, pageSize };
       }
+
+      // 先清空数据
+      this.txData = [];
+      this.formatTxData(txType);
+
       try {
         const res = await getTxList(params);
         if (Number(this.pageNum) === Number(res.pageNum)) {
           this.txData = res.data;
           this.formatTxData(txType);
-          this.isLoading = false;
         }
         if (pageNum) {
           this.pageNum = res.pageNum;
@@ -235,9 +244,9 @@ export default {
           this.pageSize = res.pageSize;
         }
       } catch (e) {
+        this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
+      } finally {
         this.isLoading = false;
-        console.error(e);
-        // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
       }
     },
     async getTxListDataCount(
@@ -253,6 +262,10 @@ export default {
       }
       try {
         this.countLoading = true;
+        // 先清空数据
+        this.txCount = '--';
+        this.countMsgs = getCountMsgs(params, {});
+
         const res = await getTxList(params);
         if (params.useCount) {
           this.txCount = res.count;
@@ -260,7 +273,6 @@ export default {
 
         this.countMsgs = getCountMsgs(params, res);
       } catch (e) {
-        console.error(e);
         // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
       } finally {
         this.countLoading = false;

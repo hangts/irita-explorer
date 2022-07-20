@@ -8,7 +8,11 @@
           <LoadingBounce class="ml-12" />
         </template>
         <template v-else>
-          <router-link class="link_style" v-if="isLink" :to="`${linkRoute}/${txCount}`">
+          <router-link
+            class="link_style"
+            v-if="isLink && txCount !== '--'"
+            :to="`${linkRoute}/${txCount}`"
+          >
             {{ txCount }}
           </router-link>
           <span v-else>{{ txCount }}</span>
@@ -43,7 +47,7 @@ export default {
   name: 'TxCountComponent',
   props: {
     txCount: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     },
     icon: {
