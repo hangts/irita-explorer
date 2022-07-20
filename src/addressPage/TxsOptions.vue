@@ -148,8 +148,6 @@ export default {
         this.transactionArray = res.transactionArray;
       } catch (e) {
         console.log(e);
-      } finally {
-        this.isAddressTxLoading = false;
       }
     },
     async getTxByAddressCount() {
@@ -207,6 +205,8 @@ export default {
       } catch (e) {
         console.error(e);
         this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
+      } finally {
+        this.isAddressTxLoading = false;
       }
     },
     async getAllTxType() {
