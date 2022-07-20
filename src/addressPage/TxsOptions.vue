@@ -7,7 +7,7 @@
     :column-list="txColumnList"
     :pagination="{
       pageSize: Number(pageSize),
-      dataCount: totalTxNumber,
+      dataCount: Number(totalTxNumber) || 0,
       pageNum: Number(pageNum),
     }"
     @pageChange="pageChange"
@@ -34,6 +34,7 @@
           :icon="'iconTrainsaction'"
           :tx-count="totalTxNumber"
           :countMsgs="countMsgs"
+          :loading="countLoading"
         >
           <template v-slot:displayShowAddressSendTx>
             <address-send-and-receive-tx
@@ -113,6 +114,7 @@ export default {
       isShowDenom: prodConfig.fee.isShowDenom,
       isShowFee: prodConfig.fee.isShowFee,
       countMsgs: [],
+      countLoading: false,
     };
   },
   created() {
@@ -151,16 +153,21 @@ export default {
       }
     },
     async getTxByAddressCount() {
+      const params = {
+        address: this.$route.params.param,
+        type: this.type,
+        status: this.status,
+        pageNum: null,
+        pageSize: null,
+        useCount: true,
+        ...prodConfig.txQueryKeys,
+      };
       try {
-        const params = {
-          address: this.$route.params.param,
-          type: this.type,
-          status: this.status,
-          pageNum: null,
-          pageSize: null,
-          useCount: true,
-          ...prodConfig.txQueryKeys,
-        };
+        this.countLoading = true;
+        // 先清空数据
+        this.totalTxNumber = '--';
+        this.countMsgs = getCountMsgs(params, {});
+
         const res = await getAddressTxList(params);
         if (res?.count) {
           this.totalTxNumber = res.count;
@@ -171,10 +178,16 @@ export default {
         this.countMsgs = getCountMsgs(params, res);
       } catch (e) {
         console.error(e);
+      } finally {
+        this.countLoading = false;
       }
     },
     async getTxByAddress() {
       this.isAddressTxLoading = true;
+      // 先清空数据
+      this.txList = [];
+      this.formatTxData(this.type);
+
       try {
         const res = await getAddressTxList({
           address: this.$route.params.param,
@@ -192,10 +205,7 @@ export default {
         }
         this.formatTxData(this.type);
       } catch (e) {
-        this.txList = [];
-        this.formatTxData(this.type);
         console.error(e);
-
         this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
       }
     },

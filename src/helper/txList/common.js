@@ -654,7 +654,7 @@ export const formatTxDataFn = async (
   };
 };
 
-export const getCountMsgs = (params, response) => {
+export const getCountMsgs = (params, response, options = { errorText: '--' }) => {
   const res = [];
 
   if (prodConfig.txQueryKeys && Object.keys(prodConfig.txQueryKeys).length) {
@@ -668,15 +668,15 @@ export const getCountMsgs = (params, response) => {
       },
     ];
     countKey
-      .filter((v) => queryKey.includes(v.queryKey))
+      .filter((v) => queryKey.includes(v.queryKey)) // 所有配置的展示项
+      .filter((v) => params[v.queryKey]) // 配置为true，请求，并且展示
       .forEach((v) => {
-        if (params[v.queryKey]) {
-          res.push({
-            title: v.title,
-            count: response[v.resKey] || 0,
-            icon: v.icon,
-          });
-        }
+        res.push({
+          title: v.title,
+          count:
+            response[v.resKey] || response[v.resKey] === 0 ? response[v.resKey] : options.errorText,
+          icon: v.icon,
+        });
       });
   }
   return res;

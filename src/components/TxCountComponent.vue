@@ -4,17 +4,33 @@
       <span :class="`iconfont ${icon}`"></span>
       <span class="tx_count_label"> {{ title }}</span>
       <span class="tx_count_number">
-        <router-link class="link_style" v-if="isLink" :to="`${linkRoute}/${txCount}`">
-          {{ txCount }}
-        </router-link>
-        <span v-else>{{ txCount }}</span>
+        <template v-if="loading">
+          <LoadingBounce class="ml-12" />
+        </template>
+        <template v-else>
+          <router-link
+            class="link_style"
+            v-if="isLink && txCount !== '--'"
+            :to="`${linkRoute}/${txCount}`"
+          >
+            {{ txCount }}
+          </router-link>
+          <span v-else>{{ txCount }}</span>
+        </template>
       </span>
     </div>
     <div class="count_item_wrap">
       <div v-for="(item, index) in countMsgs" :key="index" class="count_item">
         <span :class="`iconfont ${item.icon}`"></span>
         <span class="count_item_label">{{ item.title }}</span>
-        <span class="count_item_val">{{ item.count }}</span>
+        <span class="count_item_val">
+          <template v-if="loading">
+            <LoadingBounce class="ml-12" />
+          </template>
+          <template v-else>
+            {{ item.count }}
+          </template>
+        </span>
       </div>
     </div>
     <div class="show_address_send_tx_content">
@@ -24,11 +40,14 @@
 </template>
 
 <script>
+import LoadingBounce from '@/components/common/LoadingBounce';
+
 export default {
+  components: { LoadingBounce },
   name: 'TxCountComponent',
   props: {
     txCount: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     },
     icon: {
@@ -50,6 +69,10 @@ export default {
     countMsgs: {
       type: Array,
       default: () => [],
+    },
+    loading: {
+      type: Boolean,
+      default: false,
     },
   },
 };
