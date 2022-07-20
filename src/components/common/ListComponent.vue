@@ -410,8 +410,9 @@
           </div>
         </div>
         <div class="pagination_container">
+          <!--总分页和列表数据是请求两个接口，如果列表请求还没数据，分页也不展示。（列表请求需要每次请求先清空之前数据）-->
           <m-pagination
-            v-show="dataCount !== 0"
+            v-show="dataCount !== 0 && tableList && tableList.length > 0"
             :page-size="pageSize"
             :total="dataCount"
             :page="pageNum"

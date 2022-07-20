@@ -48,6 +48,7 @@ export default {
 <style lang="scss">
 @import 'style/index.css';
 @import 'style/base.css';
+@import 'style/ele.css';
 @font-face {
   font-family: PublicSans;
   src: url('./font/PublicSans-Regular-14.otf');
