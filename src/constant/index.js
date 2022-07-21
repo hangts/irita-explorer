@@ -572,7 +572,7 @@ export default {
 };
 
 export const monikerNum = {
-  validatorList: 8,
+  validatorList: 11,
   home: 12,
   otherTable: 11,
 };
