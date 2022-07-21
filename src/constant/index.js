@@ -578,7 +578,7 @@ export const monikerNum = {
 };
 
 export const NFT_AND_DENOM_SPLIT_NUM = {
-  num: 8,
+  num: 11,
   uriNum: 20,
 };
 

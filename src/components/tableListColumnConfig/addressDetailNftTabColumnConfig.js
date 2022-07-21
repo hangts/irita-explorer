@@ -21,7 +21,7 @@ export default [
     linkRoute: '/nft/token?denom=',
     denomRouter: '&tokenId=',
     isNeedFormat: true,
-    isFormatNftIdAndDenomId: true,
+    isFormatAddress: true
   },
   {
     label: i18n.t('ExplorerLang.table.denomId'),
