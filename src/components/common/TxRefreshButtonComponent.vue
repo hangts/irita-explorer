@@ -1,28 +1,23 @@
 <template>
-  <el-tooltip :content="$t('ExplorerLang.resetButtonTooltip')">
-    <button class="ref_content" @click="resetParams">
+  <el-tooltip :content="$t('ExplorerLang.refreshButtonTooltip')">
+    <button class="ref_content" @click="refreshParams">
 <!--      <i class="iconfont iconzhongzhi"></i>-->
       <div class="iconfont"></div>
       <div class="iconfont_white"></div>
-      <span class="reset_button_label">{{ $t('ExplorerLang.resetButton') }}</span>
+      <span class="refresh_button_label">{{$t('ExplorerLang.refreshButton')}}</span>
     </button>
   </el-tooltip>
 </template>
 
 <script>
 export default {
-  name: 'TxResetButtonComponent',
-  methods: {
-    resetParams() {
-      /* this.statusTypes.forEach(item => {
-				item.isActive = false
-			})
-			this.statusTypes[0].isActive = true
-			this.value = [] */
-      this.$emit('resetParams', '');
-    },
-  },
-};
+  name: "TxRefreshButtonComponent",
+  methods:{
+    refreshParams(){
+      this.$emit('refreshParams', '');
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -38,12 +33,7 @@ export default {
   flex-direction: row;
   align-items: center;
   height: 0.32rem;
-  margin-left: 0.1rem;
-  @media (max-width: 460px) {
-    margin-top: 0.08rem;
-    margin-left: 0;
-  }
-  &:hover {
+  &:hover{
     background: $theme_c;
     color: #fff;
     .iconfont{
@@ -53,21 +43,19 @@ export default {
       display: block;
     }
   }
-
-  .iconfont {
+  .iconfont{
     width: 0.12rem;
     height: 0.12rem;
-    background: url("../../assets/reset.png") center center/cover;
+    background: url("../../assets/refresh.png") center center/cover;
     display: block;
   }
   .iconfont_white{
     display: none;
     width: 0.12rem;
     height: 0.12rem;
-    background: url("../../assets/reset-white.png") center center/cover;
+    background: url("../../assets/refresh-white.png") center center/cover;
   }
-
-  .reset_button_label {
+  .refresh_button_label{
     margin-left: 0.09rem;
   }
 }

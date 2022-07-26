@@ -1,6 +1,10 @@
 import prodConfig from '../src/productionConfig';
 
 export const ExplorerLang = {
+  resetButton:'Reset',
+  resetButtonTooltip:'Reset query criteria',
+  refreshButton:'Refresh',
+  refreshButtonTooltip:'Refresh query results',
   common: {
     allTxStatus: 'All Status',
     success: 'Success',

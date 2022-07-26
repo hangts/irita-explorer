@@ -3940,11 +3940,11 @@ export default {
         },
         {
           label: this.$t('ExplorerLang.transactionInformation.asset.initialSupply'),
-          value: msg.max_supply,
+          value: msg.initial_supply,
         },
         {
           label: this.$t('ExplorerLang.transactionInformation.asset.maxSupply'),
-          value: msg.update_restricted,
+          value: msg.max_supply,
         },
         {
           label: this.$t('ExplorerLang.transactionInformation.asset.mintable'),

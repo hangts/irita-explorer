@@ -18,6 +18,9 @@
     <template v-slot:resetButton>
       <tx-reset-button-component @resetParams="resetFilterCondition"></tx-reset-button-component>
     </template>
+    <template v-slot:refreshButton>
+      <tx-refresh-button-component @refreshParams="refreshCondition"></tx-refresh-button-component>
+    </template>
 
     <template v-slot:datePicket>
       <tx-status-tabs-components
@@ -66,10 +69,12 @@ import SignerColunmn from '@/components/tableListColumnConfig/SignerColunmn';
 import txCommonLatestTable from '@/components/tableListColumnConfig/txCommonLatestTable';
 import { needAddColumn } from '@/components/tableListColumnConfig/allTxTableColumnConfig';
 import { formatTxDataFn, getCountMsgs } from '@/helper/txList/common';
+import TxRefreshButtonComponent from "../components/common/TxRefreshButtonComponent";
 
 export default {
   name: 'TxsOptions',
   components: {
+    TxRefreshButtonComponent,
     AddressSendAndReceiveTx,
     TxCountComponent,
     TxStatusTabsComponents,
@@ -258,6 +263,10 @@ export default {
       }
       this.totalTxNumber = 0;
       this.pageNum = 1;
+      this.getTxByAddressCount();
+      this.getTxByAddress();
+    },
+    refreshCondition(){
       this.getTxByAddressCount();
       this.getTxByAddress();
     },

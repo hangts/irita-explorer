@@ -3,7 +3,7 @@
     <div class="denom_list_content_wrap">
       <div class="denom_list_header_content">
         <h3 class="denom_list_header_title">
-          {{ $t("ExplorerLang.denom.mainTitle") }}
+          {{ $t('ExplorerLang.denom.mainTitle') }}
         </h3>
         <!--<el-input v-model="input" @change="handleSearchClick" :placeholder="$t('ExplorerLang.denom.placeHolder')"></el-input>-->
         <!--<div class="tx_type_mobile_content">
@@ -17,26 +17,41 @@
       </div>
       <div class="nef_list_table_container">
         <list-component
-			:empty-text="$t('ExplorerLang.table.emptyDescription')"
-            :is-loading="isDenomListLoading"
-            :list-data="denomList"
-            :column-list="denomListColumn"
-            :pagination="{pageSize:Number(pageSize),dataCount:count,pageNum:Number(pageNum)}"
-            @pageChange="pageChange"
+          :empty-text="$t('ExplorerLang.table.emptyDescription')"
+          :is-loading="isDenomListLoading"
+          :list-data="denomList"
+          :column-list="denomListColumn"
+          :pagination="{ pageSize: Number(pageSize), dataCount: count, pageNum: Number(pageNum) }"
+          @pageChange="pageChange"
         >
           <template v-slot:txCount>
-            <tx-count-component :title="count > 1 && isShowPlurality ? $t('ExplorerLang.denom.subTitles') : $t('ExplorerLang.denom.subTitle')" :icon="'iconDenom'" :tx-count="count"></tx-count-component>
+            <tx-count-component
+              :title="
+                count > 1 && isShowPlurality
+                  ? $t('ExplorerLang.denom.subTitles')
+                  : $t('ExplorerLang.denom.subTitle')
+              "
+              :icon="'iconDenom'"
+              :tx-count="count"
+            ></tx-count-component>
           </template>
-			<template v-slot:resetButton>
-				<nft-reset-button-component @resetFilterCondition="resetFilterCondition"></nft-reset-button-component>
-			</template>
+          <template v-slot:resetButton>
+            <nft-reset-button-component
+              @resetFilterCondition="resetFilterCondition"
+            ></nft-reset-button-component>
+          </template>
+          <template v-slot:refreshButton>
+            <tx-refresh-button-component @refreshParams="refreshCondition"></tx-refresh-button-component>
+          </template>
           <template v-slot:datePicket>
-              <nft-search-component
-                  :input-placeholder="$t('ExplorerLang.denom.placeHolder')"
-                  @searchInput="handleSearchClick" ref="denomSearchNode"></nft-search-component>
+            <nft-search-component
+              :input-placeholder="$t('ExplorerLang.denom.placeHolder')"
+              @searchInput="handleSearchClick"
+              ref="denomSearchNode"
+            ></nft-search-component>
           </template>
         </list-component>
-       <!-- <el-table class="table table_overflow_x" :data="denomList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+        <!-- <el-table class="table table_overflow_x" :data="denomList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
           <el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')">
             <template slot-scope="scope">
               {{ scope.row.denomName }}
@@ -81,98 +96,102 @@
           <m-pagination :page-size="pageSize" :total="count" :page="pageNum" :page-change="pageChange">
           </m-pagination>
         </keep-alive>-->
-
-
-
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getDenoms } from "../service/api";
-import Tools from "../util/Tools";
-import MPagination from "./common/MPagination";
-import { ColumnMinWidth } from "../constant";
-import productionConfig from "@/productionConfig.js";
-import parseTimeMixin from "../mixins/parseTime";
-import ListComponent from "./common/ListComponent";//新增
-import denomListColumnConfig from "./tableListColumnConfig/denomListColumnConfig";
-import TxCountComponent from "./TxCountComponent";
-import NftSearchComponent from "./common/NftSearchComponent";
-import NftResetButtonComponent from "./common/NftResetButtonComponent";
+import productionConfig from '@/productionConfig.js';
+import { getDenoms } from '../service/api';
+import Tools from '../util/Tools';
+import MPagination from './common/MPagination';
+import { ColumnMinWidth } from '../constant';
+import parseTimeMixin from '../mixins/parseTime';
+import ListComponent from './common/ListComponent'; // 新增
+import denomListColumnConfig from './tableListColumnConfig/denomListColumnConfig';
+import TxCountComponent from './TxCountComponent';
+import NftSearchComponent from './common/NftSearchComponent';
+import NftResetButtonComponent from './common/NftResetButtonComponent';
+import TxRefreshButtonComponent from "./common/TxRefreshButtonComponent";
+
 export default {
-  name: "DenomList",
-  components: {NftResetButtonComponent, NftSearchComponent, MPagination,ListComponent,TxCountComponent },//新增
+  name: 'DenomList',
+  components: {
+    TxRefreshButtonComponent,
+    NftResetButtonComponent,
+    NftSearchComponent,
+    MPagination,
+    ListComponent,
+    TxCountComponent,
+  }, // 新增
   mixins: [parseTimeMixin],
   data() {
     return {
-      isDenomListLoading:false,//新增
-      denomListColumn:[],//新增的
+      isDenomListLoading: false, // 新增
+      denomListColumn: [], // 新增的
       ColumnMinWidth,
       denomList: [],
-      value: "all",
-      denom: "",
+      value: 'all',
+      denom: '',
       pageNum: 1,
       pageSize: 10,
-      input: "",
-      count: 0
+      input: '',
+      count: 0,
     };
   },
   mounted() {
-    this.denomListColumn = denomListColumnConfig
+    this.denomListColumn = denomListColumnConfig;
     this.getDenoms();
     this.getDenomsCount();
   },
   computed: {
     isShowPlurality() {
-      return productionConfig.lang === "EN";
-    }
+      return productionConfig.lang === 'EN';
+    },
   },
   methods: {
+    refreshCondition(){
+      this.getDenoms();
+      this.getDenomsCount();
+    },
     resetFilterCondition() {
-      this.input = "";
+      this.input = '';
       this.pageNum = 1;
       this.getDenomsCount();
       this.getDenoms();
-      this.$refs.denomSearchNode.resetFilterCondition()
+      this.$refs.denomSearchNode.resetFilterCondition();
     },
     handleNftCountClick(denomId) {
       this.$router.push(`/nftAsset?denomId=${denomId}`);
-      this.$store.commit("SET_TEMP_DENOM_ID", denomId);
+      this.$store.commit('SET_TEMP_DENOM_ID', denomId);
     },
     pageChange(pageNum) {
       this.pageNum = pageNum;
       this.getDenoms();
     },
     handleSearchClick(input) {
-      this.input = input
+      this.input = input;
       this.pageNum = 1;
       this.getDenomsCount();
       this.getDenoms();
     },
     async getDenoms() {
-        this.isDenomListLoading = true
+      this.isDenomListLoading = true;
       try {
-        const res = await getDenoms(
-          this.pageNum,
-          this.pageSize,
-          false,
-          false,
-          this.input
-        );
+        const res = await getDenoms(this.pageNum, this.pageSize, false, false, this.input);
         if (res && res.data && Array.isArray(res.data) && res.data.length > 0) {
-          this.denomList = res.data.map(denom => {
+          this.denomList = res.data.map((denom) => {
             return {
               denomId: denom.denomId,
               denomName: denom.denomName || denom.denomId,
               hash: denom.hash,
-	            nftCount: denom.nftCount,
+              nftCount: denom.nftCount,
               sender: denom.sender,
               time: Tools.formatAge(
                 Tools.getTimestamp(),
                 denom.time * 1000,
-                this.$t("ExplorerLang.table.suffix")
+                this.$t('ExplorerLang.table.suffix')
               ),
               Time: Tools.formatLocalTime(denom.time),
             };
@@ -180,15 +199,15 @@ export default {
           /**
            * @description: from parseTimeMixin
            */
-          this.parseTime("denomList", "Time", "time");
+          this.parseTime('denomList', 'Time', 'time');
           this.pageSize = res.pageSize;
           this.pageNum = res.pageNum;
         } else {
-            this.denomList = [];
+          this.denomList = [];
         }
-        this.isDenomListLoading = false//新增
+        this.isDenomListLoading = false; // 新增
       } catch (e) {
-          this.isDenomListLoading = false//新增
+        this.isDenomListLoading = false; // 新增
         console.error(e);
       }
     },
@@ -198,7 +217,7 @@ export default {
         if (res?.count) {
           this.count = res.count;
         } else {
-          this.count = 0
+          this.count = 0;
         }
       } catch (error) {
         console.error(error);
@@ -209,8 +228,8 @@ export default {
     },
     formatTxHash(hash) {
       return Tools.formatTxHash(hash);
-    }
-  }
+    },
+  },
 };
 </script>
 
