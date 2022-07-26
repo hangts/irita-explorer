@@ -3941,7 +3941,7 @@ export default {
         {
           label: this.$t('ExplorerLang.transactionInformation.asset.initialSupply'),
           value: msg.initial_supply,
-        }
+        },
         {
           label: this.$t('ExplorerLang.transactionInformation.asset.maxSupply'),
           value: msg.max_supply,
