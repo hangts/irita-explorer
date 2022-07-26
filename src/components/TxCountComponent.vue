@@ -137,7 +137,7 @@ export default {
     margin-right: 0.08rem;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 860px) {
   .count_item {
     margin-top: 0.14rem;
     margin-left: 0;

@@ -32,6 +32,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+  height: 0.32rem;
   &:hover{
     background: $theme_c;
     color: #fff;

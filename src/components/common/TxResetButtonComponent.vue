@@ -37,6 +37,12 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+  height: 0.32rem;
+  margin-left: 0.1rem;
+  @media (max-width: 460px) {
+    margin-top: 0.08rem;
+    margin-left: 0;
+  }
   &:hover {
     background: $theme_c;
     color: #fff;

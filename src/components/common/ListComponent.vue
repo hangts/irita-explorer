@@ -1024,10 +1024,11 @@ export default {
       display: flex;
       justify-content: space-between;
       .button_wrap{
-        display: grid;
-        grid-column-gap: 0.1rem;
-        grid-template-columns: repeat(2,auto);
-        grid-template-rows: repeat(1,auto);
+        display: flex;
+        flex-direction: row;
+        @media (max-width: 460px) {
+          flex-direction: column;
+        }
       }
       @media (max-width: 1150px) {
       }

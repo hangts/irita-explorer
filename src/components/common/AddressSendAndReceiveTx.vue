@@ -75,10 +75,10 @@ export default {
     padding: 0.05rem 0.08rem;
     background: rgba(249, 249, 249, 1);
     border-radius: 0.06rem;
-    //@media (max-width: 500px) {
-    //  flex-direction: column;
-    //  align-items: flex-start;
-    //}
+    @media (max-width: 560px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
 
     .address_send_tx_content {
       .address_send_tx_label {
@@ -103,9 +103,9 @@ export default {
           background: rgba(227, 227, 227, 1);
           margin: 0 0.11rem;
           display: block;
-          //@media (max-width: 500px) {
-          //  display: none;
-          //}
+          @media (max-width: 560px) {
+            display: none;
+          }
         }
       }
 
