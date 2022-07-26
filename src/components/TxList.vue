@@ -5,45 +5,47 @@
         <p class="tc_content_header">{{ $t('ExplorerLang.transactions.title') }}</p>
       </div>
       <list-component
-          :is-show-token-type="true"
-          :is-loading="isLoading"
-          :token-symbol="mainTokenSymbol"
-          :list-data="transactionArray"
-          :column-list="txColumnList"
-          :pagination="{
+        :is-show-token-type="true"
+        :is-loading="isLoading"
+        :token-symbol="mainTokenSymbol"
+        :list-data="transactionArray"
+        :column-list="txColumnList"
+        :pagination="{
           pageSize: Number(pageSize),
           dataCount: Number(txCount) || 0,
           pageNum: Number(pageNum),
         }"
-          @pageChange="pageChange"
-          :empty-text="$t('ExplorerLang.table.emptyDescription')"
+        @pageChange="pageChange"
+        :empty-text="$t('ExplorerLang.table.emptyDescription')"
       >
         <template v-slot:msgType>
           <tabs-component :tab-list="txTypeOption" @onSelectMagType="getFilterTxs"></tabs-component>
         </template>
         <template v-slot:resetButton>
           <tx-reset-button-component
-              @resetParams="resetFilterCondition"
+            @resetParams="resetFilterCondition"
           ></tx-reset-button-component>
         </template>
         <template v-slot:refreshButton>
-          <tx-refresh-button-component @refreshParams="refreshCondition"></tx-refresh-button-component>
+          <tx-refresh-button-component
+            @refreshParams="refreshCondition"
+          ></tx-refresh-button-component>
         </template>
 
         <template v-slot:datePicket>
           <tx-status-tabs-components
-              @onChangTxStatus="changeTxStatus"
-              @onChangeDate="changeTime"
-              ref="statusDatePicker"
+            @onChangTxStatus="changeTxStatus"
+            @onChangeDate="changeTime"
+            ref="statusDatePicker"
           ></tx-status-tabs-components>
         </template>
         <template v-slot:txCount>
           <tx-count-component
-              :title="$t('ExplorerLang.transactions.txs')"
-              :icon="'iconTrainsaction'"
-              :tx-count="txCount"
-              :countMsgs="countMsgs"
-              :loading="countLoading"
+            :title="$t('ExplorerLang.transactions.txs')"
+            :icon="'iconTrainsaction'"
+            :tx-count="txCount"
+            :countMsgs="countMsgs"
+            :loading="countLoading"
           ></tx-count-component>
         </template>
       </list-component>
@@ -52,14 +54,14 @@
 </template>
 
 <script>
-import {addressRoute, formatMoniker, getMainToken, getConfig} from '@/helper/IritaHelper';
+import { addressRoute, formatMoniker, getMainToken, getConfig } from '@/helper/IritaHelper';
 import TxTypes from '@/helper/TxTypes';
-import {formatTxDataFn, getCountMsgs} from '@/helper/txList/common';
+import { formatTxDataFn, getCountMsgs } from '@/helper/txList/common';
 import Tools from '../util/Tools';
 import MPagination from './common/MPagination';
 import TxListComponent from './common/TxListComponent';
-import {TxHelper} from '../helper/TxHelper';
-import {getTxList} from '../service/api';
+import { TxHelper } from '../helper/TxHelper';
+import { getTxList } from '../service/api';
 import {
   TX_TYPE,
   TX_STATUS,
@@ -76,7 +78,7 @@ import TabsComponent from './common/TabsComponent';
 import TxStatusTabsComponents from './common/TxStatusTabsComponents';
 import TxCountComponent from './TxCountComponent';
 import TxResetButtonComponent from './common/TxResetButtonComponent';
-import {getColumnByTxTyp} from './tableListColumnConfig/common';
+import { getColumnByTxTyp } from './tableListColumnConfig/common';
 import TxRefreshButtonComponent from './common/TxRefreshButtonComponent';
 
 export default {
@@ -93,7 +95,7 @@ export default {
   },
   mixins: [parseTimeMixin],
   data() {
-    const {txType, status, beginTime, endTime, pageNum, pageSize} = Tools.urlParser();
+    const { txType, status, beginTime, endTime, pageNum, pageSize } = Tools.urlParser();
     return {
       isLoading: false,
       IBC: 'IBC',
@@ -101,7 +103,7 @@ export default {
       PickerOptions: {
         disabledDate: (time) => {
           return (
-              time.getTime() < new Date(this.pickerStartTime).getTime() || time.getTime() > Date.now()
+            time.getTime() < new Date(this.pickerStartTime).getTime() || time.getTime() > Date.now()
           );
         },
       },
@@ -185,20 +187,20 @@ export default {
       this.pageNum = 1;
 
       const url = this.stringifyUrl(
-          '/#/txs',
-          {
-            pageNum: this.pageNum,
-            pageSize: this.pageSize,
-            txType: this.txType,
-            status: this.statusValue,
-            beginTime: this.beginTime,
-            endTime: this.endTime,
-          },
-          [undefined, null, 0, '']
+        '/#/txs',
+        {
+          pageNum: this.pageNum,
+          pageSize: this.pageSize,
+          txType: this.txType,
+          status: this.statusValue,
+          beginTime: this.beginTime,
+          endTime: this.endTime,
+        },
+        [undefined, null, 0, '']
       );
 
       param === 'init' ? history.replaceState(null, null, url) : history.pushState(null, null, url);
-      this.getTxListDataCount({useCount: true, ...prodConfig.txQueryKeys});
+      this.getTxListDataCount({ useCount: true, ...prodConfig.txQueryKeys });
       this.getTxListData(this.pageNum, this.pageSize);
     },
     /* filterTxByTxType(e){
@@ -218,18 +220,18 @@ export default {
       this.endTime = '';
       sessionStorage.setItem('currentChoiceMsgType', JSON.stringify(this.txType));
       history.pushState(
-          null,
-          null,
-          `/#/txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&useCount=true`
+        null,
+        null,
+        `/#/txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&useCount=true`
       );
     },
     async getTxListData(pageNum, pageSize) {
       this.isLoading = true;
 
-      const {txType, status, beginTime, endTime} = Tools.urlParser();
-      let params = {type: txType, status, beginTime, endTime};
+      const { txType, status, beginTime, endTime } = Tools.urlParser();
+      let params = { type: txType, status, beginTime, endTime };
       if (pageNum && pageSize) {
-        params = {...params, pageNum, pageSize};
+        params = { ...params, pageNum, pageSize };
       }
 
       // 先清空数据
@@ -255,15 +257,15 @@ export default {
       }
     },
     async getTxListDataCount(
-        otherParams = {
-          useCount: false,
-          countMsg: false,
-        }
+      otherParams = {
+        useCount: false,
+        countMsg: false,
+      }
     ) {
-      const {txType, status, beginTime, endTime} = Tools.urlParser();
-      let params = {type: txType, status, beginTime, endTime};
+      const { txType, status, beginTime, endTime } = Tools.urlParser();
+      let params = { type: txType, status, beginTime, endTime };
       if (otherParams) {
-        params = {...params, ...otherParams};
+        params = { ...params, ...otherParams };
       }
       try {
         this.countLoading = true;
@@ -307,7 +309,7 @@ export default {
       this.endTime = time;
     },
     refreshCondition() {
-      this.getFilterTxs()
+      this.getFilterTxs();
     },
     resetFilterCondition() {
       this.txType = '';
@@ -318,7 +320,7 @@ export default {
       this.pageSize = 15;
       this.$refs.statusDatePicker.resetParams();
       this.resetUrl();
-      this.getTxListDataCount({useCount: true, ...prodConfig.txQueryKeys});
+      this.getTxListDataCount({ useCount: true, ...prodConfig.txQueryKeys });
       this.getTxListData(this.pageNum, this.pageSize);
       this.$store.commit('currentTxModelIndex', 0);
       sessionStorage.setItem('lastChoiceMsgModelIndex', 0);
@@ -363,7 +365,7 @@ export default {
       if (this.pageNum === pageNum) return;
       this.pageNum = pageNum;
 
-      const {txType, status, beginTime, endTime, pageSize} = Tools.urlParser();
+      const { txType, status, beginTime, endTime, pageSize } = Tools.urlParser();
       let url = `/#/txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=false`;
       if (txType) {
         url += `&txType=${txType}`;
