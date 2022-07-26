@@ -3,7 +3,10 @@
     <div class="box-card">
       <div class="header_content">
         <slot name="txCount"></slot>
-        <slot name="resetButton"></slot>
+        <div class="button_wrap">
+          <slot name="refreshButton"></slot>
+          <slot name="resetButton"></slot>
+        </div>
       </div>
       <div class="status_date_pick">
         <slot name="datePicket"></slot>
@@ -1020,6 +1023,12 @@ export default {
     .header_content {
       display: flex;
       justify-content: space-between;
+      .button_wrap{
+        display: grid;
+        grid-column-gap: 0.1rem;
+        grid-template-columns: repeat(2,auto);
+        grid-template-rows: repeat(1,auto);
+      }
       @media (max-width: 1150px) {
       }
     }

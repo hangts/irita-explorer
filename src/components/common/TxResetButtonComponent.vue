@@ -1,7 +1,10 @@
 <template>
-  <button class="ref_content" @click="resetParams">
-    <i class="iconfont iconzhongzhi"></i>
-  </button>
+  <el-tooltip :content="$t('ExplorerLang.resetButtonTooltip')">
+    <button class="ref_content" @click="resetParams">
+      <i class="iconfont iconzhongzhi"></i>
+      <span class="reset_button_label">{{ $t('ExplorerLang.resetButton') }}</span>
+    </button>
+  </el-tooltip>
 </template>
 
 <script>
@@ -21,13 +24,26 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.ref_content{
-	border: none;
-	background: $theme_c;
-	color: #fff;
-	border-radius: 0.08rem;
-	width: 0.32rem;
-	height: 0.32rem;
-	margin-top: 0.2rem;
+.ref_content {
+  background: #fff;
+  color: $theme_c;
+  border-radius: 0.06rem;
+  margin-top: 0.2rem;
+  padding: 0.1rem;
+  font-size: 0.12rem;
+  border: 0.01rem solid $theme_c;
+
+  &:hover {
+    background: $theme_c;
+    color: #fff;
+  }
+
+  .iconfont {
+    font-size: 0.12rem;
+  }
+
+  .reset_button_label {
+    margin-left: 0.09rem;
+  }
 }
 </style>

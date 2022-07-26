@@ -238,7 +238,7 @@ export default {
           }
           if (res.fee && res.fee.amount && res.fee.amount[0] && this.isShowFee) {
             const fee = await converCoin(res.fee.amount[0]);
-            this.fee = this.productNameWC !== this.productName ? `${fee.amount} ${fee.denom.toUpperCase()}` : fee.amount;
+            this.fee = this.isShowDenom ? `${fee.amount} ${fee.denom.toUpperCase()}` : fee.amount;
           }
           this.fee = this.fee || '--';
           // this.gasUsed=res.fee.gas || '--'

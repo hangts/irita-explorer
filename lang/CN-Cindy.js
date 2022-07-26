@@ -1,6 +1,10 @@
 import prodConfig from '../src/productionConfig';
 
 export const ExplorerLang = {
+  resetButton:'重置',
+  resetButtonTooltip:'重置查询条件',
+  refreshButton:'刷新',
+  refreshButtonTooltip:'刷新查询结果',
   common: {
     allTxStatus: '全部交易状态',
     success: '成功',
