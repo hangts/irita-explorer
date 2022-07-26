@@ -172,6 +172,24 @@ export function getTxList(params) {
   return get(url);
 }
 
+export function getTxCountApi(params) {
+  const { beginTime, endTime, ...others } = params;
+  const formatParams = {};
+
+  if (beginTime) {
+    formatParams.beginTime = moment(beginTime).startOf('d').unix();
+  }
+  if (endTime) {
+    formatParams.endTime = moment(endTime).endOf('d').unix();
+  }
+
+  const paramsToLine = Tools.toLine({ ...others, ...formatParams }); // 驼峰转下划线
+  const queryStr = Tools.formatParams(paramsToLine, [null, undefined, '']);
+  const url = `v1/txs/count${queryStr}`;
+
+  return get(url);
+}
+
 export function getRelevanceTxList(type, contextId, pageNum, pageSize, useCount) {
   let url = `txs/relevance?type=${type}&contextId=${contextId}`;
   if (pageNum && pageSize) {

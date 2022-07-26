@@ -325,7 +325,7 @@ export default class Tools {
    * 格式化数字的类型是string的数字并在小数点后面补零
    */
 
-  static formatStringToFixedNumber(str ='', splitNum) {
+  static formatStringToFixedNumber(str = '', splitNum) {
     if (str.toString().indexOf('e') !== -1 || str.toString().indexOf('E') !== -1) {
       str = new BigNumber(str).toFixed().toString();
     }
@@ -570,5 +570,29 @@ export default class Tools {
       str = `?${str.substring(0, str.length - 1)}`;
     }
     return str;
+  }
+
+  // 驼峰转下划线
+  static toLine(params = {}) {
+    const dig = (obj) => {
+      if (Object.prototype.toString.call(obj) !== '[object Object]' && !Array.isArray(obj)) {
+        return obj;
+      }
+      const result = Object.prototype.toString.call(obj) === '[object Object]' ? {} : [];
+      if (Object.prototype.toString.call(obj) === '[object Object]') {
+        const afterKey = Object.keys(obj);
+        afterKey.forEach((v) => {
+          const key = v.replace(/([A-Z])/g, '_$1').toLowerCase(); // 转为驼峰
+          result[key] = dig(obj[v]);
+        });
+      } else if (Array.isArray(obj)) {
+        obj.forEach((arrV) => {
+          result.push(dig(arrV));
+        });
+      }
+      return result;
+    };
+
+    return dig(params);
   }
 }
