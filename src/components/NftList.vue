@@ -2,34 +2,55 @@
   <div class="nft_list_container">
     <div class="nft_list_content_wrap">
       <div class="nft_list_header_content">
-        <h3 class="nft_list_header_title">{{$t('ExplorerLang.nftAsset.mainTitle')}}</h3>
-<!--        <el-input v-model="input" @change="handleSearchClick" :placeholder="$t('ExplorerLang.nftAsset.placeHolder')"></el-input>
+        <h3 class="nft_list_header_title">{{ $t('ExplorerLang.nftAsset.mainTitle') }}</h3>
+        <!--        <el-input v-model="input" @change="handleSearchClick" :placeholder="$t('ExplorerLang.nftAsset.placeHolder')"></el-input>
         <div class="tx_type_mobile_content">
           <div class="search_btn" @click="handleSearchClick">{{$t('ExplorerLang.nftAsset.search')}}</div>
           <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
         </div>-->
       </div>
       <div class="nef_list_table_container">
-		  <list-component
-		  	:is-loading="isNftListLoading"
-			:list-data="denomArray"
-			:column-list="nftListColumn"
-			:pagination="{pageSize:Number(pageSize),dataCount:allCount,pageNum:Number(currentPageNum)}"
-			@pageChange="pageChange"
-		  >
-			  <template v-slot:txCount>
-				  <tx-count-component :title="allCount > 1  ? $t('ExplorerLang.nftAsset.subTitles') : $t('ExplorerLang.nftAsset.subTitle')" :icon="'iconNFT'" :tx-count="allCount"></tx-count-component>
-			  </template>
-			  <template v-slot:resetButton>
-				  <nft-reset-button-component @resetFilterCondition="resetFilterCondition"></nft-reset-button-component>
-			  </template>
-			  <template v-slot:datePicket>
-				  <nft-search-component
-					  :input-placeholder="$t('ExplorerLang.nftAsset.placeHolder')"
-					  @searchInput="handleSearchClick" ref="searchNft"></nft-search-component>
-			  </template>
-		  </list-component>
-<!--        <el-table class="table table_overflow_x" :data="denomArray" :empty-text="$t('ExplorerLang.table.emptyDescription')" :default-sort="{ prop: 'Time', order: 'descending' }">
+        <list-component
+          :is-loading="isNftListLoading"
+          :list-data="denomArray"
+          :column-list="nftListColumn"
+          :pagination="{
+            pageSize: Number(pageSize),
+            dataCount: allCount,
+            pageNum: Number(currentPageNum),
+          }"
+          @pageChange="pageChange"
+        >
+          <template v-slot:txCount>
+            <tx-count-component
+              :title="
+                allCount > 1
+                  ? $t('ExplorerLang.nftAsset.subTitles')
+                  : $t('ExplorerLang.nftAsset.subTitle')
+              "
+              :icon="'iconNFT'"
+              :tx-count="allCount"
+            ></tx-count-component>
+          </template>
+          <template v-slot:resetButton>
+            <nft-reset-button-component
+              @resetFilterCondition="resetFilterCondition"
+            ></nft-reset-button-component>
+          </template>
+          <template v-slot:refreshButton>
+            <tx-refresh-button-component
+              @refreshParams="refreshFilterCondition"
+            ></tx-refresh-button-component>
+          </template>
+          <template v-slot:datePicket>
+            <nft-search-component
+              :input-placeholder="$t('ExplorerLang.nftAsset.placeHolder')"
+              @searchInput="handleSearchClick"
+              ref="searchNft"
+            ></nft-search-component>
+          </template>
+        </list-component>
+        <!--        <el-table class="table table_overflow_x" :data="denomArray" :empty-text="$t('ExplorerLang.table.emptyDescription')" :default-sort="{ prop: 'Time', order: 'descending' }">
           <el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenId')">
             <template slot-scope="scope">
               <el-tooltip :content="scope.row.nft_id" placement="top" effect="dark" :disabled="Tools.disabled(scope.row.nft_id)">
@@ -82,7 +103,7 @@
           </el-table-column>
         </el-table>-->
       </div>
-<!--      <div class="pagination_content">
+      <!--      <div class="pagination_content">
         <keep-alive>
           <m-pagination :page-size="pageSize" :total="allCount" :page="currentPageNum" :page-change="pageChange">
           </m-pagination>
@@ -93,30 +114,40 @@
 </template>
 
 <script>
-import { getNfts } from '../service/api'
-import Tools from '../util/Tools'
-import MPagination from './common/MPagination'
-import { ColumnMinWidth } from '../constant'
-import LargeString from './common/LargeString'
-import productionConfig from '@/productionConfig.js'
-import parseTimeMixin from '../mixins/parseTime'
-import ListComponent from "./common/ListComponent";
-import nftListColumn from "./tableListColumnConfig/nftListColumn";
-import TxCountComponent from "./TxCountComponent";
-import NftSearchComponent from "./common/NftSearchComponent";
-import NftResetButtonComponent from "./common/NftResetButtonComponent";
+import productionConfig from '@/productionConfig.js';
+import { getNfts } from '../service/api';
+import Tools from '../util/Tools';
+import MPagination from './common/MPagination';
+import { ColumnMinWidth } from '../constant';
+import LargeString from './common/LargeString';
+import parseTimeMixin from '../mixins/parseTime';
+import ListComponent from './common/ListComponent';
+import nftListColumn from './tableListColumnConfig/nftListColumn';
+import TxCountComponent from './TxCountComponent';
+import NftSearchComponent from './common/NftSearchComponent';
+import NftResetButtonComponent from './common/NftResetButtonComponent';
+import TxRefreshButtonComponent from './common/TxRefreshButtonComponent';
+
 export default {
   name: 'NftList',
-  components: {NftResetButtonComponent, NftSearchComponent, TxCountComponent, ListComponent, MPagination, LargeString },
+  components: {
+    TxRefreshButtonComponent,
+    NftResetButtonComponent,
+    NftSearchComponent,
+    TxCountComponent,
+    ListComponent,
+    MPagination,
+    LargeString,
+  },
   mixins: [parseTimeMixin],
   data() {
-    let denom = ''
+    let denom = '';
     if (this.$store.state.tempDenomId) {
-      denom = this.$store.state.tempDenomId
+      denom = this.$store.state.tempDenomId;
     }
     return {
-		isNftListLoading:false,
-		nftListColumn: [],
+      isNftListLoading: false,
+      nftListColumn: [],
       ColumnMinWidth,
       denomArray: [],
       denom,
@@ -129,130 +160,126 @@ export default {
       LargeStringMinHeight: 69,
       LargeStringLineHeight: 23,
       Tools,
-    }
+    };
   },
   mounted() {
-  	if(this?.$route?.query?.denomId){
-	  this.denom = this.$route.query.denomId
-  	}
-  	this.nftListColumn = nftListColumn
-    this.getNftsByFilterCount()
-    this.getNftsByFilter()
+    if (this?.$route?.query?.denomId) {
+      this.denom = this.$route.query.denomId;
+    }
+    this.nftListColumn = nftListColumn;
+    this.getNftsByFilterCount();
+    this.getNftsByFilter();
     if (this.$store.state.tempDenomId) {
-      this.$store.commit('SET_TEMP_DENOM_ID', '')
+      this.$store.commit('SET_TEMP_DENOM_ID', '');
     }
   },
   methods: {
     startStr(url) {
-      return url.startsWith('www.')
+      return url.startsWith('www.');
     },
     tableRowKey(row) {
-      return `${row.denom_id}-${row.nft_id}`
+      return `${row.denom_id}-${row.nft_id}`;
+    },
+    refreshFilterCondition() {
+      this.getNftsByFilter();
     },
     resetFilterCondition() {
-      this.input = ''
-      this.denom = ''
-      this.currentPageNum = 1
-      this.tokenId = ''
-      this.owner = ''
-		this.$refs.searchNft.resetFilterCondition()
-      this.getNftsByFilterCount()
-      this.getNftsByFilter()
-	    this.$router.push('/nftAsset')
+      this.input = '';
+      this.denom = '';
+      this.currentPageNum = 1;
+      this.tokenId = '';
+      this.owner = '';
+      this.$refs.searchNft.resetFilterCondition();
+      this.getNftsByFilterCount();
+      this.getNftsByFilter();
+      this.$router.push('/nftAsset');
     },
     pageChange(pageNum) {
-      this.currentPageNum = pageNum
+      this.currentPageNum = pageNum;
       // if(sessionStorage.getItem('selectDenom')){
       // 	this.denom = sessionStorage.getItem('selectDenom')
       // }
-      this.getNftsByFilter()
+      this.getNftsByFilter();
     },
     handleSearchClick(input) {
-		this.input = input
-      this.currentPageNum = 1
-      this.getNftsByFilterCount()
-      this.getNftsByFilter()
+      this.input = input;
+      this.currentPageNum = 1;
+      this.getNftsByFilterCount();
+      this.getNftsByFilter();
     },
     async getNftsByFilter() {
       if (Tools.isBech32(this.input)) {
-        this.owner = this.input
+        this.owner = this.input;
       }
       if (!this.owner) {
-        this.tokenId = this.input
+        this.tokenId = this.input;
       }
-		this.isNftListLoading = true
+      this.isNftListLoading = true;
       try {
-        let nftData = await getNfts(
+        const nftData = await getNfts(
           this.currentPageNum,
           this.pageSize,
           false,
           this.denom,
           this.tokenId,
           this.owner
-        )
+        );
         if (nftData?.data.length > 0) {
           nftData.data.forEach((item) => {
-            item.Time = item.last_block_time ? item.last_block_time : ''
-            /*item.last_block_time = item.last_block_time
+            item.Time = item.last_block_time ? item.last_block_time : '';
+            /* item.last_block_time = item.last_block_time
               ? Tools.formatAge(
                   Tools.getTimestamp(),
                   item.last_block_time * 1000,
                   this.$t('ExplorerLang.table.suffix')
                 )
               : '--'
-          })*/
-			  item.last_block_time = item.last_block_time
-				  ? Tools.formatLocalTime(item.last_block_time )
-				  : '--'
-			  item.tokenUri = item.tokenUri ? item.tokenUri : '--'
-		  })
-          this.denomArray = nftData.data
+          }) */
+            item.last_block_time = item.last_block_time
+              ? Tools.formatLocalTime(item.last_block_time)
+              : '--';
+            item.tokenUri = item.tokenUri ? item.tokenUri : '--';
+          });
+          this.denomArray = nftData.data;
           /**
            * @description: from parseTimeMixin
            */
           // this.parseTime('denomArray', 'Time', 'last_block_time')
         } else {
-          this.denomArray = []
+          this.denomArray = [];
         }
-		  this.isNftListLoading = false
+        this.isNftListLoading = false;
       } catch (e) {
-		  this.isNftListLoading = false
-        console.error(e)
+        this.isNftListLoading = false;
+        console.error(e);
       }
     },
     async getNftsByFilterCount() {
       if (Tools.isBech32(this.input)) {
-        this.owner = this.input
+        this.owner = this.input;
       }
       if (!this.owner) {
-        this.tokenId = this.input
+        this.tokenId = this.input;
       }
       try {
-        let res = await getNfts(
-          null,
-          null,
-          true,
-          this.denom,
-          this.tokenId,
-          this.owner
-        )
+        const res = await getNfts(null, null, true, this.denom, this.tokenId, this.owner);
         if (res?.count) {
-          this.allCount = res.count
+          this.allCount = res.count;
         } else {
-          this.allCount = 0
+          this.allCount = 0;
         }
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
     },
     formatAddress(address) {
       if (!address) {
-        return '--'
+        return '--';
       }
-      return Tools.formatValidatorAddress(address)
+      return Tools.formatValidatorAddress(address);
     },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">
