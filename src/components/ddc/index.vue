@@ -3,7 +3,7 @@
     <div class="denom_list_content_wrap">
       <div class="denom_list_header_content">
         <h3 class="denom_list_header_title">
-          {{ $t("ExplorerLang.ddc.mainTitle") }}
+          {{ $t('ExplorerLang.ddc.mainTitle') }}
         </h3>
       </div>
       <div class="nef_list_table_container">
@@ -12,19 +12,30 @@
           :is-loading="isDdcListLoading"
           :list-data="ddcList"
           :column-list="ddcListColumn"
-          :pagination="{pageSize:Number(pageSize),dataCount:count,pageNum:Number(pageNum)}"
+          :pagination="{ pageSize: Number(pageSize), dataCount: count, pageNum: Number(pageNum) }"
           @pageChange="pageChange"
         >
           <template v-slot:txCount>
-            <tx-count-component :title="$t('ExplorerLang.ddc.subTitle')" :icon="'iconxingzhuangjiehe'" :tx-count="count"></tx-count-component>
+            <tx-count-component
+              :title="$t('ExplorerLang.ddc.subTitle')"
+              :icon="'iconxingzhuangjiehe'"
+              :tx-count="count"
+            ></tx-count-component>
           </template>
-			<template v-slot:resetButton>
-				<nft-reset-button-component @resetFilterCondition="resetFilterCondition"></nft-reset-button-component>
-			</template>
+          <template v-slot:resetButton>
+            <nft-reset-button-component
+              @resetFilterCondition="resetFilterCondition"
+            ></nft-reset-button-component>
+          </template>
+          <template v-slot:refreshButton>
+            <tx-refresh-button-component @refreshParams="refreshCondition"></tx-refresh-button-component>
+          </template>
           <template v-slot:datePicket>
-              <nft-search-component
-                  :input-placeholder="$t('ExplorerLang.ddc.placeHolder')"
-                  @searchInput="handleSearchClick" ref="denomSearchNode"></nft-search-component>
+            <nft-search-component
+              :input-placeholder="$t('ExplorerLang.ddc.placeHolder')"
+              @searchInput="handleSearchClick"
+              ref="denomSearchNode"
+            ></nft-search-component>
           </template>
         </list-component>
       </div>
@@ -33,69 +44,74 @@
 </template>
 
 <script>
-import { getDdcList } from "@/service/api";
-import Tools from "@/util/Tools";
-import ListComponent from "../common/ListComponent";//新增
-import ddcListColumnConfig from "../tableListColumnConfig/ddcListColumnConfig";
-import TxCountComponent from "../TxCountComponent";
-import NftSearchComponent from "../common/NftSearchComponent";
-import NftResetButtonComponent from "../common/NftResetButtonComponent";
+import { getDdcList } from '@/service/api';
+import Tools from '@/util/Tools';
+import ListComponent from '../common/ListComponent'; // 新增
+import ddcListColumnConfig from '../tableListColumnConfig/ddcListColumnConfig';
+import TxCountComponent from '../TxCountComponent';
+import NftSearchComponent from '../common/NftSearchComponent';
+import NftResetButtonComponent from '../common/NftResetButtonComponent';
+import TxRefreshButtonComponent from "../common/TxRefreshButtonComponent";
+
 export default {
-  name: "DDCList",
-  components: {NftResetButtonComponent, NftSearchComponent,ListComponent,TxCountComponent },//新增
+  name: 'DDCList',
+  components: {TxRefreshButtonComponent, NftResetButtonComponent, NftSearchComponent, ListComponent, TxCountComponent }, // 新增
   data() {
     return {
-      isDdcListLoading:false,//新增
-      ddcListColumn:[],//新增的
+      isDdcListLoading: false, // 新增
+      ddcListColumn: [], // 新增的
       ddcList: [],
-      value: "all",
+      value: 'all',
       pageNum: 1,
       pageSize: 10,
-      input: "",
-      count: 0
+      input: '',
+      count: 0,
     };
   },
   mounted() {
-    this.ddcListColumn = ddcListColumnConfig
+    this.ddcListColumn = ddcListColumnConfig;
     this.getDdcList();
     this.getDdcListCount();
   },
   methods: {
+    refreshCondition(){
+      this.getDdcList();
+    },
     resetFilterCondition() {
-      this.input = "";
+      this.input = '';
       this.pageNum = 1;
       this.getDdcListCount();
       this.getDdcList();
-      this.$refs.denomSearchNode.resetFilterCondition()
+      this.$refs.denomSearchNode.resetFilterCondition();
     },
     handleNftCountClick(denomId) {
       this.$router.push(`/nftAsset?denomId=${denomId}`);
-      this.$store.commit("SET_TEMP_DENOM_ID", denomId);
+      this.$store.commit('SET_TEMP_DENOM_ID', denomId);
     },
     pageChange(pageNum) {
       this.pageNum = pageNum;
       this.getDdcList();
     },
     handleSearchClick(input) {
-      this.input = input
+      this.input = input;
       this.pageNum = 1;
       this.getDdcListCount();
       this.getDdcList();
     },
     async getDdcList() {
-        this.isDdcListLoading = true
+      this.isDdcListLoading = true;
       try {
         const res = await getDdcList({
-          owner:'',
+          owner: '',
           ddc_id: this.input,
           contract_address: '',
           useCount: false,
           pageNum: this.pageNum,
-          pageSize: this.pageSize
+          pageSize: this.pageSize,
         });
-        
+
         if (res && res.data && Array.isArray(res.data) && res.data.length > 0) {
-          this.ddcList = res.data.map(item => {
+          this.ddcList = res.data.map((item) => {
             return {
               ddcId: item.ddc_id,
               ddcName: item.ddc_name,
@@ -109,18 +125,18 @@ export default {
           this.pageSize = res.pageSize;
           this.pageNum = res.pageNum;
         } else {
-            this.ddcList = [];
+          this.ddcList = [];
         }
-        this.isDdcListLoading = false//新增
+        this.isDdcListLoading = false; // 新增
       } catch (e) {
-          this.isDdcListLoading = false//新增
+        this.isDdcListLoading = false; // 新增
         console.error(e);
       }
     },
     async getDdcListCount() {
       try {
         const res = await getDdcList({
-          owner:'',
+          owner: '',
           ddc_id: this.input,
           contract_address: '',
           useCount: true,
@@ -128,7 +144,7 @@ export default {
         if (res?.count) {
           this.count = res.count;
         } else {
-          this.count = 0
+          this.count = 0;
         }
       } catch (error) {
         console.error(error);
@@ -139,8 +155,8 @@ export default {
     },
     formatTxHash(hash) {
       return Tools.formatTxHash(hash);
-    }
-  }
+    },
+  },
 };
 </script>
 
