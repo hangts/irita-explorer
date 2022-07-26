@@ -76,6 +76,7 @@ export default {
   methods: {
     refreshCondition(){
       this.getDdcList();
+      this.getDdcListCount();
     },
     resetFilterCondition() {
       this.input = '';

@@ -267,6 +267,7 @@ export default {
       this.getTxByAddress();
     },
     refreshCondition(){
+      this.getTxByAddressCount();
       this.getTxByAddress();
     },
     resetFilterCondition() {

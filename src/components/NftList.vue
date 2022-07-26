@@ -39,7 +39,7 @@
           </template>
           <template v-slot:refreshButton>
             <tx-refresh-button-component
-              @refreshParams="refreshFilterCondition"
+              @refreshParams="refreshCondition"
             ></tx-refresh-button-component>
           </template>
           <template v-slot:datePicket>
@@ -180,8 +180,9 @@ export default {
     tableRowKey(row) {
       return `${row.denom_id}-${row.nft_id}`;
     },
-    refreshFilterCondition() {
+    refreshCondition() {
       this.getNftsByFilter();
+      this.getNftsByFilterCount();
     },
     resetFilterCondition() {
       this.input = '';

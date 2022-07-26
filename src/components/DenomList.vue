@@ -41,7 +41,7 @@
             ></nft-reset-button-component>
           </template>
           <template v-slot:refreshButton>
-            <tx-refresh-button-component @refreshParams="refreshFilterCondition"></tx-refresh-button-component>
+            <tx-refresh-button-component @refreshParams="refreshCondition"></tx-refresh-button-component>
           </template>
           <template v-slot:datePicket>
             <nft-search-component
@@ -151,8 +151,9 @@ export default {
     },
   },
   methods: {
-    refreshFilterCondition(){
+    refreshCondition(){
       this.getDenoms();
+      this.getDenomsCount();
     },
     resetFilterCondition() {
       this.input = '';
