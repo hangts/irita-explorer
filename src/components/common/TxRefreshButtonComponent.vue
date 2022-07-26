@@ -24,7 +24,7 @@ export default {
   color: $theme_c;
   border-radius: 0.06rem;
   margin-top: 0.2rem;
-  padding: 0.1rem;
+  padding: 0.07rem;
   font-size: 0.12rem;
   border: 0.01rem solid $theme_c;
   &:hover{

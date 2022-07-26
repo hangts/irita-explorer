@@ -28,7 +28,7 @@ export default {
     border-color: $theme_c;
     border-radius: 0.06rem;
     color: $theme_c;
-    padding: 0.12rem 0.1rem;
+    padding: 0.1rem 0.08rem 0.1rem 0.07rem;
     &:hover {
       background: $theme_c;
       color: #fff;
