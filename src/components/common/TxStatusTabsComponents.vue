@@ -49,6 +49,7 @@
 
 <script>
 import moment from 'moment';
+import { TIME_TABS } from '@/constant';
 import config from '../../productionConfig';
 import Tools from '../../util/Tools';
 
@@ -81,24 +82,24 @@ export default {
       ],
       timeTabs: [
         {
-          value: 'all',
+          value: TIME_TABS.all.value,
           label: this.$t('ExplorerLang.common.all'),
           matchFormatTimes: [],
         },
         {
-          value: 'today',
+          value: TIME_TABS.today.value,
           label: this.$t('ExplorerLang.common.today'),
         },
         {
-          value: 'last7',
+          value: TIME_TABS.last7.value,
           label: this.$t('ExplorerLang.common.last7'),
         },
         {
-          value: 'last30',
+          value: TIME_TABS.last30.value,
           label: this.$t('ExplorerLang.common.last30'),
         },
       ],
-      timeTabVal: 'all',
+      timeTabVal: TIME_TABS.all.value,
       value: sessionStorage.getItem('txTimeRange')
         ? JSON.parse(sessionStorage.getItem('txTimeRange'))
         : [],
@@ -165,19 +166,25 @@ export default {
         let matchFormatTimes = [];
 
         switch (v.value) {
-          case 'all':
+          case TIME_TABS.all.value:
             matchFormatTimes = [];
             break;
-          case 'today':
+          case TIME_TABS.today.value:
             matchFormatTimes[0] = moment().format(format);
+            matchFormatTimes[1] = moment()
+              .subtract(TIME_TABS.today.rangeVal - 1, 'days')
+              .format(format);
+            break;
+          case TIME_TABS.last7.value:
+            matchFormatTimes[0] = moment()
+              .subtract(TIME_TABS.last7.rangeVal - 1, 'days')
+              .format(format);
             matchFormatTimes[1] = moment().format(format);
             break;
-          case 'last7':
-            matchFormatTimes[0] = moment().subtract(6, 'days').format(format);
-            matchFormatTimes[1] = moment().format(format);
-            break;
-          case 'last30':
-            matchFormatTimes[0] = moment().subtract(29, 'days').format(format);
+          case TIME_TABS.last30.value:
+            matchFormatTimes[0] = moment()
+              .subtract(TIME_TABS.last30.rangeVal - 1, 'days')
+              .format(format);
             matchFormatTimes[1] = moment().format(format);
             break;
           default:
@@ -200,7 +207,7 @@ export default {
      */
     matchTimeTab(times) {
       if (!times.length) {
-        this.timeTabVal = 'all';
+        this.timeTabVal = TIME_TABS.all.value;
         return;
       }
 
