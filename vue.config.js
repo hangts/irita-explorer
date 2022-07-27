@@ -4,7 +4,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 function resolve(dir) {
   return path.join(__dirname, dir); // path.join(__dirname)设置绝对路径
 }
-const productionConfig = require('./src/productionConfig.js');
+const productionConfig = require('./src/productionConfig');
 
 module.exports = {
   devServer: {
@@ -13,6 +13,11 @@ module.exports = {
         target: 'http://localhost:3000/',
         secure: false,
         pathRewrite: { '^/api': '' },
+      },
+      '/gapi': {
+        target: 'http://wcchain-backend-go.iobscan.nj.bj', // dev 暂时没部署，先连接测试环境
+        secure: false,
+        pathRewrite: { '^/gapi': '' },
       },
       '/lcd': {
         target: productionConfig?.lcdUrl ? productionConfig.lcdUrl : 'http://192.168.150.40:1317',

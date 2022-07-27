@@ -3,6 +3,7 @@ import moment from 'moment';
 import { HttpHelper } from '../helper/httpHelper';
 import { requestThrottler } from '../helper/throttleHttpHelper';
 import { TX_STATUS } from '../constant';
+import { getFromGo } from './request';
 
 function get(url) {
   return new Promise(async (res, rej) => {
@@ -187,7 +188,7 @@ export function getTxCountApi(params) {
   const queryStr = Tools.formatParams(paramsToLine, [null, undefined, '']);
   const url = `v1/txs/count${queryStr}`;
 
-  return get(url);
+  return getFromGo(url);
 }
 
 export function getRelevanceTxList(type, contextId, pageNum, pageSize, useCount) {
