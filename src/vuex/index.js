@@ -14,9 +14,13 @@ const store = new Vuex.Store({
         mainToken:'',
         currentTxModelIndex:sessionStorage.getItem('lastChoiceMsgModelIndex') ? sessionStorage.getItem('lastChoiceMsgModelIndex') : 0,
         isShowMsgChildrenType :false,
-        isFlMaintenance: true
+        isFlMaintenance: true,
+        isHideButtonTooltip: false
     },
     mutations : {
+        IS_HIDE_BUTTON_TOOLTIP(state, data){
+            state.isHideButtonTooltip = data
+        },
         SET_TEMP_DENOM_ID(state, data){
             state.tempDenomId = data
         },

@@ -1,6 +1,6 @@
 <template>
   <div class="nft_reset_button_container ref_content">
-    <el-tooltip :content="$t('ExplorerLang.resetButtonTooltip')">
+    <el-tooltip :content="$t('ExplorerLang.resetButtonTooltip')" :disabled="$store.state.isHideButtonTooltip">
       <el-button type="primary" size="small" class="reset_btn" @click="resetFilterCondition"
       >
         <!--        <i class="iconfont iconzhongzhi"></i>-->
@@ -28,7 +28,11 @@ export default {
 <style scoped lang="scss">
 ::v-deep.nft_reset_button_container {
   margin-top: 0.2rem;
-
+  margin-left: 0.1rem;
+  @media (max-width: 460px) {
+    margin-top: 0.08rem;
+    margin-left: 0;
+  }
   .reset_btn {
     background: #fff;
     border-color: $theme_c;
