@@ -169,7 +169,7 @@ export default {
         this.countLoading = true;
         // 先清空数据
         this.totalTxNumber = '--';
-        this.countMsgs = getCountMsgs(params, {});
+        this.countMsgs = getCountMsgs({});
 
         const res = await getAddressTxList(params);
         if (res?.count) {
@@ -178,7 +178,7 @@ export default {
           this.totalTxNumber = 0;
         }
 
-        this.countMsgs = getCountMsgs(params, res);
+        this.countMsgs = getCountMsgs(res || {});
       } catch (e) {
         console.error(e);
       } finally {

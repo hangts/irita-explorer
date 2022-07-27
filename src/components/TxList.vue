@@ -56,12 +56,12 @@
 <script>
 import { addressRoute, formatMoniker, getMainToken, getConfig } from '@/helper/IritaHelper';
 import TxTypes from '@/helper/TxTypes';
-import { formatTxDataFn, getCountMsgs } from '@/helper/txList/common';
+import { formatTxDataFn, getCountMsgs2 as getCountMsgs } from '@/helper/txList/common';
 import Tools from '../util/Tools';
 import MPagination from './common/MPagination';
 import TxListComponent from './common/TxListComponent';
 import { TxHelper } from '../helper/TxHelper';
-import { getTxList } from '../service/api';
+import { getTxList, getTxCountApi } from '../service/api';
 import {
   TX_TYPE,
   TX_STATUS,
@@ -200,7 +200,7 @@ export default {
       );
 
       param === 'init' ? history.replaceState(null, null, url) : history.pushState(null, null, url);
-      this.getTxListDataCount({ useCount: true, ...prodConfig.txQueryKeys });
+      this.getTxListDataCount({ useCount: true, ...prodConfig.txQueryKeys2 });
       this.getTxListData(this.pageNum, this.pageSize);
     },
     /* filterTxByTxType(e){
@@ -259,7 +259,7 @@ export default {
     async getTxListDataCount(
       otherParams = {
         useCount: false,
-        countMsg: false,
+        msg_count: false,
       }
     ) {
       const { txType, status, beginTime, endTime } = Tools.urlParser();
@@ -271,14 +271,14 @@ export default {
         this.countLoading = true;
         // 先清空数据
         this.txCount = '--';
-        this.countMsgs = getCountMsgs(params, {});
+        this.countMsgs = getCountMsgs({});
 
-        const res = await getTxList(params);
+        const res = await getTxCountApi(params);
         if (params.useCount) {
-          this.txCount = res.count;
+          this.txCount = res.total_tx;
         }
 
-        this.countMsgs = getCountMsgs(params, res);
+        this.countMsgs = getCountMsgs(res || {});
       } catch (e) {
         // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
       } finally {
@@ -320,7 +320,7 @@ export default {
       this.pageSize = 15;
       this.$refs.statusDatePicker.resetParams();
       this.resetUrl();
-      this.getTxListDataCount({ useCount: true, ...prodConfig.txQueryKeys });
+      this.getTxListDataCount({ useCount: true, ...prodConfig.txQueryKeys2 });
       this.getTxListData(this.pageNum, this.pageSize);
       this.$store.commit('currentTxModelIndex', 0);
       sessionStorage.setItem('lastChoiceMsgModelIndex', 0);

@@ -3,6 +3,7 @@ import moment from 'moment';
 import { HttpHelper } from '../helper/httpHelper';
 import { requestThrottler } from '../helper/throttleHttpHelper';
 import { TX_STATUS } from '../constant';
+import { getFromGo } from './request';
 
 function get(url) {
   return new Promise(async (res, rej) => {
@@ -170,6 +171,24 @@ export function getTxList(params) {
   const url = `txs${queryStr}`;
 
   return get(url);
+}
+
+export function getTxCountApi(params) {
+  const { beginTime, endTime, ...others } = params;
+  const formatParams = {};
+
+  if (beginTime) {
+    formatParams.beginTime = moment(beginTime).startOf('d').unix();
+  }
+  if (endTime) {
+    formatParams.endTime = moment(endTime).endOf('d').unix();
+  }
+
+  const paramsToLine = Tools.toLine({ ...others, ...formatParams }); // 驼峰转下划线
+  const queryStr = Tools.formatParams(paramsToLine, [null, undefined, '']);
+  const url = `v1/txs/count${queryStr}`;
+
+  return getFromGo(url);
 }
 
 export function getRelevanceTxList(type, contextId, pageNum, pageSize, useCount) {

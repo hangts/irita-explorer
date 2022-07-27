@@ -674,3 +674,21 @@ export const STATISTICAL = {
   ADDRESS_COUNT_ID: 211,
   TX_MSG_COUNT: 212,
 };
+
+export const TIME_TABS = {
+  all: {
+    value: 'all',
+  },
+  today: {
+    value: 'today',
+    rangeVal: 1,
+  },
+  last7: {
+    value: 'last7',
+    rangeVal: 7,
+  },
+  last30: {
+    value: 'last30',
+    rangeVal: 30,
+  },
+};

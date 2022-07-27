@@ -654,11 +654,11 @@ export const formatTxDataFn = async (
   };
 };
 
-export const getCountMsgs = (params, response, options = { errorText: '--' }) => {
+export const getCountMsgs = (response, options = { errorText: '--' }) => {
   const res = [];
 
   if (prodConfig.txQueryKeys && Object.keys(prodConfig.txQueryKeys).length) {
-    const queryKey = Object.keys(prodConfig.txQueryKeys);
+    const showKeys = Object.keys(prodConfig.txQueryKeys).filter((v) => prodConfig.txQueryKeys[v]); // 所有配置的展示项(true展示)
     const countKey = [
       {
         queryKey: 'countMsg',
@@ -668,8 +668,35 @@ export const getCountMsgs = (params, response, options = { errorText: '--' }) =>
       },
     ];
     countKey
-      .filter((v) => queryKey.includes(v.queryKey)) // 所有配置的展示项
-      .filter((v) => params[v.queryKey]) // 配置为true，请求，并且展示
+      .filter((v) => showKeys.includes(v.queryKey))
+      .forEach((v) => {
+        res.push({
+          title: v.title,
+          count:
+            response[v.resKey] || response[v.resKey] === 0 ? response[v.resKey] : options.errorText,
+          icon: v.icon,
+        });
+      });
+  }
+  return res;
+};
+
+// 因为后端只改了交易列表的接口，这里复制一份单独处理，上面的还是处理地址详情页
+export const getCountMsgs2 = (response, options = { errorText: '--' }) => {
+  const res = [];
+
+  if (prodConfig.txQueryKeys2 && Object.keys(prodConfig.txQueryKeys2).length) {
+    const showKeys = Object.keys(prodConfig.txQueryKeys2).filter((v) => prodConfig.txQueryKeys2[v]); // 所有配置的展示项(true展示)
+    const countKey = [
+      {
+        queryKey: 'msg_count', // 主要是这里，入参变了
+        resKey: 'total_tx_msgs',
+        title: i18n.t('ExplorerLang.transactions.countMsg'),
+        icon: 'iconxingzhuangjiehe2',
+      },
+    ];
+    countKey
+      .filter((v) => showKeys.includes(v.queryKey))
       .forEach((v) => {
         res.push({
           title: v.title,

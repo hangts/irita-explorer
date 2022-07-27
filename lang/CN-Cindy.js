@@ -33,6 +33,9 @@ export const ExplorerLang = {
     s: '秒',
     startDate: '选择日期',
     endDate: '选择日期',
+    today: '今日',
+    last7: '近7日',
+    last30: '近30日',
   },
   table: {
     time: '时间',

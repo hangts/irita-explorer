@@ -1,6 +1,6 @@
 import { HttpHelper } from '../helper/httpHelper';
 
-function get(url) {
+export const get = (url) => {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (res, rej) => {
     url = `/api/${url.replace(/^\//, '')}`;
@@ -20,8 +20,23 @@ function get(url) {
       rej(err);
     }
   });
-}
+};
 
-export default {
-  get,
+export const getFromGo = (url) => {
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async (res, rej) => {
+    url = `/gapi/${url.replace(/^\//, '')}`;
+    try {
+      const data = await HttpHelper.get(url);
+      if (data && data.code === 0) {
+        res(data.data);
+      } else {
+        console.error(`error from ${url}:`, JSON.stringify(data));
+        rej(data);
+      }
+    } catch (err) {
+      console.error(`error from ${url}:`, err.message);
+      rej(err);
+    }
+  });
 };
