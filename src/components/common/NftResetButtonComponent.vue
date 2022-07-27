@@ -1,6 +1,6 @@
 <template>
   <div class="nft_reset_button_container ref_content">
-    <el-tooltip :content="$t('ExplorerLang.resetButtonTooltip')">
+    <el-tooltip :content="$t('ExplorerLang.resetButtonTooltip')" :manual="$store.state.isHideButtonTooltip">
       <el-button type="primary" size="small" class="reset_btn" @click="resetFilterCondition"
       >
         <!--        <i class="iconfont iconzhongzhi"></i>-->

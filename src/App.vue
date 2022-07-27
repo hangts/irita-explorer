@@ -34,8 +34,17 @@ export default {
     } else {
       this.$store.commit('isMobile', true);
     }
+    this.getWindowsWidth();
+    window.addEventListener('resize', this.getWindowsWidth, false);
   },
   methods: {
+    getWindowsWidth() {
+      if (window.innerWidth < 720) {
+        this.$store.commit('IS_HIDE_BUTTON_TOOLTIP', true);
+      } else {
+        this.$store.commit('IS_HIDE_BUTTON_TOOLTIP', false);
+      }
+    },
     closeMsgChildrenType() {
       const lastChoiceMsgModelIndex = sessionStorage.getItem('lastChoiceMsgModelIndex') || 0;
       this.$store.commit('isShowMsgChildrenType', false);
@@ -212,7 +221,7 @@ td.sender {
   color: $theme_c !important;
 }
 .el-date-table td.today.start-date span {
-  color: $theme_c ;
+  color: $theme_c;
 }
 .el-date-table td.start-date span {
   background-color: $theme_c !important;

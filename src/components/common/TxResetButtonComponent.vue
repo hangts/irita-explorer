@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip :content="$t('ExplorerLang.resetButtonTooltip')">
+  <el-tooltip :content="$t('ExplorerLang.resetButtonTooltip')" :manual="$store.state.isHideButtonTooltip">
     <button class="ref_content" @click="resetParams">
 <!--      <i class="iconfont iconzhongzhi"></i>-->
       <div class="iconfont"></div>
