@@ -156,6 +156,7 @@ export default {
       });
       this.statusTypes[0].isActive = true;
       this.value = [];
+      this.timeTabVal = TIME_TABS.all.value;
       // this.$emit('resetParams','')
     },
     // 匹配的时间

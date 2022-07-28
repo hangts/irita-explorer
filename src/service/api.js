@@ -62,8 +62,8 @@ export async function getIbcToken(payload) {
 }
 
 export function getDbStatistics(params) {
-  const url = `statistics/db?params=${params}`;
-  return get(url);
+  const url = `v1/statistics/db?params=${params}`;
+  return getFromGo(url);
 }
 
 export function getNetworkStatistics(params) {
