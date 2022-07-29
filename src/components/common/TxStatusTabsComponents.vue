@@ -253,6 +253,7 @@ export default {
     .el-button {
       color: rgba(23, 29, 68, 1);
       border-color: rgba(231, 234, 243, 1);
+      border-right-width: 0;
 
       &:hover {
         background: rgba(90, 93, 99, 0.1);
@@ -261,12 +262,11 @@ export default {
 
     .el-button:first-child {
       border-radius: 0.08rem 0 0 0.08rem;
-      border-right: none;
     }
 
     .el-button:last-child {
       border-radius: 0 0.08rem 0.08rem 0;
-      border-left: none;
+      border-right-width: 1px;
     }
 
     .active_style {
