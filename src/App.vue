@@ -10,7 +10,6 @@
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import { getTxType } from './helper/IritaHelper';
-import prodConfig from './productionConfig';
 
 export default {
   name: 'app',
@@ -48,7 +47,7 @@ export default {
 <style lang="scss">
 @import 'style/index.css';
 @import 'style/base.css';
-@import 'style/ele.css';
+@import 'style/ele';
 @font-face {
   font-family: PublicSans;
   src: url('./font/PublicSans-Regular-14.otf');
@@ -212,7 +211,7 @@ td.sender {
   color: $theme_c !important;
 }
 .el-date-table td.today.start-date span {
-  color: $theme_c ;
+  color: $theme_c;
 }
 .el-date-table td.start-date span {
   background-color: $theme_c !important;
