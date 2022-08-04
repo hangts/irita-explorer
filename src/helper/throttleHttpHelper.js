@@ -65,6 +65,6 @@ export class throttleHttpHelper {
 
 const _requestThrottler = new throttleHttpHelper();
 
-export async function requestThrottler(payload) {
+export async function uploadIbcTokenRequestThrottler(payload) {
   return await _requestThrottler.request(payload);
 }
