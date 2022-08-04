@@ -3,25 +3,7 @@ import moment from 'moment';
 import { HttpHelper } from '../helper/httpHelper';
 import { requestThrottler } from '../helper/throttleHttpHelper';
 import { TX_STATUS } from '../constant';
-import { getFromGo } from './request';
-
-function get(url) {
-  return new Promise(async (res, rej) => {
-    url = `/api/${url.replace(/^\//, '')}`;
-    try {
-      const data = await HttpHelper.get(url);
-      if (data && data.code == 0) {
-        res(data.data || data);
-      } else {
-        console.error(`error from ${url}:`, JSON.stringify(data));
-        rej(data);
-      }
-    } catch (err) {
-      console.error(`error from ${url}:`, err.message);
-      rej(err);
-    }
-  });
-}
+import { getFromGo, get } from './request';
 
 async function throttlerPost(url, payload) {
   url = `/api/${url.replace(/^\//, '')}`;
@@ -42,7 +24,8 @@ function getFromLcd(url) {
   url = `/lcd/${url.replace(/^\//, '')}`;
   return new Promise(async (res, rej) => {
     try {
-      const data = await HttpHelper.get(url);
+      const lcdServerUrl = process?.env?.VUE_APP_LCD_URI || '';
+      const data = await HttpHelper.get(`${lcdServerUrl}${url}`);
       if (data) {
         res(data);
       } else {
