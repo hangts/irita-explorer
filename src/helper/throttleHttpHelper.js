@@ -1,4 +1,4 @@
-import axios from 'axios';
+import {HttpHelper} from "@/helper/httpHelper";
 
 export class throttleHttpHelper {
   constructor() {
@@ -45,8 +45,8 @@ export class throttleHttpHelper {
         this.setPending(key);
         return new Promise((resolve, reject) => {
           this.pendingArr[key].push({ resolve, reject });
-          axios.post(url, payload).then(data => {
-            if(data && (data.status === 200 || data.status === 201)){
+          HttpHelper.post(url, payload).then(data => {
+            if(data){
               let list = this.pendingArr[key];
               list.forEach((item) => {
                 item.resolve(data.data);

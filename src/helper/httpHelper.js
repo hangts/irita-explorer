@@ -35,7 +35,7 @@ export class HttpHelper {
 
     static async post(url, payload){
       const data = await axios.post(isMockUrl(url), payload);
-      if(data && data.status === 200){
+      if(data && data.status === 200 || data.status === 201){
           return data.data;
       } else {
           console.error('request from server failed:', data);

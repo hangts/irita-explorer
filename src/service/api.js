@@ -1,24 +1,7 @@
 import Tools from '@/util/Tools';
 import moment from 'moment';
-import { HttpHelper } from '../helper/httpHelper';
-import { requestThrottler } from '../helper/throttleHttpHelper';
 import { TX_STATUS } from '../constant';
-import { getFromGo, get, getFromLcd } from './request';
-
-async function throttlerPost(url, payload) {
-  url = `/${url.replace(/^\//, '')}`;
-  try {
-    const data = await requestThrottler(url, payload);
-    if (data && data.code == 0) {
-      return data;
-    }
-    console.error(`error from ${url}:`, JSON.stringify(data));
-    return data;
-  } catch (err) {
-    console.error(`error from ${url}:`, err.message);
-    return err;
-  }
-}
+import { getFromGo, get, getFromLcd, throttlerPost } from './request';
 
 export async function getIbcToken(payload) {
   const url = '/upload-token-info';
