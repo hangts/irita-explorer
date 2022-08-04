@@ -3,10 +3,10 @@ import moment from 'moment';
 import { HttpHelper } from '../helper/httpHelper';
 import { requestThrottler } from '../helper/throttleHttpHelper';
 import { TX_STATUS } from '../constant';
-import { getFromGo, get } from './request';
+import { getFromGo, get, getFromLcd } from './request';
 
 async function throttlerPost(url, payload) {
-  url = `/api/${url.replace(/^\//, '')}`;
+  url = `/${url.replace(/^\//, '')}`;
   try {
     const data = await requestThrottler(url, payload);
     if (data && data.code == 0) {
@@ -18,25 +18,6 @@ async function throttlerPost(url, payload) {
     console.error(`error from ${url}:`, err.message);
     return err;
   }
-}
-
-function getFromLcd(url) {
-  url = `/lcd/${url.replace(/^\//, '')}`;
-  return new Promise(async (res, rej) => {
-    try {
-      const lcdServerUrl = process?.env?.VUE_APP_LCD_URI || '';
-      const data = await HttpHelper.get(`${lcdServerUrl}${url}`);
-      if (data) {
-        res(data);
-      } else {
-        console.error(`error from ${url}:`, JSON.stringify(data));
-        rej(data);
-      }
-    } catch (err) {
-      console.error(`error from ${url}:`, err.message);
-      rej(err);
-    }
-  });
 }
 
 export async function getIbcToken(payload) {

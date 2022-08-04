@@ -3,7 +3,7 @@ import { HttpHelper } from '../helper/httpHelper';
 export const get = (url) => {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (res, rej) => {
-    url = `${url.replace(/^\//, '')}`;
+    url = `/${url.replace(/^\//, '')}`;
     try {
       const nodeServerUrl = process?.env?.VUE_APP_NODE_SERVER_URI || '';
       const data = await HttpHelper.get(`${nodeServerUrl}${url}`);
@@ -32,6 +32,25 @@ export const getFromGo = (url) => {
       const data = await HttpHelper.get(`${goServerUrl}${url}`);
       if (data && data.code === 0) {
         res(data.data);
+      } else {
+        console.error(`error from ${url}:`, JSON.stringify(data));
+        rej(data);
+      }
+    } catch (err) {
+      console.error(`error from ${url}:`, err.message);
+      rej(err);
+    }
+  });
+};
+
+export const getFromLcd = (url) => {
+  url = `/${url.replace(/^\//, '')}`;
+  return new Promise(async (res, rej) => {
+    try {
+      const lcdServerUrl = process?.env?.VUE_APP_LCD_URI || '';
+      const data = await HttpHelper.get(`${lcdServerUrl}${url}`);
+      if (data) {
+        res(data);
       } else {
         console.error(`error from ${url}:`, JSON.stringify(data));
         rej(data);
