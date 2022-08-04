@@ -1,11 +1,11 @@
 import Tools from '@/util/Tools';
 import moment from 'moment';
 import { TX_STATUS } from '../constant';
-import { getFromGo, get, getFromLcd, throttlerPost } from './request';
+import { getFromGo, get, getFromLcd, post } from './request';
 
 export async function getIbcToken(payload) {
   const url = '/upload-token-info';
-  return await throttlerPost(url, payload);
+  return post(url, payload);
 }
 
 export function getDbStatistics(params) {

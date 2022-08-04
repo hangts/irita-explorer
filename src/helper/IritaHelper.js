@@ -13,6 +13,7 @@ import TxTypes from '@/helper/TxTypes';
 import Tools from '../util/Tools';
 import { TxHelper } from './TxHelper';
 import ConfigClass from "@/helper/config";
+import {requestThrottler} from "@/helper/throttleHttpHelper";
 
 export function validatePositiveInteger(value) {
   if (+value === 0 || (value && +value < 1)) {
@@ -32,7 +33,7 @@ async function uploadIbcToken(denom) {
     key,
     chain: '',
   };
-  const { data } = await getIbcToken(payload);
+  const { data } = await requestThrottler(payload);
   if (data?.symbol) {
     await getConfig();
     return data;
