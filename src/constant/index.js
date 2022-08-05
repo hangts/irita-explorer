@@ -151,6 +151,13 @@ export const TX_TYPE = {
   // Fee grant 链账户授权
   grant_allowance: 'grant_allowance',
   revoke_allowance: 'revoke_allowance',
+  // mt
+  mt_issue_denom:'mt_issue_denom',
+  mt_transfer_denom:'mt_transfer_denom',
+  mint_mt:'mint_mt',
+  transfer_mt:'transfer_mt',
+  edit_mt:'edit_mt',
+  burn_mt:'burn_mt',
 };
 
 // 展示 abandon
@@ -303,6 +310,7 @@ export const LEVEL_TX_TYPE = {
   Other: 'Others',
   crossChain: 'CrossChain',
   Feegrant: 'Fee Grant',
+  MT:'MT'
 };
 
 export const TX_STATUS = {
@@ -421,11 +429,11 @@ export const ModuleMap = {
     link: '/validators',
   },
   103: {
-    title: '数据对象',
+    title: '原生 NFT',
     link: '/nftAsset',
   },
   104: {
-    title: '数据类别',
+    title: 'NFT Class',
     link: '/denoms',
   },
   105: {
@@ -473,8 +481,16 @@ export const ModuleMap = {
     link: '/stats/stats',
   },
   117: {
-    title: 'BSN-DDC',
+    title: '智能合约 DDC',
     link: '/ddc',
+  },
+  118: {
+    title: 'MTs',
+    link: '/mts',
+  },
+  119: {
+    title: '原生 MT',
+    link: '/mt/denoms',
   },
 };
 export const NETWORK_ICON = {
@@ -496,9 +512,9 @@ export const CHAIN_ICON = {
   'Cosmos Hub': { icon: 'iconfont iconCosmosHub' },
   NYANCAT: { icon: 'iconfont iconcaihongmao' },
   IRISHUB: { icon: 'iconfont iconiris' },
-  WENCHANG:{ icon: 'iconfont iconBianjie_wenchanglian_Logo-02' },
-  datangchain: {icon:'iconfont iconhuaban'},
-  WENCHANGTESTNET: {icon:'iconfont iconxingzhuangjiehe1'},
+  WENCHANG: { icon: 'iconfont iconBianjie_wenchanglian_Logo-02' },
+  datangchain: { icon: 'iconfont iconhuaban' },
+  WENCHANGTESTNET: { icon: 'iconfont iconxingzhuangjiehe1' },
 };
 const CHAINID = {};
 CHAINID.IRISHUB = 'Mainnet IRISHUB';

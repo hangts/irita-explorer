@@ -383,6 +383,11 @@ export class TxHelper {
       label: LEVEL_TX_TYPE.SmartContract,
       children: [],
     };
+    const mtObj = {
+      value:LEVEL_TX_TYPE.MT,
+      label: LEVEL_TX_TYPE.MT,
+      children: []
+    }
     txTypeArray.forEach((item) => {
       switch (item.typeName) {
         // smartContractObj
@@ -1023,6 +1028,42 @@ export class TxHelper {
             label: TX_TYPE_DISPLAY[TX_TYPE.revoke_allowance],
           });
           break;
+        case TX_TYPE.mt_issue_denom:
+          mtObj.children.push({
+            value: TX_TYPE.mt_issue_denom,
+            label: TX_TYPE_DISPLAY[TX_TYPE.mt_issue_denom],
+          });
+          break;
+        case TX_TYPE.mt_transfer_denom:
+          mtObj.children.push({
+            value: TX_TYPE.mt_transfer_denom,
+            label: TX_TYPE_DISPLAY[TX_TYPE.mt_transfer_denom],
+          });
+          break;
+        case TX_TYPE.mint_mt:
+          mtObj.children.push({
+            value: TX_TYPE.mint_mt,
+            label: TX_TYPE_DISPLAY[TX_TYPE.mint_mt],
+          });
+          break;
+        case TX_TYPE.transfer_mt:
+          mtObj.children.push({
+            value: TX_TYPE.transfer_mt,
+            label: TX_TYPE_DISPLAY[TX_TYPE.transfer_mt],
+          });
+          break;
+        case TX_TYPE.edit_mt:
+          mtObj.children.push({
+            value: TX_TYPE.edit_mt,
+            label: TX_TYPE_DISPLAY[TX_TYPE.edit_mt],
+          });
+          break;
+        case TX_TYPE.burn_mt:
+          mtObj.children.push({
+            value: TX_TYPE.burn_mt,
+            label: TX_TYPE_DISPLAY[TX_TYPE.burn_mt],
+          });
+          break;
         default:
       }
     });
@@ -1032,6 +1073,7 @@ export class TxHelper {
     allTxType.push(
       tansferObj,
       nftObj,
+      mtObj,
       tibcObj,
       identityObj,
       ibcObj,
