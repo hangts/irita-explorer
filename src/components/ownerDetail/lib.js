@@ -35,3 +35,8 @@ export const energyAsset = {
   isActive: false,
   moduleNumber: '116',
 };
+export const mtAsset = {
+  label: i18n.t('ExplorerLang.addressInformation.tab.mt'),
+  isActive: false,
+  moduleNumber: '119',
+};

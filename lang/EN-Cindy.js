@@ -766,6 +766,7 @@ export const ExplorerLang = {
       tx: 'Txs',
       ddc: 'BSN-DDC',
       energyAsset: 'Assets',
+      mt:'MT'
     },
     content: {
       address: 'Address',
