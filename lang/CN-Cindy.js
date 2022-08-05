@@ -729,6 +729,7 @@ export const ExplorerLang = {
       tx: '交易记录',
       ddc: 'BSN-DDC',
       energyAsset: '资产',
+      mt:'原生 MT'
     },
     content: {
       address: 'Address',

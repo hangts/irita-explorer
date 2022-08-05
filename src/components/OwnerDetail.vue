@@ -73,26 +73,14 @@
       <div v-if="moduleSupport('116', prodConfig.navFuncList) && isEnergyAsset">
         <energy-asset-options></energy-asset-options>
       </div>
+      <div v-if="moduleSupport('119', prodConfig.navFuncList) && isMtAsset"></div>
     </div>
   </div>
 </template>
 
 <script>
 import { getConfig, converCoin, getMainToken, getTxType } from '@/helper/IritaHelper';
-import {
-  getNfts,
-  getCallServiceWithAddress,
-  getRespondServiceWithAddress,
-  getRespondServiceRecord,
-  getServiceBindingByServiceName,
-  getServiceContextsByServiceName,
-  getIdentityListByAddress,
-  getAddressInformationApi,
-  getDelegationListApi,
-  getIbcTransferByHash,
-  getDdcList,
-  getEnergyAssetApi,
-} from '@/service/api';
+import { getDelegationListApi } from '@/service/api';
 import BigNumber from 'bignumber.js';
 import AddressSendAndReceiveTx from '@/components/common/AddressSendAndReceiveTx';
 import addressDetailNftTabColumnConfig from '@/components/tableListColumnConfig/addressDetailNftTabColumnConfig';
@@ -108,19 +96,10 @@ import BsnDdcOptions from '@/addressPage/BsnDdcOptions';
 import EnergyAssetOptions from '@/addressPage/EnergyAssetOptions';
 import Tools from '../util/Tools';
 import MPagination from './common/MPagination';
-import { TxHelper } from '../helper/TxHelper';
 import { moduleSupport } from '../helper/ModulesHelper';
 import TxListComponent from './common/TxListComponent';
 import prodConfig from '../productionConfig';
-import Constant, {
-  TX_TYPE,
-  TX_STATUS,
-  ColumnMinWidth,
-  monikerNum,
-  ibcDenomPrefix,
-  decimals,
-  UGAS,
-} from '../constant';
+import Constant, { TX_TYPE, TX_STATUS, ColumnMinWidth, decimals } from '../constant';
 import AddressInformationComponent from './AddressInformationComponent';
 import LargeString from './common/LargeString';
 import ListComponent from './common/ListComponent';
@@ -128,16 +107,22 @@ import txCommonTable from './tableListColumnConfig/txCommonTable';
 import txCommonLatestTable from './tableListColumnConfig/txCommonLatestTable';
 import { needAddColumn } from './tableListColumnConfig/allTxTableColumnConfig';
 import TabsComponent from './common/TabsComponent';
-import { getAmountByTx, getDenomMap, getDenomTheme } from '../helper/txListAmoutHelper';
 import TxStatusTabsComponents from './common/TxStatusTabsComponents';
 import TxCountComponent from './TxCountComponent';
 import MClip from './common/MClip';
 import SignerColunmn from './tableListColumnConfig/SignerColunmn';
 import TxResetButtonComponent from './common/TxResetButtonComponent';
-import ddcListColumnConfig from './tableListColumnConfig/ddcListColumnConfig';
 import energyAssetColumn from './tableListColumnConfig/energyAssetColumn';
-import { energyAsset, assetInfo, nftCount, ddc, identity, iService, tx } from './ownerDetail/lib';
-
+import {
+  energyAsset,
+  assetInfo,
+  nftCount,
+  ddc,
+  identity,
+  iService,
+  tx,
+  mtAsset,
+} from './ownerDetail/lib';
 
 export default {
   name: 'OwnerDetail',
@@ -261,6 +246,7 @@ export default {
       energyAssetData: [],
       energyAssetColumn,
       isEnergyAsset: false,
+      isMtAsset: false,
       isShowSendAndReceiveTxComponent: false,
       opsConfig: {
         rail: {
@@ -362,6 +348,9 @@ export default {
       if (moduleSupport('103', prodConfig.navFuncList)) {
         this.tabList.push({ ...nftCount });
       }
+      if (moduleSupport('119', prodConfig.navFuncList)) {
+        this.tabList.push({ ...mtAsset });
+      }
       if (moduleSupport('117', prodConfig.navFuncList)) {
         this.tabList.push({ ...ddc });
       }
@@ -383,6 +372,7 @@ export default {
       this.isTx = false;
       this.isDDC = false;
       this.isEnergyAsset = false;
+      this.isMtAsset = false;
       this.tabList.forEach((item) => {
         if (item.isActive) {
           switch (item.moduleNumber) {
@@ -404,6 +394,9 @@ export default {
               break;
             case '117':
               this.isDDC = true;
+              break;
+            case '119':
+              this.isMtAsset = true;
               break;
             default:
               this.isTx = true;
