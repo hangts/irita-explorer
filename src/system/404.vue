@@ -23,7 +23,7 @@ export default {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	
+	margin-top: 0 !important;
 	.not_found_content {
 		max-width: 6.1rem;
 		

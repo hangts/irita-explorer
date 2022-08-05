@@ -1,18 +1,12 @@
-import {
-  getConfig as getConfigApi,
-  getIbcTransferByHash,
-  getIbcToken,
-  getAllTxTypes,
-} from '@/service/api';
+
 import moveDecimal from 'move-decimal-point';
 import { COSMOS_ADDRESS_PREFIX, IRIS_ADDRESS_PREFIX, DTC_ADDRESS_PREFIX } from '@/constant';
-// import { ibcDenomPrefix } from '../constant';
 import { cfg } from '@/config';
 import md5 from 'js-md5';
 import TxTypes from '@/helper/TxTypes';
+import ConfigClass from '@/helper/config';
+import { uploadIbcTokenRequestThrottler } from '@/helper/throttleHttpHelper';
 import Tools from '../util/Tools';
-import { TxHelper } from './TxHelper';
-import ConfigClass from "@/helper/config";
 
 export function validatePositiveInteger(value) {
   if (+value === 0 || (value && +value < 1)) {
@@ -32,7 +26,7 @@ async function uploadIbcToken(denom) {
     key,
     chain: '',
   };
-  const { data } = await getIbcToken(payload);
+  const { data } = await uploadIbcTokenRequestThrottler(payload);
   if (data?.symbol) {
     await getConfig();
     return data;
@@ -42,7 +36,7 @@ async function uploadIbcToken(denom) {
 export async function getConfig() {
   let config = window.sessionStorage.getItem('config');
   if (!config) {
-    config = await ConfigClass.getConfig()
+    config = await ConfigClass.getConfig();
   } else {
     config = JSON.parse(config || '{}');
   }
