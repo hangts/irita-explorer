@@ -1,9 +1,7 @@
 <template>
   <el-tooltip :content="$t('ExplorerLang.resetButtonTooltip')" :disabled="$store.state.isHideButtonTooltip">
     <button class="ref_content" @click="resetParams">
-<!--      <i class="iconfont iconzhongzhi"></i>-->
-      <div class="iconfont"></div>
-      <div class="iconfont_white"></div>
+      <i class="iconfont iconreload"></i>
       <span class="reset_button_label">{{ $t('ExplorerLang.resetButton') }}</span>
     </button>
   </el-tooltip>
@@ -46,27 +44,10 @@ export default {
   &:hover {
     background: $theme_c;
     color: #fff;
-    .iconfont{
-      display: none;
-    }
-    .iconfont_white{
-      display: block;
-    }
   }
-
   .iconfont {
-    width: 0.12rem;
-    height: 0.12rem;
-    background: url("../../assets/reset.png") center center/cover;
-    display: block;
+    font-size: 0.12rem;
   }
-  .iconfont_white{
-    display: none;
-    width: 0.12rem;
-    height: 0.12rem;
-    background: url("../../assets/reset-white.png") center center/cover;
-  }
-
   .reset_button_label {
     margin-left: 0.09rem;
   }
