@@ -2,7 +2,15 @@
   <div class="list_table_content_container">
     <div class="box-card">
       <div class="header_content">
-        <slot name="txCount"></slot>
+        <div class="count_container">
+          <div class="count_wrap">
+            <slot name="txCount"></slot>
+            <slot name="typeCount"></slot>
+          </div>
+          <div class="count_input_wrap">
+            <slot name="countFilterByInput"></slot>
+          </div>
+        </div>
         <div class="button_wrap">
           <slot name="refreshButton"></slot>
           <slot name="resetButton"></slot>
@@ -943,7 +951,6 @@ export default {
                   (this.columns.length - secondPracticalWidthCount.length);
               }
               this.tableListWidth = this.tableListWidth.map((item, index) => {
-
                 if (item <= 40) {
                   item = 40;
                   return item;
@@ -957,7 +964,6 @@ export default {
                   return ColumnMinWidth.fee;
                 }
                 if (!label.trim()) {
-
                   // 同时减少下 denom 列的宽度
                   return ColumnMinWidth.listDenom;
                 }
@@ -1023,7 +1029,20 @@ export default {
     .header_content {
       display: flex;
       justify-content: space-between;
-      .button_wrap{
+      .count_container{
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+        .count_wrap {
+          display: flex;
+        }
+        .count_input_wrap{
+          flex: 1;
+          margin-right: 0.2rem;
+        }
+      }
+
+      .button_wrap {
         display: flex;
         flex-direction: row;
         @media (max-width: 460px) {

@@ -32,6 +32,20 @@
               :tx-count="allCount"
             ></tx-count-component>
           </template>
+          <template v-slot:typeCount>
+            <tx-count-component
+              :title="
+                denomCount > 1
+                  ? $t('ExplorerLang.denom.subTitles')
+                  : $t('ExplorerLang.denom.subTitle')
+              "
+              :icon="'iconDenom'"
+              :tx-count="denomCount"
+              :isLink="true"
+              :linkRoute="'/denoms'"
+              :router-is-need-params="false"
+            ></tx-count-component>
+          </template>
           <template v-slot:resetButton>
             <nft-reset-button-component
               @resetFilterCondition="resetFilterCondition"
@@ -42,11 +56,19 @@
               @refreshParams="refreshCondition"
             ></tx-refresh-button-component>
           </template>
+          <template v-slot:countFilterByInput>
+            <nft-search-component
+              :input-placeholder="$t('ExplorerLang.nftAsset.placeHolder')"
+              @searchInput="handleSearchClick"
+              ref="searchNft"
+            ></nft-search-component>
+          </template>
           <template v-slot:datePicket>
             <nft-search-component
               :input-placeholder="$t('ExplorerLang.nftAsset.placeHolder')"
               @searchInput="handleSearchClick"
               ref="searchNft"
+              class="nft_input_container"
             ></nft-search-component>
           </template>
         </list-component>
@@ -115,7 +137,7 @@
 
 <script>
 import productionConfig from '@/productionConfig.js';
-import { getNfts } from '../service/api';
+import {getDenoms, getNfts} from '../service/api';
 import Tools from '../util/Tools';
 import MPagination from './common/MPagination';
 import { ColumnMinWidth } from '../constant';
@@ -160,7 +182,11 @@ export default {
       LargeStringMinHeight: 69,
       LargeStringLineHeight: 23,
       Tools,
+      denomCount: 0,
     };
+  },
+  created(){
+    this.getDenomsCount();
   },
   mounted() {
     if (this?.$route?.query?.denomId) {
@@ -174,6 +200,18 @@ export default {
     }
   },
   methods: {
+    async getDenomsCount() {
+      try {
+        const res = await getDenoms(null, null, true, false, this.input);
+        if (res?.count) {
+          this.denomCount = res.count;
+        } else {
+          this.denomCount = 0;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
     startStr(url) {
       return url.startsWith('www.');
     },
@@ -286,6 +324,9 @@ export default {
 <style scoped lang="scss">
 a {
   color: $t_link_c !important;
+}
+.nft_input_container{
+  display: none;
 }
 .nft_list_container {
   @media screen and (min-width: 910px) {

@@ -35,6 +35,13 @@
               :tx-count="count"
             ></tx-count-component>
           </template>
+          <template v-slot:countFilterByInput>
+            <nft-search-component
+              :input-placeholder="$t('ExplorerLang.denom.placeHolder')"
+              @searchInput="handleSearchClick"
+              ref="denomSearchNode"
+            ></nft-search-component>
+          </template>
           <template v-slot:resetButton>
             <nft-reset-button-component
               @resetFilterCondition="resetFilterCondition"
@@ -48,54 +55,10 @@
               :input-placeholder="$t('ExplorerLang.denom.placeHolder')"
               @searchInput="handleSearchClick"
               ref="denomSearchNode"
+              class="denom_list_input"
             ></nft-search-component>
           </template>
         </list-component>
-        <!-- <el-table class="table table_overflow_x" :data="denomList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-          <el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')">
-            <template slot-scope="scope">
-              {{ scope.row.denomName }}
-            </template>
-          </el-table-column>
-          <el-table-column :min-width="ColumnMinWidth.denomId" :label="$t('ExplorerLang.table.denomId')">
-            <template slot-scope="scope">
-              {{ scope.row.denomId }}
-            </template>
-          </el-table-column>
-          <el-table-column class-name="hash_status" :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.createHash')">
-            <template slot-scope="scope">
-              <el-tooltip v-if="scope.row.hash !== ''" :content="scope.row.hash" class="item" placement="top" effect="dark">
-                <router-link :to="`/tx?txHash=${scope.row.hash}`">
-                  {{ formatTxHash(scope.row.hash) }}
-                </router-link>
-              </el-tooltip>l
-              <span v-if="scope.row.hash === ''">...</span>
-            </template>
-          </el-table-column>
-          <el-table-column :min-width="ColumnMinWidth.nftCount" :label="$t('ExplorerLang.table.nftCount')">
-            <template slot-scope="scope">
-              <a @click="handleNftCountClick(scope.row.denomId)">
-                {{ scope.row.nftCount }}
-              </a>
-            </template>
-          </el-table-column>
-          <el-table-column class-name="address" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.creator')">
-            <template slot-scope="scope">
-              <el-tooltip :content="scope.row.sender" class="item" placement="top" effect="dark">
-                <router-link :to="`/address/${scope.row.sender}`">
-                  {{ formatAddress(scope.row.sender) }}
-                </router-link>
-              </el-tooltip>
-            </template>
-          </el-table-column>
-          <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time"></el-table-column>
-        </el-table>
-      </div>
-      <div class="pagination_content">
-        <keep-alive>
-          <m-pagination :page-size="pageSize" :total="count" :page="pageNum" :page-change="pageChange">
-          </m-pagination>
-        </keep-alive>-->
       </div>
     </div>
   </div>
@@ -236,6 +199,9 @@ export default {
 <style scoped lang="scss">
 a {
   color: $t_link_c !important;
+}
+.denom_list_input{
+  display: none;
 }
 .denom_list_container {
   @media screen and (min-width: 910px) {
