@@ -186,7 +186,12 @@ export const ExplorerLang = {
     contractMethod: 'ContractMethod',
     contractAddress: 'ContractAddress',
     mtId:'MT ID',
-    mtNumber:'Amount'
+    mtNumber:'Amount',
+    // mt list
+    mtName: 'Denom Name',
+    mtDenom: 'Denom ID',
+    publisher: 'Signer',
+    ownerNumber: 'Owner',
   },
   unit: {
     ellipsis: ' ,...',
@@ -273,6 +278,12 @@ export const ExplorerLang = {
     subTitles: 'NFTs',
     search: 'Search',
     placeHolder: 'Search by NFT ID or NFT Name',
+  },
+  mtList: {
+    mainTitle: 'MT List',
+    subTitle: 'MT',
+    subTitles: 'MTs',
+    placeHolder: 'Search by MT ID',
   },
   denom: {
     mainTitle: 'Denom List',

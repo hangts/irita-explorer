@@ -176,8 +176,14 @@ export const ExplorerLang = {
     ddcName: 'DDC 名称',
     contractMethod: '合约方法',
     contractAddress: '合约地址',
-    mtId:'MT 标识',
-    mtNumber:'数量'
+    mtId: 'MT 标识',
+    mtNumber: '数量',
+    // mt list
+    mtName: '类别名称',
+    mtDenom: '类别标识',
+    publisher: '发行者',
+    ownerNumber: '拥有者',
+
   },
   unit: {
     ellipsis: ' ,...',
@@ -264,6 +270,12 @@ export const ExplorerLang = {
     subTitles: 'NFT 数量',
     search: '搜索',
     placeHolder: '搜索数据对象标识或数据对象',
+  },
+  mtList: {
+    mainTitle: 'MT 列表',
+    subTitle: 'MT 数量',
+    subTitles: 'MT 数量',
+    placeHolder: '请输入 MT 标识进行搜索',
   },
   denom: {
     mainTitle: 'NFT类别',

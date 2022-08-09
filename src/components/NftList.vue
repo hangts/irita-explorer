@@ -60,7 +60,7 @@
             <nft-search-component
               :input-placeholder="$t('ExplorerLang.nftAsset.placeHolder')"
               @searchInput="handleSearchClick"
-              ref="searchNft"
+              ref="searchNftByInput"
             ></nft-search-component>
           </template>
           <template v-slot:datePicket>
@@ -229,6 +229,7 @@ export default {
       this.tokenId = '';
       this.owner = '';
       this.$refs.searchNft.resetFilterCondition();
+      this.$refs.searchNftByInput.resetFilterCondition();
       this.getNftsByFilterCount();
       this.getNftsByFilter();
       this.$router.push('/nftAsset');

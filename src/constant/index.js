@@ -486,11 +486,11 @@ export const ModuleMap = {
   },
   118: {
     title: 'MTs',
-    link: '/mts',
+    link: '/mt/denoms',
   },
   119: {
     title: '原生 MT',
-    link: '/mt/denoms',
+    link: '/mts',
   },
 };
 export const NETWORK_ICON = {
