@@ -95,15 +95,17 @@ export default {
   mounted() {},
   methods: {
     async getMtCount() {
-      const mtCount = getMtCount(this.input).catch((error) => {
+      const mtCount = await getMtCount(this.input).catch((error) => {
         console.error(error);
       });
       this.mtCount = mtCount?.count ?? 0;
     },
     async getMts() {
-      const mtListData = getMts(this.input, this.pageNum, this.pageSize).catch((error) => {
+      this.isMtListLoading = true;
+      const mtListData = await getMts(this.input, this.pageNum, this.pageSize).catch((error) => {
         console.error(error);
       });
+      this.isMtListLoading = false;
       if (mtListData?.length > 0) {
         this.mtListData = mtListData.map((item) => {
           return {
