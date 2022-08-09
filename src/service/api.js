@@ -686,3 +686,11 @@ export const getTxCountByAddress = (params, address) => {
   const url = `/txs/addresses/statistic?params=${params}&address=${address}`;
   return get(url);
 };
+export const getMts = (id, pageNum, pageSize) => {
+  const url = `/v1/mt/mts?mt_id=${id}&page_num=${pageNum}&page_size=&${pageSize}`;
+  return getFromGo(url);
+};
+export const getMtCount = (id) => {
+  const url = `/v1/mt/mts/count?mt_id=${id}`;
+  return getFromGo(url);
+}
