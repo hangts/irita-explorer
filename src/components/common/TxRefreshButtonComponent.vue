@@ -1,23 +1,24 @@
 <template>
-  <el-tooltip :content="$t('ExplorerLang.refreshButtonTooltip')" :disabled="$store.state.isHideButtonTooltip">
+  <el-tooltip
+    :content="$t('ExplorerLang.refreshButtonTooltip')"
+    :disabled="$store.state.isHideButtonTooltip"
+  >
     <button class="ref_content" @click="refreshParams">
-<!--      <i class="iconfont iconzhongzhi"></i>-->
-      <div class="iconfont"></div>
-      <div class="iconfont_white"></div>
-      <span class="refresh_button_label">{{$t('ExplorerLang.refreshButton')}}</span>
+      <i class="iconfont iconrefresh"></i>
+      <span class="refresh_button_label">{{ $t('ExplorerLang.refreshButton') }}</span>
     </button>
   </el-tooltip>
 </template>
 
 <script>
 export default {
-  name: "TxRefreshButtonComponent",
-  methods:{
-    refreshParams(){
+  name: 'TxRefreshButtonComponent',
+  methods: {
+    refreshParams() {
       this.$emit('refreshParams', '');
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -33,29 +34,14 @@ export default {
   flex-direction: row;
   align-items: center;
   height: 0.32rem;
-  &:hover{
+  &:hover {
     background: $theme_c;
     color: #fff;
-    .iconfont{
-      display: none;
-    }
-    .iconfont_white{
-      display: block;
-    }
   }
-  .iconfont{
-    width: 0.12rem;
-    height: 0.12rem;
-    background: url("../../assets/refresh.png") center center/cover;
-    display: block;
+  .iconfont {
+    font-size: 0.12rem;
   }
-  .iconfont_white{
-    display: none;
-    width: 0.12rem;
-    height: 0.12rem;
-    background: url("../../assets/refresh-white.png") center center/cover;
-  }
-  .refresh_button_label{
+  .refresh_button_label {
     margin-left: 0.09rem;
   }
 }

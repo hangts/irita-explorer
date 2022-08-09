@@ -185,6 +185,8 @@ export const ExplorerLang = {
     ddcName: 'DDC Name',
     contractMethod: 'ContractMethod',
     contractAddress: 'ContractAddress',
+    mtId:'MT ID',
+    mtNumber:'Amount'
   },
   unit: {
     ellipsis: ' ,...',

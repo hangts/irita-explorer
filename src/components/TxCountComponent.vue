@@ -11,7 +11,7 @@
           <router-link
             class="link_style"
             v-if="isLink && txCount !== '--'"
-            :to="`${linkRoute}/${txCount}`"
+            :to="`${linkRoute}${routerIsNeedParams ? '/' + txCount : ''}`"
           >
             {{ txCount }}
           </router-link>
@@ -74,6 +74,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    routerIsNeedParams: {
+      type: Boolean,
+      default: true,
+    },
   },
 };
 </script>
@@ -81,7 +85,6 @@ export default {
 <style scoped lang="scss">
 .tx_count_content {
   display: flex;
-  margin: 0.2rem 0 0 0;
   align-items: center;
   &_wrap {
     display: flex;
