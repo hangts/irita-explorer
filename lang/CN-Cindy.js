@@ -277,6 +277,12 @@ export const ExplorerLang = {
     subTitles: 'MT 数量',
     placeHolder: '请输入 MT 标识进行搜索',
   },
+  mtDenomList:{
+    mainTitle: 'MT 类别列表',
+    subTitle: 'MT 类别',
+    subTitles: 'MT 类别',
+    placeHolder: '请输入 MT 类别标识或 MT 类别名称进行搜索',
+  },
   denom: {
     mainTitle: 'NFT类别',
     subTitle: 'NFT类别',
