@@ -122,7 +122,7 @@ export default {
     },
     pageChange(currentPageNumber) {
       this.pageNum = currentPageNumber;
-      this.getMts();
+      this.getMtDenomsListData();
     },
     resetFilterCondition() {
       this.input = '';
