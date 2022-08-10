@@ -107,8 +107,8 @@ export default {
         console.error(error);
       });
       this.isMtListLoading = false;
-      if (mtListData?.length > 0) {
-        this.mtListData = mtListData.map((item) => {
+      if (mtListData?.data?.length > 0) {
+        this.mtListData = mtListData?.data?.map((item) => {
           return {
             denomId: item?.denom_id || '',
             denomName: item?.denom_name || '',

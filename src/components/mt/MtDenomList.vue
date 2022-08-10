@@ -106,7 +106,7 @@ export default {
         console.error(error);
       });
       this.isMtDenomListLoading = false;
-      if (mtDenomListData?.length > 0) {
+      if (mtDenomListData?.data?.length > 0) {
         this.mtDenomListData = mtDenomListData.data.map((item) => {
           return {
             denomId: item?.denom_id || '',
@@ -114,7 +114,7 @@ export default {
             txHash: item?.issue_tx_hash || '',
             mtNumber: item?.amount ?? '',
             creator: item?.creator || '',
-            owner: item?.owner ?? '',
+            owner: item?.owner || '',
             time: item?.latest_tx_time ? Tools.formatLocalTime(item.latest_tx_time) : '--',
           };
         });
