@@ -285,6 +285,12 @@ export const ExplorerLang = {
     subTitles: 'MTs',
     placeHolder: 'Search by MT ID',
   },
+  mtDenomList:{
+    mainTitle: 'Denom List',
+    subTitle: 'Denom',
+    subTitles: 'Denoms',
+    placeHolder: 'Search by Denom Name or Denom ID',
+  },
   denom: {
     mainTitle: 'Denom List',
     subTitle: 'Denom',

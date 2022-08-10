@@ -55,7 +55,7 @@ const router = new Router({
     },
     {
       path: '/mt/denoms', // mt类别列表
-      // component: () => import('@/components/'),
+      component: () => import('@/components/mt/MtDenomList.vue'),
     },
     {
       path: '/identities',

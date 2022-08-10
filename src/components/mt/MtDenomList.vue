@@ -1,31 +1,30 @@
 <template>
-  <div class="mt_list_container">
-    <div class="mt_list_content_wrap">
-      <div class="mt_list_header_content">
-        <h3 class="mt_list_header_title">{{ $t('ExplorerLang.mtList.mainTitle') }}</h3>
+  <div class="mt_denom_list_container">
+    <div class="mt_denom_list_content_wrap">
+      <div class="mt_denom_list_header_content">
+        <h3 class="mt_denom_list_header_title">{{ $t('ExplorerLang.mtDenomList.mainTitle') }}</h3>
       </div>
       <div class="nef_list_table_container">
         <list-component
-          :is-loading="isMtListLoading"
-          :list-data="mtListData"
-          :column-list="mtListColumn"
+          :is-loading="isMtDenomListLoading"
+          :list-data="mtDenomListData"
+          :column-list="mtDenomListColumn"
           :pagination="{
             pageSize: Number(pageSize),
-            dataCount: mtCount,
+            dataCount: mtDenomCount,
             pageNum: Number(pageNum),
           }"
           @pageChange="pageChange"
         >
-
           <template v-slot:txCount>
             <tx-count-component
               :title="
-                mtCount > 1
-                  ? $t('ExplorerLang.mtList.subTitles')
-                  : $t('ExplorerLang.mtList.subTitle')
+                mtDenomCount > 1
+                  ? $t('ExplorerLang.mtDenomList.subTitles')
+                  : $t('ExplorerLang.mtDenomList.subTitle')
               "
               :icon="'iconNFT'"
-              :tx-count="mtCount"
+              :tx-count="mtDenomCount"
             ></tx-count-component>
           </template>
           <template v-slot:resetButton>
@@ -40,17 +39,17 @@
           </template>
           <template v-slot:countFilterByInput>
             <nft-search-component
-              :input-placeholder="$t('ExplorerLang.mtList.placeHolder')"
+              :input-placeholder="$t('ExplorerLang.mtDenomList.placeHolder')"
               @searchInput="handleSearchClick"
-              ref="searchMtByInput"
+              ref="searchMtDenomByInput"
             ></nft-search-component>
           </template>
           <template v-slot:datePicket>
             <nft-search-component
-              :input-placeholder="$t('ExplorerLang.mtList.placeHolder')"
+              :input-placeholder="$t('ExplorerLang.mtDenomList.placeHolder')"
               @searchInput="handleSearchClick"
               ref="searchMt"
-              class="mt_input_container"
+              class="mt_denom_input_container"
             ></nft-search-component>
           </template>
         </list-component>
@@ -65,12 +64,12 @@ import TxCountComponent from '../TxCountComponent';
 import NftSearchComponent from '../common/NftSearchComponent';
 import NftResetButtonComponent from '../common/NftResetButtonComponent';
 import TxRefreshButtonComponent from '../common/TxRefreshButtonComponent';
-import mtListColumn from './mtColumnConfig/mtListColumn';
-import { getMts, getMtCount } from '../../service/api';
+import mtDenomListColumn from "./mtColumnConfig/mtDenomListColumn";
+import { getMtDenoms, getMtDenomCount } from '../../service/api';
 import Tools from '../../util/Tools';
 
 export default {
-  name: 'MtList',
+  name: 'MtDenomList',
   components: {
     TxRefreshButtonComponent,
     NftResetButtonComponent,
@@ -80,42 +79,42 @@ export default {
   },
   data() {
     return {
-      isMtListLoading: false,
-      mtListData: [],
-      mtListColumn,
+      isMtDenomListLoading: false,
+      mtDenomListData: [],
+      mtDenomListColumn,
       pageSize: 15,
       pageNum: 1,
-      mtCount: 0,
+      mtDenomCount: 0,
       input: '',
     };
   },
   created() {
-    this.getMtCount();
-    this.getMts();
+    this.getMtDenomListDataCount();
+    this.getMtDenomsListData();
   },
   mounted() {},
   methods: {
-    async getMtCount() {
-      const mtCount = await getMtCount(this.input).catch((error) => {
+    async getMtDenomListDataCount() {
+      const mtDenomCount = await getMtDenomCount(this.input).catch((error) => {
         console.error(error);
       });
-      this.mtCount = mtCount?.count ?? 0;
+      this.mtDenomCount = mtDenomCount?.count ?? 0;
     },
-    async getMts() {
-      this.isMtListLoading = true;
-      const mtListData = await getMts(this.input, this.pageNum, this.pageSize).catch((error) => {
+    async getMtDenomsListData() {
+      this.isMtDenomListLoading = true;
+      const mtDenomListData = await getMtDenoms(this.input, this.pageNum, this.pageSize).catch((error) => {
         console.error(error);
       });
-      this.isMtListLoading = false;
-      if (mtListData?.data?.length > 0) {
-        this.mtListData = mtListData?.data?.map((item) => {
+      this.isMtDenomListLoading = false;
+      if (mtDenomListData?.data?.length > 0) {
+        this.mtDenomListData = mtDenomListData.data.map((item) => {
           return {
             denomId: item?.denom_id || '',
             denomName: item?.denom_name || '',
-            mtID: item?.mt_id || '--',
+            txHash: item?.issue_tx_hash || '',
             mtNumber: item?.amount ?? '',
-            publisher: item?.creator || '',
-            ownerCount: item?.owner_count ?? '',
+            creator: item?.creator || '',
+            owner: item?.owner || '',
             time: item?.latest_tx_time ? Tools.formatLocalTime(item.latest_tx_time) : '--',
           };
         });
@@ -123,25 +122,25 @@ export default {
     },
     pageChange(currentPageNumber) {
       this.pageNum = currentPageNumber;
-      this.getMts();
+      this.getMtDenomsListData();
     },
     resetFilterCondition() {
       this.input = '';
       this.pageNum = 1;
-      this.$refs.searchMtByInput.resetFilterCondition();
-      this.getMts();
-      this.getMtCount();
+      this.$refs.searchMtDenomByInput.resetFilterCondition();
+      this.getMtDenomsListData();
+      this.getMtDenomListDataCount();
     },
     refreshCondition() {
-      this.getMts();
-      this.getMtCount();
+      this.getMtDenomsListData();
+      this.getMtDenomListDataCount();
     },
     handleSearchClick(iptValue) {
       if (!iptValue) return;
       this.input = iptValue;
       this.pageNum = 1;
-      this.getMts();
-      this.getMtCount();
+      this.getMtDenomsListData();
+      this.getMtDenomListDataCount();
     },
   },
 };
@@ -152,16 +151,16 @@ a {
   color: $t_link_c !important;
 }
 
-.mt_input_container {
+.mt_denom_input_container {
   display: none;
 }
 
-.mt_list_container {
+.mt_denom_list_container {
   @media screen and (min-width: 910px) {
-    .mt_list_content_wrap {
+    .mt_denom_list_content_wrap {
       max-width: 12rem;
 
-      .mt_list_header_content {
+      .mt_denom_list_header_content {
         display: flex;
         align-items: center;
 
@@ -212,17 +211,17 @@ a {
     }
   }
   @media screen and (max-width: 910px) {
-    .mt_list_content_wrap {
+    .mt_denom_list_content_wrap {
       width: 100%;
       padding: 0 0.15rem;
       box-sizing: border-box;
 
-      .mt_list_header_content {
+      .mt_denom_list_header_content {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
 
-        .mt_list_header_title {
+        .mt_denom_list_header_title {
           margin-bottom: 0.1rem;
         }
 
@@ -274,11 +273,11 @@ a {
     }
   }
 
-  .mt_list_content_wrap {
+  .mt_denom_list_content_wrap {
     margin: 0 auto;
     padding: 0 0.15rem;
 
-    .mt_list_header_content {
+    .mt_denom_list_header_content {
       width: 100%;
       margin: 0.4rem 0 0.1rem 0;
 
@@ -308,7 +307,7 @@ a {
         }
       }
 
-      .mt_list_header_title {
+      .mt_denom_list_header_title {
         font-size: $s22;
         color: $t_first_c;
         line-height: 0.21rem;
@@ -316,6 +315,17 @@ a {
         //text-indent: 0.2rem;
       }
 
+      .mt_denom_content {
+        margin-top: 0.1rem;
+        width: 100%;
+        height: 0.5rem;
+        line-height: 0.5rem;
+        font-size: $s14;
+        color: $t_second_c;
+        text-align: left;
+        background: $bg_white_c;
+        text-indent: 0.2rem;
+      }
 
       .tx_type_mobile_content {
         display: flex;
