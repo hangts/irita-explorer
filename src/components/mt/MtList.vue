@@ -4,6 +4,7 @@
       <div class="mt_list_header_content">
         <h3 class="mt_list_header_title">{{ $t('ExplorerLang.mtList.mainTitle') }}</h3>
       </div>
+      <links-tab-copmonent :propos-links="tabLinks"></links-tab-copmonent>
       <div class="nef_list_table_container">
         <list-component
           :is-loading="isMtListLoading"
@@ -68,10 +69,12 @@ import TxRefreshButtonComponent from '../common/TxRefreshButtonComponent';
 import mtListColumn from './mtColumnConfig/mtListColumn';
 import { getMts, getMtCount } from '../../service/api';
 import Tools from '../../util/Tools';
+import LinksTabCopmonent from "../common/LinksTabCopmonent";
 
 export default {
   name: 'MtList',
   components: {
+    LinksTabCopmonent,
     TxRefreshButtonComponent,
     NftResetButtonComponent,
     NftSearchComponent,
@@ -87,6 +90,18 @@ export default {
       pageNum: 1,
       mtCount: 0,
       input: '',
+      tabLinks: [
+        {
+          label: this.$t('ExplorerLang.mtList.mtList'),
+          href: '/mt',
+          isActive: true
+        },
+        {
+          label: this.$t('ExplorerLang.mtList.mtDenomList'),
+          href: '/mt/denoms',
+          isActive: false
+        },
+      ]
     };
   },
   created() {
