@@ -9,6 +9,7 @@
           <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
         </div>-->
       </div>
+      <links-tab-copmonent :propos-links="tabLinks"></links-tab-copmonent>
       <div class="nef_list_table_container">
         <list-component
           :is-loading="isNftListLoading"
@@ -30,20 +31,6 @@
               "
               :icon="'iconNFT'"
               :tx-count="allCount"
-            ></tx-count-component>
-          </template>
-          <template v-slot:typeCount>
-            <tx-count-component
-              :title="
-                denomCount > 1
-                  ? $t('ExplorerLang.denom.subTitles')
-                  : $t('ExplorerLang.denom.subTitle')
-              "
-              :icon="'iconDenom'"
-              :tx-count="denomCount"
-              :isLink="true"
-              :linkRoute="'/denoms'"
-              :router-is-need-params="false"
             ></tx-count-component>
           </template>
           <template v-slot:resetButton>
@@ -149,10 +136,12 @@ import TxCountComponent from './TxCountComponent';
 import NftSearchComponent from './common/NftSearchComponent';
 import NftResetButtonComponent from './common/NftResetButtonComponent';
 import TxRefreshButtonComponent from './common/TxRefreshButtonComponent';
+import LinksTabCopmonent from "./common/LinksTabCopmonent";
 
 export default {
   name: 'NftList',
   components: {
+    LinksTabCopmonent,
     TxRefreshButtonComponent,
     NftResetButtonComponent,
     NftSearchComponent,
@@ -183,6 +172,18 @@ export default {
       LargeStringLineHeight: 23,
       Tools,
       denomCount: 0,
+      tabLinks: [
+        {
+          label: this.$t('ExplorerLang.nftAsset.nftList'),
+          href: '/nftAsset',
+          isActive: true
+        },
+        {
+          label: this.$t('ExplorerLang.nftAsset.denomList'),
+          href: '/denoms',
+          isActive: false
+        },
+      ]
     };
   },
   created(){

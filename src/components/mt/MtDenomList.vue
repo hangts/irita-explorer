@@ -4,6 +4,7 @@
       <div class="mt_denom_list_header_content">
         <h3 class="mt_denom_list_header_title">{{ $t('ExplorerLang.mtDenomList.mainTitle') }}</h3>
       </div>
+      <links-tab-copmonent :propos-links="tabLinks"></links-tab-copmonent>
       <div class="nef_list_table_container">
         <list-component
           :is-loading="isMtDenomListLoading"
@@ -64,13 +65,15 @@ import TxCountComponent from '../TxCountComponent';
 import NftSearchComponent from '../common/NftSearchComponent';
 import NftResetButtonComponent from '../common/NftResetButtonComponent';
 import TxRefreshButtonComponent from '../common/TxRefreshButtonComponent';
-import mtDenomListColumn from "./mtColumnConfig/mtDenomListColumn";
+import mtDenomListColumn from './mtColumnConfig/mtDenomListColumn';
 import { getMtDenoms, getMtDenomCount } from '../../service/api';
 import Tools from '../../util/Tools';
+import LinksTabCopmonent from '../common/LinksTabCopmonent';
 
 export default {
   name: 'MtDenomList',
   components: {
+    LinksTabCopmonent,
     TxRefreshButtonComponent,
     NftResetButtonComponent,
     NftSearchComponent,
@@ -86,6 +89,18 @@ export default {
       pageNum: 1,
       mtDenomCount: 0,
       input: '',
+      tabLinks: [
+        {
+          label: this.$t('ExplorerLang.mtList.mtList'),
+          href: '/mts',
+          isActive: false,
+        },
+        {
+          label: this.$t('ExplorerLang.mtList.mtDenomList'),
+          href: '/mt/denoms',
+          isActive: true,
+        },
+      ],
     };
   },
   created() {
@@ -102,9 +117,11 @@ export default {
     },
     async getMtDenomsListData() {
       this.isMtDenomListLoading = true;
-      const mtDenomListData = await getMtDenoms(this.input, this.pageNum, this.pageSize).catch((error) => {
-        console.error(error);
-      });
+      const mtDenomListData = await getMtDenoms(this.input, this.pageNum, this.pageSize).catch(
+        (error) => {
+          console.error(error);
+        }
+      );
       this.isMtDenomListLoading = false;
       if (mtDenomListData?.data?.length > 0) {
         this.mtDenomListData = mtDenomListData.data.map((item) => {

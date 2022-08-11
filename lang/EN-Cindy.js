@@ -273,17 +273,21 @@ export const ExplorerLang = {
     unbonded: 'Jailed',
   },
   nftAsset: {
-    mainTitle: 'NFT List',
+    mainTitle: 'Native NFT',
     subTitle: 'NFT',
     subTitles: 'NFTs',
     search: 'Search',
     placeHolder: 'Search by NFT ID or NFT Name',
+    nftList: 'NFT List',
+    denomList: 'Denom list',
   },
   mtList: {
-    mainTitle: 'MT List',
+    mainTitle: 'Native MT',
     subTitle: 'MT',
     subTitles: 'MTs',
     placeHolder: 'Search by MT ID',
+    mtList: 'MT List',
+    mtDenomList: 'Denom list',
   },
   mtDenomList:{
     mainTitle: 'Denom List',
@@ -292,7 +296,7 @@ export const ExplorerLang = {
     placeHolder: 'Search by Denom Name or Denom ID',
   },
   denom: {
-    mainTitle: 'Denom List',
+    mainTitle: 'Native Denom',
     subTitle: 'Denom',
     subTitles: 'Denoms',
     search: 'Search',

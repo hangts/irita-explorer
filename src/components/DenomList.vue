@@ -15,6 +15,7 @@
           </div>
         </div>-->
       </div>
+      <links-tab-copmonent :propos-links="tabLinks"></links-tab-copmonent>
       <div class="nef_list_table_container">
         <list-component
           :empty-text="$t('ExplorerLang.table.emptyDescription')"
@@ -77,10 +78,12 @@ import TxCountComponent from './TxCountComponent';
 import NftSearchComponent from './common/NftSearchComponent';
 import NftResetButtonComponent from './common/NftResetButtonComponent';
 import TxRefreshButtonComponent from "./common/TxRefreshButtonComponent";
+import LinksTabCopmonent from "./common/LinksTabCopmonent";
 
 export default {
   name: 'DenomList',
   components: {
+    LinksTabCopmonent,
     TxRefreshButtonComponent,
     NftResetButtonComponent,
     NftSearchComponent,
@@ -101,6 +104,18 @@ export default {
       pageSize: 10,
       input: '',
       count: 0,
+      tabLinks: [
+        {
+          label: this.$t('ExplorerLang.nftAsset.nftList'),
+          href: '/nftAsset',
+          isActive: false
+        },
+        {
+          label: this.$t('ExplorerLang.nftAsset.denomList'),
+          href: '/denoms',
+          isActive: true
+        },
+      ]
     };
   },
   mounted() {
