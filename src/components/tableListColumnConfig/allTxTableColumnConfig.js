@@ -1954,15 +1954,150 @@ export const needAddColumn = {
       linkRoute: '/address/',
     },
   ],
-  mt_issue_denom:[
+  // mt
+  mt_issue_denom: [
     {
-      label: i18n.t('ExplorerLang.table.denomName')
+      label: i18n.t('ExplorerLang.table.denomName'),
+      displayValue: 'mtDenomName',
+      nativeValue: 'mtDenomName',
+      isNeedFormat: true,
+      isFormatAddress: true,
     },
     {
-      label: i18n.t('ExplorerLang.table.denomId')
+      label: i18n.t('ExplorerLang.table.denomId'),
+      displayValue: 'mtDenomId',
+      nativeValue: 'mtDenomId',
+      isNeedFormat: true,
+      isFormatNftIdAndDenomId: true,
     },
     {
-      label: i18n.t('ExplorerLang.table.denomId')
+      label: i18n.t('ExplorerLang.table.creator'),
+      displayValue: 'signer',
+      nativeValue: 'signer',
+      isLink: true,
+      isNeedFormat: true,
+      isFormatAddress: true,
+      linkRoute: '/address/',
+    },
+  ],
+  mt_transfer_denom: [
+    {
+      label: i18n.t('ExplorerLang.table.denomName'),
+      displayValue: 'mtDenomName',
+      nativeValue: 'mtDenomName',
+      isNeedFormat: true,
+      isFormatAddress: true,
+    },
+    {
+      label: i18n.t('ExplorerLang.table.denomId'),
+      displayValue: 'mtDenomId',
+      nativeValue: 'mtDenomId',
+      isNeedFormat: true,
+      isFormatNftIdAndDenomId: true,
+    },
+    {
+      label: i18n.t('ExplorerLang.table.from'),
+      displayValue: 'receiver',
+      nativeValue: 'receiver',
+      isLink: true,
+      isNeedFormat: true,
+      isFormatAddress: true,
+      linkRoute: '/address/',
+    },
+    {
+      label: i18n.t('ExplorerLang.table.to'),
+      displayValue: 'sender',
+      nativeValue: 'sender',
+      isLink: true,
+      isNeedFormat: true,
+      isFormatAddress: true,
+      linkRoute: '/address/',
+    },
+  ],
+  mint_mt: [
+    {
+      label: i18n.t('ExplorerLang.table.mtId'),
+      displayValue: 'mtId',
+      nativeValue: 'mtId',
+      isNeedFormat: true,
+      isFormatNftIdAndDenomId: true,
+      nftRouterParamsValue: 'mtDenomId',
+      isLink: true,
+      isNft: true,
+      linkRoute: '/mt/token?denom=',
+      denomRouter: '&tokenId=',
+    },
+    {
+      label: i18n.t('ExplorerLang.table.mtNumber'),
+      displayValue: 'mtNumber',
+    },
+    {
+      label: i18n.t('ExplorerLang.table.from'),
+      displayValue: 'receiver',
+      nativeValue: 'receiver',
+      isLink: true,
+      isNeedFormat: true,
+      isFormatAddress: true,
+      linkRoute: '/address/',
+    },
+    {
+      label: i18n.t('ExplorerLang.table.to'),
+      displayValue: 'sender',
+      nativeValue: 'sender',
+      isLink: true,
+      isNeedFormat: true,
+      isFormatAddress: true,
+      linkRoute: '/address/',
+    },
+  ],
+  transfer_mt: [
+    {
+      label: i18n.t('ExplorerLang.table.mtId'),
+      displayValue: 'mtId',
+      nativeValue: 'mtId',
+      isNeedFormat: true,
+      isFormatNftIdAndDenomId: true,
+      nftRouterParamsValue: 'mtDenomId',
+      isLink: true,
+      isNft: true,
+      linkRoute: '/mt/token?denom=',
+      denomRouter: '&tokenId=',
+    },
+    {
+      label: i18n.t('ExplorerLang.table.mtNumber'),
+      displayValue: 'mtNumber',
+    },
+    {
+      label: i18n.t('ExplorerLang.table.from'),
+      displayValue: 'receiver',
+      nativeValue: 'receiver',
+      isLink: true,
+      isNeedFormat: true,
+      isFormatAddress: true,
+      linkRoute: '/address/',
+    },
+    {
+      label: i18n.t('ExplorerLang.table.to'),
+      displayValue: 'sender',
+      nativeValue: 'sender',
+      isLink: true,
+      isNeedFormat: true,
+      isFormatAddress: true,
+      linkRoute: '/address/',
+    },
+  ],
+  edit_mt: [
+    {
+      label: i18n.t('ExplorerLang.table.mtId'),
+      displayValue: 'mtId',
+      nativeValue: 'mtId',
+      isNeedFormat: true,
+      isFormatNftIdAndDenomId: true,
+      nftRouterParamsValue: 'mtDenomId',
+      isLink: true,
+      isNft: true,
+      linkRoute: '/mt/token?denom=',
+      denomRouter: '&tokenId=',
     },
     {
       label: i18n.t('ExplorerLang.table.signer'),
@@ -1974,12 +2109,22 @@ export const needAddColumn = {
       linkRoute: '/address/',
     },
   ],
-  mt_transfer_denom:[
+  burn_mt: [
     {
-      label: i18n.t('ExplorerLang.table.denomName')
+      label: i18n.t('ExplorerLang.table.mtId'),
+      displayValue: 'mtId',
+      nativeValue: 'mtId',
+      isNeedFormat: true,
+      isFormatNftIdAndDenomId: true,
+      nftRouterParamsValue: 'mtDenomId',
+      isLink: true,
+      isNft: true,
+      linkRoute: '/mt/token?denom=',
+      denomRouter: '&tokenId=',
     },
     {
-      label: i18n.t('ExplorerLang.table.denomId')
+      label: i18n.t('ExplorerLang.table.mtNumber'),
+      displayValue: 'mtNumber',
     },
     {
       label: i18n.t('ExplorerLang.table.signer'),
@@ -1990,19 +2135,5 @@ export const needAddColumn = {
       isFormatAddress: true,
       linkRoute: '/address/',
     },
-    {
-      label: i18n.t('ExplorerLang.table.to')
-    },
   ],
-  mint_mt:[
-    {
-      label: i18n.t('ExplorerLang.table.denomName')
-    },
-    {
-      label: i18n.t('ExplorerLang.table.mtId')
-    },
-    {
-      label: i18n.t('ExplorerLang.table.mtNumber')
-    },
-  ]
 };

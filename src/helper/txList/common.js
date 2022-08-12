@@ -36,7 +36,7 @@ import {
   isSequenceSourceChainSigner,
   isSigner,
   isChainNameSigner,
-  isSenderReceiverDenomId,
+  isSenderReceiverDenomId, isMtIssueDenom, isMtTransferDenom, isMintMt, isTransferMt, isEditMt, isBurnMt,
 } from './lib';
 
 const getValueFromArr = (values, defaultVal = { more: ' ', default: '--' }) => {
@@ -151,6 +151,10 @@ export const formatTxDataFn = async (
         let source_chainArr = [];
         let sequenceArr = [];
         let chain_nameArr = [];
+        // mt
+        let mtDenomIdArr = [];
+        let mtDenomNameArr = [];
+        let mtIdArr = [];
         const signers = [];
         let msg;
         // farm => stake unstake
@@ -172,6 +176,11 @@ export const formatTxDataFn = async (
         let proposer = '--';
         let initialDeposit = '--';
         // farm => destory pool/ adjust pool : poolId poolCreator
+        // mt
+        let mtDenomId = '--';
+        let mtDenomName = '--';
+        let mtId = '--';
+        let mtNumber = '--';
 
         if (tx.msgs.length > 0) {
           tx.msgs.forEach((item) => {
@@ -327,6 +336,37 @@ export const formatTxDataFn = async (
               senderArr.push(item?.msg?.sender);
               receiverArr.push(item?.msg?.recipient);
             }
+            // mt
+            if (isMtIssueDenom(item)) {
+              mtDenomIdArr.push(item?.msg?.id);
+              mtDenomNameArr.push(item?.msg?.name);
+            }
+            if (isMtTransferDenom(item)){
+              mtDenomIdArr.push(item?.msg?.id);
+              mtDenomNameArr.push(item?.msg?.name);
+              receiverArr.push(item?.msg?.recipient);
+              senderArr.push(item?.msg?.sender);
+            }
+            if(isMintMt(item)){
+              mtIdArr.push(item?.msg?.id);
+              receiverArr.push(item?.msg?.recipient);
+              senderArr.push(item?.msg?.sender);
+              mtDenomIdArr.push(item?.msg?.denom);
+            }
+            if(isTransferMt(item)){
+              mtIdArr.push(item?.msg?.id);
+              receiverArr.push(item?.msg?.recipient);
+              senderArr.push(item?.msg?.sender);
+              mtDenomIdArr.push(item?.msg?.denom);
+            }
+            if(isEditMt(item)){
+              mtIdArr.push(item?.msg?.id);
+              mtDenomIdArr.push(item?.msg?.denom);
+            }
+            if(isBurnMt(item)) {
+              mtIdArr.push(item?.msg?.id);
+              mtDenomIdArr.push(item?.msg?.denom);
+            }
           });
           /*
            * 同一类型多msg 去重
@@ -366,8 +406,20 @@ export const formatTxDataFn = async (
           source_chainArr = arrHandle(source_chainArr);
           sequenceArr = arrHandle(sequenceArr);
           chain_nameArr = arrHandle(chain_nameArr);
+          mtDenomIdArr = arrHandle(mtDenomIdArr);
+          mtDenomNameArr = arrHandle(mtDenomNameArr);
+          mtIdArr = arrHandle(mtIdArr);
         }
-
+        //
+        if (msg?.type === TX_TYPE.mint_mt){
+          mtNumber = msg?.msg?.amount;
+        }
+        if (msg?.type === TX_TYPE.transfer_mt){
+          mtNumber = msg?.msg?.amount;
+        }
+        if (msg?.type === TX_TYPE.burn_mt){
+          mtNumber = msg?.msg?.amount;
+        }
         // farm -> stake unstake
         if (msg?.type === TX_TYPE.stake || msg?.type === TX_TYPE.unstake) {
           poolId = Tools.formatPoolId(msg?.msg?.pool_id);
@@ -487,6 +539,7 @@ export const formatTxDataFn = async (
               tx?.msgs[0]?.msg?.ex?.ddc_method
             ]) ||
           tx?.msgs[0]?.msg?.ex?.ddc_method;
+
         transactionArray.push({
           txHash: tx.tx_hash,
           blockHeight: tx.height,
@@ -572,6 +625,10 @@ export const formatTxDataFn = async (
           contractAddr:
             tx?.contract_addrs && tx?.contract_addrs.length > 0 ? tx?.contract_addrs[0] : '--',
           contractMethod: _contractMethod || '--',
+          mtDenomId: getValueFromArr(mtDenomIdArr),
+          mtDenomName: getValueFromArr(mtDenomNameArr),
+          mtId: getValueFromArr(mtIdArr),
+          mtNumber: mtIdArr?.length > 1 ? ' ' : mtNumber,
         });
         /**
          * @description: from parseTimeMixin
