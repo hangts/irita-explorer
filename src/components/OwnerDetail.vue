@@ -125,7 +125,7 @@ import {
   tx,
   mtAsset,
 } from './ownerDetail/lib';
-import MtTabOptions from "../addressPage/MtTabOptions";
+import MtTabOptions from '../addressPage/MtTabOptions';
 
 export default {
   name: 'OwnerDetail',
@@ -365,7 +365,15 @@ export default {
         this.tabList.push({ ...iService });
       }
       this.tabList.push({ ...tx });
-      this.tabList[0].isActive = true;
+      if (this.$route?.query?.tab === 'tx') {
+        this.tabList.forEach((item) => {
+          item.isActive = false;
+        });
+        this.tabList[this.tabList.length - 1].isActive = true;
+      } else {
+        this.tabList[0].isActive = true;
+      }
+
       this.showAndHideByModule();
     },
     showAndHideByModule() {
@@ -557,7 +565,8 @@ a {
           font-size: 0.14rem;
           background-color: $bg_white_c;
           border-radius: 0.06rem;
-          box-shadow: 0 0 0.01rem 0 rgba(0,0,0,0.01), 0 0.02rem 0.08rem 0 rgba(0,0,0,0.04), 0 0.17rem 0.32rem 0 rgba(0,0,0,0.01);
+          box-shadow: 0 0 0.01rem 0 rgba(0, 0, 0, 0.01), 0 0.02rem 0.08rem 0 rgba(0, 0, 0, 0.04),
+            0 0.17rem 0.32rem 0 rgba(0, 0, 0, 0.01);
         }
         .address_tab_item:last-child {
           margin-right: 0;
