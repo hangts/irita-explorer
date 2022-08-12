@@ -254,3 +254,21 @@ export const isSenderReceiverDenomId = (item) => {
     // item?.msg?.recipient
   );
 };
+export const isMtIssueDenom = (item) => {
+  return item?.type === TX_TYPE.mt_issue_denom;
+};
+export const isMtTransferDenom = (item) => {
+  return item?.type === TX_TYPE.mt_transfer_denom;
+};
+export const isMintMt = (item) => {
+  return item?.type === TX_TYPE.mint_mt;
+};
+export const isTransferMt = (item) => {
+  return item?.type === TX_TYPE.transfer_mt;
+};
+export const isEditMt = (item) => {
+  return item?.type === TX_TYPE.edit_mt;
+};
+export const isBurnMt = (item) => {
+  return item?.type === TX_TYPE.burn_mt;
+}

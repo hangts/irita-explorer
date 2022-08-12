@@ -116,15 +116,13 @@ export default {
     };
   },
   created() {
+    this.denomId = this.$route.query.denom;
+    this.nftId = this.$route.query.tokenId;
     this.getMtInfoData();
     this.getMtInfoTx();
     this.getMtInfoTxCount();
     this.getOwnerList();
     this.getOwnerListCount();
-  },
-  mounted() {
-    this.denomId = this.$route.query.denom;
-    this.nftId = this.$route.query.tokenId;
   },
   methods: {
     async getOwnerListCount() {
