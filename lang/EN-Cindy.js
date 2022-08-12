@@ -1,10 +1,10 @@
 import prodConfig from '../src/productionConfig';
 
 export const ExplorerLang = {
-  resetButton:'Reset',
-  resetButtonTooltip:'Reset query criteria',
-  refreshButton:'Refresh',
-  refreshButtonTooltip:'Refresh query results',
+  resetButton: 'Reset',
+  resetButtonTooltip: 'Reset query criteria',
+  refreshButton: 'Refresh',
+  refreshButtonTooltip: 'Refresh query results',
   common: {
     allTxStatus: 'All Status',
     success: 'Success',
@@ -93,7 +93,7 @@ export const ExplorerLang = {
     denom: 'Denom',
     owner: 'Owner',
     tokenName: 'NFT Name',
-   // tokenId: 'NFT ID',
+    // tokenId: 'NFT ID',
     data: 'Data',
     uri: 'Uri',
     serviceName: 'Service Name',
@@ -185,8 +185,8 @@ export const ExplorerLang = {
     ddcName: 'DDC Name',
     contractMethod: 'ContractMethod',
     contractAddress: 'ContractAddress',
-    mtId:'MT ID',
-    mtNumber:'Amount',
+    mtId: 'MT ID',
+    mtNumber: 'Amount',
     // mt list
     mtName: 'Denom Name',
     mtDenom: 'Denom ID',
@@ -289,7 +289,7 @@ export const ExplorerLang = {
     mtList: 'MT List',
     mtDenomList: 'Denom list',
   },
-  mtDenomList:{
+  mtDenomList: {
     mainTitle: 'Denom List',
     subTitle: 'Denom',
     subTitles: 'Denoms',
@@ -656,7 +656,7 @@ export const ExplorerLang = {
     consumerTitle: 'iService-As Consumer',
     providerTitle: 'iService-As Provider',
     respondRecord: 'Respond Record',
-    //assets: 'NFT',
+    // assets: 'NFT',
     identities: 'Identities',
     sendTx: 'Send Txs',
     receiptTx: 'Receipt Txs',
@@ -789,7 +789,7 @@ export const ExplorerLang = {
       tx: 'Txs',
       ddc: 'BSN-DDC',
       energyAsset: 'Assets',
-      mt:'MT'
+      mt: 'MT',
     },
     content: {
       address: 'Address',
@@ -909,5 +909,15 @@ export const ExplorerLang = {
     maintenance: 'We are under maintenance',
     pageNotFound: 'Sorry! The page you visit does not exist',
     goBack: 'Go Back',
+  },
+  mtDetail: {
+    title: 'MT Details',
+    owner: 'Owner',
+    mt: 'MT ID',
+    mtDenomName: 'Denom Name',
+    mtDenomId: 'Denom ID',
+    mtNumber: 'Amount',
+    mtData: 'Data',
+    ownerListTitle: 'Owner List'
   },
 };

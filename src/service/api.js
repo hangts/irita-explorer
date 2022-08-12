@@ -702,4 +702,28 @@ export const getMtDenoms = (denomIdOrName, pageNum, pageSize) => {
 export const getMtDenomCount = (denomIdOrName) => {
   const url = `/v1/mt/denoms/count?denom_id_name=${denomIdOrName}`;
   return getFromGo(url);
-}
+};
+export const getMtInfo = (mtDenomId, mtId) => {
+  const url = `/v1/mt/mts/${mtDenomId}/${mtId}`;
+  return getFromGo(url);
+};
+export const getMtInfoTx = (denomId, mtId, pageNum, pageSize, useCount = false) => {
+  let url = `/v1/mt/mts?denom_id=${denomId}&mt_id=${mtId}`;
+  if (pageNum && pageSize) {
+    url += `&pageNum=${pageNum}&pageSize=${pageSize}`;
+  }
+  if (useCount) {
+    url += `&useCount=${useCount}`;
+  }
+  return getFromGo(url);
+};
+export const getMtOwnerList = (denomId, mtId, pageNum, pageSize, useCount = false, sort) => {
+  let url = `/v1/mt/mts/${denomId}/${mtId}/owners?sort=${sort}`;
+  if (pageNum && pageSize) {
+    url += `&pageNum=${pageNum}&pageSize=${pageSize}`;
+  }
+  if (useCount) {
+    url += `&useCount=${useCount}`;
+  }
+  return getFromGo(url);
+};

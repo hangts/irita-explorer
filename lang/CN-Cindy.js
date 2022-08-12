@@ -872,4 +872,14 @@ export const ExplorerLang = {
     pageNotFound: '抱歉！您访问页面不存在',
     goBack: '返回',
   },
+  mtDetail: {
+    title: 'MT 详情',
+    owner: '拥有者',
+    mt: 'MT 标识',
+    mtDenomName: '类别名称',
+    mtDenomId: '类别标识',
+    mtNumber: '数量',
+    mtData: '链上数据',
+    ownerListTitle: '拥有者列表'
+  },
 };

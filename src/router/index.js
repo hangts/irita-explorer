@@ -79,7 +79,7 @@ const router = new Router({
     },
     {
       path: '/mt/token', // mt 详情页路由
-      // component: () => import('@/components/'),
+      component: () => import('@/components/mt/MtDetail.vue'),
     },
     {
       path: '/service',
