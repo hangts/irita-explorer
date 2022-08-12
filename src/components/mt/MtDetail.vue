@@ -187,8 +187,14 @@ export default {
         });
       }
     },
-    pageChange() {},
-    mtOwnerPageChange() {},
+    pageChange(mtTxCurrentPage) {
+      this.pageNum = mtTxCurrentPage;
+      this.getMtInfoTx();
+    },
+    mtOwnerPageChange(mtOwnerListPageNum) {
+      this.mtOwnerPageNum = mtOwnerListPageNum;
+      this.getOwnerList();
+    },
     async getMtInfoData() {
       if (!this.denomId || !this.nftId) return;
 
