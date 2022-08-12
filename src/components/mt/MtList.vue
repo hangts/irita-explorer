@@ -93,7 +93,7 @@ export default {
       tabLinks: [
         {
           label: this.$t('ExplorerLang.mtList.mtList'),
-          href: '/mt',
+          href: '/mts',
           isActive: true
         },
         {
