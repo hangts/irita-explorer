@@ -687,12 +687,21 @@ export const getTxCountByAddress = (params, address) => {
   return get(url);
 };
 // mt 模块
-export const getMts = (id, pageNum, pageSize) => {
-  const url = `/v1/mt/mts?mt_id=${id}&page_num=${pageNum}&page_size=&${pageSize}`;
+export const getMts = (id, pageNum, pageSize, owner) => {
+  let url = `/v1/mt/mts?mt_id=${id}`;
+  if (pageNum && pageSize) {
+    url += `&page_num=${pageNum}&page_size=${pageSize}`;
+  }
+  if (owner) {
+    url += `&owner=${owner}`;
+  }
   return getFromGo(url);
 };
-export const getMtCount = (id) => {
-  const url = `/v1/mt/mts/count?mt_id=${id}`;
+export const getMtCount = (id, owner) => {
+  let url = `/v1/mt/mts/count?mt_id=${id}`;
+  if (owner) {
+    url += `&owner=${owner}`;
+  }
   return getFromGo(url);
 };
 export const getMtDenoms = (denomIdOrName, pageNum, pageSize) => {

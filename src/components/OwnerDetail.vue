@@ -73,7 +73,9 @@
       <div v-if="moduleSupport('116', prodConfig.navFuncList) && isEnergyAsset">
         <energy-asset-options></energy-asset-options>
       </div>
-      <div v-if="moduleSupport('119', prodConfig.navFuncList) && isMtAsset"></div>
+      <div v-if="moduleSupport('119', prodConfig.navFuncList) && isMtAsset">
+        <mt-tab-options></mt-tab-options>
+      </div>
     </div>
   </div>
 </template>
@@ -123,10 +125,12 @@ import {
   tx,
   mtAsset,
 } from './ownerDetail/lib';
+import MtTabOptions from "../addressPage/MtTabOptions";
 
 export default {
   name: 'OwnerDetail',
   components: {
+    MtTabOptions,
     EnergyAssetOptions,
     BsnDdcOptions,
     IdentityOptions,
@@ -537,31 +541,26 @@ a {
     }
 
     .address_tab_container {
-      margin-bottom: 0.16rem;
-
+      margin-top: 0.2rem;
       .address_tab_content {
         display: flex;
         // margin-left: 0.28rem;
         padding-bottom: 0.14rem;
 
         .address_tab_item {
+          white-space: nowrap;
           cursor: pointer;
-          width: 1.2rem;
-          height: 0.3rem;
+          padding: 0 0.16rem;
+          margin-right: 0.16rem;
           line-height: 0.3rem;
-          border: 0.01rem solid $bd_first_c;
           border-right: none;
           font-size: 0.14rem;
           background-color: $bg_white_c;
+          border-radius: 0.06rem;
+          box-shadow: 0 0 0.01rem 0 rgba(0,0,0,0.01), 0 0.02rem 0.08rem 0 rgba(0,0,0,0.04), 0 0.17rem 0.32rem 0 rgba(0,0,0,0.01);
         }
-
-        .address_tab_item:first-child {
-          border-radius: 0.08rem 0 0 0.08rem;
-        }
-
         .address_tab_item:last-child {
-          border-right: 0.01rem solid $bd_first_c;
-          border-radius: 0 0.08rem 0.08rem 0;
+          margin-right: 0;
         }
       }
 
