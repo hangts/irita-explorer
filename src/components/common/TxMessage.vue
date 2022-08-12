@@ -3222,6 +3222,24 @@ export default {
             case TX_TYPE.revoke_allowance:
               this.buildFee(msg);
               break;
+            case TX_TYPE.mt_issue_denom:
+              this.buildMtIssueDenom(msg);
+              break;
+            case TX_TYPE.mt_transfer_denom:
+              this.buildMtTransferDenom(msg);
+              break;
+            case TX_TYPE.mint_mt:
+              this.buildMintMt(msg);
+              break;
+            case TX_TYPE.edit_mt:
+              this.buildEditMt(msg);
+              break;
+            case TX_TYPE.transfer_mt:
+              this.buildTransferMt(msg);
+              break;
+            case TX_TYPE.burn_mt:
+              this.buildBurnMt(msg);
+              break;
           }
         }
       } catch (e) {
@@ -6023,12 +6041,12 @@ export default {
         {
           label: this.$t('ExplorerLang.transactionInformation.grant.granter'),
           value: msg.granter,
-	        isAddress:true
+          isAddress: true,
         },
         {
           label: this.$t('ExplorerLang.transactionInformation.grant.grantee'),
           value: msg.grantee,
-	        isAddress:true
+          isAddress: true,
         },
       ];
 
@@ -6068,6 +6086,161 @@ export default {
         }
       }
     },
+    buildMtIssueDenom(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mtIssueDenom.mtDenomName'),
+          value: msg.name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mtIssueDenom.mtDenomId'),
+          value: msg.id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mtIssueDenom.creator'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mtIssueDenom.chainData'),
+          value: msg.data,
+        },
+      ];
+    },
+    buildMtTransferDenom(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mt_transfer_denom.mtDenomName'),
+          value: msg.name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mt_transfer_denom.mtDenomId'),
+          value: msg.id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mt_transfer_denom.sender'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mt_transfer_denom.recipient'),
+          value: msg.recipient,
+          isAddress: true,
+        },
+      ];
+    },
+    buildMintMt(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mintMt.mtId'),
+          value: msg.id,
+          isMtLink: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mintMt.mtName'),
+          value: msg.name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mintMt.mtDenomId'),
+          value: msg.denom_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mintMt.publisher'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mintMt.recipient'),
+          value: msg.recipient,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mintMt.mtNumber'),
+          value: msg.amount,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.mintMt.chainData'),
+          value: msg.data,
+        },
+      ];
+    },
+    buildEditMt(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.editMt.mtId'),
+          value: msg.id,
+          isMtLink: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.editMt.mtName'),
+          value: msg.name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.editMt.mtDenomId'),
+          value: msg.denom_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.editMt.chainData'),
+          value: msg.data,
+        },
+      ];
+    },
+    buildTransferMt(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.transferMt.mtId'),
+          value: msg.id,
+          isMtLink: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.transferMt.mtName'),
+          value: msg.name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.transferMt.mtDenomId'),
+          value: msg.denom_id,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.transferMt.publisher'),
+          value: msg.sender,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.transferMt.recipient'),
+          value: msg.recipient,
+          isAddress: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.transferMt.mtNumber'),
+          value: msg.amount,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.transferMt.chainData'),
+          value: msg.data,
+        },
+      ];
+    },
+    buildBurnMt(msg) {
+      this.detailInfo = [
+        {
+          label: this.$t('ExplorerLang.transactionInformation.transferMt.mtId'),
+          value: msg.id,
+          isMtLink: true,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.transferMt.mtName'),
+          value: msg.name,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.transferMt.mtDenomId'),
+          value: msg.denom,
+        },
+        {
+          label: this.$t('ExplorerLang.transactionInformation.transferMt.mtNumber'),
+          value: msg.amount,
+        },
+      ];
+    }
   },
 };
 </script>

@@ -1981,13 +1981,13 @@ export const needAddColumn = {
     },
   ],
   mt_transfer_denom: [
-    {
+    /*{
       label: i18n.t('ExplorerLang.table.denomName'),
       displayValue: 'mtDenomName',
       nativeValue: 'mtDenomName',
       isNeedFormat: true,
       isFormatAddress: true,
-    },
+    },*/
     {
       label: i18n.t('ExplorerLang.table.denomId'),
       displayValue: 'mtDenomId',
@@ -1996,16 +1996,7 @@ export const needAddColumn = {
       isFormatNftIdAndDenomId: true,
     },
     {
-      label: i18n.t('ExplorerLang.table.from'),
-      displayValue: 'receiver',
-      nativeValue: 'receiver',
-      isLink: true,
-      isNeedFormat: true,
-      isFormatAddress: true,
-      linkRoute: '/address/',
-    },
-    {
-      label: i18n.t('ExplorerLang.table.to'),
+      label: i18n.t('ExplorerLang.table.sender'),
       displayValue: 'sender',
       nativeValue: 'sender',
       isLink: true,
@@ -2013,6 +2004,16 @@ export const needAddColumn = {
       isFormatAddress: true,
       linkRoute: '/address/',
     },
+    {
+      label: i18n.t('ExplorerLang.table.receiver'),
+      displayValue: 'receiver',
+      nativeValue: 'receiver',
+      isLink: true,
+      isNeedFormat: true,
+      isFormatAddress: true,
+      linkRoute: '/address/',
+    },
+
   ],
   mint_mt: [
     {
@@ -2032,16 +2033,7 @@ export const needAddColumn = {
       displayValue: 'mtNumber',
     },
     {
-      label: i18n.t('ExplorerLang.table.from'),
-      displayValue: 'receiver',
-      nativeValue: 'receiver',
-      isLink: true,
-      isNeedFormat: true,
-      isFormatAddress: true,
-      linkRoute: '/address/',
-    },
-    {
-      label: i18n.t('ExplorerLang.table.to'),
+      label: i18n.t('ExplorerLang.table.sender'),
       displayValue: 'sender',
       nativeValue: 'sender',
       isLink: true,
@@ -2049,6 +2041,16 @@ export const needAddColumn = {
       isFormatAddress: true,
       linkRoute: '/address/',
     },
+    {
+      label: i18n.t('ExplorerLang.table.receiver'),
+      displayValue: 'receiver',
+      nativeValue: 'receiver',
+      isLink: true,
+      isNeedFormat: true,
+      isFormatAddress: true,
+      linkRoute: '/address/',
+    },
+
   ],
   transfer_mt: [
     {
@@ -2068,16 +2070,7 @@ export const needAddColumn = {
       displayValue: 'mtNumber',
     },
     {
-      label: i18n.t('ExplorerLang.table.from'),
-      displayValue: 'receiver',
-      nativeValue: 'receiver',
-      isLink: true,
-      isNeedFormat: true,
-      isFormatAddress: true,
-      linkRoute: '/address/',
-    },
-    {
-      label: i18n.t('ExplorerLang.table.to'),
+      label: i18n.t('ExplorerLang.table.sender'),
       displayValue: 'sender',
       nativeValue: 'sender',
       isLink: true,
@@ -2085,6 +2078,16 @@ export const needAddColumn = {
       isFormatAddress: true,
       linkRoute: '/address/',
     },
+    {
+      label: i18n.t('ExplorerLang.table.receiver'),
+      displayValue: 'receiver',
+      nativeValue: 'receiver',
+      isLink: true,
+      isNeedFormat: true,
+      isFormatAddress: true,
+      linkRoute: '/address/',
+    },
+
   ],
   edit_mt: [
     {

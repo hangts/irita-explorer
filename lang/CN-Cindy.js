@@ -1,10 +1,10 @@
 import prodConfig from '../src/productionConfig';
 
 export const ExplorerLang = {
-  resetButton:'重置',
-  resetButtonTooltip:'重置查询条件',
-  refreshButton:'刷新',
-  refreshButtonTooltip:'刷新查询结果',
+  resetButton: '重置',
+  resetButtonTooltip: '重置查询条件',
+  refreshButton: '刷新',
+  refreshButtonTooltip: '刷新查询结果',
   common: {
     allTxStatus: '全部交易状态',
     success: '成功',
@@ -90,7 +90,7 @@ export const ExplorerLang = {
     denom: '类别标识',
     owner: '拥有者',
     tokenName: 'NFT 名称',
-    //tokenId: '数据对象标识',
+    // tokenId: '数据对象标识',
     data: '链上数据',
     uri: '链外链接',
     serviceName: '服务类型',
@@ -183,7 +183,6 @@ export const ExplorerLang = {
     mtDenom: '类别标识',
     publisher: '发行者',
     ownerNumber: '拥有者',
-
   },
   unit: {
     ellipsis: ' ,...',
@@ -281,7 +280,7 @@ export const ExplorerLang = {
     mtList: 'MT 列表',
     mtDenomList: 'MT 类别列表',
   },
-  mtDenomList:{
+  mtDenomList: {
     mainTitle: 'MT 类别',
     subTitle: 'MT 类别',
     subTitles: 'MT 类别',
@@ -613,6 +612,48 @@ export const ExplorerLang = {
       ugas: '能量值',
       business: '业务费',
     },
+    mtIssueDenom: {
+      mtDenomName: '类别名称',
+      mtDenomId: '类别标识',
+      creator: '创建者',
+      chainData: '链上数据',
+    },
+    mt_transfer_denom: {
+      mtDenomName: '类别名称',
+      mtDenomId: '类别标识',
+      sender: '发送者',
+      recipient: '接受者',
+    },
+    mintMt: {
+      mtId: 'MT 标识',
+      mtName: '类别名称',
+      mtDenomId: '类别标识',
+      publisher: '发行者',
+      recipient: '接受者',
+      mtNumber: '数量',
+      chainData: '链上数据',
+    },
+    editMt: {
+      mtId: 'MT 标识',
+      mtName: '类别名称',
+      mtDenomId: '类别标识',
+      chainData: '链上数据',
+    },
+    transferMt: {
+      mtId: 'MT 标识',
+      mtName: '类别名称',
+      mtDenomId: '类别标识',
+      publisher: '发行者',
+      recipient: '接受者',
+      mtNumber: '数量',
+      chainData: '链上数据',
+    },
+    burnMt: {
+      mtId: 'MT 标识',
+      mtName: '类别名称',
+      mtDenomId: '类别标识',
+      mtNumber: '数量',
+    },
   },
   addressDetail: {
     addressDetail: '地址详情',
@@ -620,7 +661,7 @@ export const ExplorerLang = {
     consumerTitle: '服务调用-作为消费者',
     providerTitle: '服务调用-作为提供者',
     respondRecord: '响应记录',
-    //assets: '原生 NFT',
+    // assets: '原生 NFT',
     identities: '身份列表',
     sendTx: '发起交易',
     receiptTx: '接收交易',
@@ -753,7 +794,7 @@ export const ExplorerLang = {
       tx: '交易记录',
       ddc: '智能合约 DDC',
       energyAsset: '资产',
-      mt: '原生 MT'
+      mt: '原生 MT',
     },
     content: {
       address: 'Address',
@@ -880,6 +921,6 @@ export const ExplorerLang = {
     mtDenomId: '类别标识',
     mtNumber: '数量',
     mtData: '链上数据',
-    ownerListTitle: '拥有者列表'
+    ownerListTitle: '拥有者列表',
   },
 };
