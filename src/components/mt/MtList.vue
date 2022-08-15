@@ -105,6 +105,9 @@ export default {
     };
   },
   created() {
+    if (this?.$route?.query?.denomId) {
+      this.input = this.$route.query.denomId;
+    }
     this.getMtCount();
     this.getMts();
   },
@@ -143,9 +146,10 @@ export default {
     resetFilterCondition() {
       this.input = '';
       this.pageNum = 1;
-      this.$refs.searchMtByInput.resetFilterCondition();
       this.getMts();
       this.getMtCount();
+      this.$refs.searchMtByInput.resetFilterCondition();
+      this.$refs.searchMt.resetFilterCondition();
     },
     refreshCondition() {
       this.getMts();
@@ -168,7 +172,11 @@ a {
 }
 
 .mt_input_container {
-  display: none;
+  display: none !important;
+  @media (max-width: 860px) {
+    display: flex !important;
+    justify-content: flex-start !important;
+  }
 }
 
 .mt_list_container {

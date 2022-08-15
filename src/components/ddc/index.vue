@@ -291,6 +291,10 @@ a {
       //margin-top: 0.05rem;
       .position_input_content{
         display: none !important;
+        @media (max-width: 860px) {
+          display: flex !important;
+          justify-content: flex-start !important;
+        }
       }
       ::v-deep .cell {
         padding: 0rem 0rem 0rem 0.15rem;

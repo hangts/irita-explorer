@@ -329,6 +329,10 @@ a {
 }
 .nft_input_container{
   display: none;
+  @media (max-width: 860px) {
+    display: flex;
+    justify-content: flex-start;
+  }
 }
 .nft_list_container {
   @media screen and (min-width: 910px) {
