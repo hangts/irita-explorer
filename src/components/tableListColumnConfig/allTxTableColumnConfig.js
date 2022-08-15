@@ -2033,7 +2033,7 @@ export const needAddColumn = {
       displayValue: 'mtNumber',
     },
     {
-      label: i18n.t('ExplorerLang.table.sender'),
+      label: i18n.t('ExplorerLang.table.publisher'),
       displayValue: 'sender',
       nativeValue: 'sender',
       isLink: true,

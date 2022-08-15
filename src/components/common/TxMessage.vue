@@ -6201,7 +6201,7 @@ export default {
           value: msg.denom_id,
         },
         {
-          label: this.$t('ExplorerLang.transactionInformation.transferMt.publisher'),
+          label: this.$t('ExplorerLang.transactionInformation.transferMt.sender'),
           value: msg.sender,
           isAddress: true,
         },
@@ -6213,10 +6213,6 @@ export default {
         {
           label: this.$t('ExplorerLang.transactionInformation.transferMt.mtNumber'),
           value: msg.amount,
-        },
-        {
-          label: this.$t('ExplorerLang.transactionInformation.transferMt.chainData'),
-          value: msg.data,
         },
       ];
     },

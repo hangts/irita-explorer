@@ -24,9 +24,11 @@ export default [
     width: 140,
   },
   {
-    label: i18n.t('ExplorerLang.table.mtNumber'),
+    label: i18n.t('ExplorerLang.table.listMtNumber'),
     displayValue: 'mtNumber',
-    nativeValue: 'mtNumber',
+    nativeValue: 'denomId', // todo zhangjinbiao 需要新增跳转链接
+    linkRoute: '/mts?denomId=',
+    isLink: true,
   },
   {
     label: i18n.t('ExplorerLang.table.creator'),

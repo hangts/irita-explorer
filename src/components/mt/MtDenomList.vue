@@ -49,7 +49,7 @@
             <nft-search-component
               :input-placeholder="$t('ExplorerLang.mtDenomList.placeHolder')"
               @searchInput="handleSearchClick"
-              ref="searchMt"
+              ref="searchMtDenom"
               class="mt_denom_input_container"
             ></nft-search-component>
           </template>
@@ -144,9 +144,10 @@ export default {
     resetFilterCondition() {
       this.input = '';
       this.pageNum = 1;
-      this.$refs.searchMtDenomByInput.resetFilterCondition();
       this.getMtDenomsListData();
       this.getMtDenomListDataCount();
+      this.$refs.searchMtDenomByInput.resetFilterCondition();
+      this.$refs.searchMtDenom.resetFilterCondition();
     },
     refreshCondition() {
       this.getMtDenomsListData();
@@ -170,6 +171,10 @@ a {
 
 .mt_denom_input_container {
   display: none;
+  @media (max-width: 860px) {
+    display: flex !important;
+    justify-content: flex-start !important;
+  }
 }
 
 .mt_denom_list_container {

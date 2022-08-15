@@ -217,6 +217,10 @@ a {
 }
 .denom_list_input{
   display: none;
+  @media (max-width: 860px) {
+    display: flex;
+    justify-content: flex-start;
+  }
 }
 .denom_list_container {
   @media screen and (min-width: 910px) {

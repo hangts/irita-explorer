@@ -1039,6 +1039,10 @@ export default {
         .count_input_wrap{
           flex: 1;
           margin-right: 0.2rem;
+          display: block !important;
+          @media (max-width: 860px) {
+            display: none !important;
+          }
         }
       }
 

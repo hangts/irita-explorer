@@ -1,5 +1,4 @@
 import prodConfig from '../src/productionConfig';
-
 export const ExplorerLang = {
   resetButton: 'Reset',
   resetButtonTooltip: 'Reset query criteria',
@@ -185,9 +184,12 @@ export const ExplorerLang = {
     ddcName: 'DDC Name',
     contractMethod: 'ContractMethod',
     contractAddress: 'ContractAddress',
+    // mt list
+
+
     mtId: 'MT ID',
     mtNumber: 'Amount',
-    // mt list
+    listMtNumber:'Amount',
     mtName: 'Denom Name',
     mtDenom: 'Denom ID',
     publisher: 'Signer',
@@ -290,13 +292,13 @@ export const ExplorerLang = {
     mtDenomList: 'Denom list',
   },
   mtDenomList: {
-    mainTitle: 'Denom List',
+    mainTitle: 'Native MT',
     subTitle: 'Denom',
     subTitles: 'Denoms',
     placeHolder: 'Search by Denom Name or Denom ID',
   },
   denom: {
-    mainTitle: 'Native Denom',
+    mainTitle: 'Native NFT',
     subTitle: 'Denom',
     subTitles: 'Denoms',
     search: 'Search',
@@ -680,7 +682,7 @@ export const ExplorerLang = {
       mtId: 'MT ID',
       mtName: 'Denom Name',
       mtDenomId: 'Denom ID',
-      publisher: 'Signer',
+      sender: 'Sender',
       recipient: 'Receiver',
       mtNumber: 'Amount',
       chainData: 'Data',
@@ -702,6 +704,7 @@ export const ExplorerLang = {
     identities: 'Identities',
     sendTx: 'Send Txs',
     receiptTx: 'Receipt Txs',
+    address:'Address'
   },
   nftDetail: {
     nftInformation: 'NFT Details',
@@ -745,8 +748,8 @@ export const ExplorerLang = {
     txRecord: 'Respond Record',
   },
   ddcDetail: {
-    ddcInformation: 'BSN-DDC 详情',
-    owner: '拥有者',
+    ddcInformation: 'BSN-DDC Detail',
+    owner: 'Owner',
     type: 'DDC Type',
     amount: 'DDC Amount',
     schema: 'Schema',
@@ -772,8 +775,7 @@ export const ExplorerLang = {
     title: 'Validator Details',
     validatorInformation: {
       validatorTip: 'The validator has no more information',
-      operatorAddressTip:
-        'The address you used to Create a Validator , Delegate or Withdraw DelegatorReward, etc.',
+      operatorAddressTip: 'The address you used to Create a Validator , Delegate or Withdraw DelegatorReward, etc.',
       validationAssetInfoArr: {
         operatorAddress: 'Operator Address:',
         ownerAddress: 'Owner Address:',
