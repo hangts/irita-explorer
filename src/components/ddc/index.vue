@@ -35,6 +35,14 @@
               :input-placeholder="$t('ExplorerLang.ddc.placeHolder')"
               @searchInput="handleSearchClick"
               ref="denomSearchNode"
+              class="position_input_content"
+            ></nft-search-component>
+          </template>
+          <template v-slot:countFilterByInput>
+            <nft-search-component
+              :input-placeholder="$t('ExplorerLang.ddc.placeHolder')"
+              @searchInput="handleSearchClick"
+              ref="filterDenomSearchNode"
             ></nft-search-component>
           </template>
         </list-component>
@@ -84,6 +92,7 @@ export default {
       this.getDdcListCount();
       this.getDdcList();
       this.$refs.denomSearchNode.resetFilterCondition();
+      this.$refs.filterDenomSearchNode.resetFilterCondition();
     },
     handleNftCountClick(denomId) {
       this.$router.push(`/nftAsset?denomId=${denomId}`);
@@ -280,6 +289,9 @@ a {
     }
     .nef_list_table_container {
       //margin-top: 0.05rem;
+      .position_input_content{
+        display: none !important;
+      }
       ::v-deep .cell {
         padding: 0rem 0rem 0rem 0.15rem;
       }

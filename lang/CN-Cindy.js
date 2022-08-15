@@ -1,5 +1,4 @@
 import prodConfig from '../src/productionConfig';
-
 export const ExplorerLang = {
   resetButton: '重置',
   resetButtonTooltip: '重置查询条件',
@@ -158,7 +157,7 @@ export const ExplorerLang = {
     proposalStatus: 'Status',
     voted: 'voted',
     validators: 'Validators',
-    sender: '转移',
+    sender: '发送者',
     more: '更多',
     suffix: '前',
     running: '运行中',
@@ -176,9 +175,10 @@ export const ExplorerLang = {
     ddcName: 'DDC 名称',
     contractMethod: '合约方法',
     contractAddress: '合约地址',
+    // mt
     mtId: 'MT 标识',
     mtNumber: '数量',
-    // mt list
+    listMtNumber: 'MT 数量',
     mtName: '类别名称',
     mtDenom: '类别标识',
     publisher: '发行者',
@@ -227,7 +227,7 @@ export const ExplorerLang = {
     bondedTokens: '质押率',
     votingPower: '在线投票权',
     communityPool: '社区池',
-    address: '地址',
+    address: '链账户地址',
     msgCount: '交易消息数量',
   },
   block: {
@@ -281,13 +281,13 @@ export const ExplorerLang = {
     mtDenomList: 'MT 类别列表',
   },
   mtDenomList: {
-    mainTitle: 'MT 类别',
+    mainTitle: '原生 MT',
     subTitle: 'MT 类别',
     subTitles: 'MT 类别',
     placeHolder: '请输入 MT 类别标识或 MT 类别名称进行搜索',
   },
   denom: {
-    mainTitle: 'NFT 类别',
+    mainTitle: '原生 NFT',
     subTitle: 'NFT 类别',
     subTitles: 'NFT 类别',
     search: '搜索',
@@ -369,7 +369,7 @@ export const ExplorerLang = {
       sender: '发送者',
       receiver: '接收者',
       viewSource: '查看源码',
-      idTibc: 'NFT标识',
+      idTibc: 'NFT 标识',
       urlTibc: '链接',
       sequence: '序列号',
       port: '端口',
@@ -643,7 +643,7 @@ export const ExplorerLang = {
       mtId: 'MT 标识',
       mtName: '类别名称',
       mtDenomId: '类别标识',
-      publisher: '发行者',
+      sender: '发送者',
       recipient: '接受者',
       mtNumber: '数量',
       chainData: '链上数据',
@@ -735,8 +735,7 @@ export const ExplorerLang = {
     title: 'Validator Details',
     validatorInformation: {
       validatorTip: 'The validator has no more information',
-      operatorAddressTip:
-        'The address you used to Create a Validator , Delegate or Withdraw DelegatorReward, etc.',
+      operatorAddressTip: 'The address you used to Create a Validator , Delegate or Withdraw DelegatorReward, etc.',
       validationAssetInfoArr: {
         operatorAddress: 'Operator Address:',
         ownerAddress: 'Owner Address:',
