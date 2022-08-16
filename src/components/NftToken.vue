@@ -5,22 +5,23 @@
       <div class="nft_token_information_content">
         <div class="nft_token_information_item">
           <span>{{ $t('ExplorerLang.nftDetail.owner') }}：</span>
-          <span>
+          <span v-if="owner">
             <router-link :to="`/address/${owner}`">{{ owner }}</router-link>
           </span>
+          <span v-else>--</span>
         </div>
         <div class="nft_token_information_item">
           <span>{{ $t('ExplorerLang.nftDetail.denom') }}：</span>
-          <span>{{ denomName || denomId }}</span>
+          <span>{{ denomName || denomId || '--' }}</span>
         </div>
         <div class="nft_token_information_item">
           <span>{{ $t('ExplorerLang.nftDetail.tokenName') }}：</span>
-          <span>{{ nftName }}</span>
+          <span>{{ nftName || '--' }}</span>
         </div>
         <div class="nft_token_information_item">
           <span>{{ $t('ExplorerLang.nftDetail.tokenId') }}：</span>
           <span class="flex">
-            <div>{{ tokenID }}</div>
+            <div>{{ tokenID || '--'}}</div>
             <el-tooltip
               v-if="isNewest"
               class="item"
@@ -41,6 +42,7 @@
             :minHeight="LargeStringMinHeight"
             :lineHeight="LargeStringLineHeight"
           />
+          <span v-else>--</span>
         </div>
         <div class="nft_token_information_item">
           <span>{{ $t('ExplorerLang.nftDetail.data') }}：</span>
@@ -51,6 +53,7 @@
             :minHeight="LargeStringMinHeight"
             :lineHeight="LargeStringLineHeight"
           />
+          <span v-else>--</span>
         </div>
         <!-- <div class="nft_token_information_item">
 					<span>{{ $t('ExplorerLang.nftDetail.creator') }}：</span>

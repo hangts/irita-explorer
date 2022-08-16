@@ -567,8 +567,7 @@ export default {
         if (!this.isShowFee) {
           this.deleteColumnFee();
         } else if (
-          this.productName === PRODUCT_WENCHANG ||
-          this.productName === PRODUCT_WENCHANG_TESTNET
+          prodConfig.isShowEnergy
         ) {
           this.changeFeeColumnLabel();
         }
@@ -999,7 +998,7 @@ export default {
     this.getTableWidth();
     if (!this.isShowFee) {
       this.deleteColumnFee();
-    } else if (this.productName === PRODUCT_WENCHANG) {
+    } else if (prodConfig.isShowEnergy) {
       this.changeFeeColumnLabel();
     }
 

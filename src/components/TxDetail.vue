@@ -46,7 +46,7 @@
           <p class="tx_information_list_item" v-if="isShowFee">
             <span>
               {{
-                productNameWC === productName
+                isShowEnergy
                   ? $t('ExplorerLang.table.energy')
                   : $t('ExplorerLang.transactionInformation.fee')
               }}：</span
@@ -122,8 +122,7 @@ export default {
     return {
       isShowFee: prodConfig.fee.isShowFee,
       isShowDenom: prodConfig.fee.isShowDenom,
-      productName: prodConfig.product,
-      productNameWC: PRODUCT_WENCHANG,
+      isShowEnergy: prodConfig?.isShowEnergy,
       Tools,
       moduleSupport,
       addressRoute,
