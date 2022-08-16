@@ -132,7 +132,7 @@
             </el-table-column> -->
             <el-table-column v-if="isShowFee" align="left" class-name="fee" prop="Tx_Fee" :min-width="ColumnMinWidth.fee">
                 <template slot="header">
-                    <template v-if="productNameWC === productName">
+                    <template v-if="isShowEnergy">
                         <span>{{ $t('ExplorerLang.table.energy') }}</span>
                     </template>
                     <template v-else>
@@ -184,8 +184,7 @@
                 TxHelper,
                 isShowFee: prodConfig.fee.isShowFee,
                 isShowDenom: prodConfig.fee.isShowDenom,
-                productName: prodConfig.product || '',
-                productNameWC: PRODUCT_WENCHANG, 
+                isShowEnergy: prodConfig.isShowEnergy,
                 TX_TYPE,
                 TX_STATUS,
                 ColumnMinWidth,

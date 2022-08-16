@@ -1,5 +1,5 @@
 import { TxHelper } from '@/helper/TxHelper';
-import { TX_TYPE, decimals } from '@/constant';
+import {TX_TYPE, decimals, Lang, Wen_Cang_Token_Denom} from '@/constant';
 import Tools from '@/util/Tools';
 import { converCoin } from '@/helper/IritaHelper';
 import prodConfig from '@/productionConfig';
@@ -36,7 +36,13 @@ import {
   isSequenceSourceChainSigner,
   isSigner,
   isChainNameSigner,
-  isSenderReceiverDenomId, isMtIssueDenom, isMtTransferDenom, isMintMt, isTransferMt, isEditMt, isBurnMt,
+  isSenderReceiverDenomId,
+  isMtIssueDenom,
+  isMtTransferDenom,
+  isMintMt,
+  isTransferMt,
+  isEditMt,
+  isBurnMt,
 } from './lib';
 
 const getValueFromArr = (values, defaultVal = { more: ' ', default: '--' }) => {
@@ -341,29 +347,29 @@ export const formatTxDataFn = async (
               mtDenomIdArr.push(item?.msg?.id);
               mtDenomNameArr.push(item?.msg?.name);
             }
-            if (isMtTransferDenom(item)){
+            if (isMtTransferDenom(item)) {
               mtDenomIdArr.push(item?.msg?.id);
               mtDenomNameArr.push(item?.msg?.name);
               receiverArr.push(item?.msg?.recipient);
               senderArr.push(item?.msg?.sender);
             }
-            if(isMintMt(item)){
+            if (isMintMt(item)) {
               mtIdArr.push(item?.msg?.id);
               receiverArr.push(item?.msg?.recipient);
               senderArr.push(item?.msg?.sender);
               mtDenomIdArr.push(item?.msg?.denom);
             }
-            if(isTransferMt(item)){
+            if (isTransferMt(item)) {
               mtIdArr.push(item?.msg?.id);
               receiverArr.push(item?.msg?.recipient);
               senderArr.push(item?.msg?.sender);
               mtDenomIdArr.push(item?.msg?.denom);
             }
-            if(isEditMt(item)){
+            if (isEditMt(item)) {
               mtIdArr.push(item?.msg?.id);
               mtDenomIdArr.push(item?.msg?.denom);
             }
-            if(isBurnMt(item)) {
+            if (isBurnMt(item)) {
               mtIdArr.push(item?.msg?.id);
               mtDenomIdArr.push(item?.msg?.denom);
             }
@@ -411,13 +417,13 @@ export const formatTxDataFn = async (
           mtIdArr = arrHandle(mtIdArr);
         }
         //
-        if (msg?.type === TX_TYPE.mint_mt){
+        if (msg?.type === TX_TYPE.mint_mt) {
           mtNumber = msg?.msg?.amount;
         }
-        if (msg?.type === TX_TYPE.transfer_mt){
+        if (msg?.type === TX_TYPE.transfer_mt) {
           mtNumber = msg?.msg?.amount;
         }
-        if (msg?.type === TX_TYPE.burn_mt){
+        if (msg?.type === TX_TYPE.burn_mt) {
           mtNumber = msg?.msg?.amount;
         }
         // farm -> stake unstake
@@ -669,6 +675,17 @@ export const formatTxDataFn = async (
             transactionArray[index].denomTheme = getDenomTheme(result[1], denomMap);
             transactionArray[index].amount = getAmount(result[0]);
             transactionArray[index].denom = getAmountUnit(result[0]);
+            // 文昌链上面的 denom 要展示成能量值
+            if (
+              transactionArray[index].txType[0] === TX_TYPE.send &&
+              prodConfig?.isShowEnergy &&
+              prodConfig?.lang === Lang.CN &&
+              (transactionArray[index].denom === Wen_Cang_Token_Denom.ugas ||
+                transactionArray[index].denom === Wen_Cang_Token_Denom.uirita)
+            ) {
+              transactionArray[index].denom = i18n.t('ExplorerLang.table.energy');
+            }
+
             const denom = /[A-Za-z-]{2,15}/.exec(amount[index])?.length
               ? /[A-Za-z-]{2,15}/.exec(amount[index])[0]
               : ' ';

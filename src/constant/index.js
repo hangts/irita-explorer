@@ -15,6 +15,14 @@ export const EVENTS_TYPE = {
   writeAcknowledgement: 'write_acknowledgement',
   packet_ack: 'packet_ack',
 };
+export const Lang = {
+  CN:'CN',
+  EN:'EN'
+}
+export const Wen_Cang_Token_Denom = {
+  ugas:'UGAS',
+  uirita:'UIRITA'
+}
 // 链上
 export const TX_TYPE = {
   // service
