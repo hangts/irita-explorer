@@ -67,6 +67,7 @@
                         scope.row.status == TX_STATUS.success ? 'success.png' : 'failed.png'
                       }`)
                     "
+                    alt=""
                   />
                 </div>
                 <el-tooltip
@@ -657,7 +658,7 @@ export default {
       }
     },
     listTableRowClassName({ row, rowIndex }) {
-      if (rowIndex % 2 == 0) {
+      if (rowIndex % 2 === 0) {
         return 'statistics-blue-row';
       }
       return 'statistics-white-row';

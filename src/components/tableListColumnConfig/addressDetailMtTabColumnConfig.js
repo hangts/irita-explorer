@@ -9,7 +9,7 @@ export default [
     displayValue: 'mtId',
     nativeValue: 'mtId',
     isNeedFormat: true,
-    isFormatNftIdAndDenomId: true,
+    isFormatAddress: true,
     nftRouterParamsValue: 'mtDenomId',
     isLink: true,
     isNft: true,
@@ -28,7 +28,7 @@ export default [
     displayValue: 'mtDenomId',
     nativeValue: 'mtDenomId',
     isNeedFormat: true,
-    isFormatNftIdAndDenomId: true,
+    isFormatAddress: true,
   },
   {
     label: i18n.t('ExplorerLang.table.mtNumber'),

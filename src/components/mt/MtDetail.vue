@@ -51,9 +51,6 @@
 
 <script>
 import Tools from '@/util/Tools';
-import TxListComponent from '../common/TxListComponent';
-import MPagination from '../common/MPagination';
-import LargeString from '../common/LargeString';
 import ListComponent from '../common/ListComponent';
 import { getMtInfo, getMtInfoTx, getMtOwnerList } from '../../service/api';
 import mtDetailTxColumn from './mtColumnConfig/mtDetailTxColumn';
@@ -61,7 +58,7 @@ import mtDetailOwnerListColumn from './mtColumnConfig/mtDetailOwnerListColumn';
 
 export default {
   name: 'MtDetail',
-  components: { ListComponent, MPagination, TxListComponent, LargeString },
+  components: { ListComponent },
   data() {
     return {
       detailData: [
@@ -126,11 +123,16 @@ export default {
   },
   methods: {
     async getOwnerListCount() {
-      const ownerListCount = getMtOwnerList(this.denomId, this.nftId, null, null, true, null).catch(
-        (error) => {
-          console.error(error);
-        }
-      );
+      const ownerListCount = await getMtOwnerList(
+        this.denomId,
+        this.nftId,
+        null,
+        null,
+        null,
+        true
+      ).catch((error) => {
+        console.error(error);
+      });
       if (ownerListCount?.total_count) {
         this.mtOwnerCount = ownerListCount.total_count;
       }
@@ -195,14 +197,13 @@ export default {
     },
     async getMtInfoData() {
       if (!this.denomId || !this.nftId) return;
-
       const infoData = await getMtInfo(this.denomId, this.nftId).catch((error) => {
         console.error(error);
       });
 
-      if (infoData?.data && JSON.stringify(infoData.data) !== '{}') {
+      if (infoData && JSON.stringify(infoData) !== '{}') {
         this.detailData.forEach((item) => {
-          item.value = infoData?.data?.[item.resultKey] || '';
+          item.value = infoData?.[item.resultKey] || '';
           if (item?.ownerNumberKey) {
             item.ownerNumber = infoData?.data?.[item.ownerNumberKey] ?? '';
           }

@@ -1,12 +1,15 @@
 import VueI18n from 'vue-i18n';
-import { cfg } from '../../config';
+// import { cfg } from '../../config';
 import prodConfig from '../../productionConfig';
 
+const cn = require('../../../lang/CN-Cindy');
+const en = require('../../../lang/EN-Cindy');
+
 const i18n = new VueI18n({
-  locale: prodConfig.lang == 'EN' ? 'EN' : 'CN',
+  locale: prodConfig.lang === 'EN' ? 'EN' : 'CN',
   messages: {
-    CN: require('../../../lang/CN-Cindy'),
-    EN: require('../../../lang/EN-Cindy'),
+    CN: cn,
+    EN: en,
   },
 });
 export default [

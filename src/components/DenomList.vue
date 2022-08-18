@@ -49,7 +49,9 @@
             ></nft-reset-button-component>
           </template>
           <template v-slot:refreshButton>
-            <tx-refresh-button-component @refreshParams="refreshCondition"></tx-refresh-button-component>
+            <tx-refresh-button-component
+              @refreshParams="refreshCondition"
+            ></tx-refresh-button-component>
           </template>
           <template v-slot:datePicket>
             <nft-search-component
@@ -66,10 +68,10 @@
 </template>
 
 <script>
+// eslint-disable-next-line import/extensions
 import productionConfig from '@/productionConfig.js';
 import { getDenoms } from '../service/api';
 import Tools from '../util/Tools';
-import MPagination from './common/MPagination';
 import { ColumnMinWidth } from '../constant';
 import parseTimeMixin from '../mixins/parseTime';
 import ListComponent from './common/ListComponent'; // 新增
@@ -77,8 +79,8 @@ import denomListColumnConfig from './tableListColumnConfig/denomListColumnConfig
 import TxCountComponent from './TxCountComponent';
 import NftSearchComponent from './common/NftSearchComponent';
 import NftResetButtonComponent from './common/NftResetButtonComponent';
-import TxRefreshButtonComponent from "./common/TxRefreshButtonComponent";
-import LinksTabCopmonent from "./common/LinksTabCopmonent";
+import TxRefreshButtonComponent from './common/TxRefreshButtonComponent';
+import LinksTabCopmonent from './common/LinksTabCopmonent';
 
 export default {
   name: 'DenomList',
@@ -87,7 +89,6 @@ export default {
     TxRefreshButtonComponent,
     NftResetButtonComponent,
     NftSearchComponent,
-    MPagination,
     ListComponent,
     TxCountComponent,
   }, // 新增
@@ -108,14 +109,14 @@ export default {
         {
           label: this.$t('ExplorerLang.nftAsset.nftList'),
           href: '/nftAsset',
-          isActive: false
+          isActive: false,
         },
         {
           label: this.$t('ExplorerLang.nftAsset.denomList'),
           href: '/denoms',
-          isActive: true
+          isActive: true,
         },
-      ]
+      ],
     };
   },
   mounted() {
@@ -129,7 +130,7 @@ export default {
     },
   },
   methods: {
-    refreshCondition(){
+    refreshCondition() {
       this.getDenoms();
       this.getDenomsCount();
     },
@@ -215,7 +216,7 @@ export default {
 a {
   color: $t_link_c !important;
 }
-.denom_list_input{
+.denom_list_input {
   display: none;
   @media (max-width: 860px) {
     display: flex;

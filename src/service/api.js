@@ -686,50 +686,63 @@ export const getTxCountByAddress = (params, address) => {
   const url = `/txs/addresses/statistic?params=${params}&address=${address}`;
   return get(url);
 };
+
 // mt 模块
-export const getMts = (id, pageNum, pageSize, owner) => {
-  let url = `/v1/mt/mts?mt_id=${id}`;
-  if (pageNum && pageSize) {
-    url += `&page_num=${pageNum}&page_size=${pageSize}`;
+export const getMts = (pageNum, pageSize, id, denom_id, owner) => {
+  let url = `/v1/mt/mts?page_num=${pageNum}&page_size=${pageSize}`;
+  if (id) {
+    url += `&mt_id=${id}`;
+  }
+  if (denom_id) {
+    url += `&denom_id=${denom_id}`;
   }
   if (owner) {
     url += `&owner=${owner}`;
   }
   return getFromGo(url);
 };
-export const getMtCount = (id, owner) => {
+
+export const getMtCount = (id, denom_id, owner) => {
   let url = `/v1/mt/mts/count?mt_id=${id}`;
+  if (denom_id) {
+    url += `&denom_id=${denom_id}`;
+  }
   if (owner) {
     url += `&owner=${owner}`;
   }
   return getFromGo(url);
 };
+
 export const getMtDenoms = (denomIdOrName, pageNum, pageSize) => {
   const url = `/v1/mt/denoms?denom_id_name=${denomIdOrName}&page_num=${pageNum}&page_size=${pageSize}`;
   return getFromGo(url);
 };
+
 export const getMtDenomCount = (denomIdOrName) => {
   const url = `/v1/mt/denoms/count?denom_id_name=${denomIdOrName}`;
   return getFromGo(url);
 };
+
 export const getMtInfo = (mtDenomId, mtId) => {
   const url = `/v1/mt/mts/${mtDenomId}/${mtId}`;
   return getFromGo(url);
 };
+
 export const getMtInfoTx = (denomId, mtId, pageNum, pageSize, useCount = false) => {
-  let url = `/v1/mt/mts?denom_id=${denomId}&mt_id=${mtId}`;
+  let url = `/v1/txs/mts?denom_id=${denomId}&mt_id=${mtId}`;
   if (pageNum && pageSize) {
-    url += `&pageNum=${pageNum}&pageSize=${pageSize}`;
+    url += `&page_num=${pageNum}&page_size=${pageSize}`;
   }
   if (useCount) {
     url += `&useCount=${useCount}`;
   }
   return getFromGo(url);
 };
-export const getMtOwnerList = (denomId, mtId, pageNum, pageSize, useCount = false, sort) => {
+
+export const getMtOwnerList = (denomId, mtId, pageNum, pageSize, sort, useCount = false) => {
   let url = `/v1/mt/mts/${denomId}/${mtId}/owners?sort=${sort}`;
   if (pageNum && pageSize) {
-    url += `&pageNum=${pageNum}&pageSize=${pageSize}`;
+    url += `&page_num=${pageNum}&page_size=${pageSize}`;
   }
   if (useCount) {
     url += `&useCount=${useCount}`;

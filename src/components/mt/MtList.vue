@@ -17,7 +17,6 @@
           }"
           @pageChange="pageChange"
         >
-
           <template v-slot:txCount>
             <tx-count-component
               :title="
@@ -69,7 +68,7 @@ import TxRefreshButtonComponent from '../common/TxRefreshButtonComponent';
 import mtListColumn from './mtColumnConfig/mtListColumn';
 import { getMts, getMtCount } from '../../service/api';
 import Tools from '../../util/Tools';
-import LinksTabCopmonent from "../common/LinksTabCopmonent";
+import LinksTabCopmonent from '../common/LinksTabCopmonent';
 
 export default {
   name: 'MtList',
@@ -94,34 +93,36 @@ export default {
         {
           label: this.$t('ExplorerLang.mtList.mtList'),
           href: '/mts',
-          isActive: true
+          isActive: true,
         },
         {
           label: this.$t('ExplorerLang.mtList.mtDenomList'),
           href: '/mt/denoms',
-          isActive: false
+          isActive: false,
         },
-      ]
+      ],
     };
   },
   created() {
-    if (this?.$route?.query?.denomId) {
-      this.input = this.$route.query.denomId;
-    }
     this.getMtCount();
     this.getMts();
   },
   mounted() {},
   methods: {
     async getMtCount() {
-      const mtCount = await getMtCount(this.input).catch((error) => {
+      const mtCount = await getMtCount(this.input, this?.$route?.query?.denomId).catch((error) => {
         console.error(error);
       });
       this.mtCount = mtCount?.count ?? 0;
     },
     async getMts() {
       this.isMtListLoading = true;
-      const mtListData = await getMts(this.input, this.pageNum, this.pageSize).catch((error) => {
+      const mtListData = await getMts(
+        this.pageNum,
+        this.pageSize,
+        this.input,
+        this?.$route?.query?.denomId
+      ).catch((error) => {
         console.error(error);
       });
       this.isMtListLoading = false;
@@ -338,7 +339,6 @@ a {
         text-align: left;
         //text-indent: 0.2rem;
       }
-
 
       .tx_type_mobile_content {
         display: flex;

@@ -129,7 +129,7 @@ export default {
             denomId: item?.denom_id || '',
             denomName: item?.denom_name || '',
             txHash: item?.issue_tx_hash || '',
-            mtNumber: item?.amount ?? '',
+            mtNumber: item?.mt_amount ?? '',
             creator: item?.creator || '',
             owner: item?.owner || '',
             time: item?.latest_tx_time ? Tools.formatLocalTime(item.latest_tx_time) : '--',

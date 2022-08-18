@@ -52,7 +52,7 @@ export default {
       this.getMtListByAddress();
     },
     async getMtListCountByAddress() {
-      const addressMtCountList = await getMtCount('', this.$route.params.param).catch((error) =>
+      const addressMtCountList = await getMtCount('', '', this.$route.params.param).catch((error) =>
         console.error(error)
       );
       this.mtTxCount = addressMtCountList?.count ?? 0;
@@ -60,9 +60,10 @@ export default {
     async getMtListByAddress() {
       this.isShowMtLoading = true;
       const addressMtList = await getMts(
-        '',
         this.mtPageNum,
         this.mtPageSize,
+        '',
+        '',
         this.$route.params.param
       ).catch((error) => console.error(error));
       this.isShowMtLoading = false;
